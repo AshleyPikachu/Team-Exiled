@@ -322,6 +322,25 @@ exports.commands = {
 				"/poll results - Shows the results of the poll without voting. NOTE: you can't go back and vote after using this.",
 				"/poll display - Displays the poll",
 				"/poll end - Ends a poll and displays the results. Requires: % @ * # & ~"],
+	},
+	formatpoll: 'tierpoll',
+	tpoll: 'tierpoll',
+	tierspoll: 'tierpoll',
+	tierpoll: function (target, room, user) {
+		if (room.battle) return false;
+		if (!this.can('broadcast', null, room)) return false;
+		if (room.game && room.id === 'lobby') return this.errorReply("Polls cannot be created in Lobby when there is a room game in progress.");
+		this.parse('/poll Tier for the next tournament?, Random Battle, Anything Goes, Ubers, OverUsed, OverUsed Turbo, Underused, RarelyUsed, NeverUsed, PU, LC, LC Random Battle, Random Doubles Battle, VGC 2016, Battle Spot Doubles, Random Triples Battle, Challenge Cup 1v1, Balanced Hackmons, 1v1, Monotype, Monotype (Turbo), Monotype Random Battle, Inverse Battle, Almost Any Ability, STABmons, Hackmons Cup, [Seasonal], Battle Factory, Doubles OU, CAP, Gen 5 OU, CAP SSB, Exiled SSB, Ash\'s Pokemon, OP Metagame, Exiled OU, Exiled UU, Exiled RU, Exiled Monotype, Clash of the Regions, NFE, SMASHING METAGAME, Metronome Battles');
+	},
+	exiledtierspoll: 'exiledpoll',
+	epoll: 'exiledpoll',
+	exiledtierpoll: 'exiledpoll',
+	exiledpoll: function (target, room, user) {
+		if (room.battle) return false;
+		if (!this.can('broadcast', null, room)) return false;
+		if (room.game && room.id === 'lobby') return this.errorReply("Polls cannot be created in Lobby when there is a room game in progress.");
+		this.parse('/poll Tier for the next tournament?, CAP SSB, Exiled SSB, Ash\'s Pokemon, OP Metagame, Exiled OU, Exiled UU, Exiled RU, Exiled Monotype, Clash of the Regions, NFE, SMASHING METAGAME, Metronome Battles');
+	},
 };
 
 process.nextTick(() => {
