@@ -1100,4 +1100,335 @@ exports.Formats = [
 		debug: true,
 		ruleset: ['Pokemon', 'HP Percentage Mod', 'Cancel Mod'],
 	},
+	{
+				name: "NFE",
+		section: "Exiled's Custom Gamemodes",
+		ruleset: ['NFE', 'Team Preview', 'Pokemon', 'Species Clause', 'Swagger Clause', 'Standard', 'HP Percentage Mod', 'Cancel Mod', 'Sleep Clause Mod', 'Baton Pass Clause', 'OHKO Clause'],
+		desc: [
+			"NFE stands for Not Fully Evolved.",
+		],
+		column: 5,
+	}, {
+		name: "Exiled OU",
+		section: "Exiled's Custom Gamemodes",
+		mod: 'squadou',
+		ruleset: ['Team Preview', 'Pokemon', 'Exact HP Mod', 'Cancel Mod', 'Mega Rayquaza Clause', 'Species Clause'],
+		banlist: ['Allow CAP', 'Clefable + Unaware + Minimize', 'Rayquaza', 'Sheer Cold', 'Double Team', 'Mega-Mawile + Sucker Punch', 'Arceus', 'Arceus-Bug', 'Arceus-Dark', 'Arceus-Dragon', 'Arceus-Electric', 'Arceus-Fairy', 'Arceus-Fighting', 'Arceus-Fire', 'Arceus-Flying', 'Arceus-Ghost', 'Arceus-Grass', 'Arceus-Ground', 'Arceus-Ice', 'Arceus-Poison', 'Arceus-Psychic', 'Arceus-Rock', 'Arceus-Steel', 'Arceus-Steel', 'Arceus-Water', 'Blaziken + Speed Boost', 'Shadow Tag', 'Greninja + Protean', 'Blazikenite', 'Darkrai', 'Deoxys', 'Deoxys-Attack', 'Deoxys-Speed', 'Dialga', 'Genesect', 'Genesect-Douse', 'Genesect-Chill', 'Genesect-Shock', 'Genesect-Burn', 'Gengarite', 'Giratina', 'Giratina-Origin', 'Groudon', 'Groudon-Primal', 'Ho-Oh', 'Kyogre', 'Kyogre-Primal', 'Kangaskanite', 'Kyurem-White', 'Lugia', 'Mewtwo', 'Mewtwonite X', 'Mewtwonite Y', 'Palkia', 'Salamencite', 'Xerneas', 'Yveltal', 'Zekrom'],
+		onBegin: function() {
+			this.add('message', "Information about this tier can be found in the Squad OU room.");
+		},
+		desc: [
+			"Ever asked yourself why are these things Uber, and now that they're Uber, they are completely useless? Well, go ahead welcome then back. They are for sure in this metagame.",
+			"Credit to: Gyaratoast/Kairak (inspired by), ReturningAvenger (coded it), and EmilyTheCutie (extra ideas)",
+		],
+	}, {
+		name: "Exiled UU",
+		section: "Exiled's Custom Gamemodes",
+		mod: 'squaduu',
+		ruleset: ['OU', 'Sleep Clause Mod', 'Baton Pass Clause', 'Swagger Clause', 'Team Preview', 'Pokemon', 'Standard', 'Cancel Mod', 'Species Clause', 'OHKO Clause'],
+		banlist: ['Clefable', 'Hippowdon', 'Scizor', 'Scizorite', 'Chansey', 'Gliscor', 'Tornadus-Therian', 'Landorus-Therian', 'Breloom', 'Diancite',
+			'Loppunite', 'Charizardite-X', 'Charizardite-Y', 'Bisharp', 'Azumarill', 'Dragonite', 'Excadrill', 'Ferrothorn', 'Garchomp', 'Gardevoirite',
+			'Heatran', 'Heracronite', 'Jirachi', 'Keldeo', 'Keldeo-Resolute', 'Klefki', 'Kyurem-Black', 'Latias', 'Latiasite', 'Latios', 'Latiosite', 'Magnezone', 'Manaphy',
+			'Manectricite', 'Medichamite', 'Metagrossite', 'Pinsirite', 'Raikou', 'Rotom-Wash', 'Sablenite', 'Serperior', 'Skarmory', 'Slowbro', 'Starmie',
+			'Talonflame', 'Tangrowth', 'Thundurus', 'Venusaurite', 'Volcanion', 'Weavile', 'Alakazite', 'Diggersby', 'Galladite', 'Gyaradosite', 'Pidgeotite',
+			'Thundurus-Therian', 'Togekiss', 'Garchompite', 'Volcarona', 'Slowbronite'
+		],
+		desc: [
+			"Credit to: Kairak (originally planned by), ReturningAvenger (took over the project & coded it).",
+			"To be honest, just a few things got unbanned.",
+			"&bullet; <a href=\"http://www.pastebin.com/8zG58J1z\">Squad UU Information</a>",
+		],
+	}, {
+		name: "Exiled RU",
+		section: "Exiled's Custom Gamemodes",
+		ruleset: ['UU', 'Sleep Clause Mod', 'Swagger Clause', 'Team Preview', 'Pokemon', 'Standard', 'Species Clause'],
+		banlist: ['Aggronite', 'Absolite', 'Aerodactylite', 'Ampharosite', 'Arcanine', 'Azelf', 'Beedrillite', 'Blastoisinite', 'Blissey', 'Celebi',
+			'Chandelure', 'Chesnaught', 'Cloyster', 'Conkeldurr', 'Cresselia', 'Crobat', 'Darmanitan', 'Donphan', 'Doublade', 'Empoleon', 'Entei', 'Espeon',
+			'Feraligatr', 'Florges', 'Forretress', 'Galvantula', 'Gardevoir', 'Gligar', 'Goodra', 'Gyarados', 'Haxorus', 'Heracross', 'Hydreigon', 'Infernape',
+			'Krookodile', 'Lucario', 'Machamp', 'Mamoswine', 'Mandibuzz', 'Metagross', 'Mienshao', 'Milotic', 'Nidoking', 'Nidoqueen', 'Porygon2', 'Porygon-Z',
+			'Reunicles', 'Roserade', 'Rotom-Heat', 'Sableye', 'Sceptilite', 'Sharpedonite', 'Snorlax', 'Suicune', 'Swampert', 'Swampertite', 'Sylveon',
+			'Tornadus', 'Toxicroak', 'Umbreon', 'Vaporeon', 'Dragalge', 'Durant', 'Froslass', 'Houndoominite', 'Kyurem', 'Shaymin', 'Shuckle',
+			'Slurpuff', 'Tyrantrum'
+		],
+	}, {
+		name: "Exiled Monotype",
+		section: "Exiled's Custom Gamemodes",
+		ruleset: ['Pokemon', 'Standard', 'Baton Pass Clause', 'Swagger Clause', 'Same Type Clause', 'Team Preview', 'Species Clause'],
+		banlist: ['Arceus', 'Blazikenite', 'Dark Void', 'Deoxys', 'Deoxys-Attack', 'Dialga', 'Giratina', 'Giratina-Origin', 'Greninja', 'Groudon',
+			'Ho-Oh', 'Kyogre', 'Kyurem-White', 'Lugia', 'Mewtwo', 'Palkia', 'Rayquaza', 'Reshiram', 'Geomancy', 'Yveltal', 'Zekrom',
+			'Damp Rock', 'Gengarite', 'Kangaskhanite', 'Mawilite', 'Smooth Rock', 'Soul Dew', 'Allow CAP'
+		],
+		desc: [
+			"Wish we could turn back time.... time... to the good ole days..... When Mega-Sableye wasn't banned in Monotype..... Oh wait, we did?!? Yes, we did :P",
+			"Credit to: marine bu/Life Orb Raichu (inspired by), and ReturningAvenger (coded it)."
+		],
+	}, {
+		name: "Clash of the Regions",
+		section: "Exiled's Custom Gamemodes",
+		mod: 'clashoftheregions',
+		ruleset: ['Sleep Clause Mod', 'Cancel Mod', 'Exact HP Mod', 'Baton Pass Clause', 'Pokemon', 'Standard'],
+		desc: [
+			"Credit to: ReturningAvenger (main coder and inspired by), EmilyTheCutie (side coder and set adviser), Alpha Hawk (extra ideas)",
+			"&bullet; <a href=\"http://squadps.boards.net/post/51/thread\">Clash of the Regions Information</a>",
+		],
+		team: 'randomSeasonalMelee',
+	}, {
+		name: "SMASHING METAGAME",
+		section: "Exiled's Custom Gamemodes",
+		mod: 'smashingmetagame',
+		ruleset: ['Cancel Mod', 'Exact HP Mod', 'Team Preview'],
+		desc: [
+			"Credit to: ReturningAvenger (coded and inspired by), and Kairak (gave ideas for custom moves names).",
+			"Made for Gyaratoast, my (ReturningAvenger) best friend.",
+		],
+		team: 'randomSeasonalMelee',
+	}, {
+		name: "Ash's Pokemon",
+		section: "Exiled's Custom Gamemodes",
+		mod: 'ashspokemon',
+		ruleset: ['Exact HP Mod', 'Team Preview', 'Cancel Mod', 'Sleep Clause Mod'],
+		team: 'randomSeasonalMelee',
+	}, {
+		name: "OP Metagame",
+		section: "Exiled's Custom Gamemodes",
+		mod: "opmetagame",
+		ruleset: ['Exact HP Mod', 'Cancel Mod'],
+		team: 'randomSeasonalMelee',
+		desc: [
+			"Inspired by BAMD, coded and extra ideas from ReturningAvenger.",
+		],
+	}, {
+		name: "CAP Super Staff Bros.",
+		section: "Exiled's Custom Gamemodes",
+		mod: 'cssb',
+		team: 'randomSeasonalMelee',
+		ruleset: ['Sleep Clause Mod', 'HP Percentage Mod', 'Cancel Mod'],
+		desc: [
+			"Credit to: ReturningAvenger (head coder).",
+			"Thanks to all the auth whom cooperated in this process of making this.",
+		],
+		onBegin: function() {
+			// This seasonal gets a bit from Super Smash Bros., that's where the initial message comes from.
+			this.add('message', "GET READY FOR THE NEXT BATTLE!");
+			this.add('message', "For more information on a user's staffmon, use /essb (authed user's name)!");
+			// This variable saves the status of a spammy conversation to be played, so it's only played once.
+			this.convoPlayed = false;
+		},
+		// Edgy switch-in sentences go here.
+		// Sentences vary in style and how they are presented, so each Pokémon has its own way of sending them.
+		onSwitchIn: function(pokemon) {
+			var name = toId(pokemon.name);
+			var sentences = [];
+			var sentence = '';
+
+			//Switch-in Quotes
+			if (name === 'exclaimer') {
+				this.add('c|%Exclaimer|I sexually identify as an Exclaimer.');
+			}
+			if (name === 'deckknight') {
+				this.add('c|@Deck Knight|Nice Project you got there, mind if I look around?');
+			}
+			if (name === 'animusmajulous') {
+				this.add('c|@Animus Majulous|Alo!');
+			}
+			if (name === 'cbrevan') {
+				this.add('c|@cbrevan|Hello children.');
+			}
+			if (name === 'healndeal') {
+				this.add('c|#HealNDeal|I\'m all alone.');
+			}
+			if (name === 'epicumbreon29') {
+				this.add('c|%EpicUmbreon29|I really like your team!');
+			}
+			if (name === 'quanyalis') {
+				this.add('c|+Quanyalis|Hi all! I hope you\'re having fun this match! :)');
+			}
+			if (name === 'snobalt') {
+				this.add('c|+Snobalt|By the power vested in me from the great Lord Tomohawk...');
+			}
+			if (name === 'giantwhirlpool') {
+				this.add('c|+GiantWhirlpool|Hi.');
+			}
+			if (name === 'bionicpuppy') {
+				this.add('c|+Bionic Puppy|Who did you call guy? I\'ll have you know I am a young strong individual who is a flexible and malleable and I don\'t care about you I am a fluid gender-equal person with extra cream frappuccino');
+			}
+			if (name === 'returningavenger') {
+				this.add('c|ReturningAvenger|MLG Snail is here m8!');
+				this.add('c|ReturningAvenger|btw who tf says snails are slow :^)');
+			}
+
+			// Add here special typings, done for flavor mainly.
+			if (name === 'vulpixmayhem' && !pokemon.illusion) {
+				this.add('-start', pokemon, 'typechange', 'Fire/Fairy');
+				pokemon.types = ["Fire", "Fairy"];
+			}
+		},
+		//Switch-out Phrase
+		onSwitchOut: function(pokemon) {
+			var name = toId(pokemon.name);
+			var sentences = [];
+			var sentence = '';
+
+			if (name === 'exclaimer') {
+				this.add('c|%Exclaimer|/me has been kicked from CAP Project.');
+			}
+			if (name === 'deckknight') {
+				this.add('c|@Deck Knight|I\'m done with this section... for now.');
+			}
+			if (name === 'animusmajulous') {
+				this.add('c|@Animus Majulous|I\'ll be back for more.');
+			}
+			if (name === 'cbrevan') {
+				this.add('c|@cbrevan|be back in a few.');
+			}
+			if (name === 'healndeal') {
+				this.add('c|#HealNDeal|I need to go buy some milk, will be back in three hours.');
+			}
+			if (name === 'giantwhirlpool') {
+				this.add('c|+GiantWhirlpool|I\'ll be back eventually');
+			}
+			if (name === 'epicumbreon29') {
+				this.add('c|%EpicUmbreon29|Sorry about that...');
+			}
+			if (name === 'returningavenger') {
+				this.add('c|ReturningAvenger|brb I\'m gonna get some help.');
+			}
+		},
+		// Add here salty tears, that is, custom faint phrases.
+		onFaint: function(pokemon) {
+			var name = toId(pokemon.name);
+			var sentences = [];
+			var sentence = '';
+
+			if (name === 'exclaimer') {
+				this.add('c|%Exclaimer|If you can\'t accept me, you\'re a TRphobe and need to check your privileges.');
+			}
+			if (name === 'deckknight') {
+				this.add('c|@Deck Knight|I\'ll be back next CAP! Just you wait and see! Someday I\'ll make Administrator!');
+			}
+			if (name === 'animusmajulous') {
+				this.add('c|@Animus Majulous|My Stat spread is Godlike!');
+			}
+			if (name === 'cbrevan') {
+				this.add('c|@cbrevan|cya folks.');
+			}
+			if (name === 'healndeal') {
+				this.add('c|#HealNDeal|I was just a duck and now I\'m outta luck.');
+			}
+			if (name === 'quanyalis') {
+				this.add('c|+Quanyalis|Sorry. D:');
+			}
+			if (name === 'bionicpuppy') {
+				this.add('c|+Bionic Puppy|GGGGGGGGGGGGGgggggggggggggGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG**GGGGGGgggggggggggggggggggggggggggggggGGGGGGGG**GGGGGG');
+			}
+			if (name === 'snobalt') {
+				this.add('c|+Snobalt|Blasphemy!');
+			}
+			if (name === 'giantwhirlpool') {
+				this.add('c|+GiantWhirlpool|T_T dammit hEAl, why am i still here?');
+			}
+			if (name === 'epicumbreon29') {
+				this.add('c|%EpicUmbreon29|See! I knew you could do it! You just have to believe!');
+			}
+			if (name === 'returningavenger') {
+				this.add('c|ReturningAvenger|Death.... what a cool concept.');
+			}
+		},
+	}, {
+		name: "Exiled Super Staff Bros.",
+		section: "Exiled's Custom Gamemodes",
+		mod: 'essb',
+		team: 'randomSeasonalMelee',
+		ruleset: ['Sleep Clause Mod', 'HP Percentage Mod', 'Cancel Mod'],
+		desc: [
+			"Credit to: ReturningAvenger (head coder).",
+			"Thanks to all the auth whom cooperated in this process of making this.",
+		],
+		onBegin: function() {
+			// This seasonal gets a bit from Super Smash Bros., that's where the initial message comes from.
+			this.add('message', "GET READY FOR THE NEXT BATTLE!");
+			this.add('message', "For more information on a user's staffmon, use /ssb (authed user's name)!");
+			// This variable saves the status of a spammy conversation to be played, so it's only played once.
+			this.convoPlayed = false;
+		},
+		// Edgy switch-in sentences go here.
+		// Sentences vary in style and how they are presented, so each Pokémon has its own way of sending them.
+		onSwitchIn: function(pokemon) {
+			var name = toId(pokemon.name);
+			var sentences = [];
+			var sentence = '';
+
+			//Switch-in Quotes
+			if (name === 'returningAvenger') {
+				this.add('c|~ReturningAvenger|Welcome to MemezRUs.');
+				this.add('c|~ReturningAvenger|How may I help you?');
+			}
+
+			// Add here special typings, done for flavor mainly.
+			if (name === 'alolaludicolo' && !pokemon.illusion) {
+				this.add('-start', pokemon, 'typechange', 'Grass/Fire');
+				pokemon.types = ["Grass", "Fire"];
+			}
+			if (name === 'vividisagod' && !pokemon.illusion) {
+				this.boost({
+					spe: 1
+				});
+			}
+			if (name === 'volco' && !pokemon.illusion) {
+				this.boost({
+					spe: 1
+				});
+			}
+			if (name === 'astralwobz' && !pokemon.illusion) {
+				this.add('-start', pokemon, 'typechange', 'Psychic/Fairy');
+				pokemon.types = ["Psychic", "Fairy"];
+				this.boost({
+					def: 1,
+					spd: 1
+				});
+			}
+			if (name === 'bedevil' && !pokemon.illusion) {
+				this.add('-start', pokemon, 'typechange', 'Fire/Fairy');
+				pokemon.types = ["Fire", "Fairy"];
+			}
+		},
+		//Switch-out Phrase
+		onSwitchOut: function(pokemon) {
+			var name = toId(pokemon.name);
+			var sentences = [];
+			var sentence = '';
+			//switchout
+			if (name === 'returningavenger') {
+				this.add('c|~ReturningAvenger|brb I\'m gonna get some help.');
+			}
+		},
+		// Add here salty tears, that is, custom faint phrases.
+		onFaint: function(pokemon) {
+			var name = toId(pokemon.name);
+			var sentences = [];
+			var sentence = '';
+			//le faint
+			if (name === 'returningavenger') {
+				this.add('c|~ReturningAvenger|Death.... what a cool concept.');
+				this.add('c|~ReturningAvenger|Wait wot!');
+				this.add('c|~ReturningAvenger|>~ReturningAvenger fainted.');
+				this.add('c|~ReturningAvenger|That\'s obviously a lie!');
+				this.add('c|~ReturningAvenger|T-T-That\'s IMPOSSIBRU!');
+			}
+		},
+	}, {
+		name: "Metronome Battles",
+		section: "Exiled's Custom Gamemodes",
+		mod: "metronome",
+		ruleset: ["HP Percentage Mod", "Cancel Mod"],
+		team: "randomSeasonalMelee",
+		desc: [
+			"This tier was highly asked for, so we made it.",
+			"Mainly credit goes to: Kairak & ReturningAvenger",
+			"We removed the possibility of Volt Switch/U-Turn/any thing that causes switches, from occuring",
+			"Also we made things like V-Create, Dragon Ascent, Diamond Storm possible to be used via Metronome.",
+		],
+	},
+];
+
 ];
