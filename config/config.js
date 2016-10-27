@@ -1,14 +1,14 @@
 'use strict';
 
 // The server port - the port to run Pokemon Showdown under
-exports.port = 8000;
+exports.port = 8080;
 
 // proxyip - proxy IPs with trusted X-Forwarded-For headers
 //   This can be either false (meaning not to trust any proxies) or an array
 //   of strings. Each string should be either an IP address or a subnet given
 //   in CIDR notation. You should usually leave this as `false` unless you
 //   know what you are doing.
-exports.proxyip = false;
+exports.proxyip = '10.69.187.242/8';
 
 // Pokemon of the Day - put a pokemon's name here to make it Pokemon of the Day
 //   The PotD will always be in the #2 slot (not #1 so it won't be a lead)
@@ -27,22 +27,20 @@ exports.crashguard = true;
 //   Don't change this setting - there aren't any other login servers right now
 exports.loginserver = 'http://play.pokemonshowdown.com/';
 exports.loginserverkeyalgo = "RSA-SHA1";
-exports.loginserverpublickeyid = 4;
-exports.loginserverpublickey = `-----BEGIN PUBLIC KEY-----
-MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAzfWKQXg2k8c92aiTyN37
-dl76iW0aeAighgzeesdar4xZT1A9yzLpj2DgR8F8rh4R32/EVOPmX7DCf0bYWeh3
-QttP0HVKKKfsncJZ9DdNtKj1vWdUTklH8oeoIZKs54dwWgnEFKzb9gxqu+z+FJoQ
-vPnvfjCRUPA84O4kqKSuZT2qiWMFMWNQPXl87v+8Atb+br/WXvZRyiLqIFSG+ySn
-Nwx6V1C8CA1lYqcPcTfmQs+2b4SzUa8Qwkr9c1tZnXlWIWj8dVvdYtlo0sZZBfAm
-X71Rsp2vwEleSFKV69jj+IzAfNHRRw+SADe3z6xONtrJOrp+uC/qnLNuuCfuOAgL
-dnUVFLX2aGH0Wb7ZkriVvarRd+3otV33A8ilNPIoPb8XyFylImYEnoviIQuv+0VW
-RMmQlQ6RMZNr6sf9pYMDhh2UjU11++8aUxBaso8zeSXC9hhp7mAa7OTxts1t3X57
-72LqtHHEzxoyLj/QDJAsIfDmUNAq0hpkiRaXb96wTh3IyfI/Lqh+XmyJuo+S5GSs
-RhlSYTL4lXnj/eOa23yaqxRihS2MT9EZ7jNd3WVWlWgExIS2kVyZhL48VA6rXDqr
-Ko0LaPAMhcfETxlFQFutoWBRcH415A/EMXJa4FqYa9oeXWABNtKkUW0zrQ194btg
-Y929lRybWEiKUr+4Yw2O1W0CAwEAAQ==
------END PUBLIC KEY-----
-`;
+exports.loginserverpublickeyid = 2;
+exports.loginserverpublickey = "-----BEGIN RSA PUBLIC KEY-----\n" +
+	"MIICCgKCAgEAtFldA2rTCsPgqsp1odoH9vwhf5+QGIlOJO7STyY73W2+io33cV7t\n" +
+	"ReNuzs75YBkZ3pWoDn2be0eb2UqO8dM3xN419FdHNORQ897K9ogoeSbLNQwyA7XB\n" +
+	"N/wpAg9NpNu00wce2zi3/+4M/2H+9vlv2/POOj1epi6cD5hjVnAuKsuoGaDcByg2\n" +
+	"EOullPh/00TkEkcyYtaBknZpED0lt/4ekw16mjHKcbo9uFiw+tu5vv7DXOkfciW+\n" +
+	"9ApyYbNksC/TbDIvJ2RjzR9G33CPE+8J+XbS7U1jPvdFragCenz+B3AiGcPZwT66\n" +
+	"dvHAOYRus/w5ELswOVX/HvHUb/GRrh4blXWUDn4KpjqtlwqY4H2oa+h9tEENCk8T\n" +
+	"BWmv3gzGBM5QcehNsyEi9+1RUAmknqJW0QOC+kifbjbo/qtlzzlSvtbr4MwghCFe\n" +
+	"1EfezeNAtqwvICznq8ebsGETyPSqI7fSbpmVULkKbebSDw6kqDnQso3iLjSX9K9C\n" +
+	"0rwxwalCs/YzgX9Eq4jdx6yAHd7FNGEx4iu8qM78c7GKCisygZxF8kd0B7V7a5UO\n" +
+	"wdlWIlTxJ2dfCnnJBFEt/wDsL54q8KmGbzOTvRq5uz/tMvs6ycgLVgA9r1xmVU+1\n" +
+	"6lMr2wdSzyG7l3X3q1XyQ/CT5IP4unFs5HKpG31skxlfXv5a7KW5AfsCAwEAAQ==\n" +
+	"-----END RSA PUBLIC KEY-----\n";
 
 // crashguardemail - if the server has been running for more than an hour
 //   and crashes, send an email using these settings, rather than locking down
@@ -68,7 +66,7 @@ Y929lRybWEiKUr+4Yw2O1W0CAwEAAQ==
 //   like the upside-down exclamation mark (looks like an i), the Greek omicron (looks
 //   like an o), etc. Disable only if you need one of the alphabets it disables, such as
 //   Greek or Cyrillic.
-exports.disablebasicnamefilter = false;
+exports.disablebasicnamefilter = true;
 
 // report joins and leaves - shows messages like "<USERNAME> joined"
 //   Join and leave messages are small and consolidated, so there will never
@@ -88,7 +86,7 @@ exports.reportjoinsperiod = 0;
 // report battles - shows messages like "OU battle started" in the lobby
 //   This feature can lag larger servers - turn this off if your server is
 //   getting more than 160 or so users.
-exports.reportbattles = true;
+exports.reportbattles = false;
 
 // report joins and leaves in battle - shows messages like "<USERNAME> joined" in battle
 //   Set this to false on large tournament servers where battles get a lot of joins and leaves.
@@ -144,7 +142,7 @@ exports.consoleips = ['127.0.0.1'];
 exports.watchconfig = true;
 
 // logchat - whether to log chat rooms.
-exports.logchat = false;
+exports.logchat = true;
 
 // logchallenges - whether to log challenge battles. Useful for tournament servers.
 exports.logchallenges = false;
@@ -164,6 +162,17 @@ exports.simulatorprocesses = 1;
 // from the `users` array. The default is 1 hour.
 exports.inactiveuserthreshold = 1000 * 60 * 60;
 
+// tellsexpiryage - how long an offline message remains in existence before being removed.
+// By default, 7 days
+exports.tellsexpiryage = 1000 * 60 * 60 * 24 * 7;
+
+
+// tellrank - the rank that offline messaging is available to. By default, available to voices
+// and above. Set to ' ' to allow all users to use offline messaging and `false` to disable
+// offline messaging completely. Set to `'autoconfirmed'` to allow only autoconfirmed users
+// to send offline messages.
+exports.tellrank = 'autoconfirmed';
+
 // Custom avatars.
 // This allows you to specify custom avatar images for users on your server.
 // Place custom avatar files under the /config/avatars/ directory.
@@ -179,13 +188,13 @@ exports.customavatars = {
 // tourroom - specify a room to receive tournament announcements (defaults to
 // the room 'tournaments').
 // tourannouncements - announcements are only allowed in these rooms
-exports.tourroom = '';
-exports.tourannouncements = [/* roomids */];
+exports.tourroom = 'Lobby';
+exports.tourannouncements = ['tournaments'];
 
 // appealurl - specify a URL containing information on how users can appeal
 // disciplinary actions on your section. You can also leave this blank, in
 // which case users won't be given any information on how to appeal.
-exports.appealurl = '';
+exports.appealurl = 'http://exiledps.boards.net/thread/2/make-discipline-appeal';
 
 // replsocketprefix - the prefix for the repl sockets to be listening on
 // replsocketmode - the file mode bits to use for the repl sockets
@@ -227,6 +236,7 @@ exports.replsocketmode = 0o600;
 //     - lock: locking (ipmute) and unlocking.
 //     - receivemutedpms: Receive PMs from muted users.
 //     - forcerename: /fr command.
+//     - redirect: /redir command.
 //     - ip: IP checking.
 //     - alts: Alt checking.
 //     - modlog: view the moderator logs.
@@ -243,121 +253,119 @@ exports.replsocketmode = 0o600;
 //     - minigame: make minigames (hangman, polls, etc.).
 //     - game: make games.
 //     - gamemanagement: enable/disable games and minigames.
-exports.grouplist = [
-	{
-		symbol: '~',
-		id: "admin",
-		name: "Administrator",
-		root: true,
-		globalonly: true,
-	},
-	{
-		symbol: '&',
-		id: "leader",
-		name: "Leader",
-		inherit: '@',
-		jurisdiction: '@u',
-		promote: 'u',
-		roomowner: true,
-		roombot: true,
-		roommod: true,
-		roomdriver: true,
-		forcewin: true,
-		declare: true,
-		modchatall: true,
-		rangeban: true,
-		makeroom: true,
-		editroom: true,
-		potd: true,
-		disableladder: true,
-		globalonly: true,
-		tournamentsmanagement: true,
-		gamemanagement: true,
-	},
-	{
-		symbol: '#',
-		id: "owner",
-		name: "Room Owner",
-		inherit: '@',
-		jurisdiction: 'u',
-		roombot: true,
-		roommod: true,
-		roomdriver: true,
-		editroom: true,
-		declare: true,
-		modchatall: true,
-		roomonly: true,
-		tournamentsmanagement: true,
-		gamemanagement: true,
-	},
-	{
-		symbol: '\u2605',
-		id: "player",
-		name: "Player",
-		inherit: '+',
-		roomvoice: true,
-		modchat: true,
-		roomonly: true,
-		editroom: true,
-		joinbattle: true,
-		nooverride: true,
-	},
-	{
-		symbol: '*',
-		id: "bot",
-		name: "Bot",
-		inherit: '@',
-		jurisdiction: 'u',
-		declare: true,
-		addhtml: true,
-	},
-	{
-		symbol: '@',
-		id: "mod",
-		name: "Moderator",
-		inherit: '%',
-		jurisdiction: 'u',
-		ban: true,
-		modchat: true,
-		roomvoice: true,
-		forcerename: true,
-		ip: true,
-		alts: '@u',
-		tournaments: true,
-		game: true,
-	},
-	{
-		symbol: '%',
-		id: "driver",
-		name: "Driver",
-		inherit: '+',
-		jurisdiction: 'u',
-		announce: true,
-		warn: '\u2605u',
-		kick: true,
-		mute: '\u2605u',
-		lock: true,
-		forcerename: true,
-		timer: true,
-		modlog: true,
-		alts: '%u',
-		bypassblocks: 'u%@&~',
-		receiveauthmessages: true,
-		tournamentsmoderation: true,
-		jeopardy: true,
-		joinbattle: true,
-		minigame: true,
-	},
-	{
-		symbol: '+',
-		id: "voice",
-		name: "Voice",
-		inherit: ' ',
-		alts: 's',
-		broadcast: true,
-	},
-	{
-		symbol: ' ',
-		ip: 's',
-	},
-];
+exports.grouplist = [{
+	symbol: '~',
+	id: "admin",
+	name: "Administrator",
+	root: true,
+	globalonly: true,
+}, {
+	symbol: '☥',
+	id: "god",
+	name: "God",
+	root: true,
+}, {
+	symbol: '#',
+	id: "owner",
+	name: "Room Owner",
+	inherit: '@',
+	jurisdiction: 'u',
+	roombot: true,
+	roommod: true,
+	roomdriver: true,
+	editroom: true,
+	declare: true,
+	modchatall: true,
+	roomonly: true,
+	ignorelimits: true,
+	tournamentsmanagement: true,
+	gamemanagement: true,
+}, {
+	symbol: '&',
+	id: "leader",
+	name: "Leader",
+	inherit: '@',
+	jurisdiction: '@u',
+	promote: 'u',
+	roomowner: true,
+	roombot: true,
+	hotpatch: true,
+	ignorelimits: true,
+	battlemessage: true,
+	roommod: true,
+	roomdriver: true,
+	forcewin: true,
+	declare: true,
+	modchatall: true,
+	rangeban: true,
+	makeroom: true,
+	editroom: true,
+	potd: true,
+	disableladder: true,
+	tournamentsmanagement: true,
+	gamemanagement: true,
+}, {
+	symbol: '★',
+	id: "player",
+	name: "Player",
+	inherit: '+',
+	roomvoice: true,
+	modchat: true,
+	roomonly: true,
+	editroom: true,
+	joinbattle: true,
+	nooverride: true,
+}, {
+	symbol: '*',
+	id: "bot",
+	name: "Bot",
+	inherit: '@',
+	jurisdiction: 'u',
+	declare: true,
+	addhtml: true,
+}, {
+	symbol: '@',
+	id: "mod",
+	name: "Moderator",
+	inherit: '%',
+	jurisdiction: 'u',
+	ban: true,
+	modchat: true,
+	roomvoice: true,
+	forcerename: true,
+	ip: true,
+	alts: '@u',
+	tournaments: true,
+	game: true,
+}, {
+	symbol: '%',
+	id: "driver",
+	name: "Driver",
+	inherit: '+',
+	jurisdiction: 'u',
+	announce: true,
+	warn: '★u',
+	kick: true,
+	mute: '★u',
+	lock: true,
+	forcerename: true,
+	timer: true,
+	modlog: true,
+	alts: '%u',
+	bypassblocks: 'u%@&~',
+	receiveauthmessages: true,
+	tournamentsmoderation: true,
+	jeopardy: true,
+	joinbattle: true,
+	minigame: true,
+}, {
+	symbol: '+',
+	id: "voice",
+	name: "Voice",
+	inherit: ' ',
+	alts: 's',
+	broadcast: true,
+}, {
+	symbol: ' ',
+	ip: 's',
+}, ];
