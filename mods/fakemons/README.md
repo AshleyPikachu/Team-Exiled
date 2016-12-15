@@ -63,7 +63,7 @@ Pokedex Entry: Usually underground, Musteltank have sharp claws for tearing up r
 | 100| 120 | 110 | 20  | 100 | 5   |
 
 Abilities: Tough Claws / Battle Armor / Rust<br/>
-Rust: Powers up steel moves by 1.2 but takes 2x damage from Water type attacks.<br/>
+Rust: Powers up steel moves by 1.2 but weakens opponent's Electric moves by 0.75%<br/>
 Height: 5.3 m Weight: 90.7185 kg Color: Gray	Egg Groups: Undiscovered<br/>
 ### Learnset:
 Poison Jab
