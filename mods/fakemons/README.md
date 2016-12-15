@@ -1,6 +1,6 @@
 #Fakemons
 ##SMK  
-Dex: 1001   
+Dex: 9001   
 ![Dark Type](http://play.pokemonshowdown.com/sprites/types/Dark.png)  
 ![Ghost Type](http://play.pokemonshowdown.com/sprites/types/Ghost.png)
 
