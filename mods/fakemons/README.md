@@ -2,6 +2,7 @@
 ##SMK  
 Dex: 1001   
 ![Dark Type](http://play.pokemonshowdown.com/sprites/types/Dark.png)  
+![Ghost Type](http://play.pokemonshowdown.com/sprites/types/Ghost.png)
 
 
 | HP | Atk | Def | SpA | SpD | Spe |
