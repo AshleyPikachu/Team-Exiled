@@ -51,7 +51,7 @@ Confide
 
 
 
-##Mustletank
+##Musteltank
 Dex: 9002   
 ![Steel Type](http://play.pokemonshowdown.com/sprites/types/Steel.png)  
 ![Poison Type](http://play.pokemonshowdown.com/sprites/types/Poison.png)
