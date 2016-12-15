@@ -60,7 +60,7 @@ Pokedex Entry: Usually underground, Musteltank have sharp claws for tearing up r
 
 | HP | Atk | Def | SpA | SpD | Spe |
 |----|-----|-----|-----|-----|-----|
-| 100| 120 | 110 | 20  | 100 | 5   |
+| 100| 115 | 110 | 40  | 100 | 5   |
 
 Abilities: Tough Claws / Battle Armor / Rust<br/>
 Rust: Powers up steel moves by 1.2 but weakens opponent's Electric moves by 0.75%<br/>
