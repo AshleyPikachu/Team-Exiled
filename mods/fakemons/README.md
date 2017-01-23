@@ -49,8 +49,6 @@ Substitute
 Snarl
 Confide
 
-
-
 ##Musteltank
 Dex: 9002   
 ![Steel Type](http://play.pokemonshowdown.com/sprites/types/Steel.png)  
@@ -91,3 +89,142 @@ Metal Sound
 Metal Claw
 Sucker Punch
 Trick Room
+
+
+##Frioth
+Icicle Body Pokemon<br>
+![Ice Type](http://play.pokemonshowdown.com/sprites/types/Ice.png)  
+![Bug Type](http://play.pokemonshowdown.com/sprites/types/Bug.png)
+Ability: Ice Body, Snow Cloak, Aerilate(HA)<br>
+Height: 2' Weight: 45.5 lbs<br>
+Gender Ratio: 50%m 50%f<br>
+Catch rate: 75<br>
+Egg group: Bug/Water 3 <br>
+Hatch time: 3855-4111 steps <br>
+EV yield: 1 spa, 1 atk<br>
+##Learnset
+1- Wide Guard
+1- Stuggle Bug
+1- Aqua Ring
+8- Powder Snow
+10- Bug Bite
+16- Ice Shard
+22- Bug Buzz
+34- Mirror Coat
+39- Hail
+45- Quiver Dance
+48- Aurora Beam
+51- Icicle Crash
+51- Icicle Spear
+56- Blizzard
+63- Swords Dance
+01 Work Up
+04 Calm Mind
+06 Toxic
+07 Hail
+10 Hidden Power
+12 Taunt
+13 Ice Beam
+14 Blizzard
+15 Hyper Beam
+16 Light Screen
+17 Protect
+18 Rain Dance
+19 Roost
+20 Safeguard
+21 Frustration
+27 Return
+28 Leech Life
+32 Double Team
+33 Reflect
+40 Aerial Ace
+42 Facade
+44 Rest
+45 Attract
+46 Thief
+48 Round
+54 False Swipe
+58 Sky Drop
+60 Quash
+62 Acrobatics
+68 Giga Impact
+70 Aurora Veil
+75 Swords Dance
+76 Fly
+77 Psych Up
+79 Frost Breath
+81 X-Scissor
+83 Infestation
+87 Swagger
+88 Sleep Talk
+89 U-Turn
+90 Subsitute
+91 Flash Cannon
+94 Surf
+96 Nature Power
+98 Waterfall
+99 Dazzling Gleam
+100 Confide
+Acupressure
+Cross Poison
+Pin Missle
+Ice Hammer
+Spike Cannon
+Spikes
+Snore
+Water Pulse
+Bug Bite
+Signal Beam
+Ice Punch
+Knock Off
+Dual Chop
+Endeavor
+Uproar
+Iron Head
+Aqua Tail
+Last Resort
+Hyper Voice
+Sky Attack
+Block
+Recycle
+Iron Defense
+Tailwind
+Electroweb
+Icy Wind
+ 
+Dex Entry 1: Frioth flies around shooting the icicles
+froms its arms when it feels threatened. The ice that
+forms its body is as hard as steel.
+ 
+Dex Entry 2: This pokemon drinks cold spring water from the
+tips of mountain peaks. It converts the water into ice inside its
+body to repair any damage it has taken.
+ 
+Dex Number: 9004
+Base Stats: HP 80/ Atk 110/ Def 100/ SpA 90/ SpD 75/ Spe 90  BST: 545
+
+##Pence
+Dex: 9003   
+![Fairy Type](http://play.pokemonshowdown.com/sprites/types/Fairy.png)  
+![Fighting Type](http://play.pokemonshowdown.com/sprites/types/Fighting.png)
+
+| HP | Atk | Def | SpA | SpD | Spe |
+|----|-----|-----|-----|-----|-----|
+| 70 | 150 | 110 | 150 | 70  | 45  |
+
+Abilities: Contrary<br/>
+Height: 1.8034 m Weight: 72 kg Color: White	Egg Groups: Human-like<br/>
+### Learnset:
+Protect
+Earthquake
+Tackle
+Ice Punch
+Sucker Punch
+Knock Off
+Close Combat
+Play Rough
+Drain Punch
+Superpower
+Moonblast
+Focus Blast
+Aura Sphere
