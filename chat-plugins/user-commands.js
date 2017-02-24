@@ -2,7 +2,7 @@
 /********************
  * User Commands
  * This is where miscellaneous commands that any user can use go
-********************/
+ ********************/
 const color = require('../config/color');
 const Pokedex = require('../data/pokedex.js').BattlePokedex;
 let messages = [
@@ -29,19 +29,134 @@ function bold(text) {
 }
 
 let bubbleLetterMap = new Map([
-	['a', '\u24D0'], ['b', '\u24D1'], ['c', '\u24D2'], ['d', '\u24D3'], ['e', '\u24D4'], ['f', '\u24D5'], ['g', '\u24D6'], ['h', '\u24D7'], ['i', '\u24D8'], ['j', '\u24D9'], ['k', '\u24DA'], ['l', '\u24DB'], ['m', '\u24DC'],
-	['n', '\u24DD'], ['o', '\u24DE'], ['p', '\u24DF'], ['q', '\u24E0'], ['r', '\u24E1'], ['s', '\u24E2'], ['t', '\u24E3'], ['u', '\u24E4'], ['v', '\u24E5'], ['w', '\u24E6'], ['x', '\u24E7'], ['y', '\u24E8'], ['z', '\u24E9'],
-	['A', '\u24B6'], ['B', '\u24B7'], ['C', '\u24B8'], ['D', '\u24B9'], ['E', '\u24BA'], ['F', '\u24BB'], ['G', '\u24BC'], ['H', '\u24BD'], ['I', '\u24BE'], ['J', '\u24BF'], ['K', '\u24C0'], ['L', '\u24C1'], ['M', '\u24C2'],
-	['N', '\u24C3'], ['O', '\u24C4'], ['P', '\u24C5'], ['Q', '\u24C6'], ['R', '\u24C7'], ['S', '\u24C8'], ['T', '\u24C9'], ['U', '\u24CA'], ['V', '\u24CB'], ['W', '\u24CC'], ['X', '\u24CD'], ['Y', '\u24CE'], ['Z', '\u24CF'],
-	['1', '\u2460'], ['2', '\u2461'], ['3', '\u2462'], ['4', '\u2463'], ['5', '\u2464'], ['6', '\u2465'], ['7', '\u2466'], ['8', '\u2467'], ['9', '\u2468'], ['0', '\u24EA'],
+	['a', 'ⓐ'],
+	['b', 'ⓑ'],
+	['c', 'ⓒ'],
+	['d', 'ⓓ'],
+	['e', 'ⓔ'],
+	['f', 'ⓕ'],
+	['g', 'ⓖ'],
+	['h', 'ⓗ'],
+	['i', 'ⓘ'],
+	['j', 'ⓙ'],
+	['k', 'ⓚ'],
+	['l', 'ⓛ'],
+	['m', 'ⓜ'],
+	['n', 'ⓝ'],
+	['o', 'ⓞ'],
+	['p', 'ⓟ'],
+	['q', 'ⓠ'],
+	['r', 'ⓡ'],
+	['s', 'ⓢ'],
+	['t', 'ⓣ'],
+	['u', 'ⓤ'],
+	['v', 'ⓥ'],
+	['w', 'ⓦ'],
+	['x', 'ⓧ'],
+	['y', 'ⓨ'],
+	['z', 'ⓩ'],
+	['A', 'Ⓐ'],
+	['B', 'Ⓑ'],
+	['C', 'Ⓒ'],
+	['D', 'Ⓓ'],
+	['E', 'Ⓔ'],
+	['F', 'Ⓕ'],
+	['G', 'Ⓖ'],
+	['H', 'Ⓗ'],
+	['I', 'Ⓘ'],
+	['J', 'Ⓙ'],
+	['K', 'Ⓚ'],
+	['L', 'Ⓛ'],
+	['M', 'Ⓜ'],
+	['N', 'Ⓝ'],
+	['O', 'Ⓞ'],
+	['P', 'Ⓟ'],
+	['Q', 'Ⓠ'],
+	['R', 'Ⓡ'],
+	['S', 'Ⓢ'],
+	['T', 'Ⓣ'],
+	['U', 'Ⓤ'],
+	['V', 'Ⓥ'],
+	['W', 'Ⓦ'],
+	['X', 'Ⓧ'],
+	['Y', 'Ⓨ'],
+	['Z', 'Ⓩ'],
+	['1', '①'],
+	['2', '②'],
+	['3', '③'],
+	['4', '④'],
+	['5', '⑤'],
+	['6', '⑥'],
+	['7', '⑦'],
+	['8', '⑧'],
+	['9', '⑨'],
+	['0', '⓪'],
 ]);
 
 let asciiMap = new Map([
-	['\u24D0', 'a'], ['\u24D1', 'b'], ['\u24D2', 'c'], ['\u24D3', 'd'], ['\u24D4', 'e'], ['\u24D5', 'f'], ['\u24D6', 'g'], ['\u24D7', 'h'], ['\u24D8', 'i'], ['\u24D9', 'j'], ['\u24DA', 'k'], ['\u24DB', 'l'], ['\u24DC', 'm'],
-	['\u24DD', 'n'], ['\u24DE', 'o'], ['\u24DF', 'p'], ['\u24E0', 'q'], ['\u24E1', 'r'], ['\u24E2', 's'], ['\u24E3', 't'], ['\u24E4', 'u'], ['\u24E5', 'v'], ['\u24E6', 'w'], ['\u24E7', 'x'], ['\u24E8', 'y'], ['\u24E9', 'z'],
-	['\u24B6', 'A'], ['\u24B7', 'B'], ['\u24B8', 'C'], ['\u24B9', 'D'], ['\u24BA', 'E'], ['\u24BB', 'F'], ['\u24BC', 'G'], ['\u24BD', 'H'], ['\u24BE', 'I'], ['\u24BF', 'J'], ['\u24C0', 'K'], ['\u24C1', 'L'], ['\u24C2', 'M'],
-	['\u24C3', 'N'], ['\u24C4', 'O'], ['\u24C5', 'P'], ['\u24C6', 'Q'], ['\u24C7', 'R'], ['\u24C8', 'S'], ['\u24C9', 'T'], ['\u24CA', 'U'], ['\u24CB', 'V'], ['\u24CC', 'W'], ['\u24CD', 'X'], ['\u24CE', 'Y'], ['\u24CF', 'Z'],
-	['\u2460', '1'], ['\u2461', '2'], ['\u2462', '3'], ['\u2463', '4'], ['\u2464', '5'], ['\u2465', '6'], ['\u2466', '7'], ['\u2467', '8'], ['\u2468', '9'], ['\u24EA', '0'],
+	['ⓐ', 'a'],
+	['ⓑ', 'b'],
+	['ⓒ', 'c'],
+	['ⓓ', 'd'],
+	['ⓔ', 'e'],
+	['ⓕ', 'f'],
+	['ⓖ', 'g'],
+	['ⓗ', 'h'],
+	['ⓘ', 'i'],
+	['ⓙ', 'j'],
+	['ⓚ', 'k'],
+	['ⓛ', 'l'],
+	['ⓜ', 'm'],
+	['ⓝ', 'n'],
+	['ⓞ', 'o'],
+	['ⓟ', 'p'],
+	['ⓠ', 'q'],
+	['ⓡ', 'r'],
+	['ⓢ', 's'],
+	['ⓣ', 't'],
+	['ⓤ', 'u'],
+	['ⓥ', 'v'],
+	['ⓦ', 'w'],
+	['ⓧ', 'x'],
+	['ⓨ', 'y'],
+	['ⓩ', 'z'],
+	['Ⓐ', 'A'],
+	['Ⓑ', 'B'],
+	['Ⓒ', 'C'],
+	['Ⓓ', 'D'],
+	['Ⓔ', 'E'],
+	['Ⓕ', 'F'],
+	['Ⓖ', 'G'],
+	['Ⓗ', 'H'],
+	['Ⓘ', 'I'],
+	['Ⓙ', 'J'],
+	['Ⓚ', 'K'],
+	['Ⓛ', 'L'],
+	['Ⓜ', 'M'],
+	['Ⓝ', 'N'],
+	['Ⓞ', 'O'],
+	['Ⓟ', 'P'],
+	['Ⓠ', 'Q'],
+	['Ⓡ', 'R'],
+	['Ⓢ', 'S'],
+	['Ⓣ', 'T'],
+	['Ⓤ', 'U'],
+	['Ⓥ', 'V'],
+	['Ⓦ', 'W'],
+	['Ⓧ', 'X'],
+	['Ⓨ', 'Y'],
+	['Ⓩ', 'Z'],
+	['①', '1'],
+	['②', '2'],
+	['③', '3'],
+	['④', '4'],
+
+	['⑤', '5'],
+	['⑥', '6'],
+	['⑦', '7'],
+	['⑧', '8'],
+	['⑨', '9'],
+	['⓪', '0'],
 ]);
 
 function parseStatus(text, encoding) {
@@ -49,7 +164,8 @@ function parseStatus(text, encoding) {
 		text = text.split('').map(function (char) {
 			return bubbleLetterMap.get(char);
 		}).join('');
-	} else {
+	}
+	else {
 		text = text.split('').map(function (char) {
 			return asciiMap.get(char);
 		}).join('');
@@ -71,7 +187,7 @@ exports.commands = {
 	},
 	chatcolorhelp: ["/chatcolor OR /chatcolour [colour], [message] - Outputs a message in a custom colour. Requires VIP."],
 
-			/* eslint-enable */
+	/* eslint-enable */
 	helixfossil: 'm8b',
 	helix: 'm8b',
 	magic8ball: 'm8b',
@@ -80,7 +196,7 @@ exports.commands = {
 		let results = ['Signs point to yes.', 'Yes.', 'Reply hazy, try again.', 'Without a doubt.', 'My sources say no.', 'As I see it, yes.', 'You may rely on it.', 'Concentrate and ask again.', 'Outlook not so good.', 'It is decidedly so.', 'Better not tell you now.', 'Very doubtful.', 'Yes - definitely.', 'It is certain.', 'Cannot predict now.', 'Most likely.', 'Ask again later.', 'My reply is no.', 'Outlook good.', 'Don\'t count on it.'];
 		return this.sendReplyBox(results[Math.floor(20 * Math.random())]);
 	},
-			/* eslint-enable */
+	/* eslint-enable */
 	thefourthreplica: 'tfr',
 	tfr: function (target, room, user) {
 		if (!this.runBroadcast()) return;
@@ -115,15 +231,20 @@ exports.commands = {
 		if (/shiny/i.test(target)) shinyPoke = "-shiny";
 		if (/kanto/i.test(target) || /gen 1/i.test(target)) {
 			x = Math.floor(Math.random() * (174 - 1));
-		} else if (/johto/i.test(target) || /gen 2/i.test(target)) {
+		}
+		else if (/johto/i.test(target) || /gen 2/i.test(target)) {
 			x = Math.floor(Math.random() * (281 - 173)) + 172;
-		} else if (/hoenn/i.test(target) || /gen 3/i.test(target)) {
+		}
+		else if (/hoenn/i.test(target) || /gen 3/i.test(target)) {
 			x = Math.floor(Math.random() * (444 - 280)) + 279;
-		} else if (/sinnoh/i.test(target) || /gen 4/i.test(target)) {
+		}
+		else if (/sinnoh/i.test(target) || /gen 4/i.test(target)) {
 			x = Math.floor(Math.random() * (584 - 443)) + 442;
-		} else if (/kalos/i.test(target) || /gen 5/i.test(target)) {
+		}
+		else if (/kalos/i.test(target) || /gen 5/i.test(target)) {
 			x = Math.floor(Math.random() * (755 - 583)) + 582;
-		} else if (/unova/i.test(target) || /gen 6/i.test(target)) {
+		}
+		else if (/unova/i.test(target) || /gen 6/i.test(target)) {
 			x = Math.floor(Math.random() * (834 - 752)) + 751;
 		}
 		x = x || Math.floor(Math.random() * (856 - 1));
@@ -135,6 +256,7 @@ exports.commands = {
 		let spriteLocation = "http://play.pokemonshowdown.com/sprites/bw" + shinyPoke + "/" + pokeId + ".png";
 		let missingnoSprites = ["http://cdn.bulbagarden.net/upload/9/98/Missingno_RB.png", "http://cdn.bulbagarden.net/upload/0/03/Missingno_Y.png", "http://cdn.bulbagarden.net/upload/a/aa/Spr_1b_141_f.png", "http://cdn.bulbagarden.net/upload/b/bb/Spr_1b_142_f.png", "http://cdn.bulbagarden.net/upload/9/9e/Ghost_I.png"];
 		if (pokeId === "missingno") spriteLocation = missingnoSprites[~~(Math.random() * 5)];
+
 		function getTypeFormatting(types) {
 			let text = [];
 			for (let i = 0; i < types.length; i++) {
@@ -216,82 +338,6 @@ exports.commands = {
 		this.sendReply("Friendcode removed.");
 	},
 
-	anime: function (target, room, user) {
-		if (!this.runBroadcast()) return;
-		if (!target) return this.errorReply("No target.");
-		let targetAnime = Chat.escapeHTML(target.trim());
-		let id = targetAnime.toLowerCase().replace(/ /g, '');
-		if (amCache.anime[id]) return this.sendReply('|raw|' + amCache.anime[id]);
-
-		nani.get('anime/search/' + targetAnime)
-		.then(data => {
-			if (data[0].adult) {
-				return this.errorReply('Nsfw content is not allowed.');
-			}
-			nani.get('anime/' + data[0].id)
-				.then(data => {
-					let css = 'text-shadow: 1px 1px 1px #CCC; padding: 3px 8px;';
-					let output = '<div class="infobox"><table width="100%"><tr>';
-					let description = data.description.replace(/(\r\n|\n|\r)/gm, "").split('<br><br>').join('<br>');
-					if (description.indexOf('&lt;br&gt;&lt;br&gt;') >= 0) description = description.substr(0, description.indexOf('&lt;br&gt;&lt;br&gt;'));
-					if (description.indexOf('<br>') >= 0) description = description.substr(0, description.indexOf('<br>'));
-					output += '<td style="' + css + ' background: rgba(170, 165, 215, 0.5); box-shadow: 2px 2px 5px rgba(170, 165, 215, 0.8); border: 1px solid rgba(170, 165, 215, 1); border-radius: 5px; color: #2D2B40; text-align: center; font-size: 15pt;"><b>' + data.title_romaji + '</b></td>';
-					output += '<td rowspan="6"><img src="' + data.image_url_lge + '" height="320" width="225" alt="' + data.title_romaji + '" title="' + data.title_romaji + '" style="float: right; border-radius: 10px; box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.5) inset;" /></td></tr>';
-					output += '<tr><td style="' + css + '"><b>Genre(s): </b>' + data.genres + '</td></tr>';
-					output += '<tr><td style="' + css + '"><b>Air Date: </b>' + data.start_date.substr(0, 10) + '</td></tr><tr>';
-					output += '<tr><td style="' + css + '"><b>Status: </b>' + data.airing_status + '</td></tr>';
-					output += '<tr><td style="' + css + '"><b>Episode Count: </b>' + data.total_episodes + '</td></tr>';
-					output += '<tr><td style="' + css + '"><b>Rating: </b> ' + data.average_score + '/100</td></tr>';
-					output += '<tr><td colspan="2" style="' + css + '"><b>Description: </b>' + description + '</td></tr>';
-					output += '</table></div>';
-					amCache.anime[id] = output;
-					this.sendReply('|raw|' + output);
-					room.update();
-				});
-		})
-		.catch(error => {
-			return this.errorReply("Anime not found.");
-		});
-	},
-
-	manga: function (target, room, user) {
-		if (!this.runBroadcast()) return;
-		if (!target) return this.errorReply("No target.");
-		let targetAnime = Chat.escapeHTML(target.trim());
-		let id = targetAnime.toLowerCase().replace(/ /g, '');
-		if (amCache.anime[id]) return this.sendReply('|raw|' + amCache.anime[id]);
-
-		nani.get('manga/search/' + targetAnime)
-		.then(data => {
-			nani.get('manga/' + data[0].id)
-				.then(data => {
-					let css = 'text-shadow: 1px 1px 1px #CCC; padding: 3px 8px;';
-					let output = '<div class="infobox"><table width="100%"><tr>';
-					for (let i = 0; i < data.genres.length; i++) {
-						if (/(Hentai|Yaoi|Ecchi)/.test(data.genres[i])) return this.errorReply('Nsfw content is not allowed.');
-					}
-					let description = data.description.replace(/(\r\n|\n|\r)/gm, " ").split('<br><br>').join('<br>');
-					if (description.indexOf('&lt;br&gt;&lt;br&gt;') >= 0) description = description.substr(0, description.indexOf('&lt;br&gt;&lt;br&gt;'));
-					if (description.indexOf('<br>') >= 0) description = description.substr(0, description.indexOf('<br>'));
-					output += '<td style="' + css + ' background: rgba(170, 165, 215, 0.5); box-shadow: 2px 2px 5px rgba(170, 165, 215, 0.8); border: 1px solid rgba(170, 165, 215, 1); border-radius: 5px; color: #2D2B40; text-align: center; font-size: 15pt;"><b>' + data.title_romaji + '</b></td>';
-					output += '<td rowspan="6"><img src="' + data.image_url_lge + '" height="320" width="225" alt="' + data.title_romaji + '" title="' + data.title_romaji + '" style="float: right; border-radius: 10px; box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.5) inset;" /></td></tr>';
-					output += '<tr><td style="' + css + '"><b>Genre(s): </b>' + data.genres + '</td></tr>';
-					output += '<tr><td style="' + css + '"><b>Release Date: </b>' + data.start_date.substr(0, 10) + '</td></tr><tr>';
-					output += '<tr><td style="' + css + '"><b>Status: </b>' + data.publishing_status + '</td></tr>';
-					output += '<tr><td style="' + css + '"><b>Chapter Count: </b>' + data.total_chapters + '</td></tr>';
-					output += '<tr><td style="' + css + '"><b>Rating: </b> ' + data.average_score + '/100</td></tr>';
-					output += '<tr><td colspan="2" style="' + css + '"><b>Description: </b>' + description + '</td></tr>';
-					output += '</table></div>';
-					amCache.manga[id] = output;
-					this.sendReply('|raw|' + output);
-					room.update();
-				});
-		})
-		.catch(error => {
-			return this.errorReply("Anime not found.");
-		});
-	},
-
 	dimg: 'displayimage',
 	displayimg: 'displayimage',
 	displayimage: function (target, room, user) {
@@ -300,7 +346,8 @@ exports.commands = {
 			if (!this.can('declare')) return this.errorReply("/displayimage [link] - Can only be used by roommods or higher, except in private rooms.");
 			if (!target) return this.sendReply('Usage: /displayimage [link]');
 			this.add('|raw|' + imgdisplay);
-		} else {
+		}
+		else {
 			if (!this.runBroadcast()) return;
 			if (!target) return this.sendReply('Usage: /displayimage [link]');
 			this.add('|raw|' + imgdisplay);

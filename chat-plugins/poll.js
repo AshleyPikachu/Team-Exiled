@@ -1,15 +1,18 @@
 /*
-* Poll chat plugin
-* By bumbadadabum and Zarel.
-*/
+ * Poll chat plugin
+ * By bumbadadabum and Zarel.
+ */
 
 'use strict';
+
+const moment = require('moment');
 
 class Poll {
 	constructor(room, questionData, options) {
 		if (room.pollNumber) {
 			room.pollNumber++;
-		} else {
+		}
+		else {
 			room.pollNumber = 1;
 		}
 		this.room = room;
@@ -20,10 +23,15 @@ class Poll {
 		this.totalVotes = 0;
 		this.timeout = null;
 		this.timeoutMins = 0;
+		this.startTime = Date.now();
+		this.startedUser = (questionData.username);
 
 		this.options = new Map();
 		for (let i = 0; i < options.length; i++) {
-			this.options.set(i + 1, {name: options[i], votes: 0});
+			this.options.set(i + 1, {
+				name: options[i],
+				votes: 0
+			});
 		}
 	}
 
@@ -49,7 +57,8 @@ class Poll {
 
 		if (userid in this.voters || ip in this.voterIps) {
 			user.sendTo(this.room, "You're already looking at the results.");
-		} else {
+		}
+		else {
 			this.voters[userid] = 0;
 			this.voterIps[ip] = 0;
 		}
@@ -67,26 +76,32 @@ class Poll {
 
 		return output;
 	}
-
 	generateResults(ended, option) {
-		let icon = '<span style="border:1px solid #' + (ended ? '777;color:#555' : '6A6;color:#484') + ';border-radius:4px;padding:0 3px"><i class="fa fa-bar-chart"></i> ' + (ended ? "Poll ended" : "Poll") + '</span>';
-		let output = '<div class="infobox"><p style="margin: 2px 0 5px 0">' + icon + ' <strong style="font-size:11pt">' + this.getQuestionMarkup() + '</strong></p>';
+		let icon = '<span style="border: 1px solid #' + (ended ? '777; color: #555' : '3B763B; color: #2D5A2D') + '; border-radius: 4px; padding: 0 3px; box-shadow: 0px 0px 2px rgba(255, 255, 255, 0.8);"><i class="fa fa-bar-chart"></i> ' + (ended ? "Poll ended" : "Poll") + '</span>';
+		let totalVotes = '<br /><span style="font-style: italic; font-size: 9pt; color: #79330A;">[Total Votes: ' + this.totalVotes + '] (Started by ' + this.startedUser + ' ' + moment(this.startTime).fromNow() + '.)</span></div>';
+		let output = '<div style="background: rgba(245, 245, 245, 0.7); width: 100%; border: 1px solid #79330A; border-radius: 20px;"><div class="poll-td" style="background: rgba(255, 174, 127, 0.8); background: linear-gradient(rgba(255, 193, 156, 0.8), rgba(253, 153, 94, 0.8)); border-bottom: 1px solid #79330A; border-top-right-radius: 20px; border-top-left-radius: 20px; text-shadow: 0px 0px 2px #EEE; box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.8) inset, 0px 0px 1px rgba(0, 0, 0, 0.5) inset;">' + icon + ' <strong style="font-size: 11pt; color: #512106;">' + this.getQuestionMarkup() + '</strong>';
+		output += totalVotes;
+		output += '<div style="padding: 8px 15px;"><font color="grey"><small><center>(Options with 0 votes are not shown)</center></small></font>';
+		output += '<table cellspacing="0" style="width: 100%;margin-top: 3px;">';
 		let iter = this.options.entries();
 
 		let i = iter.next();
 		let c = 0;
 		let colors = ['#79A', '#8A8', '#88B'];
 		while (!i.done) {
-			let percentage = Math.round((i.value[1].votes * 100) / (this.totalVotes || 1));
-			output += '<div style="margin-top: 3px">' + i.value[0] + '. <strong>' + (i.value[0] === option ? '<em>' : '') + this.getOptionMarkup(i.value[1]) + (i.value[0] === option ? '</em>' : '') + '</strong> <small>(' + i.value[1].votes + ' vote' + (i.value[1].votes === 1 ? '' : 's') + ')</small><br /><span style="font-size:7pt;background:' + colors[c % 3] + ';padding-right:' + (percentage * 3) + 'px"></span><small>&nbsp;' + percentage + '%</small></div>';
+			if (i.value[1].votes && i.value[1].votes !== 0) {
+				let percentage = Math.round((i.value[1].votes * 100) / (this.totalVotes || 1));
+				output += '<tr><td><strong>' + (i.value[0] === option ? '<em>' : '') + Chat.escapeHTML(i.value[1].name) + (i.value[0] === option ? '</em>' : '') + '</strong> <small>(' + i.value[1].votes + ' vote' + (i.value[1].votes === 1 ? '' : 's') + ')</small></td><td><span style="font-size: 7pt; background: ' + colors[c % 3] + '; padding-right: ' + (percentage * 3) + 'px; border-radius: 20px;"></span><small>&nbsp;' + percentage + '%</small></td></tr>';
+			}
 			i = iter.next();
 			c++;
 		}
 		if (option === 0 && !ended) output += '<div><small>(You can\'t vote after viewing results)</small></div>';
-		output += '</div>';
+		output += '</table>';
 
 		return output;
 	}
+
 
 	getQuestionMarkup() {
 		if (this.supportHTML) return this.question;
@@ -110,7 +125,8 @@ class Poll {
 			let user = this.room.users[i];
 			if (user.userid in this.voters) {
 				user.sendTo(this.room, '|uhtmlchange|poll' + this.room.pollNumber + '|' + results[this.voters[user.userid]]);
-			} else if (user.latestIp in this.voterIps) {
+			}
+			else if (user.latestIp in this.voterIps) {
 				user.sendTo(this.room, '|uhtmlchange|poll' + this.room.pollNumber + '|' + results[this.voterIps[user.latestIp]]);
 			}
 		}
@@ -120,9 +136,11 @@ class Poll {
 		if (!connection) connection = user;
 		if (user.userid in this.voters) {
 			connection.sendTo(this.room, '|uhtmlchange|poll' + this.room.pollNumber + '|' + this.generateResults(false, this.voters[user.userid]));
-		} else if (user.latestIp in this.voterIps) {
+		}
+		else if (user.latestIp in this.voterIps) {
 			connection.sendTo(this.room, '|uhtmlchange|poll' + this.room.pollNumber + '|' + this.generateResults(false, this.voterIps[user.latestIp]));
-		} else {
+		}
+		else {
 			connection.sendTo(this.room, '|uhtmlchange|poll' + this.room.pollNumber + '|' + this.generateVotes());
 		}
 	}
@@ -146,9 +164,11 @@ class Poll {
 			let thisUser = this.room.users[i];
 			if (thisUser.userid in this.voters) {
 				thisUser.sendTo(this.room, '|uhtml|poll' + this.room.pollNumber + '|' + results[this.voters[thisUser.userid]]);
-			} else if (thisUser.latestIp in this.voterIps) {
+			}
+			else if (thisUser.latestIp in this.voterIps) {
 				thisUser.sendTo(this.room, '|uhtml|poll' + this.room.pollNumber + '|' + results[this.voterIps[thisUser.latestIp]]);
-			} else {
+			}
+			else {
 				thisUser.sendTo(this.room, '|uhtml|poll' + this.room.pollNumber + '|' + votes);
 			}
 		}
@@ -158,9 +178,11 @@ class Poll {
 		if (!connection) connection = user;
 		if (user.userid in this.voters) {
 			connection.sendTo(this.room, '|uhtml|poll' + this.room.pollNumber + '|' + this.generateResults(false, this.voters[user.userid]));
-		} else if (user.latestIp in this.voterIps) {
+		}
+		else if (user.latestIp in this.voterIps) {
 			connection.sendTo(this.room, '|uhtml|poll' + this.room.pollNumber + '|' + this.generateResults(false, this.voterIps[user.latestIp]));
-		} else {
+		}
+		else {
 			connection.sendTo(this.room, '|uhtml|poll' + this.room.pollNumber + '|' + this.generateVotes());
 		}
 	}
@@ -191,11 +213,14 @@ exports.commands = {
 			let separator = '';
 			if (target.includes('\n')) {
 				separator = '\n';
-			} else if (target.includes('|')) {
+			}
+			else if (target.includes('|')) {
 				separator = '|';
-			} else if (target.includes(',')) {
+			}
+			else if (target.includes(',')) {
 				separator = ',';
-			} else {
+			}
+			else {
 				return this.errorReply("Not enough arguments for /poll new.");
 			}
 
@@ -211,11 +236,14 @@ exports.commands = {
 			if (params.some(parameter => !parameter)) return;
 
 			const options = params.splice(1);
-			if (options.length > 8) {
-				return this.errorReply("Too many options for poll (maximum is 8).");
+			if (options.length > 100) {
+				return this.errorReply("Too many options for poll (maximum is 100).");
 			}
 
-			room.poll = new Poll(room, {source: params[0], supportHTML: supportHTML}, options);
+			room.poll = new Poll(room, {
+				source: params[0],
+				supportHTML: supportHTML
+			}, options);
 			room.poll.display();
 
 			this.logEntry("" + user.name + " used " + message);
@@ -263,11 +291,13 @@ exports.commands = {
 				}, (timeout * 60000));
 				room.add("The poll timer was turned on: the poll will end in " + timeout + " minute(s).");
 				return this.privateModCommand("(The poll timer was set to " + timeout + " minute(s) by " + user.name + ".)");
-			} else {
+			}
+			else {
 				if (!this.runBroadcast()) return;
 				if (room.poll.timeout) {
 					return this.sendReply("The poll timer is on and will end in " + room.poll.timeoutMins + " minute(s).");
-				} else {
+				}
+				else {
 					return this.sendReply("The poll timer is off.");
 				}
 			}
@@ -303,7 +333,8 @@ exports.commands = {
 
 			if (this.broadcasting) {
 				room.poll.display();
-			} else {
+			}
+			else {
 				room.poll.displayTo(user, connection);
 			}
 		},
@@ -314,16 +345,22 @@ exports.commands = {
 		},
 	},
 	pollhelp: ["/poll allows rooms to run their own polls. These polls are limited to one poll at a time per room.",
-				"Accepts the following commands:",
-				"/poll create [question], [option1], [option2], [...] - Creates a poll. Requires: % @ * # & ~",
-				"/poll htmlcreate [question], [option1], [option2], [...] - Creates a poll, with HTML allowed in the question and options. Requires: # & ~",
-				"/poll vote [number] - Votes for option [number].",
-				"/poll timer [minutes] - Sets the poll to automatically end after [minutes]. Requires: % @ * # & ~",
-				"/poll results - Shows the results of the poll without voting. NOTE: you can't go back and vote after using this.",
-				"/poll display - Displays the poll",
-				"/poll end - Ends a poll and displays the results. Requires: % @ * # & ~"],
+		"Accepts the following commands:",
+		"/poll create [question], [option1], [option2], [...] - Creates a poll. Requires: % @ * # & ~",
+		"/poll htmlcreate [question], [option1], [option2], [...] - Creates a poll, with HTML allowed in the question and options. Requires: # & ~",
+		"/poll vote [number] - Votes for option [number].",
+		"/poll timer [minutes] - Sets the poll to automatically end after [minutes]. Requires: % @ * # & ~",
+		"/poll results - Shows the results of the poll without voting. NOTE: you can't go back and vote after using this.",
+		"/poll display - Displays the poll",
+		"/poll end - Ends a poll and displays the results. Requires: % @ * # & ~"
+	],
+
+	votes: function (target, room, user) {
+		if (!room.poll) return this.errorReply("There is no poll running in this room.");
+		if (!this.runBroadcast()) return;
+		this.sendReplyBox("votes: " + room.poll.totalVotes);
 	},
-	formatpoll: 'tierpoll',
+
 	tpoll: 'tierpoll',
 	tierspoll: 'tierpoll',
 	tierpoll: function (target, room, user) {
@@ -340,6 +377,19 @@ exports.commands = {
 		if (!this.can('broadcast', null, room)) return false;
 		if (room.game && room.id === 'lobby') return this.errorReply("Polls cannot be created in Lobby when there is a room game in progress.");
 		this.parse('/poll Tier for the next tournament?, CAP SSB, Exiled SSB, Ash\'s Pokemon, OP Metagame, Exiled OU, Exiled UU, Exiled RU, Exiled Monotype, Clash of the Regions, NFE, SMASHING METAGAME, Metronome Battles');
+	},
+	pr: 'pollremind',
+	pollremind: function (target, room, user) {
+		if (!room.poll) return this.errorReply("There is no poll running in this room.");
+		if (!this.runBroadcast()) return;
+		room.poll.update();
+		if (this.broadcasting) {
+			room.update();
+			room.poll.display(user, this.broadcasting);
+		}
+		else {
+			this.parse('/poll display');
+		}
 	},
 };
 

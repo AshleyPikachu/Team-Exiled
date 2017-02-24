@@ -43,42 +43,250 @@ function clearRoom(room) {
 }
 
 exports.commands = {
-	stafflist: 'authority',
+	authoritylist: 'authority',
 	auth: 'authority',
 	authlist: 'authority',
 	authority: function (target, room, user, connection) {
 		let rankLists = {};
 		let ranks = Object.keys(Config.groups);
+		let persons = [];
 		for (let u in Users.usergroups) {
 			let rank = Users.usergroups[u].charAt(0);
-			// In case the usergroups.csv file is not proper, we check for the server ranks.
-			if (ranks.indexOf(rank) > -1) {
+			if (ranks.indexOf(rank) >= 0) {
 				let name = Users.usergroups[u].substr(1);
-				if (!rankLists[rank]) rankLists[rank] = [];
-				if (name) rankLists[rank].push(((Users.getExact(name) && Users.getExact(name).connected) ? '**' + name + '**' : name));
+				persons.push({
+					name: name,
+					rank: rank
+				});
+			}
+		}
+		let authority = {
+			"admins": [],
+			"leaders": [],
+			"bots": [],
+			"mods": [],
+			"drivers": [],
+			"voices": []
+		};
+		persons = persons.sort((a, b) => toId(a.name).localeCompare(toId(b.name))); // No need to return, arrow functions with single lines have an implicit return
+		function nameColor(name) {
+			if (Users.getExact(name) && Users(name).connected) {
+				return '<b><i><font color="White">' + Chat.escapeHTML(Users.getExact(name).name) + '</font></i></b>';
+			}
+			else {
+				return '<font color="White">' + Chat.escapeHTML(name) + '</font>';
+			}
+		}
+		for (let j = 0; j < persons.length; j++) {
+			let rank = persons[j].rank;
+			let person = persons[j].name;
+			switch (rank) {
+			case '~':
+				authority['admins'].push(nameColor(person));
+				break;
+			case '&':
+				authority['leaders'].push(nameColor(person));
+				break;
+			case '*':
+				authority['bots'].push(nameColor(person));
+				break;
+			case '@':
+				authority['mods'].push(nameColor(person));
+				break;
+			case '%':
+				authority['drivers'].push(nameColor(person));
+				break;
+			case '+':
+				authority['voices'].push(nameColor(person));
+				break;
+			default:
+				continue;
+
 			}
 		}
 
-		let buffer = [];
-		Object.keys(rankLists).sort(function (a, b) {
-			return (Config.groups[b] || {rank: 0}).rank - (Config.groups[a] || {rank: 0}).rank;
-		}).forEach(function (r) {
-			buffer.push((Config.groups[r] ? r + Config.groups[r].name + "s (" + rankLists[r].length + ")" : r) + ":\n" + rankLists[r].sort().join(", "));
-		});
-
-		if (!buffer.length) {
-			return connection.popup("This server has no auth.");
-		}
-		connection.popup(buffer.join("\n\n"));
+		connection.popup('|html|' +
+			'<div style="background-color: Black ; border: 12px double Red ; color: #FFF; width: 95%"><center><h3><img style="transform: scaleX(-1);" src="http://pldh.net/media/pokemon/gen5/blackwhite_animated_front/491.gif" height="84" width="95" align="left"><img src="http://pldh.net/media/pokemon/gen5/blackwhite_animated_front/491.gif" height="84" width="95" align="right"><br><br>Exiled\'s Authority List</h3>' +
+			'<br><br><font color="white"><b><u>~Administrators (' + authority['admins'].length + ')</u></b>:<br />' + authority['admins'].join(', ') +
+			'<br />' +
+			'<br /><b><u>&Leaders (' + authority['leaders'].length + ')</u></b>:<br />' + authority['leaders'].join(', ') +
+			'<br />' +
+			'<br /><b><u>*Bots (' + authority['bots'].length + ')</u></b><br />' + authority['bots'].join(', ') +
+			'<br />' +
+			'<br /><b><u>@Moderators (' + authority['mods'].length + ')</u></b>:<br />' + authority['mods'].join(', ') +
+			'<br />' +
+			'<br /><b><u>%Drivers (' + authority['drivers'].length + ')</u></b>:<br />' + authority['drivers'].join(', ') +
+			'<br />' +
+			'<br /><b><u>+Voices (' + authority['voices'].length + ')</u></b>:<br />' + authority['voices'].join(', ') +
+			'<br /><br /><blink>(<b>Bold</b> / <i>Italic</i> = Currently Online)</blink></font></center></div>'
+		);
 	},
 
 	clearall: function (target, room, user) {
-		if (!this.can('declare')) return false;
+		if (!this.can('roomintro')) return false;
 		if (room.battle) return this.sendReply("You cannot clearall in battle rooms.");
 
 		clearRoom(room);
+
+		this.privateModCommand(`(${user.name} used /clearall.)`);
+	},
+	dm: 'daymute',
+	daymute: function (target, room, user, connection, cmd) {
+		if (!target) return this.errorReply("Usage: /dm [user], [reason].");
+		if (!this.canTalk()) return this.sendReply("You cannot do this while unable to talk.");
+
+		target = this.splitTarget(target);
+		let targetUser = this.targetUser;
+		if (!targetUser) return this.sendReply("User '" + this.targetUsername + "' does not exist.");
+		if (target.length > 300) {
+			return this.sendReply("The reason is too long. It cannot exceed 300 characters.");
+		}
+
+		let muteDuration = 24 * 60 * 60 * 1000;
+		if (!this.can('mute', targetUser, room)) return false;
+		let canBeMutedFurther = ((room.getMuteTime(targetUser) || 0) <= (muteDuration * 5 / 6));
+		if ((room.isMuted(targetUser) && !canBeMutedFurther) || targetUser.locked || !targetUser.connected) {
+			let problem = " but was already " + (!targetUser.connected ? "offline" : targetUser.locked ? "locked" : "muted");
+			if (!target) {
+				return this.privateModCommand("(" + targetUser.name + " would be muted by " + user.name + problem + ".)");
+			}
+			return this.addModCommand("" + targetUser.name + " would be muted by " + user.name + problem + "." + (target ? " (" + target + ")" : ""));
+		}
+
+		if (targetUser in room.users) targetUser.popup("|modal|" + user.name + " has muted you in " + room.id + " for 24 hours. " + target);
+		this.addModCommand("" + targetUser.name + " was muted by " + user.name + " for 24 hours." + (target ? " (" + target + ")" : ""));
+		if (targetUser.autoconfirmed && targetUser.autoconfirmed !== targetUser.userid) this.privateModCommand("(" + targetUser.name + "'s ac account: " + targetUser.autoconfirmed + ")");
+		this.add('|unlink|' + toId(this.inputUsername));
+
+		room.mute(targetUser, muteDuration, false);
 	},
 
+	/* * * * * * * * * * * *
+	 * Week/Month/Year Mute*
+	 * by                  *
+	 * Insist              *
+	 * * * * * * * * * * * */
+
+	wm: 'weekmute',
+	weekmute: function (target, room, user, connection, cmd) {
+		if (!target) return this.errorReply("Usage: /wm [user], [reason].");
+		if (!this.canTalk()) return this.sendReply("You cannot do this while unable to talk.");
+
+		target = this.splitTarget(target);
+		let targetUser = this.targetUser;
+		if (!targetUser) return this.sendReply("User '" + this.targetUsername + "' does not exist.");
+		if (target.length > 300) {
+			return this.sendReply("The reason is too long. It cannot exceed 300 characters.");
+		}
+
+		let muteDuration = 7 * 24 * 60 * 60 * 1000;
+		if (!this.can('mute', targetUser, room)) return false;
+		let canBeMutedFurther = ((room.getMuteTime(targetUser) || 0) <= (muteDuration * 5 / 6));
+		if ((room.isMuted(targetUser) && !canBeMutedFurther) || targetUser.locked || !targetUser.connected) {
+			let problem = " but was already " + (!targetUser.connected ? "offline" : targetUser.locked ? "locked" : "muted");
+			if (!target) {
+				return this.privateModCommand("(" + targetUser.name + " would be muted by " + user.name + problem + ".)");
+			}
+			return this.addModCommand("" + targetUser.name + " would be muted by " + user.name + problem + "." + (target ? " (" + target + ")" : ""));
+		}
+
+		if (targetUser in room.users) targetUser.popup("|modal|" + user.name + " has muted you in " + room.id + " for a week. " + target);
+		this.addModCommand("" + targetUser.name + " was muted by " + user.name + " for a week." + (target ? " (" + target + ")" : ""));
+		if (targetUser.autoconfirmed && targetUser.autoconfirmed !== targetUser.userid) this.privateModCommand("(" + targetUser.name + "'s ac account: " + targetUser.autoconfirmed + ")");
+		this.add('|unlink|' + toId(this.inputUsername));
+
+		room.mute(targetUser, muteDuration, false);
+	},
+	mm: 'monthmute',
+	monthmute: function (target, room, user, connection, cmd) {
+		if (!target) return this.errorReply("Usage: /mm [user], [reason].");
+		if (!this.canTalk()) return this.sendReply("You cannot do this while unable to talk.");
+
+		target = this.splitTarget(target);
+		let targetUser = this.targetUser;
+		if (!targetUser) return this.sendReply("User '" + this.targetUsername + "' does not exist.");
+		if (target.length > 300) {
+			return this.sendReply("The reason is too long. It cannot exceed 300 characters.");
+		}
+
+		let muteDuration = 30 * 24 * 60 * 60 * 1000;
+		if (!this.can('mute', targetUser, room)) return false;
+		let canBeMutedFurther = ((room.getMuteTime(targetUser) || 0) <= (muteDuration * 5 / 6));
+		if ((room.isMuted(targetUser) && !canBeMutedFurther) || targetUser.locked || !targetUser.connected) {
+			let problem = " but was already " + (!targetUser.connected ? "offline" : targetUser.locked ? "locked" : "muted");
+			if (!target) {
+				return this.privateModCommand("(" + targetUser.name + " would be muted by " + user.name + problem + ".)");
+			}
+			return this.addModCommand("" + targetUser.name + " would be muted by " + user.name + problem + "." + (target ? " (" + target + ")" : ""));
+		}
+
+		if (targetUser in room.users) targetUser.popup("|modal|" + user.name + " has muted you in " + room.id + " for a month. " + target);
+		this.addModCommand("" + targetUser.name + " was muted by " + user.name + " for a month." + (target ? " (" + target + ")" : ""));
+		if (targetUser.autoconfirmed && targetUser.autoconfirmed !== targetUser.userid) this.privateModCommand("(" + targetUser.name + "'s ac account: " + targetUser.autoconfirmed + ")");
+		this.add('|unlink|' + toId(this.inputUsername));
+
+		room.mute(targetUser, muteDuration, false);
+	},
+	ym: 'yearmute',
+	yearmute: function (target, room, user, connection, cmd) {
+		if (!target) return this.errorReply("Usage: /ym [user], [reason].");
+		if (!this.canTalk()) return this.sendReply("You cannot do this while unable to talk.");
+
+		target = this.splitTarget(target);
+		let targetUser = this.targetUser;
+		if (!targetUser) return this.sendReply("User '" + this.targetUsername + "' does not exist.");
+		if (target.length > 300) {
+			return this.sendReply("The reason is too long. It cannot exceed 300 characters.");
+		}
+
+		let muteDuration = 365 * 24 * 60 * 60 * 1000;
+		if (!this.can('mute', targetUser, room)) return false;
+		let canBeMutedFurther = ((room.getMuteTime(targetUser) || 0) <= (muteDuration * 5 / 6));
+		if ((room.isMuted(targetUser) && !canBeMutedFurther) || targetUser.locked || !targetUser.connected) {
+			let problem = " but was already " + (!targetUser.connected ? "offline" : targetUser.locked ? "locked" : "muted");
+			if (!target) {
+				return this.privateModCommand("(" + targetUser.name + " would be muted by " + user.name + problem + ".)");
+			}
+			return this.addModCommand("" + targetUser.name + " would be muted by " + user.name + problem + "." + (target ? " (" + target + ")" : ""));
+		}
+
+		if (targetUser in room.users) targetUser.popup("|modal|" + user.name + " has muted you in " + room.id + " for a year. " + target);
+		this.addModCommand("" + targetUser.name + " was muted by " + user.name + " for a year." + (target ? " (" + target + ")" : ""));
+		if (targetUser.autoconfirmed && targetUser.autoconfirmed !== targetUser.userid) this.privateModCommand("(" + targetUser.name + "'s ac account: " + targetUser.autoconfirmed + ")");
+		this.add('|unlink|' + toId(this.inputUsername));
+
+		room.mute(targetUser, muteDuration, false);
+	},
+	staffmute: "authoritymute",
+	authoritymute: function (target, room, user, connection, cmd) {
+		if (!target) return this.errorReply("Usage: /authoritymute [user], [reason].");
+		if (!this.canTalk()) return this.sendReply("You cannot do this while unable to talk.");
+
+		target = this.splitTarget(target);
+		let targetUser = this.targetUser;
+		if (!targetUser) return this.sendReply("User '" + this.targetUsername + "' does not exist.");
+		if (target.length > 300) {
+			return this.sendReply("The reason is too long. It cannot exceed 300 characters.");
+		}
+
+		let muteDuration = 0.45 * 60 * 1000;
+		if (!this.can('mute', targetUser, room)) return false;
+		let canBeMutedFurther = ((room.getMuteTime(targetUser) || 0) <= (muteDuration * 5 / 6));
+		if ((room.isMuted(targetUser) && !canBeMutedFurther) || targetUser.locked || !targetUser.connected) {
+			let problem = " but was already " + (!targetUser.connected ? "offline" : targetUser.locked ? "locked" : "muted");
+			if (!target) {
+				return this.privateModCommand("(" + targetUser.name + " would be muted by " + user.name + problem + ".)");
+			}
+			return this.addModCommand("" + targetUser.name + " would be muted by " + user.name + problem + "." + (target ? " (" + target + ")" : ""));
+		}
+
+		if (targetUser in room.users) targetUser.popup("|modal|" + user.name + " has muted you in " + room.id + " for 45 seconds. " + target);
+		this.addModCommand("" + targetUser.name + " was muted by " + user.name + " for 45 seconds." + (target ? " (" + target + ")" : ""));
+		if (targetUser.autoconfirmed && targetUser.autoconfirmed !== targetUser.userid) this.privateModCommand("(" + targetUser.name + "'s ac account: " + targetUser.autoconfirmed + ")");
+		this.add('|unlink|' + toId(this.inputUsername));
+
+		room.mute(targetUser, muteDuration, false);
+	},
 	gclearall: 'globalclearall',
 	globalclearall: function (target, room, user) {
 		if (!this.can('gdeclare')) return false;
@@ -108,12 +316,13 @@ exports.commands = {
 	},
 	kickhelp: ["/kick - Kick a user out of a room. Requires: % @ # & ~"],
 
+
 	masspm: 'pmall',
 	pmall: function (target, room, user) {
 		if (!this.can('pmall')) return false;
 		if (!target) return this.parse('/help pmall');
 
-		let pmName = ' Server PM [Do not reply]';
+		let pmName = '~Server PM [Do not reply]';
 
 		Users.users.forEach(function (user) {
 			let message = '|pm|' + pmName + '|' + user.getIdentity() + '|' + target;
@@ -122,21 +331,21 @@ exports.commands = {
 	},
 	pmallhelp: ["/pmall [message] - PM all users in the server."],
 
-	staffpm: 'pmallstaff',
-	pmstaff: 'pmallstaff',
-	pmallstaff: function (target, room, user) {
+	authoritypm: 'pmallauthority',
+	pmauthority: 'pmallauthority',
+	pmallauthority: function (target, room, user) {
 		if (!this.can('forcewin')) return false;
-		if (!target) return this.parse('/help pmallstaff');
+		if (!target) return this.parse('/help pmallauthority');
 
-		let pmName = ' Staff PM [Do not reply]';
+		let pmName = '~authority PM [Do not reply]';
 
 		Users.users.forEach(function (user) {
-			if (!user.isStaff) return;
+			if (!user.isauthority) return;
 			let message = '|pm|' + pmName + '|' + user.getIdentity() + '|' + target;
 			user.send(message);
 		});
 	},
-	pmallstaffhelp: ["/pmallstaff [message] - Sends a PM to every staff member online."],
+	pmallauthorityhelp: ["/pmallauthority [message] - Sends a PM to every authority member online."],
 
 	d: 'poof',
 	cpoof: 'poof',
@@ -187,22 +396,17 @@ exports.commands = {
 			let regdate = body.split('<small>')[1].split('</small>')[0].replace(/(<em>|<\/em>)/g, '');
 			if (regdate === '(Unregistered)') {
 				this.sendReplyBox(colorize + " is not registered.");
-			} else if (regdate === '(Account disabled)') {
+			}
+			else if (regdate === '(Account disabled)') {
 				this.sendReplyBox(colorize + "'s account is disabled.");
-			} else {
+			}
+			else {
 				this.sendReplyBox(colorize + " was registered on " + regdate.slice(7) + ".");
 			}
 			room.update();
 		}.bind(this));
 	},
 	regdatehelp: ["/regdate - Please specify a valid username."],
-
-	sb: 'showdownboilerplate',
-	showdownboilerplate: function (target, room, user) {
-		if (!this.runBroadcast()) return;
-		this.sendReply("|raw|This server uses <a href='https://github.com/CreaturePhil/Showdown-Boilerplate'>Showdown-Boilerplate</a>.");
-	},
-	showdownboilerplatehelp: ["/showdownboilerplate - Links to the Showdown-Boilerplate repository on Github."],
 
 	seen: function (target, room, user) {
 		if (!this.runBroadcast()) return;
@@ -234,7 +438,8 @@ exports.commands = {
 
 		if (Config.tellrank === 'autoconfirmed' && !user.autoconfirmed) {
 			return this.popupReply("You must be autoconfirmed to send an offline message.");
-		} else if (!Config.tellrank || Config.groupsranking.indexOf(user.group) < Config.groupsranking.indexOf(Config.tellrank)) {
+		}
+		else if (!Config.tellrank || Config.groupsranking.indexOf(user.group) < Config.groupsranking.indexOf(Config.tellrank)) {
 			return this.popupReply("You cannot send an offline message because offline messaging is " +
 				(!Config.tellrank ? "disabled" : "only available to users of rank " + Config.tellrank + " and above") + ".");
 		}
@@ -246,7 +451,8 @@ exports.commands = {
 		if (!sendSuccess) {
 			if (sendSuccess === false) {
 				return this.popupReply("User " + this.targetUsername + " has too many offline messages queued.");
-			} else {
+			}
+			else {
 				return this.popupReply("You have too many outgoing offline messages queued. Please wait until some have been received or have expired.");
 			}
 		}
@@ -255,26 +461,26 @@ exports.commands = {
 			"|/text This user is currently offline. Your message will be delivered when they are next online.");
 	},
 	tellhelp: ["/tell [username], [message] - Send a message to an offline user that will be received when they log in."],
-	permaban: function (target, rooms, user){
-		if(!this.userid === 'deathlyplays' || !this.userid === 'execute' || this.userid === 'gyaratoast') return false;
-	let parts = target.split(',');
-	if(!parts[1]) return this.errorReply('/PERMABAN (USER), (IP) - PREVENTS A USER FROM LOGGING ONTO THE SERVER. This is extremely powerful and should only be used sparingly. Seriously DO NOT use this unless we HAVE to.');
-	let ip = parts[1].trim();
-	let userid = parts[0].toLowerCase();
-    Db('permaban').set(ip, userid);
-    this.sendReply('This user has been permabanned from the server.');
-    Monitor.log("[CrisisMonitor] " + userid + " was perma banned by " + user.name + ".");
+	permaban: function (target, rooms, user) {
+		if (!this.userid === 'insist' || !this.userid === 'kawaiistufful') return false;
+		let parts = target.split(',');
+		if (!parts[1]) return this.errorReply('/PERMABAN (USER), (IP) - PREVENTS A USER FROM LOGGING ONTO THE SERVER. This is extremely powerful and should only be used sparingly. Seriously DO NOT use this unless we HAVE to.');
+		let ip = parts[1].trim();
+		let userid = parts[0].toLowerCase();
+		Db('permaban').set(ip, userid);
+		this.sendReply('This user has been permabanned from the server.');
+		Monitor.log("[CrisisMonitor] " + userid + " was perma banned by " + user.name + ".");
 	},
-	
-	unpermaban:function (target, room, user){
-	if(!target) return this.errorReply('USAGE: /UNPERMABAN (USER)');
-	if(!Db('permaban').has(target)) return this.errorReply('This user is not permabanned from squad.');
-	Db('permaban').delete(target);
-	this.sendReply('This user has been unpermabanned.');
-	    Monitor.log("[CrisisMonitor] " + target + " was unpermabanned by " + user.name + ".");;
+
+	unpermaban: function (target, room, user) {
+		if (!target) return this.errorReply('USAGE: /UNPERMABAN (USER)');
+		if (!Db('permaban').has(target)) return this.errorReply('This user is not permabanned from Exiled.');
+		Db('permaban').delete(target);
+		this.sendReply('This user has been unpermabanned.');
+		Monitor.log("[CrisisMonitor] " + target + " was unpermabanned by " + user.name + ".");;
 	},
 	flogout: 'forcelogout',
-	forcelogout: function(target, room, user) {
+	forcelogout: function (target, room, user) {
 		if (!user.can('hotpatch')) return;
 		if (!this.canTalk()) return false;
 		if (!target) return this.sendReply('/forcelogout [username], [reason] OR /flogout [username], [reason] - You do not have to add a reason');
@@ -283,7 +489,6 @@ exports.commands = {
 		if (!targetUser) {
 			return this.sendReply('User ' + this.targetUsername + ' not found.');
 		}
-		if (targetUser.can('hotpatch')) return this.sendReply('You cannot force logout another Admin - nice try. Chump.');
 		this.logModCommand('' + targetUser.name + ' was forcibly logged out by ' + user.name + '.' + (target ? " (" + target + ")" : ""));
 		targetUser.resetName();
 	},
@@ -303,10 +508,12 @@ exports.commands = {
 			if (Config.groupsranking.indexOf(target) > -1 && target !== '#') {
 				if (Config.groupsranking.indexOf(target) <= Config.groupsranking.indexOf(user.group)) {
 					tar = target;
-				} else {
+				}
+				else {
 					this.sendReply('The group symbol you have tried to use is of a higher authority than you have access to. Defaulting to \' \' instead.');
 				}
-			} else {
+			}
+			else {
 				this.sendReply('You have tried to use an invalid character as your auth symbol. Defaulting to \' \' instead.');
 			}
 		}

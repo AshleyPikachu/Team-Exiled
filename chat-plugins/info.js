@@ -32,7 +32,7 @@ exports.commands = {
 			return this.errorReply("User " + this.targetUsername + " not found.");
 		}
 		if (showAll && !user.trusted && targetUser !== user) {
-			return this.errorReply("/alts - Access denied.");
+			return this.errorReply(`/${cmd} - Access denied.`);
 		}
 
 		let buf = Chat.html`<strong class="username"><small style="display:none">${targetUser.group}</small>${targetUser.name}</strong> `;
@@ -59,7 +59,8 @@ exports.commands = {
 			let targetRoom = Rooms.get(roomid);
 
 			let authSymbol = (targetRoom.auth && targetRoom.auth[targetUser.userid] ? targetRoom.auth[targetUser.userid] : '');
-			let output = `${authSymbol}<a href="/${roomid}">${roomid}</a>`;
+			let battleTitle = (roomid.battle ? ` title="${roomid.title}"` : '');
+			let output = `${authSymbol}<a href="/${roomid}"${battleTitle}>${roomid}</a>`;
 			if (targetRoom.isPrivate === true) {
 				if (targetRoom.modjoin === '~') return;
 				if (privaterooms) privaterooms += " | ";
@@ -140,37 +141,24 @@ exports.commands = {
 		}
 
 		if (user.can('alts', targetUser) || (room.isPrivate !== true && user.can('mute', targetUser, room) && targetUser.userid in room.users)) {
-			let roomPunishments = ``;
-			for (let i = 0; i < Rooms.global.chatRooms.length; i++) {
-				const curRoom = Rooms.global.chatRooms[i];
-				if (!curRoom || curRoom.isPrivate === true) continue;
-				let punishment = Punishments.roomIps.nestedGet(curRoom.id, targetUser.latestIp);
-				if (!punishment) {
-					punishment = Punishments.roomUserids.nestedGet(curRoom.id, targetUser.userid);
-				}
-				let punishDesc = ``;
-				if (punishment) {
-					const [punishType, userid, expireTime, reason] = punishment;
-					punishDesc = Punishments.roomPunishmentTypes.get(punishType);
-					if (!punishDesc) punishDesc = `punished`;
-					if (userid !== targetUser.userid) punishDesc += ` as ${userid}`;
+			let punishments = Punishments.getRoomPunishments(targetUser);
 
+			if (punishments.length) {
+				buf += `<br />Room punishments: `;
+
+				buf += punishments.map(([room, punishment]) => {
+					const [punishType, punishUserid, expireTime, reason] = punishment;
+					let punishDesc = Punishments.roomPunishmentTypes.get(punishType);
+					if (!punishDesc) punishDesc = `punished`;
+					if (punishUserid !== targetUser.userid) punishDesc += ` as ${punishUserid}`;
 					let expiresIn = new Date(expireTime).getTime() - Date.now();
-					let expiresDays = Math.round(expiresIn / 1000 / 60 / 60 / 24);
-					if (expiresIn > 1) punishDesc += ` for ${expiresDays} day${Chat.plural(expiresDays)}`;
+					let expireString = Chat.toDurationString(expiresIn, {precision: 1});
+					punishDesc += ` for ${expireString}`;
+
 					if (reason) punishDesc += `: ${reason}`;
-				} else {
-					let muted = curRoom.isMuted(targetUser);
-					if (muted) {
-						punishDesc = `muted`;
-						if (muted !== targetUser.userid) punishDesc += ` as ${muted}`;
-					}
-				}
-				if (!punishDesc) continue;
-				if (roomPunishments) roomPunishments += `, `;
-				roomPunishments += `<a href="/${curRoom}">${curRoom}</a> (${punishDesc})`;
+					return `<a href="/${room}">${room}</a> (${punishDesc})`;
+				}).join(', ');
 			}
-			if (roomPunishments) buf += `<br />Room punishments: ` + roomPunishments;
 		}
 		this.sendReplyBox(buf);
 	},
@@ -183,7 +171,11 @@ exports.commands = {
 			return this.errorReply("/checkpunishment - Access denied.");
 		}
 		let userid = toId(target);
-		let buf = Chat.html`<strong class="username">${userid}</strong> <em style="color:gray">(offline)</em><br /><br />`;
+		if (!userid) return this.errorReply("Please enter a valid username.");
+		let targetUser = Users(userid);
+		let buf = Chat.html`<strong class="username">${target}</strong>`;
+		if (!targetUser || !targetUser.connected) buf += ` <em style="color:gray">(offline)</em>`;
+		buf += `<br /><br />`;
 		let atLeastOne = false;
 
 		let punishment = Punishments.userids.get(userid);
@@ -205,29 +197,23 @@ exports.commands = {
 			}
 		}
 
-		let roomPunishments = ``;
-		for (let i = 0; i < Rooms.global.chatRooms.length; i++) {
-			const curRoom = Rooms.global.chatRooms[i];
-			if (!curRoom || curRoom.isPrivate === true) continue;
-			let punishment = Punishments.roomUserids.nestedGet(curRoom.id, userid);
-			let punishDesc = ``;
-			if (punishment) {
-				const [punishType, punishUserid, expireTime, reason] = punishment;
-				punishDesc = Punishments.roomPunishmentTypes.get(punishType);
-				if (!punishDesc) punishDesc = `punished`;
-				if (punishUserid !== userid) punishDesc += ` as ${punishUserid}`;
+		let punishments = Punishments.getRoomPunishments(targetUser);
 
+		if (punishments && punishments.length) {
+			buf += `<br />Room punishments: `;
+
+			buf += punishments.map(([room, punishment]) => {
+				const [punishType, punishUserid, expireTime, reason] = punishment;
+				let punishDesc = Punishments.roomPunishmentTypes.get(punishType);
+				if (!punishDesc) punishDesc = `punished`;
+				if (punishUserid !== targetUser.userid) punishDesc += ` as ${punishUserid}`;
 				let expiresIn = new Date(expireTime).getTime() - Date.now();
-				let expiresDays = Math.round(expiresIn / 1000 / 60 / 60 / 24);
-				if (expiresIn > 1) punishDesc += ` for ${expiresDays} day${Chat.plural(expiresDays)}`;
+				let expireString = Chat.toDurationString(expiresIn, {precision: 1});
+				punishDesc += ` for ${expireString}`;
+
 				if (reason) punishDesc += `: ${reason}`;
-			}
-			if (!punishDesc) continue;
-			if (roomPunishments) roomPunishments += `, `;
-			roomPunishments += `<a href="/${curRoom}">${curRoom}</a> (${punishDesc})`;
-		}
-		if (roomPunishments) {
-			buf += `Room punishments: ` + roomPunishments;
+				return `<a href="/${room}">${room}</a> (${punishDesc})`;
+			}).join(', ');
 			atLeastOne = true;
 		}
 		if (!atLeastOne) {
@@ -318,7 +304,6 @@ exports.commands = {
 	dex: 'data',
 	pokedex: 'data',
 	data: function (target, room, user, connection, cmd) {
-		if (toId(target) === 'constructor') return this.errorReply("Invalid data lookup command.");
 		if (!this.runBroadcast()) return;
 
 		let buffer = '';
@@ -399,7 +384,6 @@ exports.commands = {
 				details = {
 					"Priority": move.priority,
 					"Gen": move.gen,
-					"Contest Condition": move.contestType,
 				};
 
 				if (move.secondary || move.secondaries) details["&#10003; Secondary effect"] = "";
@@ -418,6 +402,35 @@ exports.commands = {
 
 				if (move.id === 'snatch') isSnatch = true;
 				if (move.id === 'mirrormove') isMirrorMove = true;
+
+				if (move.zMovePower) {
+					details["Z-Power"] = move.zMovePower;
+				} else if (move.zMoveEffect) {
+					details["Z-Effect"] = {
+						'clearnegativeboost': "Restores negative stat stages to 0",
+						'crit1': "Crit ratio +1",
+						'heal': "Restores HP 100%",
+						'curse': "Restores HP 100% if user is Ghost type, otherwise Attack +1",
+						'redirect': "Redirects opposing attacks to user",
+						'healreplacement': "Restores replacement's HP 100%",
+					}[move.zMoveEffect];
+				} else if (move.zMoveBoost) {
+					details["Z-Effect"] = "";
+					let boost = move.zMoveBoost;
+					let stats = {atk: 'Attack', def: 'Defense', spa: 'Sp. Atk', spd: 'Sp. Def', spe: 'Speed', accuracy: 'Accuracy', evasion: 'Evasiveness'};
+					for (let i in boost) {
+						details["Z-Effect"] += " " + stats[i] + " +" + boost[i];
+					}
+				} else if (move.isZ) {
+					details["&#10003; Z-Move"] = "";
+					details["Z-Crystal"] = Tools.getItem(move.isZ).name;
+					if (move.basePower !== 1) {
+						details["User"] = Tools.getItem(move.isZ).zMoveUser.join(", ");
+						details["Required Move"] = Tools.getItem(move.isZ).zMoveFrom;
+					}
+				} else {
+					details["Z-Effect"] = "None";
+				}
 
 				details["Target"] = {
 					'normal': "One Adjacent Pok\u00e9mon",
@@ -552,7 +565,7 @@ exports.commands = {
 		buffer.push('<span class="message-effect-weak">Weaknesses</span>: ' + (weaknesses.join(', ') || '<font color=#999999>None</font>'));
 		buffer.push('<span class="message-effect-resist">Resistances</span>: ' + (resistances.join(', ') || '<font color=#999999>None</font>'));
 		buffer.push('<span class="message-effect-immune">Immunities</span>: ' + (immunities.join(', ') || '<font color=#999999>None</font>'));
-		this.sendReplyBox(buffer.join('<br>'));
+		this.sendReplyBox(buffer.join('<br />'));
 	},
 	weaknesshelp: ["/weakness [pokemon] - Provides a Pok\u00e9mon's resistances, weaknesses, and immunities, ignoring abilities.",
 		"/weakness [type 1]/[type 2] - Provides a type or type combination's resistances, weaknesses, and immunities, ignoring abilities.",
@@ -616,7 +629,7 @@ exports.commands = {
 		}
 
 		let hasThousandArrows = source.id === 'thousandarrows' && defender.types.includes('Flying');
-		let additionalInfo = hasThousandArrows ? "<br>However, Thousand Arrows will be 1x effective on the first hit." : "";
+		let additionalInfo = hasThousandArrows ? "<br />However, Thousand Arrows will be 1x effective on the first hit." : "";
 
 		this.sendReplyBox("" + atkName + " is " + factor + "x effective against " + defName + "." + additionalInfo);
 	},
@@ -725,7 +738,7 @@ exports.commands = {
 			buffer.push('<span class="message-effect-resist">Neutral</span>: ' + (neutral.join(', ') || '<font color=#999999>None</font>'));
 			buffer.push('<span class="message-effect-weak">Resists</span>: ' + (resists.join(', ') || '<font color=#999999>None</font>'));
 			buffer.push('<span class="message-effect-immune">Immunities</span>: ' + (immune.join(', ') || '<font color=#999999>None</font>'));
-			return this.sendReplyBox(buffer.join('<br>'));
+			return this.sendReplyBox(buffer.join('<br />'));
 		} else {
 			let buffer = '<div class="scrollable"><table cellpadding="1" width="100%"><tr><th></th>';
 			let icon = {};
@@ -793,10 +806,10 @@ exports.commands = {
 			buffer += '</table></div>';
 
 			if (hasThousandArrows) {
-				buffer += "<br><b>Thousand Arrows has neutral type effectiveness on Flying-type Pok\u00e9mon if not already smacked down.";
+				buffer += "<br /><b>Thousand Arrows has neutral type effectiveness on Flying-type Pok\u00e9mon if not already smacked down.";
 			}
 
-			this.sendReplyBox('Coverage for ' + sources.join(' + ') + ':<br>' + buffer);
+			this.sendReplyBox('Coverage for ' + sources.join(' + ') + ':<br />' + buffer);
 		}
 	},
 	coveragehelp: ["/coverage [move 1], [move 2] ... - Provides the best effectiveness match-up against all defending types for given moves or attacking types",
@@ -905,6 +918,10 @@ exports.commands = {
 			if (!evSet) {
 				if (lowercase === 'invested' || lowercase === 'max') {
 					evSet = true;
+					if (lowercase === 'max' && !natureSet) {
+						nature = 1.1;
+						natureSet = true;
+					}
 				} else if (lowercase === 'uninvested') {
 					ev = 0;
 					evSet = true;
@@ -996,7 +1013,6 @@ exports.commands = {
 		}
 		return this.sendReplyBox('Base ' + statValue + (calcHP ? ' HP ' : ' ') + 'at level ' + level + ' with ' + iv + ' IVs, ' + ev + (nature === 1.1 ? '+' : (nature === 0.9 ? '-' : '')) + ' EVs' + (modifier > 0 && !calcHP ? ' at ' + (positiveMod ? '+' : '-') + modifier : '') + ': <b>' + Math.floor(output) + '</b>.');
 	},
-
 	statcalchelp: ["/statcalc [level] [base stat] [IVs] [nature] [EVs] [modifier] (only base stat is required) - Calculates what the actual stat of a Pokémon is with the given parameters. For example, '/statcalc lv50 100 30iv positive 252ev scarf' calculates the speed of a base 100 scarfer with HP Ice in Battle Spot, and '/statcalc uninvested 90 neutral' calculates the attack of an uninvested Crobat.",
 		"!statcalc [level] [base stat] [IVs] [nature] [EVs] [modifier] (only base stat is required) - Shows this information to everyone.",
 		"Inputing 'hp' as an argument makes it use the formula for HP. Instead of giving nature, '+' and '-' can be appended to the EV amount (e.g. 252+ev) to signify a boosting or inhibiting nature."],
@@ -1025,16 +1041,22 @@ exports.commands = {
 	groups: function (target, room, user) {
 		if (!this.runBroadcast()) return;
 		this.sendReplyBox(
+			"<b>Room Rank</b><br />" +
 			"+ <b>Voice</b> - They can use ! commands like !groups, and talk during moderated chat<br />" +
-			"% <b>Driver</b> - The above, and they can mute. Global % can also lock users and check for alts<br />" +
-			"@ <b>Moderator</b> - The above, and they can ban users<br />" +
+			"% <b>Driver</b> - The above, and they can mute and warn<br />" +
+			"@ <b>Moderator</b> - The above, and they can room ban users<br />" +
 			"* <b>Bot</b> - Like Moderator, but makes it clear that this user is a bot<br />" +
-			"&amp; <b>Leader</b> - The above, and they can promote to moderator and force ties<br />" +
-			"# <b>Room Owner</b> - They are leaders of the room and can almost totally control it<br />" +
-			"~ <b>Administrator</b> - They can do anything, like change what this message says"
+			"# <b>Room Owner</b> - They are leaders of the room and can almost totally control it<br /><br />" +
+			"<b>Global Rank</b><br />" +
+			"+ <b>Global Voice</b> - They can use ! commands like !groups, and talk during moderated chat<br />" +
+			"% <b>Global Driver</b> - The above, and they can also lock users and check for alts<br />" +
+			"@ <b>Global Moderator</b> - The above, and they can globally ban users<br />" +
+			"* <b>Global Bot</b> - Like Moderator, but makes it clear that this user is a bot<br />" +
+			"&amp; <b>Global Leader</b> - The above, and they can promote to global moderator and force ties<br />" +
+			"~ <b>Global Administrator</b> -  They can do anything, like change what this message says"
 		);
 	},
-	groupshelp: ["/groups - Explains what the + % @ # & next to people's names mean.",
+	groupshelp: ["/groups - Explains what the symbols (like % and @) before people's names mean.",
 		"!groups - Shows everyone that information. Requires: + % @ * # & ~"],
 
 	'!opensource': true,
@@ -1250,7 +1272,9 @@ exports.commands = {
 		for (let i = 0; i < formatList.length; i++) {
 			let format = Tools.getFormat(formatList[i]);
 			let sectionId = toId(format.section);
-			if (targetId && !format[targetId + 'Show'] && sectionId !== targetId && format.id === formatList[i] && !format.id.startsWith(targetId)) continue;
+			let formatId = format.id;
+			if (!/^gen\d+/.test(targetId)) formatId = formatId.replace(/^gen\d+/, ''); // skip generation prefix if it wasn't provided
+			if (targetId && !format[targetId + 'Show'] && sectionId !== targetId && format.id === formatList[i] && !formatId.startsWith(targetId)) continue;
 			if (isOMSearch && format.id.startsWith('gen') && ['ou', 'uu', 'ru', 'ubers', 'lc', 'customgame', 'doublescustomgame', 'gbusingles', 'gbudoubles'].includes(format.id.slice(4))) continue;
 			if (isOMSearch && (format.id === 'gen5nu')) continue;
 			totalMatches++;
@@ -1334,6 +1358,7 @@ exports.commands = {
 			"- /tour create <em>format</em>, roundrobin: Creates a new round robin tournament in the current room.<br />" +
 			"- /tour end: Forcibly ends the tournament in the current room<br />" +
 			"- /tour start: Starts the tournament in the current room<br />" +
+			"- /tour banlist [pokemon], [talent], [...]: Bans moves, abilities, Pokémon or items from being used in a tournament (it must be created first)<br />" +
 			"<br />" +
 			"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/threads/3570628/#post-6777489\">tournaments guide</a><br />" +
 			"</div>"
@@ -1824,8 +1849,10 @@ exports.commands = {
 
 		this.addBox(target);
 	},
-	htmlboxhelp: ["/htmlbox [message] - Displays a message, parsing HTML code contained.",
-	"!htmlbox [message] - Shows everyone a message, parsing HTML code contained. Requires: ~ & * with global authority OR # * with room authority"],
+	htmlboxhelp: [
+		"/htmlbox [message] - Displays a message, parsing HTML code contained.",
+		"!htmlbox [message] - Shows everyone a message, parsing HTML code contained. Requires: ~ & #",
+	],
 };
 
 process.nextTick(() => {

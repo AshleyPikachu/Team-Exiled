@@ -1,52 +1,10 @@
 'use strict';
 
-global.isDev = function (user) {
-	if (!user) return;
-	if (typeof user === 'Object') user = user.userid;
-	let dev = Db('devs').get(toId(user));
-	if (dev === 1) return true;
-	return false;
-};
-
 exports.commands = {
-	dev: function (target, room, user) {
-        let parts = target.split(', ');
-        if (!target) return this.parse("/help dev");
-        let username = toId(parts[1]);
-
-        switch (toId(parts[0])) {
-            case 'give':
-                if (!this.can('hotpatch')) return false;
-                if (parts[1] < 1) return false;
-                if (!parts[1]) return false;
-                if (isDev(username)) return this.errorReply(user.name + " is already a dev.");
-                Db('devs').set(username, 1);
-                user.send('|popup|' + toId(parts[1]) + " has recieved Developer status from " + user.name + "");
-                this.sendReply(username + ' has been granted with dev status.');
-                break;
-
-            case 'take':
-                if (!this.can('hotpatch')) return false;
-                if (!parts[1] < 1) return false;
-                if (!parts[1]) return false;
-                Db('devs').delete(username);
-                user.send('|popup|' + toId(parts[1]) + " has taken Developer status from " + user.name + "");
-                this.sendReply(toId(parts[1]) + '\'s dev status has been taken.');
-                break;
-
-            case 'list':
-                if (!this.can('declare')) return false;
-                if (!Object.keys(Db('devs').object()).length) return this.errorReply('There seems to be no user with dev status.');
-                this.sendReplyBox('<center><b><u>DEV Users</u></b></center>' + '<br /><br />' + Object.keys(Db('devs').object()).join('<br />'));
-                break;
-
-
-            default:
-                this.parse("/help dev");
-        }
-
+    devs: function (target, room, user) {
+        if (!this.runBroadcast()) return;
+        this.sendReplyBox('<div style="background-color: Black ; border: Red solid 2px ; height: 100px"><center><img style="transform: scaleX(-1);" src="http://pldh.net/media/pokemon/gen5/blackwhite_animated_front/491.gif" height="84" width="95" align="left"><img src="http://i.imgur.com/PgQAAI1.png" height="74" width="250"><img src="http://pldh.net/media/pokemon/gen5/blackwhite_animated_front/491.gif" height="84" width="95" align="right"></center></div><table style="text-align: center ; background-color: Black ; border: Red solid 2px ; width: 100% ; border-collapse: collapse"><tbody><tr><td style="border: Red solid 2px ; color: White ; width: 22%"><img style="transform: scaleX(-1);" src="https://avatars2.githubusercontent.com/u/20971990?v=3&s=460" height="80" width="80"><br>Insist</td><td style="border: Red solid 2px ; color: White ; width: 22%"><img src="http://i.imgur.com/C3bFaZT.png" height="80" width="80"><br>Ninetales >n<</td><td style="border: Red solid 2px ; color: White ; width: 22%"><img style="transform: scaleX(-1);" src="https://files.graphiq.com/620/media/images/Volcanion_5208962.png" height="80" width="80"><br>Volco</td><td style="border: Red solid 2px ; color: White ; width: 22%"><img src="http://i.imgur.com/UyDP7bh.png" height="80" width="80"><br>Mewth</td></tr></tbody></table>');
     },
-    devhelp: ["Give: /dev give, user - Gives user developer status.",
-    		  "Take: /dev take, user - Takes developer status from user.",
-    		  "List: /dev list - Lists all users with developer status."]
-};
+    devshelp: ["/devs - Shows the coders of the server."],
+
+}

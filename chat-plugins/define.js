@@ -7,13 +7,17 @@ let request = require('request');
 let urbanCache;
 try {
 	urbanCache = JSON.parse(fs.readFileSync('../config/udcache.json', 'utf8'));
-} catch (e) {
+}
+catch (e) {
 	urbanCache = {};
 }
 
 function cacheUrbanWord(word, definition) {
 	word = word.toLowerCase().replace(/ /g, '');
-	urbanCache[word] = {"definition": definition, "time": Date.now()};
+	urbanCache[word] = {
+		"definition": definition,
+		"time": Date.now()
+	};
 	fs.writeFile('config/udcache.json', JSON.stringify(urbanCache));
 }
 
@@ -28,7 +32,7 @@ exports.commands = {
 
 		let options = {
 			url: 'http://api.wordnik.com:80/v4/word.json/' + target + '/definitions?limit=3&sourceDictionaries=all' +
-			'&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5',
+				'&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5',
 		};
 
 		let self = this;
@@ -40,7 +44,8 @@ exports.commands = {
 				if (!page[0]) {
 					self.sendReplyBox("No results for <b>\"" + target + "\"</b>.");
 					return room.update();
-				} else {
+				}
+				else {
 					let count = 1;
 					for (let u in page) {
 						if (count > 3) break;
@@ -88,7 +93,8 @@ exports.commands = {
 				if (page['result_type'] === 'no_results') {
 					self.sendReplyBox("No results for <b>\"" + Chat.escapeHTML(target) + "\"</b>.");
 					return room.update();
-				} else {
+				}
+				else {
 					if (!definitions[0]['word'] || !definitions[0]['definition']) {
 						self.sendReplyBox("No results for <b>\"" + Chat.escapeHTML(target) + "\"</b>.");
 						return room.update();

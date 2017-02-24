@@ -116,7 +116,7 @@ const deck = ["R1",
 //declare html for DRAW and PASS button.
 const drawButton = '<center><button style="background: black; border: 2px solid rgba(33 , 68 , 72 , 0.59) ; width: 56px ; border-radius: 5px , auto" name="send" value="/uno draw"><font color="white">Draw</font></button></center>';
 const passButton = '<center><button style="background: red; border: 2px solid rgba(33 , 68 , 72 , 0.59) ; width: 56px ; border-radius: 5px , auto" name="send" value="/uno pass"><font color="white">PASS</font></button></center>';
- 
+
 //get colour for html'd text and backgrounds
 function getColour(colour, background) {
     if (!background && colour === "Y") return "orange";
@@ -129,7 +129,7 @@ function getColour(colour, background) {
     };
     return colourTable[colour];
 }
- 
+
 //build html button for the card
 function buildCard(id, notClickable) {
     let colour = getColour(id.charAt(0), true);
@@ -142,7 +142,7 @@ function buildCard(id, notClickable) {
     let button = "<button " + title + " style=\"background: " + colour + "; border: 2px solid rgba(33 , 68 , 72 , 0.59) ; height: 80px ; width: 56px ; border-radius: 5px , auto\"" + clickable + buttonFace + "</button>";
     return button;
 }
- 
+
 //build an display of multiple cards
 function buildHand(array, notClickable) {
     let hand = [];
@@ -151,8 +151,8 @@ function buildHand(array, notClickable) {
     });
     return hand.join("&nbsp;");
 }
- 
- 
+
+
 function initDeck(playerCount) {
     playerCount = Math.ceil(playerCount / 7);
     let tDeck = [];
@@ -161,7 +161,7 @@ function initDeck(playerCount) {
     }
     return tDeck;
 }
- 
+
 function shuffleDeck(dArray) {
     let tDeck = [];
     let reiterations = dArray.length;
@@ -172,7 +172,7 @@ function shuffleDeck(dArray) {
     }
     return tDeck;
 }
- 
+
 function getCardName(id, colour) {
     let type = {
         "R": "Red",
@@ -201,8 +201,8 @@ function getCardName(id, colour) {
     if (colour) return "<font color=\"" + type[id.charAt(0)].toLowerCase().replace("yellow", "orange") + "\">" + type[id.charAt(0)] + value[id.slice(1)] + "</font>";
     return type[id.charAt(0)] + value[id.slice(1)];
 }
- 
- 
+
+
 function buildGameScreen(uhtmlid, top, roomid, hand, message, change, pass) {
     let html = (message ? "|uhtmlchange|" + uhtmlid : "|uhtml|" + uhtmlid) + "|";
     //make top card not clickable
@@ -214,16 +214,16 @@ function buildGameScreen(uhtmlid, top, roomid, hand, message, change, pass) {
     message = message ? "<font color=\"red\"><b>" + message + "</b></font>" : "";
     return html + "<table border=1 style=\"border-collapse: collapse;\"><tr><td>&nbsp;<b>Top Card</b>&nbsp;</td><td>&nbsp;<b>Your Hand</b>&nbsp;</td></tr>" + "<tr><td>" + topCard + "</td><td>" + yourHand + "</td></tr><tr><td>" + (pass ? passButton : drawButton) + "</td><td>" + message + "</td></tr></table>";
 }
- 
+
 //for wildcards that summon a colour change
 function getColourChange(buffer, hand, uhtmlid) {
     return "|uhtmlchange|" + uhtmlid + "|<table border=1 style=\"border-collapse: collapse;\"><tr><td>Choose which colour to change to:<br>" + '<button style="background: red; border: 2px solid rgba(33 , 68 , 72 , 0.59) ; width: 80px ; border-radius: 5px , auto" name="send" value="' + buffer + ' R"><font color="white" size=4>Red</font></button></center>' + '<button style="background: yellow; border: 2px solid rgba(33 , 68 , 72 , 0.59) ; width: 80px ; border-radius: 5px , auto" name="send" value="' + buffer + ' Y"><font color="black" size=4>Yellow</font></button></center>' + '<button style="background: blue; border: 2px solid rgba(33 , 68 , 72 , 0.59) ; width: 80px ; border-radius: 5px , auto" name="send" value="' + buffer + ' B"><font color="white" size=4>Blue</font></button></center>' + '<button style="background: green; border: 2px solid rgba(33 , 68 , 72 , 0.59) ; width: 80px ; border-radius: 5px , auto" name="send" value="' + buffer + ' G"><font color="white" size=4>Green</font></button></td></tr>' + '<tr><td>Your Cards: <br>' + buildHand(hand, true) + '</td></tr></table>';
 }
- 
+
 function getUserName(id) {
     return Users(id) ? Users(id).name : id;
 }
- 
+
 class Game {
     constructor(room, playerCap) {
         if (!room.unoGameId) {
@@ -248,24 +248,24 @@ class Game {
         this.uhtmlChange = null;
         this.playerCap = playerCap ? playerCap : null;
     }
- 
+
     init() {
         this.room.add("|uhtml|new" + this.room.unoGameId + "|<div class=\"broadcast-black\"><center><img src=\"http://www.theboardgamefamily.com/wp-content/uploads/2010/12/uno-mobile-game1.jpg\" height=150 width=160><br><font color=white><b>A new game of UNO is starting</b></font><br><br><button style=\"height: 25px ; width: 50px ;\" name=\"send\" value=\"/uno join\">Join</button></center></div>");
     }
- 
+
     join(user) {
         if (this.started) return false;
         let ip = user.latestIp;
         let userid = user.userid;
- 
+
         if (this.playerCap && this.list.length >= this.playerCap) {
             return user.sendTo(this.room, "The game is already full.");
         }
- 
+
         if (userid in this.data || ip in this.joinedIps) {
             return user.sendTo(this.room, "You already have an alt joined.");
         }
- 
+
         this.list.push(userid);
         //init empty hand
         this.data[userid] = [];
@@ -273,7 +273,7 @@ class Game {
         //make join messages clear away after game starts
         this.room.add("|uhtml|init" + this.room.unoGameId + "|" + user.name + " has joined the game.");
     }
- 
+
     start(user) {
         if (this.started) return false;
         if (this.list.length < 2) return user.sendTo(this.room, "There aren't enough players!");
@@ -284,15 +284,15 @@ class Game {
         //get first player
         this.player = this.list[~~(Math.random() * this.list.length)];
         this.room.add("The first player is: " + getUserName(this.player) + ".");
- 
+
         //create the deck
         this.deck = shuffleDeck(initDeck(this.list.length));
- 
+
         //deal the cards
         this.list.forEach(function (u) {
             this.giveCard(u, 7);
         }.bind(this));
- 
+
         //get the top card and put it into discard pile
         while (!this.top || this.top.charAt(0) === "Z") {
             this.top = this.deck.shift();
@@ -301,12 +301,12 @@ class Game {
         //declare the top card
         this.room.add("|uhtml|" + this.room.unoGameId + "card" + this.id + "|" + "The top card is " + buildCard(this.top, true));
         this.uhtmlChange = "|uhtmlchange|" + this.room.unoGameId + "card" + this.id + "|The top card is <b>" + getCardName(this.top, true) + "</b>.";
- 
+
         this.applyEffects();
- 
+
         this.initNextTurn();
     }
- 
+
     giveCard(userid, number, display) {
         if (!number) number = 1;
         let newCards = [];
@@ -330,7 +330,7 @@ class Game {
         //only for draw 1
         if (newCards.length === 1) return newCards[0];
     }
- 
+
     getNextPlayer(number) {
         //make list run over if it's at the last player
         let playerList = this.list.concat(this.list);
@@ -339,7 +339,7 @@ class Game {
         //apply next player
         this.player = playerList[index + (number || 1)];
     }
- 
+
     applyEffects() {
         let effect = this.top.slice(1);
         switch (effect) {
@@ -350,10 +350,12 @@ class Game {
             if (this.id === 0) {
                 this.getNextPlayer();
                 break;
-            } else if (this.list.length === 2) {
+            }
+            else if (this.list.length === 2) {
                 //skip back to the player that played the card
                 this.getNextPlayer();
-            } else {
+            }
+            else {
                 //skip back two slots to the player before the user who played the card
                 this.getNextPlayer(2);
             }
@@ -379,7 +381,7 @@ class Game {
             break;
         }
     }
- 
+
     validatePlay(user, card) {
         //returning false means there are no issues;
         //otherwise this will return a error message which will be displayed to the user when it builds the next control screen.
@@ -403,7 +405,7 @@ class Game {
         if (card.charAt(0) === currentColour || card.slice(1) === currentValue) return false;
         return "The card has to either match the top card's colour or face value.";
     }
- 
+
     play(user, card, change) {
         //check if it's that players turn
         if (this.player !== user.userid) return;
@@ -417,21 +419,21 @@ class Game {
         //shrink last turn's card
         this.room.add(this.uhtmlChange);
         this.clearGameScreen(user);
- 
+
         //clear last draw
         this.lastDraw = null;
- 
+
         //announce the card and the change
         this.room.add("|uhtml|" + this.room.unoGameId + "card" + this.id + "|" + user.name + " played " + buildCard(card, true));
         this.uhtmlChange = "|uhtmlchange|" + this.room.unoGameId + "card" + this.id + "|" + user.name + " played <b>" + getCardName(card, true) + "</b>.";
- 
+
         //move card onto top and discard pile
         this.top = card;
         this.discard.push(card);
- 
+
         //remove the card from the players hand
         this.data[user.userid].splice(this.data[user.userid].indexOf(card), 1);
- 
+
         //count cards
         if (change) {
             this.colourChange = change;
@@ -441,7 +443,7 @@ class Game {
         //move to next player
         this.getNextPlayer();
         this.room.update();
- 
+
         //apply the effects of the current card to the next player in queue.
         this.applyEffects();
         if (this.data[user.userid].length === 1) {
@@ -456,13 +458,14 @@ class Game {
                 Users(u).sendTo(this.room.id, "|uhtml|" + this.room.unoGameId + "uno" + this.id + "|" + opponentButton);
             }
             return;
-        } else if (this.data[user.userid].length === 0) {
+        }
+        else if (this.data[user.userid].length === 0) {
             return this.end(user.name);
         }
         //start next turn
         this.initNextTurn();
     }
- 
+
     draw(user) {
         if (this.player !== user.userid || this.lastDraw) return;
         this.lastDraw = this.giveCard(user.userid, 1);
@@ -472,7 +475,7 @@ class Game {
         this.room.add(user.name + " has drawn a card.");
         this.room.update();
     }
- 
+
     pass(user) {
         if (this.player !== user.userid || !this.lastDraw) return;
         this.room.add(user.name + " has passed.");
@@ -484,27 +487,27 @@ class Game {
         this.lastDraw = null;
         this.initNextTurn();
     }
- 
+
     sendGameScreen(user, message) {
         let display = buildGameScreen(this.room.unoGameId + "display" + this.id, this.top, this.room.id, this.data[user.userid], message ? message : "", this.colourChange, this.lastDraw ? 1 : 0);
         user.sendTo(this.room, display);
     }
- 
+
     clearGameScreen(user) {
         user.sendTo(this.room, "|uhtmlchange|" + this.room.unoGameId + "display" + this.id + "|");
     }
- 
+
     clearTimer() {
         clearTimeout(this.timer);
     }
- 
+
     runDQ() {
         //set a disqualification timer for 90 seconds
         this.timer = setTimeout(function () {
             this.disqualify(this.player);
         }.bind(this), 90000);
     }
- 
+
     initNextTurn() {
         this.room.add(getUserName(this.player) + "'s turn.");
         this.room.update();
@@ -514,7 +517,7 @@ class Game {
         this.sendGameScreen(user);
         this.runDQ();
     }
- 
+
     disqualify(userid) {
         //if there are still players in the game.
         if (this.list.length > 2) {
@@ -533,7 +536,8 @@ class Game {
             }
             this.room.add(getUserName(userid) + " has been disqualified.");
             return true;
-        } else {
+        }
+        else {
             if (this.removePlayer(userid)) {
                 this.room.add(getUserName(userid) + " has been disqualified.");
                 this.end(this.list[0]);
@@ -541,14 +545,14 @@ class Game {
             }
         }
     }
- 
+
     removePlayer(userid) {
         if (this.list.indexOf(userid) === -1) return false;
         this.list.splice(this.list.indexOf(userid), 1);
         delete this.data[userid];
         return true;
     }
- 
+
     parseUNO(user) {
         if (!this.uno) return false;
         if (user.userid === this.uno) {
@@ -557,7 +561,8 @@ class Game {
             this.room.update();
             this.uno = false;
             this.initNextTurn();
-        } else if (this.list.indexOf(user.userid) > -1) {
+        }
+        else if (this.list.indexOf(user.userid) > -1) {
             this.room.add("|raw|" + getUserName(this.uno) + "  was caught for not saying UNO and is forced to draw 2 cards!");
             this.room.add("|uhtmlchange|" + this.room.unoGameId + "uno" + this.id + "|" + getUserName(this.uno) + " was caught!");
             this.giveCard(this.uno, 2, true);
@@ -565,7 +570,7 @@ class Game {
             this.initNextTurn();
         }
     }
- 
+
     end(winner) {
         //hide the start message
         this.clearTimer();
@@ -576,14 +581,17 @@ class Game {
         this.room.add("|uhtmlchange|new" + this.room.unoGameId + "|<div class=\"infobox\">The game has ended.</div>");
         if (!winner) {
             this.room.add("The game of UNO was forcibly ended.");
-        } else {
+        }
+        else {
             this.room.add("Congratulations to " + getUserName(winner) + " for winning the game of UNO!");
+            Exiled.addExp(getUserName(winner), this.room, 8);
+            getUserName(winner).send("You won " + 8 + " exp for winning uno");
         }
         this.room.update();
         delete this.room.game;
     }
 }
- 
+
 exports.commands = {
     uno: {
         new: function (target, room, user) {
@@ -592,7 +600,7 @@ exports.commands = {
             let cap = target ? parseInt(target, 10) : null;
             if (room.game) return this.errorReply("There is already a game in progress in this room.");
             if (cap && cap < 2) return this.errorReply("The player cap has to be at least 2.");
- 
+
             room.game = new Game(room, cap);
             //start message;
             room.game.init();
@@ -625,7 +633,8 @@ exports.commands = {
             let change = null;
             if (card.charAt(0) === "Z" && ["R", "Y", "B", "G"].indexOf(params[0]) > -1) {
                 change = params[0];
-            } else if (card.charAt(0) === "Z") {
+            }
+            else if (card.charAt(0) === "Z") {
                 let uhtmlid = room.unoGameId + "display" + room.game.id;
                 return user.sendTo(room, getColourChange("/uno play " + card, room.game.data[user.userid], uhtmlid));
             }
