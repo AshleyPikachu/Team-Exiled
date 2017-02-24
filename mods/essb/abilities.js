@@ -1,7 +1,7 @@
 'use strict';
 
 exports.BattleAbilities = {
-	//returningavenger
+	//DeathlyPlays :3
 	"cripplingdepression": {
 		id: "cripplingdepression",
 		name: "Crippling Depression",
@@ -529,6 +529,52 @@ exports.BattleAbilities = {
 				this.debug('How to be OP 101 weaken');
 				return this.chainModify(0.5);
 			}
+		},
+	},
+	//abstarfox
+	"hiya": {
+		id: "hiya",
+		name: "Hiya",
+		desc: "Intimidate + Technician + Adaptability + Magic Guard",
+		shortDesc: "Intimidate + Technician + Adaptability + Magic Guard",
+		gen: -1,
+		//intimidate
+		onStart: function(pokemon) {
+			let foeactive = pokemon.side.foe.active;
+			let activated = false;
+			for (let i = 0; i < foeactive.length; i++) {
+				if (!foeactive[i] || !this.isAdjacent(foeactive[i], pokemon)) continue;
+				if (!activated) {
+					this.add('-ability', pokemon, 'Intimidate', 'boost');
+					activated = true;
+				}
+				if (foeactive[i].volatiles['substitute']) {
+					this.add('-immune', foeactive[i], '[msg]');
+				}
+				else {
+					this.boost({
+						atk: -1
+					}, foeactive[i], pokemon);
+				}
+			}
+		},
+		//technician
+		onBasePowerPriority: 8,
+		onBasePower: function(basePower, attacker, defender, move) {
+			if (basePower <= 60) {
+				this.debug('Technician boost');
+				return this.chainModify(1.5);
+			}
+		},
+		//magic guard
+		onDamage: function(damage, target, source, effect) {
+			if (effect.effectType !== 'Move') {
+				return false;
+			}
+		},
+		//adaptability
+		onModifyMove: function(move) {
+			move.stab = 2;
 		},
 	},
 };

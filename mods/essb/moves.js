@@ -1,7 +1,7 @@
 'use strict';
 
 exports.BattleMovedex = {
-    //returningavenger
+    //deathlyplays
     "aquasubscribe": {
         id: "aquasubscribe",
         name: "Aqua Subscribe",
@@ -18,10 +18,10 @@ exports.BattleMovedex = {
         },
         secondary: false,
         category: "Special",
-        onHit: function(target, source, move) {
-            this.add('c|~ReturningAvenger|Subscribe to http://youtube.com/DeathlyPlays');
+        onHit: function (target, source, move) {
+            this.add('c|~Insist|Subscribe to http://youtube.com/DeathlyPlays');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Hydro Pump", target);
         },
@@ -30,6 +30,72 @@ exports.BattleMovedex = {
         accuracy: 100,
         target: "normal",
         type: "Water",
+        zMovePower: 140,
+        contestType: "Cool",
+    },
+    //DeathlyPlays
+    "exiledfromallothers": {
+        id: "exiledfromallothers",
+        name: "Exiled From All Others",
+        basePower: 140,
+        accuracy: 100,
+        pp: 1,
+        secondary: false,
+        category: "Special",
+        isViable: true,
+        isZ: "playniumz",
+        priority: 1,
+        flags: {
+            protect: 1
+        },
+        self: {
+            boosts: {
+                atk: 1,
+                def: 1,
+                spa: 1,
+                spd: 1,
+                spe: 1,
+                accuracy: 1,
+                evasion: 1
+            }
+        },
+        shortDesc: "Like so amazing mannnnn, like look at dem boosts boi",
+        onHit: function (target, source, move) {
+            this.add('c|~Insist|Exiled from all others, we shall become greater than ever before.');
+        },
+        onPrepareHit: function (target, source) {
+            this.attrLastMove('[still]');
+            this.add('-anim', source, "Hydro Pump", target);
+        },
+        target: "normal",
+        type: "Water",
+    },
+    //Jigglykong
+    "plasmablast": {
+        accuracy: 100,
+        basePower: 120,
+        category: "Special",
+        id: "plasmablast",
+        name: "Plasma Blast",
+        pp: 10,
+        priority: 0,
+        flags: {
+            protect: 1,
+            mirror: 1
+        },
+        secondary: [{
+            chance: 20,
+            status: 'brn'
+        }],
+        onPrepareHit: function (target, source, move) {
+            this.attrLastMove('[still]');
+            this.add('-anim', source, "Techno Blast", target);
+        },
+        onEffectiveness: function (typeMod, type, move) {
+            return typeMod + this.getEffectiveness('Electric', type);
+        },
+        target: "normal",
+        type: "Normal"
     },
     //cieltsnow
     "pimpslap": {
@@ -47,10 +113,10 @@ exports.BattleMovedex = {
         },
         secondary: false,
         category: "Special",
-        onHit: function(target, source, move) {
-            this.add('c|+CielTSnow|Who\'s getting slapped next!?!?!');
+        onHit: function (target, source, move) {
+            this.add('c|@CielTSnow|Who\'s getting slapped next!?!?!');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Focus Blast", target);
         },
@@ -74,10 +140,10 @@ exports.BattleMovedex = {
         priority: 0,
         secondary: false,
         category: "Physical",
-        onHit: function(target, source, move) {
-            this.add('c|~CateQuil|SPLASH');
+        onHit: function (target, source, move) {
+            this.add('c| CateQuil|SPLASH');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Splash", target);
         },
@@ -93,10 +159,10 @@ exports.BattleMovedex = {
         basePower: 140,
         category: "Special",
         accuracy: 100,
-        onHit: function(target, source, move) {
-            this.add('c|&Vivid is a God|JET FUMES DON\'T MELT STEEL BEAMS!!!!!!');
+        onHit: function (target, source, move) {
+            this.add('c|@Vivid is a God|JET FUMES DON\'T MELT STEEL BEAMS!!!!!!');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Draco Meteor", target);
             this.add('-anim', source, "Focus Blast", target);
@@ -108,7 +174,7 @@ exports.BattleMovedex = {
         },
         target: "normal",
     },
-    //jigglykongisfum16
+    //Jigglykong
     "sphealwithit": {
         id: "sphealwithit",
         name: "Spheal with It",
@@ -118,20 +184,20 @@ exports.BattleMovedex = {
         pp: 15,
         category: "Status",
         secondary: false,
-        onHit: function(target, source, move) {
-            this.add('c|&JigglykongisFUM16|Spheal with It!');
+        onHit: function (target, source, move) {
+            this.add('c|&Jigglykong|Spheal with It!');
         },
         boosts: {
             def: 2,
             spa: 2,
             spe: 2,
             spd: 2,
-            accuracy: 2,
+            accuracy: 2
         },
         flags: {
             snatch: 1
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('-still');
             this.add('-anim', source, "Quiver Dance", target);
         },
@@ -151,14 +217,15 @@ exports.BattleMovedex = {
         },
         flags: {
             protect: 1,
-            mirror: 1
+            mirror: 1,
+            defrost: 1
         },
         secondary: false,
         category: "Special",
-        onHit: function(target, source, move) {
+        onHit: function (target, source, move) {
             this.add('c|*Alola Ludicolo|Lemme drop out dis new mixtape fam.... I know it\'s **STRAIGHT FIRE** m8!');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Fire Blast", target);
         },
@@ -178,10 +245,10 @@ exports.BattleMovedex = {
         priority: 0,
         secondary: false,
         category: "Physical",
-        onHit: function(target, source, move) {
-            this.add('c|@Back At My Day|Why isn\'t this a Fire type move....?');
+        onHit: function (target, source, move) {
+            this.add('c|&Back At My Day|Why isn\'t this a Fire type move....?');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Seed Flare", target);
         },
@@ -208,7 +275,7 @@ exports.BattleMovedex = {
             protect: 1,
             mirror: 1
         },
-        onTry: function(attacker, defender, move) {
+        onTry: function (attacker, defender, move) {
             if (attacker.removeVolatile(move.id)) {
                 return;
             }
@@ -221,19 +288,48 @@ exports.BattleMovedex = {
             return null;
         },
         onBasePowerPriority: 4,
-        onBasePower: function(basePower, pokemon, target) {
+        onBasePower: function (basePower, pokemon, target) {
             if (this.isWeather(['raindance', 'primordialsea', 'sandstorm', 'hail'])) {
                 this.debug('weakened by weather');
                 return this.chainModify(0.5);
             }
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Solar Beam", target);
         },
         secondary: false,
         target: "normal",
         type: "Grass",
+    },
+    "teraflare": {
+        id: "teraflare",
+        name: "Teraflare",
+        basePower: 120,
+        accuracy: true,
+        ignoreDefensive: true,
+        pp: 1,
+        onPrepareHit: function (target, source) {
+            this.attrLastMove('[still]');
+            this.add('-anim', source, "Seed Flare", target);
+        },
+        priority: 0,
+        flags: {
+            contact: 1,
+            protect: 1,
+            mirror: 1
+        },
+        isZ: "flarez",
+        onTryHit: function (pokemon) {
+            // will shatter screens through sub, before you hit
+            if (pokemon.runImmunity('Normal')) {
+                pokemon.side.removeSideCondition('reflect');
+                pokemon.side.removeSideCondition('lightscreen');
+            }
+        },
+        secondary: false,
+        type: "Normal",
+        target: "foeactive",
     },
     //mewth
     "roleplaying": {
@@ -253,10 +349,10 @@ exports.BattleMovedex = {
             },
             volatileStatus: 'focusenergy',
             effect: {
-                onStart: function(pokemon) {
+                onStart: function (pokemon) {
                     this.add('-start', pokemon, 'move: Focus Energy');
                 },
-                onModifyCritRatio: function(critRatio) {
+                onModifyCritRatio: function (critRatio) {
                     return critRatio + 2;
                 },
             },
@@ -267,7 +363,7 @@ exports.BattleMovedex = {
             contact: 1
         },
         isCrit: true,
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Focus Energy", target);
             this.add('-anim', source, "Extreme Speed", target);
@@ -285,10 +381,10 @@ exports.BattleMovedex = {
         secondary: false,
         category: "Physical",
         type: "Psychic",
-        onHit: function(target, source, move) {
-            this.add('c|@Happy Song|I\'m gonna strike you down right now!');
+        onHit: function (target, source, move) {
+            this.add('c| Kimisumi|I\'m gonna strike you down right now!');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Psycho Cut", target);
         },
@@ -300,30 +396,31 @@ exports.BattleMovedex = {
         target: "Normal",
     },
     //bedevil
-    "kappa": {
-        id: "kappa",
-        name: "kappa",
+    "prfmador": {
+        id: "prfmador",
+        name: "prfmador",
         accuracy: 100,
         basePower: 90,
         pp: 15,
-        priority: 1,
+        priority: 0,
         self: {
             boosts: {
                 spa: 1,
                 spe: 1
             }
         },
+        status: "frz",
         category: "Special",
         flags: {
             protect: 1,
             mirror: 1
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Nasty Plot", target);
-            this.add('-anim', source, "Sacred Fire", target);
+            this.add('-anim', source, "Blizzard", target);
         },
-        type: "Fire",
+        type: "Ice",
         target: "normal",
     },
     //sotahigurashi
@@ -347,10 +444,10 @@ exports.BattleMovedex = {
                 spd: -1,
             },
         },
-        onHit: function(target, source, move) {
+        onHit: function (target, source, move) {
             this.add('c|☥Sota Higurashi|Don\'t forget about me....');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "V-Create", target);
         },
@@ -375,15 +472,42 @@ exports.BattleMovedex = {
         },
         pp: 20,
         secondary: false,
-        onHit: function(target, source, move) {
+        onHit: function (target, source, move) {
             this.add('c|@Philmiester|I\'m here to avenge Heathcliff <3');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Dragon Dance", target);
         },
         type: "Psychic",
         target: "self",
+    },
+    //AB Starfox
+    "fuckthismatchup": {
+        accuracy: 70,
+        basePower: 110,
+        category: "Special",
+        id: "fuckthismatchup",
+        name: "Fuck This Matchup",
+        pp: 15,
+        priority: 1,
+        flags: {
+            protect: 1,
+            mirror: 1
+        },
+        onTryHit: function (target, source) {
+            this.attrLastMove('[still]');
+            this.add('-anim', source, "Hurricane", target);
+        },
+        onEffectiveness: function (typeMod, type) {
+            if (type === 'Steel') return 1;
+        },
+        secondary: {
+            chance: 30,
+            volatileStatus: "confusion",
+        },
+        target: "normal",
+        type: "Flying",
     },
     //kairak
     "bowingandblowing": {
@@ -403,10 +527,10 @@ exports.BattleMovedex = {
             status: "tox"
         },
         pp: 15,
-        onHit: function(target, source, move) {
-            this.add('c|%Kairak|Bowing and blowing, gj squad.');
+        onHit: function (target, source, move) {
+            this.add('c|+Kairak|Bowing and blowing, gj squad.');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Poison Jab", target);
         },
@@ -422,7 +546,8 @@ exports.BattleMovedex = {
         accuracy: 100,
         flags: {
             protect: 1,
-            mirror: 1
+            mirror: 1,
+            defrost: 1
         },
         secondary: {
             chance: 20,
@@ -438,10 +563,10 @@ exports.BattleMovedex = {
         },
         category: "Special",
         priority: 0,
-        onHit: function(target, source, move) {
+        onHit: function (target, source, move) {
             this.add('c|%Volco|SEE YOU ALL IN HELL!!!!!!!!');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Steam Eruption", target);
         },
@@ -460,12 +585,13 @@ exports.BattleMovedex = {
         pp: 5,
         flags: {
             protect: 1,
-            mirror: 1
+            mirror: 1,
+            defrost: 1
         },
-        onHit: function(target, source, move) {
-            this.add('c|%Bronze0re|RIP Star');
+        onHit: function (target, source, move) {
+            this.add('c|Bronze0re|RIP Star');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Explosion", target);
         },
@@ -486,14 +612,267 @@ exports.BattleMovedex = {
         pp: 5,
         flags: {
             protect: 1,
-            mirror: 1
+            mirror: 1,
+            defrost: 1
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Explosion", target);
         },
         type: "Fire",
         target: "normal",
         secondary: false,
+    },
+    //speckeldorft
+    "fuckingnormies": {
+        id: "fuckingnormies",
+        name: "FUCKING NORMIES",
+        basePower: 70,
+        accuracy: true,
+        pp: 15,
+        category: "Special",
+        drain: [1, 2],
+        priority: 0,
+        self: {
+            boosts: {
+                def: 2,
+                spa: 2,
+                spd: 2,
+                spe: 2,
+                accuracy: 2
+            }
+        },
+        secondary: {
+            volatileStatus: 'confusion'
+        },
+        onPrepareHit: function (target, source) {
+            this.attrLastMove('[still]');
+            this.add('-anim', source, "Hyper Voice", target);
+        },
+        onHit: function (target, source, move) {
+            this.add('c|+Speckeldorft|FUCKING NORMIES');
+            this.add('c|+Speckeldorft|RRRRRRRRRRRRRRREEEEEEEEEEEEEEEEEEEEEEE');
+        },
+        target: "normal",
+        flags: {
+            snatch: 1,
+            protect: 1
+        },
+        type: "Fairy",
+    },
+    //yoshonic
+    "downb": {
+        id: "downb",
+        name: "Down B",
+        pp: 15,
+        basePower: 120,
+        accuracy: 100,
+        category: "Special",
+        priority: 1,
+        onPrepareHit: function (target, source) {
+            this.attrLastMove('[still]');
+            this.add('-anim', source, "Extreme Speed", target);
+            this.add('-anim', source, "Storm Throw", target);
+            this.add('-anim', source, "Egg Bomb", target);
+        },
+        flags: {
+            protect: 1,
+            mirror: 1
+        },
+        self: {
+            boosts: {
+                spa: 1,
+                spe: 1
+            },
+        },
+        secondary: false,
+        target: "normal",
+        type: "Dark",
+    },
+    "cripplingkiss": {
+        id: "cripplingkiss",
+        name: "Crippling Kiss",
+        accuracy: 100,
+        basePower: 0,
+        category: "Status",
+        pp: 10,
+        priority: 0,
+        flags: {
+            protect: 1,
+            mirror: 1,
+            reflectable: 1
+        },
+        onHit: function (target, source, move) {
+            this.attrLastMove('[still]')
+            this.add('-anim', source, 'Leech Seed', target);
+            this.add('-anim', source, 'Attract', target);
+            this.add('-anim', source, 'Confuse Ray', target);
+            this.add('-anim', source, "String Shot", target);
+        },
+        secondary: {
+            volatileStatus: "confusion"
+        },
+        status: "tox",
+        volatileStatus: "leechseed",
+        effect: {
+            onStart: function (target) {
+                this.add('-start', target, 'move: Leech Seed');
+            },
+            onResidualOrder: 8,
+            onResidual: function (pokemon) {
+                let target = this.effectData.source.side.active[pokemon.volatiles['leechseed'].sourcePosition];
+                if (!target || target.fainted || target.hp <= 0) {
+                    this.debug('Nothing to leech into');
+                    return;
+                }
+                let damage = this.damage(pokemon.maxhp / 8, pokemon, target);
+                if (damage) {
+                    this.heal(damage, target, pokemon);
+                }
+            },
+        },
+        onTryHit: function (target) {
+            if (target.hasType('Grass')) {
+                this.add('-immune', target, '[msg]');
+                return null;
+            }
+        },
+        boosts: {
+            spe: -2,
+        },
+        self: {
+            heal: [1, 4]
+        },
+        target: "normal",
+        type: "Fairy",
+    },
+    "evictus": {
+        id: "evictus",
+        name: "Evictus",
+        basePower: 120,
+        accuracy: 100,
+        pp: 15,
+        secondary: false,
+        category: "Physical",
+        self: {
+            boosts: {
+                atk: 1,
+                spe: 1
+            }
+        },
+        priority: 1,
+        onHit: function (target, source) {
+            this.attrLastMove('[still]');
+            this.add('-anim', source, 'Quick Attack', target);
+        },
+        flags: {
+            protect: 1,
+            contact: 1
+        },
+        target: "normal",
+        type: "Normal",
+    },
+    "repel": {
+        id: "repel",
+        name: "Repel",
+        basePower: 0,
+        accuracy: 100,
+        pp: 10,
+        secondary: false,
+        volatileStatus: 'confusion',
+        onHit: function (target, source) {
+            this.attrLastMove('[still]');
+            this.add('-anim', source, 'Teleport', target);
+        },
+        status: 'par',
+        priority: 0,
+        category: "Status",
+        ignoreImmunity: true,
+        onModifyMove: function (move, pokemon, target) {
+            move.type = '???';
+        },
+        flags: {
+            protect: 1,
+            sound: 1,
+            authentic: 1,
+            reflectable: 1
+        },
+        type: "Normal",
+        target: "normal",
+    },
+    "fastasfucc": {
+        id: "fastasfucc",
+        name: "Fast as Fucc",
+        basePower: 60,
+        pp: 15,
+        accuracy: 100,
+        flags: {
+            protect: 1,
+            mirror: 1
+        },
+        desc: "Base 60 Normal Type priority move which is super effective on steel types, 30% chance to raise Speed by 1",
+        priority: 1,
+        onTryHit: function (target, source) {
+            this.attrLastMove('[still]');
+            this.add('-anim', source, "Quick Attack", target);
+        },
+        onEffectiveness: function (typeMod, type) {
+            if (type === 'Steel') return 1;
+        },
+        secondary: {
+            chance: 30,
+            self: {
+                boosts: {
+                    spe: 1,
+                },
+            },
+        },
+        onHit: function (target, source, move) {
+            this.add('c|+AB Starfox|I don\'t think you have any idea how fast I really am, I\'m fast as fucc boiiiiii');
+        },
+        target: "normal",
+        type: "Normal",
+    },
+    "attitudeadjustment": {
+        id: "attitudeadjustment",
+        name: "Attitude Adjustment",
+        basePower: 0,
+        accuracy: 30,
+        category: "Physical",
+        onHit: function (target, source, move) {
+            this.add('c|+THEMEMES69|**YOU CAN\'T SEE ME!!!!!!!!!!**');
+        },
+        ohko: true,
+        pp: 5,
+        priority: 0,
+        secondary: false,
+        flags: {
+            protect: 1,
+            contact: 1
+        },
+        target: "normal",
+        type: "Fighting",
+        zMovePower: 150,
+    },
+    "acceptthememes": {
+        id: "acceptthememes",
+        name: "Accept The Memes",
+        basePower: 0,
+        accuracy: true,
+        category: "Physical",
+        onHit: function (target, source, move) {
+            this.add('c|+THEMEMES69|GET MEMED OR DIE TRYING!');
+        },
+        ohko: true,
+        pp: 1,
+        secondary: false,
+        flags: {
+            protect: 1,
+            contact: 1
+        },
+        priority: 0,
+        target: "normal",
+        type: "Fighting",
+        isZ: "thekidz",
     },
 };
