@@ -27,6 +27,25 @@ sound: Has no effect on Pokemon with the Ability Soundproof.
 'use strict';
 
 exports.BattleMovedex = {
+	"10000000voltthunderbolt": {
+		num: 719,
+		accuracy: true,
+		basePower: 195,
+		category: "Special",
+		desc: "Has a very high chance for a critical hit.",
+		shortDesc: "Very high critical hit ratio.",
+		id: "10000000voltthunderbolt",
+		name: "10,000,000 Volt Thunderbolt",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "pikashuniumz",
+		critRatio: 3,
+		secondary: false,
+		target: "normal",
+		type: "Electric",
+		contestType: "Cool",
+	},
 	"absorb": {
 		num: 71,
 		accuracy: 100,
@@ -38,12 +57,40 @@ exports.BattleMovedex = {
 		name: "Absorb",
 		pp: 25,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, heal: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			heal: 1
+		},
 		drain: [1, 2],
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 100,
 		contestType: "Clever",
+	},
+	"accelerock": {
+		num: 709,
+		accuracy: 100,
+		basePower: 40,
+		category: "Physical",
+		desc: "No additional effect.",
+		shortDesc: "Usually goes first.",
+		id: "accelerock",
+		isViable: true,
+		name: "Accelerock",
+		pp: 20,
+		priority: 1,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		secondary: false,
+		target: "normal",
+		type: "Rock",
+		zMovePower: 100,
+		contestType: "Cool",
 	},
 	"acid": {
 		num: 51,
@@ -56,7 +103,10 @@ exports.BattleMovedex = {
 		name: "Acid",
 		pp: 30,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			boosts: {
@@ -65,6 +115,7 @@ exports.BattleMovedex = {
 		},
 		target: "allAdjacentFoes",
 		type: "Poison",
+		zMovePower: 100,
 		contestType: "Clever",
 	},
 	"acidarmor": {
@@ -78,14 +129,35 @@ exports.BattleMovedex = {
 		name: "Acid Armor",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			def: 2,
 		},
 		secondary: false,
 		target: "self",
 		type: "Poison",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Tough",
+	},
+	"aciddownpour": {
+		num: 628,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "aciddownpour",
+		isViable: true,
+		name: "Acid Downpour",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "poisoniumz",
+		secondary: false,
+		target: "normal",
+		type: "Poison",
+		contestType: "Cool",
 	},
 	"acidspray": {
 		num: 491,
@@ -99,7 +171,11 @@ exports.BattleMovedex = {
 		name: "Acid Spray",
 		pp: 20,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 100,
 			boosts: {
@@ -108,6 +184,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Poison",
+		zMovePower: 100,
 		contestType: "Beautiful",
 	},
 	"acrobatics": {
@@ -129,10 +206,16 @@ exports.BattleMovedex = {
 		name: "Acrobatics",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, distance: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			distance: 1
+		},
 		secondary: false,
 		target: "any",
 		type: "Flying",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"acupressure": {
@@ -159,13 +242,15 @@ exports.BattleMovedex = {
 				let boost = {};
 				boost[randomStat] = 2;
 				this.boost(boost);
-			} else {
+			}
+			else {
 				return false;
 			}
 		},
 		secondary: false,
 		target: "adjacentAllyOrSelf",
 		type: "Normal",
+		zMoveEffect: 'crit1',
 		contestType: "Tough",
 	},
 	"aerialace": {
@@ -180,10 +265,16 @@ exports.BattleMovedex = {
 		name: "Aerial Ace",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, distance: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			distance: 1
+		},
 		secondary: false,
 		target: "any",
 		type: "Flying",
+		zMovePower: 120,
 		contestType: "Cool",
 	},
 	"aeroblast": {
@@ -198,11 +289,16 @@ exports.BattleMovedex = {
 		name: "Aeroblast",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, distance: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			distance: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "any",
 		type: "Flying",
+		zMovePower: 180,
 		contestType: "Cool",
 	},
 	"afteryou": {
@@ -216,7 +312,10 @@ exports.BattleMovedex = {
 		name: "After You",
 		pp: 15,
 		priority: 0,
-		flags: {authentic: 1},
+		flags: {
+			authentic: 1,
+			mystery: 1
+		},
 		onHit: function (target) {
 			if (target.side.active.length < 2) return false; // fails in singles
 			let decision = this.willMove(target);
@@ -224,13 +323,17 @@ exports.BattleMovedex = {
 				this.cancelMove(target);
 				this.queue.unshift(decision);
 				this.add('-activate', target, 'move: After You');
-			} else {
+			}
+			else {
 				return false;
 			}
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Cute",
 	},
 	"agility": {
@@ -245,13 +348,16 @@ exports.BattleMovedex = {
 		name: "Agility",
 		pp: 30,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			spe: 2,
 		},
 		secondary: false,
 		target: "self",
 		type: "Psychic",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cool",
 	},
 	"aircutter": {
@@ -265,11 +371,15 @@ exports.BattleMovedex = {
 		name: "Air Cutter",
 		pp: 25,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Flying",
+		zMovePower: 120,
 		contestType: "Cool",
 	},
 	"airslash": {
@@ -284,13 +394,36 @@ exports.BattleMovedex = {
 		name: "Air Slash",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, distance: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			distance: 1
+		},
 		secondary: {
 			chance: 30,
 			volatileStatus: 'flinch',
 		},
 		target: "any",
 		type: "Flying",
+		zMovePower: 140,
+		contestType: "Cool",
+	},
+	"alloutpummeling": {
+		num: 624,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "alloutpummeling",
+		isViable: true,
+		name: "All-Out Pummeling",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "fightiniumz",
+		secondary: false,
+		target: "normal",
+		type: "Fighting",
 		contestType: "Cool",
 	},
 	"allyswitch": {
@@ -298,12 +431,12 @@ exports.BattleMovedex = {
 		accuracy: true,
 		basePower: 0,
 		category: "Status",
-		desc: "The user swaps positions with its ally on the opposite side of the field. Fails if there is no Pokemon at that position, if the user is the only Pokemon on its side, or if the user is in the middle.",
-		shortDesc: "Switches position with the ally on the far side.",
+		desc: "The user swaps positions with its ally. Fails if the user is the only Pokemon on its side.",
+		shortDesc: "The user swaps positions with its ally.",
 		id: "allyswitch",
 		name: "Ally Switch",
 		pp: 15,
-		priority: 1,
+		priority: 2,
 		flags: {},
 		onTryHit: function (source) {
 			if (source.side.active.length === 1) return false;
@@ -318,6 +451,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Psychic",
+		zMoveBoost: {
+			spe: 2
+		},
 		contestType: "Clever",
 	},
 	"amnesia": {
@@ -331,14 +467,43 @@ exports.BattleMovedex = {
 		name: "Amnesia",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			spd: 2,
 		},
 		secondary: false,
 		target: "self",
 		type: "Psychic",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cute",
+	},
+	"anchorshot": {
+		num: 677,
+		accuracy: 100,
+		basePower: 80,
+		category: "Physical",
+		desc: "Prevents the target from switching out. The target can still switch out if it is holding Shed Shell or uses Baton Pass, Parting Shot, U-turn, or Volt Switch. If the target leaves the field using Baton Pass, the replacement will remain trapped. The effect ends if the user leaves the field.",
+		shortDesc: "Prevents the target from switching out.",
+		id: "anchorshot",
+		isViable: true,
+		name: "Anchor Shot",
+		pp: 20,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		onHit: function (target, source, move) {
+			if (source.isActive) target.addVolatile('trapped', source, move, 'trapper');
+		},
+		secondary: false,
+		target: "normal",
+		type: "Steel",
+		zMovePower: 160,
+		contestType: "Tough",
 	},
 	"ancientpower": {
 		num: 246,
@@ -352,7 +517,10 @@ exports.BattleMovedex = {
 		name: "Ancient Power",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			self: {
@@ -367,6 +535,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Rock",
+		zMovePower: 120,
 		contestType: "Tough",
 	},
 	"aquajet": {
@@ -381,10 +550,15 @@ exports.BattleMovedex = {
 		name: "Aqua Jet",
 		pp: 20,
 		priority: 1,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Water",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"aquaring": {
@@ -398,7 +572,9 @@ exports.BattleMovedex = {
 		name: "Aqua Ring",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		volatileStatus: 'aquaring',
 		effect: {
 			onStart: function (pokemon) {
@@ -412,6 +588,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Water",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Beautiful",
 	},
 	"aquatail": {
@@ -426,10 +605,15 @@ exports.BattleMovedex = {
 		name: "Aqua Tail",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Water",
+		zMovePower: 175,
 		contestType: "Beautiful",
 	},
 	"armthrust": {
@@ -443,11 +627,16 @@ exports.BattleMovedex = {
 		name: "Arm Thrust",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		multihit: [2, 5],
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"aromatherapy": {
@@ -462,7 +651,10 @@ exports.BattleMovedex = {
 		name: "Aromatherapy",
 		pp: 5,
 		priority: 0,
-		flags: {snatch: 1, distance: 1},
+		flags: {
+			snatch: 1,
+			distance: 1
+		},
 		onHit: function (pokemon, source, move) {
 			this.add('-activate', source, 'move: Aromatherapy');
 			let side = pokemon.side;
@@ -476,6 +668,7 @@ exports.BattleMovedex = {
 		},
 		target: "allyTeam",
 		type: "Grass",
+		zMoveEffect: 'heal',
 		contestType: "Clever",
 	},
 	"aromaticmist": {
@@ -489,13 +682,18 @@ exports.BattleMovedex = {
 		name: "Aromatic Mist",
 		pp: 20,
 		priority: 0,
-		flags: {authentic: 1},
+		flags: {
+			authentic: 1
+		},
 		boosts: {
 			spd: 1,
 		},
 		secondary: false,
 		target: "adjacentAlly",
 		type: "Fairy",
+		zMoveBoost: {
+			spd: 2
+		},
 		contestType: "Beautiful",
 	},
 	"assist": {
@@ -518,9 +716,52 @@ exports.BattleMovedex = {
 				for (let i = 0; i < pokemon.moveset.length; i++) {
 					let move = pokemon.moveset[i].id;
 					let noAssist = {
-						assist:1, belch:1, bestow:1, bounce:1, chatter:1, circlethrow:1, copycat:1, counter:1, covet:1, destinybond:1, detect:1, dig:1, dive:1, dragontail:1, endure:1, feint:1, fly:1, focuspunch:1, followme:1, helpinghand:1, kingsshield:1, matblock:1, mefirst:1, metronome:1, mimic:1, mirrorcoat:1, mirrormove:1, naturepower:1, phantomforce:1, protect:1, ragepowder:1, roar:1, shadowforce:1, sketch:1, skydrop:1, sleeptalk:1, snatch:1, spikyshield:1, struggle:1, switcheroo:1, thief:1, transform:1, trick:1, whirlwind:1,
+						assist: 1,
+						belch: 1,
+						bestow: 1,
+						bounce: 1,
+						chatter: 1,
+						circlethrow: 1,
+						copycat: 1,
+						counter: 1,
+						covet: 1,
+						destinybond: 1,
+						detect: 1,
+						dig: 1,
+						dive: 1,
+						dragontail: 1,
+						endure: 1,
+						feint: 1,
+						fly: 1,
+						focuspunch: 1,
+						followme: 1,
+						helpinghand: 1,
+						kingsshield: 1,
+						matblock: 1,
+						mefirst: 1,
+						metronome: 1,
+						mimic: 1,
+						mirrorcoat: 1,
+						mirrormove: 1,
+						naturepower: 1,
+						phantomforce: 1,
+						protect: 1,
+						ragepowder: 1,
+						roar: 1,
+						shadowforce: 1,
+						sketch: 1,
+						skydrop: 1,
+						sleeptalk: 1,
+						snatch: 1,
+						spikyshield: 1,
+						struggle: 1,
+						switcheroo: 1,
+						thief: 1,
+						transform: 1,
+						trick: 1,
+						whirlwind: 1,
 					};
-					if (!noAssist[move]) {
+					if (!noAssist[move] && !this.getMove(move).isZ) {
 						moves.push(move);
 					}
 				}
@@ -555,7 +796,11 @@ exports.BattleMovedex = {
 		name: "Assurance",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		beforeTurnCallback: function (pokemon, target) {
 			pokemon.addVolatile('assurance');
 			pokemon.volatiles.assurance.position = target.position;
@@ -577,6 +822,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMovePower: 120,
 		contestType: "Clever",
 	},
 	"astonish": {
@@ -590,13 +836,18 @@ exports.BattleMovedex = {
 		name: "Astonish",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Ghost",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"attackorder": {
@@ -611,11 +862,15 @@ exports.BattleMovedex = {
 		name: "Attack Order",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "normal",
 		type: "Bug",
+		zMovePower: 175,
 		contestType: "Clever",
 	},
 	"attract": {
@@ -629,7 +884,12 @@ exports.BattleMovedex = {
 		name: "Attract",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			authentic: 1
+		},
 		volatileStatus: 'attract',
 		effect: {
 			noCopy: true, // doesn't get copied by Baton Pass
@@ -645,9 +905,11 @@ exports.BattleMovedex = {
 
 				if (effect.id === 'cutecharm') {
 					this.add('-start', pokemon, 'Attract', '[from] ability: Cute Charm', '[of] ' + source);
-				} else if (effect.id === 'destinyknot') {
+				}
+				else if (effect.id === 'destinyknot') {
 					this.add('-start', pokemon, 'Attract', '[from] item: Destiny Knot', '[of] ' + source);
-				} else {
+				}
+				else {
 					this.add('-start', pokemon, 'Attract');
 				}
 			},
@@ -672,6 +934,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cute",
 	},
 	"aurasphere": {
@@ -686,10 +949,17 @@ exports.BattleMovedex = {
 		name: "Aura Sphere",
 		pp: 20,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, pulse: 1, mirror: 1, distance: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			pulse: 1,
+			mirror: 1,
+			distance: 1
+		},
 		secondary: false,
 		target: "any",
 		type: "Fighting",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"aurorabeam": {
@@ -703,7 +973,10 @@ exports.BattleMovedex = {
 		name: "Aurora Beam",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			boosts: {
@@ -712,6 +985,59 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Ice",
+		zMovePower: 120,
+		contestType: "Beautiful",
+	},
+	"auroraveil": {
+		num: 694,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "For 5 turns, the user and its party members take 0.5x damage from physical and special attacks, or 0.66x damage if in a Double Battle. Critical hits ignore this protection. It is removed from the user's side if the user or an ally is successfully hit by Brick Break, Psychic Fangs, or Defog. Lasts for 8 turns if the user is holding Light Clay. Fails unless the weather is Hail.",
+		shortDesc: "For 5 turns, damage to allies is halved. Hail only.",
+		id: "auroraveil",
+		name: "Aurora Veil",
+		pp: 20,
+		priority: 0,
+		flags: {
+			snatch: 1
+		},
+		sideCondition: 'auroraveil',
+		onTryHitSide: function () {
+			if (!this.isWeather('hail')) return false;
+		},
+		effect: {
+			duration: 5,
+			durationCallback: function (target, source, effect) {
+				if (source && source.hasItem('lightclay')) {
+					return 8;
+				}
+				return 5;
+			},
+			onAnyModifyDamage: function (damage, source, target, move) {
+				if (target !== source && target.side === this.effectData.target) {
+					if (!move.crit && !move.infiltrates) {
+						this.debug('Aurora Veil weaken');
+						if (target.side.active.length > 1) return this.chainModify([0xAAC, 0x1000]);
+						return this.chainModify(0.5);
+					}
+				}
+			},
+			onStart: function (side) {
+				this.add('-sidestart', side, 'move: Aurora Veil');
+			},
+			onResidualOrder: 21,
+			onResidualSubOrder: 1,
+			onEnd: function (side) {
+				this.add('-sideend', side, 'move: Aurora Veil');
+			},
+		},
+		secondary: false,
+		target: "allySide",
+		type: "Ice",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Beautiful",
 	},
 	"autotomize": {
@@ -726,7 +1052,9 @@ exports.BattleMovedex = {
 		name: "Autotomize",
 		pp: 15,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		onTryHit: function (pokemon) {
 			let hasContrary = pokemon.hasAbility('contrary');
 			if ((!hasContrary && pokemon.boosts.spe === 6) || (hasContrary && pokemon.boosts.spe === -6)) {
@@ -763,6 +1091,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Steel",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Beautiful",
 	},
 	"avalanche": {
@@ -784,10 +1113,15 @@ exports.BattleMovedex = {
 		name: "Avalanche",
 		pp: 10,
 		priority: -4,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Ice",
+		zMovePower: 120,
 		contestType: "Beautiful",
 	},
 	"babydolleyes": {
@@ -801,14 +1135,73 @@ exports.BattleMovedex = {
 		name: "Baby-Doll Eyes",
 		pp: 30,
 		priority: 1,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		boosts: {
 			atk: -1,
 		},
 		secondary: false,
 		target: "normal",
 		type: "Fairy",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Cute",
+	},
+	"banefulbunker": {
+		num: 661,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "The user is protected from most attacks made by other Pokemon during this turn, and Pokemon making contact with the user become poisoned. This move has a 1/X chance of being successful, where X starts at 1 and triples each time this move is successfully used. X resets to 1 if this move fails or if the user's last move used is not Baneful Bunker, Detect, Endure, King's Shield, Protect, Quick Guard, Spiky Shield, or Wide Guard. Fails if the user moves last this turn.",
+		shortDesc: "Protects from moves. Contact: poison.",
+		id: "banefulbunker",
+		isViable: true,
+		name: "Baneful Bunker",
+		pp: 10,
+		priority: 4,
+		flags: {},
+		stallingMove: true,
+		volatileStatus: 'banefulbunker',
+		onTryHit: function (target, source, move) {
+			return !!this.willAct() && this.runEvent('StallMove', target);
+		},
+		onHit: function (pokemon) {
+			pokemon.addVolatile('stall');
+		},
+		effect: {
+			duration: 1,
+			onStart: function (target) {
+				this.add('-singleturn', target, 'move: Protect');
+			},
+			onTryHitPriority: 3,
+			onTryHit: function (target, source, move) {
+				if (!move.flags['protect']) return;
+				this.add('-activate', target, 'move: Protect');
+				let lockedmove = source.getVolatile('lockedmove');
+				if (lockedmove) {
+					// Outrage counter is reset
+					if (source.volatiles['lockedmove'].duration === 2) {
+						delete source.volatiles['lockedmove'];
+					}
+				}
+				if (move.flags['contact']) {
+					source.trySetStatus('psn', target);
+				}
+				return null;
+			},
+		},
+		secondary: false,
+		target: "self",
+		type: "Poison",
+		zMoveBoost: {
+			def: 1
+		},
+		contestType: "Tough",
 	},
 	"barrage": {
 		num: 140,
@@ -821,11 +1214,16 @@ exports.BattleMovedex = {
 		name: "Barrage",
 		pp: 20,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		multihit: [2, 5],
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"barrier": {
@@ -839,13 +1237,16 @@ exports.BattleMovedex = {
 		name: "Barrier",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			def: 2,
 		},
 		secondary: false,
 		target: "self",
 		type: "Psychic",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cool",
 	},
 	"batonpass": {
@@ -865,7 +1266,50 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cute",
+	},
+	"beakblast": {
+		num: 690,
+		accuracy: 100,
+		basePower: 100,
+		category: "Physical",
+		desc: "If the user is hit by a contact move this turn before it can execute this move, the attacker is burned.",
+		shortDesc: "Burns on contact with the user before it moves.",
+		id: "beakblast",
+		isViable: true,
+		name: "Beak Blast",
+		pp: 15,
+		priority: -3,
+		flags: {
+			bullet: 1,
+			protect: 1
+		},
+		beforeTurnCallback: function (pokemon) {
+			pokemon.addVolatile('beakblast');
+		},
+		effect: {
+			duration: 1,
+			onStart: function (pokemon) {
+				this.add('-singleturn', pokemon, 'move: Beak Blast');
+			},
+			onHit: function (pokemon, source, move) {
+				if (move.flags['contact']) {
+					source.trySetStatus('brn', pokemon);
+				}
+			},
+		},
+		onMoveAborted: function (pokemon) {
+			pokemon.removeVolatile('beakblast');
+		},
+		onAfterMove: function (pokemon) {
+			pokemon.removeVolatile('beakblast');
+		},
+		secondary: false,
+		target: "normal",
+		type: "Flying",
+		zMovePower: 180,
+		contestType: "Tough",
 	},
 	"beatup": {
 		num: 251,
@@ -883,7 +1327,11 @@ exports.BattleMovedex = {
 		name: "Beat Up",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		multihit: 6,
 		effect: {
 			duration: 1,
@@ -891,8 +1339,8 @@ exports.BattleMovedex = {
 				this.effectData.index = 0;
 				while (pokemon.side.pokemon[this.effectData.index] !== pokemon &&
 					(!pokemon.side.pokemon[this.effectData.index] ||
-					pokemon.side.pokemon[this.effectData.index].fainted ||
-					pokemon.side.pokemon[this.effectData.index].status)) {
+						pokemon.side.pokemon[this.effectData.index].fainted ||
+						pokemon.side.pokemon[this.effectData.index].status)) {
 					this.effectData.index++;
 				}
 			},
@@ -909,6 +1357,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMovePower: 100,
 		contestType: "Clever",
 	},
 	"belch": {
@@ -922,11 +1371,14 @@ exports.BattleMovedex = {
 		name: "Belch",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1},
+		flags: {
+			protect: 1
+		},
 		// Move disabling implemented in Battle#nextTurn in battle-engine.js
 		secondary: false,
 		target: "normal",
 		type: "Poison",
+		zMovePower: 190,
 		contestType: "Tough",
 	},
 	"bellydrum": {
@@ -940,17 +1392,22 @@ exports.BattleMovedex = {
 		name: "Belly Drum",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		onHit: function (target) {
 			if (target.hp <= target.maxhp / 2 || target.boosts.atk >= 6 || target.maxhp === 1) { // Shedinja clause
 				return false;
 			}
 			this.directDamage(target.maxhp / 2);
-			this.boost({atk: 12}, target);
+			this.boost({
+				atk: 12
+			}, target);
 		},
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'heal',
 		contestType: "Cute",
 	},
 	"bestow": {
@@ -964,15 +1421,18 @@ exports.BattleMovedex = {
 		name: "Bestow",
 		pp: 15,
 		priority: 0,
-		flags: {mirror: 1, authentic: 1},
-		onHit: function (target, source) {
+		flags: {
+			mirror: 1,
+			authentic: 1,
+			mystery: 1
+		},
+		onHit: function (target, source, move) {
 			if (target.item) {
 				return false;
 			}
 			let yourItem = source.takeItem();
-			if (!yourItem || (yourItem.onTakeItem && yourItem.onTakeItem(yourItem, target) === false)) {
-				return false;
-			}
+			if (!yourItem) return false;
+			if (!this.singleEvent('TakeItem', yourItem, source.itemData, source, target, move, yourItem)) return;
 			if (!target.setItem(yourItem)) {
 				source.item = yourItem.id;
 				return false;
@@ -982,6 +1442,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spe: 2
+		},
 		contestType: "Cute",
 	},
 	"bide": {
@@ -995,7 +1458,10 @@ exports.BattleMovedex = {
 		name: "Bide",
 		pp: 10,
 		priority: 1,
-		flags: {contact: 1, protect: 1},
+		flags: {
+			contact: 1,
+			protect: 1
+		},
 		volatileStatus: 'bide',
 		ignoreImmunity: true,
 		beforeMoveCallback: function (pokemon) {
@@ -1035,7 +1501,10 @@ exports.BattleMovedex = {
 						damage: this.effectData.totalDamage * 2,
 						category: "Physical",
 						priority: 1,
-						flags: {contact: 1, protect: 1},
+						flags: {
+							contact: 1,
+							protect: 1
+						},
 						effectType: 'Move',
 						type: 'Normal',
 					};
@@ -1044,6 +1513,9 @@ exports.BattleMovedex = {
 				}
 				this.add('-activate', pokemon, 'move: Bide');
 			},
+			onMoveAborted: function (pokemon) {
+				pokemon.removeVolatile('bide');
+			},
 			onEnd: function (pokemon) {
 				this.add('-end', pokemon, 'move: Bide', '[silent]');
 			},
@@ -1051,6 +1523,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"bind": {
@@ -1064,11 +1537,16 @@ exports.BattleMovedex = {
 		name: "Bind",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		volatileStatus: 'partiallytrapped',
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"bite": {
@@ -1082,14 +1560,38 @@ exports.BattleMovedex = {
 		name: "Bite",
 		pp: 25,
 		priority: 0,
-		flags: {bite: 1, contact: 1, protect: 1, mirror: 1},
+		flags: {
+			bite: 1,
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Dark",
+		zMovePower: 120,
 		contestType: "Tough",
+	},
+	"blackholeeclipse": {
+		num: 654,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "blackholeeclipse",
+		isViable: true,
+		name: "Black Hole Eclipse",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "darkiniumz",
+		secondary: false,
+		target: "normal",
+		type: "Dark",
+		contestType: "Cool",
 	},
 	"blastburn": {
 		num: 307,
@@ -1102,13 +1604,18 @@ exports.BattleMovedex = {
 		name: "Blast Burn",
 		pp: 5,
 		priority: 0,
-		flags: {recharge: 1, protect: 1, mirror: 1},
+		flags: {
+			recharge: 1,
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			volatileStatus: 'mustrecharge',
 		},
 		secondary: false,
 		target: "normal",
 		type: "Fire",
+		zMovePower: 200,
 		contestType: "Beautiful",
 	},
 	"blazekick": {
@@ -1123,7 +1630,11 @@ exports.BattleMovedex = {
 		name: "Blaze Kick",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: {
 			chance: 10,
@@ -1131,6 +1642,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Fire",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"blizzard": {
@@ -1145,7 +1657,10 @@ exports.BattleMovedex = {
 		name: "Blizzard",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onModifyMove: function (move) {
 			if (this.isWeather('hail')) move.accuracy = true;
 		},
@@ -1155,6 +1670,7 @@ exports.BattleMovedex = {
 		},
 		target: "allAdjacentFoes",
 		type: "Ice",
+		zMovePower: 185,
 		contestType: "Beautiful",
 	},
 	"block": {
@@ -1168,7 +1684,10 @@ exports.BattleMovedex = {
 		name: "Block",
 		pp: 5,
 		priority: 0,
-		flags: {reflectable: 1, mirror: 1},
+		flags: {
+			reflectable: 1,
+			mirror: 1
+		},
 		onHit: function (target, source, move) {
 			if (!target.addVolatile('trapped', source, move, 'trapper')) {
 				this.add('-fail', target);
@@ -1177,7 +1696,28 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Cute",
+	},
+	"bloomdoom": {
+		num: 644,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "bloomdoom",
+		isViable: true,
+		name: "Bloom Doom",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "grassiumz",
+		secondary: false,
+		target: "normal",
+		type: "Grass",
+		contestType: "Cool",
 	},
 	"blueflare": {
 		num: 551,
@@ -1191,13 +1731,17 @@ exports.BattleMovedex = {
 		name: "Blue Flare",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 20,
 			status: 'brn',
 		},
 		target: "normal",
 		type: "Fire",
+		zMovePower: 195,
 		contestType: "Beautiful",
 	},
 	"bodyslam": {
@@ -1212,13 +1756,19 @@ exports.BattleMovedex = {
 		name: "Body Slam",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		secondary: {
 			chance: 30,
 			status: 'par',
 		},
 		target: "normal",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"boltstrike": {
@@ -1233,13 +1783,18 @@ exports.BattleMovedex = {
 		name: "Bolt Strike",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 20,
 			status: 'par',
 		},
 		target: "normal",
 		type: "Electric",
+		zMovePower: 195,
 		contestType: "Beautiful",
 	},
 	"boneclub": {
@@ -1253,13 +1808,17 @@ exports.BattleMovedex = {
 		name: "Bone Club",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Ground",
+		zMovePower: 120,
 		contestType: "Tough",
 	},
 	"bonerush": {
@@ -1273,11 +1832,15 @@ exports.BattleMovedex = {
 		name: "Bone Rush",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		multihit: [2, 5],
 		secondary: false,
 		target: "normal",
 		type: "Ground",
+		zMovePower: 140,
 		contestType: "Tough",
 	},
 	"bonemerang": {
@@ -1292,11 +1855,15 @@ exports.BattleMovedex = {
 		name: "Bonemerang",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		multihit: 2,
 		secondary: false,
 		target: "normal",
 		type: "Ground",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"boomburst": {
@@ -1311,10 +1878,16 @@ exports.BattleMovedex = {
 		name: "Boomburst",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		secondary: false,
 		target: "allAdjacent",
 		type: "Normal",
+		zMovePower: 200,
 		contestType: "Tough",
 	},
 	"bounce": {
@@ -1328,7 +1901,14 @@ exports.BattleMovedex = {
 		name: "Bounce",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, charge: 1, protect: 1, mirror: 1, gravity: 1, distance: 1},
+		flags: {
+			contact: 1,
+			charge: 1,
+			protect: 1,
+			mirror: 1,
+			gravity: 1,
+			distance: 1
+		},
 		onTry: function (attacker, defender, move) {
 			if (attacker.removeVolatile(move.id)) {
 				return;
@@ -1368,6 +1948,7 @@ exports.BattleMovedex = {
 		},
 		target: "any",
 		type: "Flying",
+		zMovePower: 160,
 		contestType: "Cute",
 	},
 	"bravebird": {
@@ -1382,11 +1963,35 @@ exports.BattleMovedex = {
 		name: "Brave Bird",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, distance: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			distance: 1
+		},
 		recoil: [33, 100],
 		secondary: false,
 		target: "any",
 		type: "Flying",
+		zMovePower: 190,
+		contestType: "Cool",
+	},
+	"breakneckblitz": {
+		num: 622,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "breakneckblitz",
+		isViable: true,
+		name: "Breakneck Blitz",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "normaliumz",
+		secondary: false,
+		target: "normal",
+		type: "Normal",
 		contestType: "Cool",
 	},
 	"brickbreak": {
@@ -1394,24 +1999,30 @@ exports.BattleMovedex = {
 		accuracy: 100,
 		basePower: 75,
 		category: "Physical",
-		desc: "If this attack does not miss, the effects of Reflect and Light Screen end for the target's side of the field before damage is calculated.",
+		desc: "If this attack does not miss, the effects of Reflect, Light Screen, and Aurora Veil end for the target's side of the field before damage is calculated.",
 		shortDesc: "Destroys screens, unless the target is immune.",
 		id: "brickbreak",
 		isViable: true,
 		name: "Brick Break",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onTryHit: function (pokemon) {
 			// will shatter screens through sub, before you hit
 			if (pokemon.runImmunity('Fighting')) {
 				pokemon.side.removeSideCondition('reflect');
 				pokemon.side.removeSideCondition('lightscreen');
+				pokemon.side.removeSideCondition('auroraveil');
 			}
 		},
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"brine": {
@@ -1425,7 +2036,10 @@ exports.BattleMovedex = {
 		name: "Brine",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onBasePowerPriority: 4,
 		onBasePower: function (basePower, pokemon, target) {
 			if (target.hp * 2 < target.maxhp) {
@@ -1435,6 +2049,29 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Water",
+		zMovePower: 120,
+		contestType: "Tough",
+	},
+	"brutalswing": {
+		num: 693,
+		accuracy: 100,
+		basePower: 60,
+		category: "Physical",
+		desc: "No additional effect.",
+		shortDesc: "No additional effect. Hits adjacent Pokemon.",
+		id: "brutalswing",
+		name: "Brutal Swing",
+		pp: 20,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		secondary: false,
+		target: "allAdjacent",
+		type: "Dark",
+		zMovePower: 120,
 		contestType: "Tough",
 	},
 	"bubble": {
@@ -1448,7 +2085,10 @@ exports.BattleMovedex = {
 		name: "Bubble",
 		pp: 30,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			boosts: {
@@ -1457,6 +2097,7 @@ exports.BattleMovedex = {
 		},
 		target: "allAdjacentFoes",
 		type: "Water",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"bubblebeam": {
@@ -1470,7 +2111,10 @@ exports.BattleMovedex = {
 		name: "Bubble Beam",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			boosts: {
@@ -1479,6 +2123,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Water",
+		zMovePower: 120,
 		contestType: "Beautiful",
 	},
 	"bugbite": {
@@ -1492,7 +2137,11 @@ exports.BattleMovedex = {
 		name: "Bug Bite",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onHit: function (target, source) {
 			let item = target.getItem();
 			if (source.hp && item.isBerry && target.takeItem(source)) {
@@ -1506,6 +2155,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Bug",
+		zMovePower: 120,
 		contestType: "Cute",
 	},
 	"bugbuzz": {
@@ -1520,7 +2170,12 @@ exports.BattleMovedex = {
 		name: "Bug Buzz",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		secondary: {
 			chance: 10,
 			boosts: {
@@ -1529,6 +2184,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Bug",
+		zMovePower: 175,
 		contestType: "Beautiful",
 	},
 	"bulkup": {
@@ -1543,7 +2199,9 @@ exports.BattleMovedex = {
 		name: "Bulk Up",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			atk: 1,
 			def: 1,
@@ -1551,6 +2209,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Fighting",
+		zMoveBoost: {
+			atk: 1
+		},
 		contestType: "Cool",
 	},
 	"bulldoze": {
@@ -1564,7 +2225,11 @@ exports.BattleMovedex = {
 		name: "Bulldoze",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		secondary: {
 			chance: 100,
 			boosts: {
@@ -1573,6 +2238,7 @@ exports.BattleMovedex = {
 		},
 		target: "allAdjacent",
 		type: "Ground",
+		zMovePower: 120,
 		contestType: "Tough",
 	},
 	"bulletpunch": {
@@ -1587,10 +2253,16 @@ exports.BattleMovedex = {
 		name: "Bullet Punch",
 		pp: 30,
 		priority: 1,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Steel",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"bulletseed": {
@@ -1605,12 +2277,47 @@ exports.BattleMovedex = {
 		name: "Bullet Seed",
 		pp: 30,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		multihit: [2, 5],
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 140,
 		contestType: "Cool",
+	},
+	"burnup": {
+		num: 682,
+		accuracy: 100,
+		basePower: 130,
+		category: "Special",
+		desc: "User must be Fire-type. User's Fire-type changes to ???-type until it switches out. User's secondary type (if any) is unaffected even by Roost.",
+		shortDesc: "User's Fire-type is removed until it switches out.",
+		id: "burnup",
+		name: "Burn Up",
+		pp: 5,
+		priority: 0,
+		flags: {
+			protect: 1,
+			mirror: 1,
+			defrost: 1
+		},
+		onTryHit: function (target, source, move) {
+			if (!source.hasType("Fire")) return false;
+		},
+		self: {
+			onHit: function (pokemon) {
+				pokemon.setType(pokemon.getTypes(true).map(type => type === "Fire" ? "???" : type));
+			},
+		},
+		secondary: false,
+		target: "normal",
+		type: "Fire",
+		zMovePower: 195,
+		contestType: "Clever",
 	},
 	"calmmind": {
 		num: 347,
@@ -1624,7 +2331,9 @@ exports.BattleMovedex = {
 		name: "Calm Mind",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			spa: 1,
 			spd: 1,
@@ -1632,6 +2341,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Psychic",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Clever",
 	},
 	"camouflage": {
@@ -1639,21 +2349,28 @@ exports.BattleMovedex = {
 		accuracy: true,
 		basePower: 0,
 		category: "Status",
-		desc: "The user's type changes based on the battle terrain. Normal type on the regular Wi-Fi terrain, Electric type during Electric Terrain, Fairy type during Misty Terrain, and Grass type during Grassy Terrain. Fails if the user's type cannot be changed or if the user is already purely that type.",
+		desc: "The user's type changes based on the battle terrain. Normal type on the regular Wi-Fi terrain, Electric type during Electric Terrain, Fairy type during Misty Terrain, Grass type during Grassy Terrain, and Psychic type during Psychic Terrain. Fails if the user's type cannot be changed or if the user is already purely that type.",
 		shortDesc: "Changes user's type by terrain (default Normal).",
 		id: "camouflage",
 		name: "Camouflage",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		onHit: function (target) {
 			let newType = 'Normal';
 			if (this.isTerrain('electricterrain')) {
 				newType = 'Electric';
-			} else if (this.isTerrain('grassyterrain')) {
+			}
+			else if (this.isTerrain('grassyterrain')) {
 				newType = 'Grass';
-			} else if (this.isTerrain('mistyterrain')) {
+			}
+			else if (this.isTerrain('mistyterrain')) {
 				newType = 'Fairy';
+			}
+			else if (this.isTerrain('psychicterrain')) {
+				newType = 'Psychic';
 			}
 
 			if (!target.setType(newType)) return false;
@@ -1662,6 +2379,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveBoost: {
+			evasion: 1
+		},
 		contestType: "Clever",
 	},
 	"captivate": {
@@ -1675,7 +2395,11 @@ exports.BattleMovedex = {
 		name: "Captivate",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		onTryHit: function (pokemon, source) {
 			if ((pokemon.gender === 'M' && source.gender === 'F') || (pokemon.gender === 'F' && source.gender === 'M')) {
 				return;
@@ -1688,7 +2412,30 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Normal",
+		zMoveBoost: {
+			spd: 2
+		},
 		contestType: "Cute",
+	},
+	"catastropika": {
+		num: 658,
+		accuracy: true,
+		basePower: 210,
+		category: "Physical",
+		desc: "No additional effect.",
+		shortDesc: "No additional effect.",
+		id: "catastropika",
+		name: "Catastropika",
+		pp: 1,
+		priority: 0,
+		flags: {
+			contact: 1
+		},
+		isZ: "pikaniumz",
+		secondary: false,
+		target: "normal",
+		type: "Electric",
+		contestType: "Cool",
 	},
 	"celebrate": {
 		num: 606,
@@ -1709,6 +2456,13 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveBoost: {
+			atk: 1,
+			def: 1,
+			spa: 1,
+			spd: 1,
+			spe: 1
+		},
 		contestType: "Cute",
 	},
 	"charge": {
@@ -1722,7 +2476,9 @@ exports.BattleMovedex = {
 		name: "Charge",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		volatileStatus: 'charge',
 		onHit: function (pokemon) {
 			this.add('-activate', pokemon, 'move: Charge');
@@ -1746,6 +2502,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Electric",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Clever",
 	},
 	"chargebeam": {
@@ -1759,7 +2518,10 @@ exports.BattleMovedex = {
 		name: "Charge Beam",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 70,
 			self: {
@@ -1770,6 +2532,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Electric",
+		zMovePower: 100,
 		contestType: "Beautiful",
 	},
 	"charm": {
@@ -1783,13 +2546,21 @@ exports.BattleMovedex = {
 		name: "Charm",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		boosts: {
 			atk: -2,
 		},
 		secondary: false,
 		target: "normal",
 		type: "Fairy",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Cute",
 	},
 	"chatter": {
@@ -1804,7 +2575,13 @@ exports.BattleMovedex = {
 		name: "Chatter",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, sound: 1, distance: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			sound: 1,
+			distance: 1,
+			authentic: 1
+		},
 		noSketch: true,
 		secondary: {
 			chance: 100,
@@ -1812,6 +2589,7 @@ exports.BattleMovedex = {
 		},
 		target: "any",
 		type: "Flying",
+		zMovePower: 120,
 		contestType: "Cute",
 	},
 	"chipaway": {
@@ -1825,12 +2603,17 @@ exports.BattleMovedex = {
 		name: "Chip Away",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		ignoreDefensive: true,
 		ignoreEvasion: true,
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 140,
 		contestType: "Tough",
 	},
 	"circlethrow": {
@@ -1845,10 +2628,15 @@ exports.BattleMovedex = {
 		name: "Circle Throw",
 		pp: 10,
 		priority: -6,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		forceSwitch: true,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 120,
 		contestType: "Cool",
 	},
 	"clamp": {
@@ -1862,11 +2650,45 @@ exports.BattleMovedex = {
 		name: "Clamp",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		volatileStatus: 'partiallytrapped',
 		secondary: false,
 		target: "normal",
 		type: "Water",
+		zMovePower: 100,
+		contestType: "Tough",
+	},
+	"clangingscales": {
+		num: 691,
+		accuracy: 100,
+		basePower: 110,
+		category: "Special",
+		desc: "Lowers the user's Defense by 1 stage.",
+		shortDesc: "Lowers the user's Defense by 1.",
+		id: "clangingscales",
+		isViable: true,
+		name: "Clanging Scales",
+		pp: 5,
+		priority: 0,
+		flags: {
+			protect: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
+		self: {
+			boosts: {
+				def: -1,
+			},
+		},
+		secondary: false,
+		target: "allAdjacentFoes",
+		type: "Dragon",
+		zMovePower: 185,
 		contestType: "Tough",
 	},
 	"clearsmog": {
@@ -1881,7 +2703,10 @@ exports.BattleMovedex = {
 		name: "Clear Smog",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onHit: function (target) {
 			target.clearBoosts();
 			this.add('-clearboost', target);
@@ -1889,6 +2714,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Poison",
+		zMovePower: 100,
 		contestType: "Beautiful",
 	},
 	"closecombat": {
@@ -1903,7 +2729,11 @@ exports.BattleMovedex = {
 		name: "Close Combat",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			boosts: {
 				def: -1,
@@ -1913,6 +2743,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 190,
 		contestType: "Tough",
 	},
 	"coil": {
@@ -1927,7 +2758,9 @@ exports.BattleMovedex = {
 		name: "Coil",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			atk: 1,
 			def: 1,
@@ -1936,6 +2769,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Poison",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Tough",
 	},
 	"cometpunch": {
@@ -1949,11 +2783,17 @@ exports.BattleMovedex = {
 		name: "Comet Punch",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
 		multihit: [2, 5],
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"confide": {
@@ -1967,13 +2807,21 @@ exports.BattleMovedex = {
 		name: "Confide",
 		pp: 20,
 		priority: 0,
-		flags: {reflectable: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			reflectable: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		boosts: {
 			spa: -1,
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Cute",
 	},
 	"confuseray": {
@@ -1987,11 +2835,18 @@ exports.BattleMovedex = {
 		name: "Confuse Ray",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		volatileStatus: 'confusion',
 		secondary: false,
 		target: "normal",
 		type: "Ghost",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Clever",
 	},
 	"confusion": {
@@ -2005,13 +2860,17 @@ exports.BattleMovedex = {
 		name: "Confusion",
 		pp: 25,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			volatileStatus: 'confusion',
 		},
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 100,
 		contestType: "Clever",
 	},
 	"constrict": {
@@ -2025,7 +2884,11 @@ exports.BattleMovedex = {
 		name: "Constrict",
 		pp: 35,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			boosts: {
@@ -2034,7 +2897,26 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Tough",
+	},
+	"continentalcrush": {
+		num: 632,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "continentalcrush",
+		isViable: true,
+		name: "Continental Crush",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "rockiumz",
+		secondary: false,
+		target: "normal",
+		type: "Rock",
+		contestType: "Cool",
 	},
 	"conversion": {
 		num: 160,
@@ -2047,7 +2929,9 @@ exports.BattleMovedex = {
 		name: "Conversion",
 		pp: 30,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		onHit: function (target) {
 			let type = this.getMove(target.moveset[0].id).type;
 			if (target.hasType(type) || !target.setType(type)) return false;
@@ -2056,6 +2940,13 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveBoost: {
+			atk: 1,
+			def: 1,
+			spa: 1,
+			spd: 1,
+			spe: 1
+		},
 		contestType: "Beautiful",
 	},
 	"conversion2": {
@@ -2069,7 +2960,9 @@ exports.BattleMovedex = {
 		name: "Conversion 2",
 		pp: 30,
 		priority: 0,
-		flags: {authentic: 1},
+		flags: {
+			authentic: 1
+		},
 		onHit: function (target, source) {
 			if (!target.lastMove) {
 				return false;
@@ -2094,6 +2987,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveEffect: 'heal',
 		contestType: "Beautiful",
 	},
 	"copycat": {
@@ -2109,8 +3003,42 @@ exports.BattleMovedex = {
 		priority: 0,
 		flags: {},
 		onHit: function (pokemon) {
-			let noCopycat = {assist:1, bestow:1, chatter:1, circlethrow:1, copycat:1, counter:1, covet:1, destinybond:1, detect:1, dragontail:1, endure:1, feint:1, focuspunch:1, followme:1, helpinghand:1, mefirst:1, metronome:1, mimic:1, mirrorcoat:1, mirrormove:1, naturepower:1, protect:1, ragepowder:1, roar:1, sketch:1, sleeptalk:1, snatch:1, struggle:1, switcheroo:1, thief:1, transform:1, trick:1, whirlwind:1};
-			if (!this.lastMove || noCopycat[this.lastMove]) {
+			let noCopycat = {
+				assist: 1,
+				bestow: 1,
+				chatter: 1,
+				circlethrow: 1,
+				copycat: 1,
+				counter: 1,
+				covet: 1,
+				destinybond: 1,
+				detect: 1,
+				dragontail: 1,
+				endure: 1,
+				feint: 1,
+				focuspunch: 1,
+				followme: 1,
+				helpinghand: 1,
+				mefirst: 1,
+				metronome: 1,
+				mimic: 1,
+				mirrorcoat: 1,
+				mirrormove: 1,
+				naturepower: 1,
+				protect: 1,
+				ragepowder: 1,
+				roar: 1,
+				sketch: 1,
+				sleeptalk: 1,
+				snatch: 1,
+				struggle: 1,
+				switcheroo: 1,
+				thief: 1,
+				transform: 1,
+				trick: 1,
+				whirlwind: 1
+			};
+			if (!this.lastMove || noCopycat[this.lastMove] || this.getMove(this.lastMove).isZ) {
 				return false;
 			}
 			this.useMove(this.lastMove, pokemon);
@@ -2118,7 +3046,57 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveBoost: {
+			accuracy: 1
+		},
 		contestType: "Cute",
+	},
+	"coreenforcer": {
+		num: 687,
+		accuracy: 100,
+		basePower: 100,
+		category: "Special",
+		desc: "If the user moves after the target, the target's Ability is rendered ineffective as long as it remains active. If the target uses Baton Pass, the replacement will remain under this effect. If the target's Ability is Multitype or Stance Change, this effect does not happen.",
+		shortDesc: "Nullifies the foe(s) Ability if the target moves first.",
+		id: "coreenforcer",
+		isViable: true,
+		name: "Core Enforcer",
+		pp: 10,
+		priority: 0,
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
+		onHit: function (target) {
+			if (target.ability in {
+					multitype: 1,
+					stancechange: 1
+				}) return;
+			if (!this.willMove(target)) target.addVolatile('gastroacid');
+		},
+		secondary: false,
+		target: "allAdjacentFoes",
+		type: "Dragon",
+		zMovePower: 140,
+		contestType: "Tough",
+	},
+	"corkscrewcrash": {
+		num: 638,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "corkscrewcrash",
+		isViable: true,
+		name: "Corkscrew Crash",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "steeliumz",
+		secondary: false,
+		target: "normal",
+		type: "Steel",
+		contestType: "Cool",
 	},
 	"cosmicpower": {
 		num: 322,
@@ -2131,7 +3109,9 @@ exports.BattleMovedex = {
 		name: "Cosmic Power",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			def: 1,
 			spd: 1,
@@ -2139,6 +3119,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Psychic",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Beautiful",
 	},
 	"cottonguard": {
@@ -2153,13 +3136,16 @@ exports.BattleMovedex = {
 		name: "Cotton Guard",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			def: 3,
 		},
 		secondary: false,
 		target: "self",
 		type: "Grass",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cute",
 	},
 	"cottonspore": {
@@ -2173,13 +3159,19 @@ exports.BattleMovedex = {
 		name: "Cotton Spore",
 		pp: 40,
 		priority: 0,
-		flags: {powder: 1, protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			powder: 1,
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		boosts: {
 			spe: -2,
 		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Grass",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Beautiful",
 	},
 	"counter": {
@@ -2197,7 +3189,10 @@ exports.BattleMovedex = {
 		name: "Counter",
 		pp: 20,
 		priority: -5,
-		flags: {contact: 1, protect: 1},
+		flags: {
+			contact: 1,
+			protect: 1
+		},
 		beforeTurnCallback: function (pokemon) {
 			pokemon.addVolatile('counter');
 		},
@@ -2228,6 +3223,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "scripted",
 		type: "Fighting",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"covet": {
@@ -2241,7 +3237,11 @@ exports.BattleMovedex = {
 		name: "Covet",
 		pp: 25,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onHit: function (target, source) {
 			if (source.item || source.volatiles['gem']) {
 				return;
@@ -2259,6 +3259,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 120,
 		contestType: "Cute",
 	},
 	"crabhammer": {
@@ -2273,11 +3274,16 @@ exports.BattleMovedex = {
 		name: "Crabhammer",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "normal",
 		type: "Water",
+		zMovePower: 180,
 		contestType: "Tough",
 	},
 	"craftyshield": {
@@ -2311,6 +3317,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allySide",
 		type: "Fairy",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Clever",
 	},
 	"crosschop": {
@@ -2325,11 +3334,16 @@ exports.BattleMovedex = {
 		name: "Cross Chop",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 180,
 		contestType: "Cool",
 	},
 	"crosspoison": {
@@ -2343,7 +3357,11 @@ exports.BattleMovedex = {
 		name: "Cross Poison",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'psn',
@@ -2351,6 +3369,7 @@ exports.BattleMovedex = {
 		critRatio: 2,
 		target: "normal",
 		type: "Poison",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"crunch": {
@@ -2365,7 +3384,12 @@ exports.BattleMovedex = {
 		name: "Crunch",
 		pp: 15,
 		priority: 0,
-		flags: {bite: 1, contact: 1, protect: 1, mirror: 1},
+		flags: {
+			bite: 1,
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 20,
 			boosts: {
@@ -2374,6 +3398,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Dark",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"crushclaw": {
@@ -2387,7 +3412,11 @@ exports.BattleMovedex = {
 		name: "Crush Claw",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 50,
 			boosts: {
@@ -2396,6 +3425,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Normal",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"crushgrip": {
@@ -2412,10 +3442,15 @@ exports.BattleMovedex = {
 		name: "Crush Grip",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 190,
 		contestType: "Tough",
 	},
 	"curse": {
@@ -2429,7 +3464,9 @@ exports.BattleMovedex = {
 		name: "Curse",
 		pp: 10,
 		priority: 0,
-		flags: {authentic: 1},
+		flags: {
+			authentic: 1
+		},
 		volatileStatus: 'curse',
 		onModifyMove: function (move, source, target) {
 			if (!source.hasType('Ghost')) {
@@ -2440,8 +3477,15 @@ exports.BattleMovedex = {
 			if (!source.hasType('Ghost')) {
 				delete move.volatileStatus;
 				delete move.onHit;
-				move.self = {boosts: {spe:-1, atk:1, def:1}};
-			} else if (move.volatileStatus && target.volatiles.curse) {
+				move.self = {
+					boosts: {
+						spe: -1,
+						atk: 1,
+						def: 1
+					}
+				};
+			}
+			else if (move.volatileStatus && target.volatiles.curse) {
 				return false;
 			}
 		},
@@ -2461,6 +3505,7 @@ exports.BattleMovedex = {
 		target: "normal",
 		nonGhostTarget: "self",
 		type: "Ghost",
+		zMoveEffect: 'curse',
 		contestType: "Tough",
 	},
 	"cut": {
@@ -2474,10 +3519,15 @@ exports.BattleMovedex = {
 		name: "Cut",
 		pp: 30,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"darkpulse": {
@@ -2492,18 +3542,24 @@ exports.BattleMovedex = {
 		name: "Dark Pulse",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, pulse: 1, mirror: 1, distance: 1},
+		flags: {
+			protect: 1,
+			pulse: 1,
+			mirror: 1,
+			distance: 1
+		},
 		secondary: {
 			chance: 20,
 			volatileStatus: 'flinch',
 		},
 		target: "any",
 		type: "Dark",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"darkvoid": {
 		num: 464,
-		accuracy: 80,
+		accuracy: 50,
 		basePower: 0,
 		category: "Status",
 		desc: "Causes the target to fall asleep.",
@@ -2513,12 +3569,50 @@ exports.BattleMovedex = {
 		name: "Dark Void",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		status: 'slp',
+		onTry: function (pokemon) {
+			if (pokemon.template.species === 'Darkrai') {
+				return;
+			}
+			this.add('-hint', "Only a Pokemon whose form is Darkrai can use this move.");
+			this.add('-fail', pokemon, 'move: Dark Void'); // TODO: client-side
+			return null;
+		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Dark",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Clever",
+	},
+	"darkestlariat": {
+		num: 663,
+		accuracy: 100,
+		basePower: 85,
+		category: "Physical",
+		desc: "Ignores the target's stat stage changes, including evasiveness.",
+		shortDesc: "Ignores the target's stat stage changes.",
+		id: "darkestlariat",
+		isViable: true,
+		name: "Darkest Lariat",
+		pp: 10,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		ignoreEvasion: true,
+		ignoreDefensive: true,
+		secondary: false,
+		target: "normal",
+		type: "Dark",
+		zMovePower: 160,
+		contestType: "Cool",
 	},
 	"dazzlinggleam": {
 		num: 605,
@@ -2532,10 +3626,14 @@ exports.BattleMovedex = {
 		name: "Dazzling Gleam",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Fairy",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"defendorder": {
@@ -2550,7 +3648,9 @@ exports.BattleMovedex = {
 		name: "Defend Order",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			def: 1,
 			spd: 1,
@@ -2558,6 +3658,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Bug",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Clever",
 	},
 	"defensecurl": {
@@ -2571,7 +3674,9 @@ exports.BattleMovedex = {
 		name: "Defense Curl",
 		pp: 40,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			def: 1,
 		},
@@ -2582,6 +3687,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveBoost: {
+			accuracy: 1
+		},
 		contestType: "Cute",
 	},
 	"defog": {
@@ -2596,11 +3704,33 @@ exports.BattleMovedex = {
 		name: "Defog",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			authentic: 1
+		},
 		onHit: function (target, source, move) {
-			if (!target.volatiles['substitute'] || move.infiltrates) this.boost({evasion:-1});
-			let removeTarget = {reflect:1, lightscreen:1, safeguard:1, mist:1, spikes:1, toxicspikes:1, stealthrock:1, stickyweb:1};
-			let removeAll = {spikes:1, toxicspikes:1, stealthrock:1, stickyweb:1};
+			if (!target.volatiles['substitute'] || move.infiltrates) this.boost({
+				evasion: -1
+			});
+			let removeTarget = {
+				reflect: 1,
+				lightscreen: 1,
+				auroraveil: 1,
+				safeguard: 1,
+				mist: 1,
+				spikes: 1,
+				toxicspikes: 1,
+				stealthrock: 1,
+				stickyweb: 1
+			};
+			let removeAll = {
+				spikes: 1,
+				toxicspikes: 1,
+				stealthrock: 1,
+				stickyweb: 1
+			};
 			for (let targetCondition in removeTarget) {
 				if (target.side.removeSideCondition(targetCondition)) {
 					if (!removeAll[targetCondition]) continue;
@@ -2616,6 +3746,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Flying",
+		zMoveBoost: {
+			accuracy: 1
+		},
 		contestType: "Cool",
 	},
 	"destinybond": {
@@ -2630,8 +3763,13 @@ exports.BattleMovedex = {
 		name: "Destiny Bond",
 		pp: 5,
 		priority: 0,
-		flags: {authentic: 1},
+		flags: {
+			authentic: 1
+		},
 		volatileStatus: 'destinybond',
+		onPrepareHit: function (pokemon) {
+			return !pokemon.removeVolatile('destinybond');
+		},
 		effect: {
 			onStart: function (pokemon) {
 				this.add('-singlemove', pokemon, 'Destiny Bond');
@@ -2643,9 +3781,13 @@ exports.BattleMovedex = {
 					source.faint();
 				}
 			},
-			onBeforeMovePriority: 100,
-			onBeforeMove: function (pokemon) {
+			onBeforeMovePriority: -1,
+			onBeforeMove: function (pokemon, target, move) {
+				if (move.id === 'destinybond') return;
 				this.debug('removing Destiny Bond before attack');
+				pokemon.removeVolatile('destinybond');
+			},
+			onMoveAborted: function (pokemon, target, move) {
 				pokemon.removeVolatile('destinybond');
 			},
 			onBeforeSwitchOutPriority: 1,
@@ -2656,6 +3798,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Ghost",
+		zMoveEffect: 'redirect',
 		contestType: "Clever",
 	},
 	"detect": {
@@ -2682,6 +3825,26 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Fighting",
+		zMoveBoost: {
+			evasion: 1
+		},
+		contestType: "Cool",
+	},
+	"devastatingdrake": {
+		num: 652,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "devastatingdrake",
+		name: "Devastating Drake",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "dragoniumz",
+		secondary: false,
+		target: "normal",
+		type: "Dragon",
 		contestType: "Cool",
 	},
 	"diamondstorm": {
@@ -2689,24 +3852,28 @@ exports.BattleMovedex = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		desc: "Has a 50% chance to raise the user's Defense by 1 stage.",
-		shortDesc: "50% chance to raise user's Def by 1 for each hit.",
+		desc: "Has a 50% chance to raise the user's Defense by 2 stages.",
+		shortDesc: "50% chance to raise user's Def by 2 for each hit.",
 		id: "diamondstorm",
 		isViable: true,
 		name: "Diamond Storm",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 50,
 			self: {
 				boosts: {
-					def: 1,
+					def: 2,
 				},
 			},
 		},
 		target: "allAdjacentFoes",
 		type: "Rock",
+		zMovePower: 180,
 		contestType: "Beautiful",
 	},
 	"dig": {
@@ -2720,7 +3887,13 @@ exports.BattleMovedex = {
 		name: "Dig",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, charge: 1, protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			contact: 1,
+			charge: 1,
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		onTry: function (attacker, defender, move) {
 			if (attacker.removeVolatile(move.id)) {
 				return;
@@ -2757,6 +3930,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Ground",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"disable": {
@@ -2771,7 +3945,12 @@ exports.BattleMovedex = {
 		name: "Disable",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			authentic: 1
+		},
 		volatileStatus: 'disable',
 		effect: {
 			duration: 4,
@@ -2790,10 +3969,12 @@ exports.BattleMovedex = {
 						if (!moves[i].pp) {
 							this.debug('Move out of PP');
 							return false;
-						} else {
+						}
+						else {
 							if (effect.id === 'cursedbody') {
 								this.add('-start', pokemon, 'Disable', moves[i].move, '[from] ability: Cursed Body', '[of] ' + source);
-							} else {
+							}
+							else {
 								this.add('-start', pokemon, 'Disable', moves[i].move);
 							}
 							this.effectData.move = pokemon.lastMove;
@@ -2827,6 +4008,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Clever",
 	},
 	"disarmingvoice": {
@@ -2840,10 +4022,16 @@ exports.BattleMovedex = {
 		name: "Disarming Voice",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Fairy",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"discharge": {
@@ -2858,13 +4046,17 @@ exports.BattleMovedex = {
 		name: "Discharge",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			status: 'par',
 		},
 		target: "allAdjacent",
 		type: "Electric",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"dive": {
@@ -2878,7 +4070,13 @@ exports.BattleMovedex = {
 		name: "Dive",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, charge: 1, protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			contact: 1,
+			charge: 1,
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		onTry: function (attacker, defender, move) {
 			if (attacker.removeVolatile(move.id)) {
 				return;
@@ -2915,6 +4113,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Water",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"dizzypunch": {
@@ -2928,13 +4127,19 @@ exports.BattleMovedex = {
 		name: "Dizzy Punch",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
 		secondary: {
 			chance: 20,
 			volatileStatus: 'confusion',
 		},
 		target: "normal",
 		type: "Normal",
+		zMovePower: 140,
 		contestType: "Cute",
 	},
 	"doomdesire": {
@@ -2965,6 +4170,7 @@ exports.BattleMovedex = {
 					accuracy: 100,
 					basePower: 140,
 					category: "Special",
+					priority: 0,
 					flags: {},
 					effectType: 'Move',
 					isFutureMove: true,
@@ -2977,6 +4183,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Steel",
+		zMovePower: 200,
 		contestType: "Beautiful",
 	},
 	"doubleedge": {
@@ -2991,11 +4198,16 @@ exports.BattleMovedex = {
 		name: "Double-Edge",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		recoil: [33, 100],
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 190,
 		contestType: "Tough",
 	},
 	"doublehit": {
@@ -3009,11 +4221,16 @@ exports.BattleMovedex = {
 		name: "Double Hit",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		multihit: 2,
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"doublekick": {
@@ -3027,11 +4244,16 @@ exports.BattleMovedex = {
 		name: "Double Kick",
 		pp: 30,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		multihit: 2,
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"doubleslap": {
@@ -3045,11 +4267,16 @@ exports.BattleMovedex = {
 		name: "Double Slap",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		multihit: [2, 5],
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"doubleteam": {
@@ -3063,13 +4290,16 @@ exports.BattleMovedex = {
 		name: "Double Team",
 		pp: 15,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			evasion: 1,
 		},
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cool",
 	},
 	"dracometeor": {
@@ -3084,7 +4314,10 @@ exports.BattleMovedex = {
 		name: "Draco Meteor",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			boosts: {
 				spa: -2,
@@ -3093,6 +4326,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dragon",
+		zMovePower: 195,
 		contestType: "Beautiful",
 	},
 	"dragonascent": {
@@ -3107,7 +4341,12 @@ exports.BattleMovedex = {
 		name: "Dragon Ascent",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, distance: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			distance: 1
+		},
 		self: {
 			boosts: {
 				def: -1,
@@ -3116,6 +4355,7 @@ exports.BattleMovedex = {
 		},
 		target: "any",
 		type: "Flying",
+		zMovePower: 190,
 		contestType: "Beautiful",
 	},
 	"dragonbreath": {
@@ -3129,13 +4369,17 @@ exports.BattleMovedex = {
 		name: "Dragon Breath",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			status: 'par',
 		},
 		target: "normal",
 		type: "Dragon",
+		zMovePower: 120,
 		contestType: "Cool",
 	},
 	"dragonclaw": {
@@ -3150,10 +4394,15 @@ exports.BattleMovedex = {
 		name: "Dragon Claw",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Dragon",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"dragondance": {
@@ -3168,7 +4417,9 @@ exports.BattleMovedex = {
 		name: "Dragon Dance",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			atk: 1,
 			spe: 1,
@@ -3176,7 +4427,31 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Dragon",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cool",
+	},
+	"dragonhammer": {
+		num: 692,
+		accuracy: 100,
+		basePower: 90,
+		category: "Physical",
+		desc: "No additional effect.",
+		shortDesc: "No additional effect.",
+		id: "dragonhammer",
+		isViable: true,
+		name: "Dragon Hammer",
+		pp: 15,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		secondary: false,
+		target: "normal",
+		type: "Dragon",
+		zMovePower: 175,
+		contestType: "Tough",
 	},
 	"dragonpulse": {
 		num: 406,
@@ -3190,10 +4465,16 @@ exports.BattleMovedex = {
 		name: "Dragon Pulse",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, pulse: 1, mirror: 1, distance: 1},
+		flags: {
+			protect: 1,
+			pulse: 1,
+			mirror: 1,
+			distance: 1
+		},
 		secondary: false,
 		target: "any",
 		type: "Dragon",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"dragonrage": {
@@ -3208,10 +4489,14 @@ exports.BattleMovedex = {
 		name: "Dragon Rage",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Dragon",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"dragonrush": {
@@ -3225,13 +4510,18 @@ exports.BattleMovedex = {
 		name: "Dragon Rush",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 20,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Dragon",
+		zMovePower: 180,
 		contestType: "Tough",
 	},
 	"dragontail": {
@@ -3246,10 +4536,15 @@ exports.BattleMovedex = {
 		name: "Dragon Tail",
 		pp: 10,
 		priority: -6,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		forceSwitch: true,
 		target: "normal",
 		type: "Dragon",
+		zMovePower: 120,
 		contestType: "Tough",
 	},
 	"drainingkiss": {
@@ -3263,11 +4558,17 @@ exports.BattleMovedex = {
 		name: "Draining Kiss",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, heal: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			heal: 1
+		},
 		drain: [3, 4],
 		secondary: false,
 		target: "normal",
 		type: "Fairy",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"drainpunch": {
@@ -3282,11 +4583,18 @@ exports.BattleMovedex = {
 		name: "Drain Punch",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1, heal: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1,
+			heal: 1
+		},
 		drain: [1, 2],
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 140,
 		contestType: "Tough",
 	},
 	"dreameater": {
@@ -3300,10 +4608,14 @@ exports.BattleMovedex = {
 		name: "Dream Eater",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, heal: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			heal: 1
+		},
 		drain: [1, 2],
 		onTryHit: function (target) {
-			if (target.status !== 'slp') {
+			if (target.status !== 'slp' && !target.hasAbility('comatose')) {
 				this.add('-immune', target, '[msg]');
 				return null;
 			}
@@ -3311,6 +4623,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 180,
 		contestType: "Clever",
 	},
 	"drillpeck": {
@@ -3325,10 +4638,16 @@ exports.BattleMovedex = {
 		name: "Drill Peck",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, distance: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			distance: 1
+		},
 		secondary: false,
 		target: "any",
 		type: "Flying",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"drillrun": {
@@ -3343,11 +4662,16 @@ exports.BattleMovedex = {
 		name: "Drill Run",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "normal",
 		type: "Ground",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"dualchop": {
@@ -3361,11 +4685,16 @@ exports.BattleMovedex = {
 		name: "Dual Chop",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		multihit: 2,
 		secondary: false,
 		target: "normal",
 		type: "Dragon",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"dynamicpunch": {
@@ -3379,13 +4708,19 @@ exports.BattleMovedex = {
 		name: "Dynamic Punch",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
 		secondary: {
 			chance: 100,
 			volatileStatus: 'confusion',
 		},
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 180,
 		contestType: "Cool",
 	},
 	"earthpower": {
@@ -3400,7 +4735,11 @@ exports.BattleMovedex = {
 		name: "Earth Power",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		secondary: {
 			chance: 10,
 			boosts: {
@@ -3409,6 +4748,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Ground",
+		zMovePower: 175,
 		contestType: "Beautiful",
 	},
 	"earthquake": {
@@ -3423,10 +4763,15 @@ exports.BattleMovedex = {
 		name: "Earthquake",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		secondary: false,
 		target: "allAdjacent",
 		type: "Ground",
+		zMovePower: 180,
 		contestType: "Tough",
 	},
 	"echoedvoice": {
@@ -3446,7 +4791,12 @@ exports.BattleMovedex = {
 		name: "Echoed Voice",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		onTry: function () {
 			this.addPseudoWeather('echoedvoice');
 		},
@@ -3467,6 +4817,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Beautiful",
 	},
 	"eerieimpulse": {
@@ -3480,13 +4831,20 @@ exports.BattleMovedex = {
 		name: "Eerie Impulse",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		boosts: {
 			spa: -2,
 		},
 		secondary: false,
 		target: "normal",
 		type: "Electric",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Clever",
 	},
 	"eggbomb": {
@@ -3500,10 +4858,15 @@ exports.BattleMovedex = {
 		name: "Egg Bomb",
 		pp: 10,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 180,
 		contestType: "Cute",
 	},
 	"electricterrain": {
@@ -3517,10 +4880,18 @@ exports.BattleMovedex = {
 		name: "Electric Terrain",
 		pp: 10,
 		priority: 0,
-		flags: {nonsky: 1},
+		flags: {
+			nonsky: 1
+		},
 		terrain: 'electricterrain',
 		effect: {
 			duration: 5,
+			durationCallback: function (source, effect) {
+				if (source && source.hasItem('terrainextender')) {
+					return 8;
+				}
+				return 5;
+			},
 			onSetStatus: function (status, target, source, effect) {
 				if (status.id === 'slp' && target.isGrounded() && !target.isSemiInvulnerable()) {
 					if (effect.effectType === 'Move' && !effect.secondaries) {
@@ -3545,7 +4916,8 @@ exports.BattleMovedex = {
 			onStart: function (battle, source, effect) {
 				if (effect && effect.effectType === 'Ability') {
 					this.add('-fieldstart', 'move: Electric Terrain', '[from] ability: ' + effect, '[of] ' + source);
-				} else {
+				}
+				else {
 					this.add('-fieldstart', 'move: Electric Terrain');
 				}
 			},
@@ -3558,6 +4930,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Electric",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Clever",
 	},
 	"electrify": {
@@ -3571,7 +4946,11 @@ exports.BattleMovedex = {
 		name: "Electrify",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		volatileStatus: 'electrify',
 		onTryHit: function (target) {
 			if (!this.willMove(target) && target.activeTurns) return false;
@@ -3590,6 +4969,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Electric",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Clever",
 	},
 	"electroball": {
@@ -3620,10 +5002,15 @@ exports.BattleMovedex = {
 		name: "Electro Ball",
 		pp: 10,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Electric",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"electroweb": {
@@ -3637,7 +5024,10 @@ exports.BattleMovedex = {
 		name: "Electroweb",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 100,
 			boosts: {
@@ -3646,6 +5036,7 @@ exports.BattleMovedex = {
 		},
 		target: "allAdjacentFoes",
 		type: "Electric",
+		zMovePower: 100,
 		contestType: "Beautiful",
 	},
 	"embargo": {
@@ -3659,7 +5050,11 @@ exports.BattleMovedex = {
 		name: "Embargo",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		volatileStatus: 'embargo',
 		effect: {
 			duration: 5,
@@ -3675,6 +5070,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Clever",
 	},
 	"ember": {
@@ -3688,13 +5086,17 @@ exports.BattleMovedex = {
 		name: "Ember",
 		pp: 25,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'brn',
 		},
 		target: "normal",
 		type: "Fire",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"encore": {
@@ -3709,14 +5111,26 @@ exports.BattleMovedex = {
 		name: "Encore",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			authentic: 1
+		},
 		volatileStatus: 'encore',
 		effect: {
 			duration: 3,
 			onStart: function (target) {
-				let noEncore = {encore:1, mimic:1, mirrormove:1, sketch:1, struggle:1, transform:1};
+				let noEncore = {
+					encore: 1,
+					mimic: 1,
+					mirrormove: 1,
+					sketch: 1,
+					struggle: 1,
+					transform: 1
+				};
 				let moveIndex = target.moves.indexOf(target.lastMove);
-				if (!target.lastMove || noEncore[target.lastMove] || (target.moveset[moveIndex] && target.moveset[moveIndex].pp <= 0)) {
+				if (!target.lastMove || this.getMove(target.lastMove).isZ || noEncore[target.lastMove] || (target.moveset[moveIndex] && target.moveset[moveIndex].pp <= 0)) {
 					// it failed
 					delete target.volatiles['encore'];
 					return false;
@@ -3754,6 +5168,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Cute",
 	},
 	"endeavor": {
@@ -3770,7 +5187,11 @@ exports.BattleMovedex = {
 		name: "Endeavor",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onTry: function (pokemon, target) {
 			if (pokemon.hp >= target.hp) {
 				this.add('-immune', target, '[msg]');
@@ -3780,6 +5201,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"endure": {
@@ -3818,6 +5240,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Tough",
 	},
 	"energyball": {
@@ -3832,7 +5255,11 @@ exports.BattleMovedex = {
 		name: "Energy Ball",
 		pp: 10,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			boosts: {
@@ -3841,6 +5268,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Grass",
+		zMovePower: 175,
 		contestType: "Beautiful",
 	},
 	"entrainment": {
@@ -3854,11 +5282,32 @@ exports.BattleMovedex = {
 		name: "Entrainment",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		onTryHit: function (target, source) {
 			if (target === source) return false;
-			let bannedTargetAbilities = {multitype:1, stancechange:1, truant:1};
-			let bannedSourceAbilities = {flowergift:1, forecast:1, illusion:1, imposter:1, multitype:1, stancechange:1, trace:1, zenmode:1};
+			let bannedTargetAbilities = {
+				comatose: 1,
+				multitype: 1,
+				schooling: 1,
+				stancechange: 1,
+				truant: 1
+			};
+			let bannedSourceAbilities = {
+				comatose: 1,
+				flowergift: 1,
+				forecast: 1,
+				illusion: 1,
+				imposter: 1,
+				multitype: 1,
+				stancechange: 1,
+				trace: 1,
+				zenmode: 1
+			};
 			if (bannedTargetAbilities[target.ability] || bannedSourceAbilities[source.ability] || target.ability === source.ability) {
 				return false;
 			}
@@ -3874,6 +5323,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Cute",
 	},
 	"eruption": {
@@ -3891,10 +5343,14 @@ exports.BattleMovedex = {
 		name: "Eruption",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Fire",
+		zMovePower: 200,
 		contestType: "Beautiful",
 	},
 	"explosion": {
@@ -3909,11 +5365,15 @@ exports.BattleMovedex = {
 		name: "Explosion",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		selfdestruct: true,
 		secondary: false,
 		target: "allAdjacent",
 		type: "Normal",
+		zMovePower: 200,
 		contestType: "Beautiful",
 	},
 	"extrasensory": {
@@ -3928,14 +5388,44 @@ exports.BattleMovedex = {
 		name: "Extrasensory",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 160,
 		contestType: "Cool",
+	},
+	"extremeevoboost": {
+		num: 702,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "Raises the user's Attack, Defense, Special Attack, Special Defense, and Speed by 2 stages.",
+		shortDesc: "Raises user's Atk, Def, SpA, SpD, and Spe by 2.",
+		id: "extremeevoboost",
+		isViable: true,
+		name: "Extreme Evoboost",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "eeviumz",
+		boosts: {
+			atk: 2,
+			def: 2,
+			spa: 2,
+			spd: 2,
+			spe: 2,
+		},
+		secondary: false,
+		target: "self",
+		type: "Normal",
+		contestType: "Beautiful",
 	},
 	"extremespeed": {
 		num: 245,
@@ -3949,10 +5439,15 @@ exports.BattleMovedex = {
 		name: "Extreme Speed",
 		pp: 5,
 		priority: 2,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"facade": {
@@ -3967,7 +5462,11 @@ exports.BattleMovedex = {
 		name: "Facade",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onBasePowerPriority: 4,
 		onBasePower: function (basePower, pokemon) {
 			if (pokemon.status && pokemon.status !== 'slp') {
@@ -3977,6 +5476,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 140,
 		contestType: "Cute",
 	},
 	"feintattack": {
@@ -3990,10 +5490,15 @@ exports.BattleMovedex = {
 		name: "Feint Attack",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMovePower: 120,
 		contestType: "Clever",
 	},
 	"fairylock": {
@@ -4007,7 +5512,10 @@ exports.BattleMovedex = {
 		name: "Fairy Lock",
 		pp: 10,
 		priority: 0,
-		flags: {mirror: 1, authentic: 1},
+		flags: {
+			mirror: 1,
+			authentic: 1
+		},
 		pseudoWeather: 'fairylock',
 		effect: {
 			duration: 2,
@@ -4021,6 +5529,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Fairy",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Clever",
 	},
 	"fairywind": {
@@ -4034,10 +5545,14 @@ exports.BattleMovedex = {
 		name: "Fairy Wind",
 		pp: 30,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Fairy",
+		zMovePower: 100,
 		contestType: "Beautiful",
 	},
 	"fakeout": {
@@ -4052,7 +5567,11 @@ exports.BattleMovedex = {
 		name: "Fake Out",
 		pp: 10,
 		priority: 3,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onTry: function (pokemon, target) {
 			if (pokemon.activeTurns > 1) {
 				this.add('-fail', pokemon);
@@ -4066,6 +5585,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"faketears": {
@@ -4079,13 +5599,21 @@ exports.BattleMovedex = {
 		name: "Fake Tears",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		boosts: {
 			spd: -2,
 		},
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Cute",
 	},
 	"falseswipe": {
@@ -4099,11 +5627,16 @@ exports.BattleMovedex = {
 		name: "False Swipe",
 		pp: 40,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		noFaint: true,
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"featherdance": {
@@ -4117,13 +5650,21 @@ exports.BattleMovedex = {
 		name: "Feather Dance",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		boosts: {
 			atk: -2,
 		},
 		secondary: false,
 		target: "normal",
 		type: "Flying",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Beautiful",
 	},
 	"feint": {
@@ -4137,39 +5678,49 @@ exports.BattleMovedex = {
 		name: "Feint",
 		pp: 10,
 		priority: 2,
-		flags: {mirror: 1},
+		flags: {
+			mirror: 1
+		},
 		breaksProtect: true,
 		// Breaking protection implemented in scripts.js
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Clever",
 	},
 	"fellstinger": {
 		num: 565,
 		accuracy: 100,
-		basePower: 30,
+		basePower: 50,
 		category: "Physical",
-		desc: "Raises the user's Attack by 2 stages if this move knocks out the target.",
-		shortDesc: "Raises user's Attack by 2 if this KOes the target.",
+		desc: "Raises the user's Attack by 3 stages if this move knocks out the target.",
+		shortDesc: "Raises user's Attack by 3 if this KOes the target.",
 		id: "fellstinger",
 		name: "Fell Stinger",
 		pp: 25,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onHit: function (target, pokemon) {
 			pokemon.addVolatile('fellstinger');
 		},
 		effect: {
 			duration: 1,
 			onAfterMoveSecondarySelf: function (pokemon, target, move) {
-				if (!target || target.fainted || target.hp <= 0) this.boost({atk:2}, pokemon, pokemon, move);
+				if (!target || target.fainted || target.hp <= 0) this.boost({
+					atk: 3
+				}, pokemon, pokemon, move);
 				pokemon.removeVolatile('fellstinger');
 			},
 		},
 		secondary: false,
 		target: "normal",
 		type: "Bug",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"fierydance": {
@@ -4184,7 +5735,10 @@ exports.BattleMovedex = {
 		name: "Fiery Dance",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 50,
 			self: {
@@ -4195,6 +5749,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Fire",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"finalgambit": {
@@ -4214,11 +5769,14 @@ exports.BattleMovedex = {
 		name: "Final Gambit",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1},
+		flags: {
+			protect: 1
+		},
 		selfdestruct: true,
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 180,
 		contestType: "Tough",
 	},
 	"fireblast": {
@@ -4233,13 +5791,17 @@ exports.BattleMovedex = {
 		name: "Fire Blast",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'brn',
 		},
 		target: "normal",
 		type: "Fire",
+		zMovePower: 185,
 		contestType: "Beautiful",
 	},
 	"firefang": {
@@ -4254,26 +5816,61 @@ exports.BattleMovedex = {
 		name: "Fire Fang",
 		pp: 15,
 		priority: 0,
-		flags: {bite: 1, contact: 1, protect: 1, mirror: 1},
-		secondaries: [
-			{
-				chance: 10,
-				status: 'brn',
-			}, {
-				chance: 10,
-				volatileStatus: 'flinch',
-			},
-		],
+		flags: {
+			bite: 1,
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		secondaries: [{
+			chance: 10,
+			status: 'brn',
+		}, {
+			chance: 10,
+			volatileStatus: 'flinch',
+		}, ],
 		target: "normal",
 		type: "Fire",
+		zMovePower: 120,
 		contestType: "Cool",
+	},
+	"firelash": {
+		num: 680,
+		accuracy: 100,
+		basePower: 80,
+		category: "Physical",
+		desc: "Has a 100% chance to lower the target's Defense by 1 stage.",
+		shortDesc: "100% chance to lower the target's Defense by 1.",
+		id: "firelash",
+		isViable: true,
+		name: "Fire Lash",
+		pp: 15,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		secondary: {
+			chance: 100,
+			boosts: {
+				def: -1,
+			},
+		},
+		target: "normal",
+		type: "Fire",
+		zMovePower: 160,
+		contestType: "Cute",
 	},
 	"firepledge": {
 		num: 519,
 		accuracy: 100,
 		basePower: 80,
 		basePowerCallback: function (target, source, move) {
-			if (move.sourceEffect in {grasspledge:1, waterpledge:1}) {
+			if (move.sourceEffect in {
+					grasspledge: 1,
+					waterpledge: 1
+				}) {
 				this.add('-combine');
 				return 150;
 			}
@@ -4286,12 +5883,19 @@ exports.BattleMovedex = {
 		name: "Fire Pledge",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		onPrepareHit: function (target, source, move) {
 			for (let i = 0; i < this.queue.length; i++) {
 				let decision = this.queue[i];
 				if (!decision.move || !decision.pokemon || !decision.pokemon.isActive || decision.pokemon.fainted) continue;
-				if (decision.pokemon.side === source.side && decision.move.id in {grasspledge:1, waterpledge:1}) {
+				if (decision.pokemon.side === source.side && decision.move.id in {
+						grasspledge: 1,
+						waterpledge: 1
+					}) {
 					this.prioritizeQueue(decision);
 					this.add('-waiting', source, decision.pokemon);
 					return null;
@@ -4336,6 +5940,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Fire",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"firepunch": {
@@ -4350,13 +5955,19 @@ exports.BattleMovedex = {
 		name: "Fire Punch",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'brn',
 		},
 		target: "normal",
 		type: "Fire",
+		zMovePower: 140,
 		contestType: "Tough",
 	},
 	"firespin": {
@@ -4370,12 +5981,46 @@ exports.BattleMovedex = {
 		name: "Fire Spin",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		volatileStatus: 'partiallytrapped',
 		secondary: false,
 		target: "normal",
 		type: "Fire",
+		zMovePower: 100,
 		contestType: "Beautiful",
+	},
+	"firstimpression": {
+		num: 660,
+		accuracy: 100,
+		basePower: 90,
+		category: "Physical",
+		desc: "Fails unless it is the user's first turn on the field.",
+		shortDesc: "Hits first. First turn out only.",
+		id: "firstimpression",
+		isViable: true,
+		name: "First Impression",
+		pp: 10,
+		priority: 2,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		onTry: function (pokemon, target) {
+			if (pokemon.activeTurns > 1) {
+				this.add('-fail', pokemon);
+				this.add('-hint', "First Impression only works on your first turn out.");
+				return null;
+			}
+		},
+		secondary: false,
+		target: "normal",
+		type: "Bug",
+		zMovePower: 175,
+		contestType: "Cute",
 	},
 	"fissure": {
 		num: 90,
@@ -4388,11 +6033,16 @@ exports.BattleMovedex = {
 		name: "Fissure",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		ohko: true,
 		secondary: false,
 		target: "normal",
 		type: "Ground",
+		zMovePower: 180,
 		contestType: "Tough",
 	},
 	"flail": {
@@ -4425,10 +6075,15 @@ exports.BattleMovedex = {
 		name: "Flail",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Cute",
 	},
 	"flameburst": {
@@ -4442,7 +6097,10 @@ exports.BattleMovedex = {
 		name: "Flame Burst",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onHit: function (target, source) {
 			let allyActive = target.side.active;
 			if (allyActive.length === 1) {
@@ -4457,6 +6115,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Fire",
+		zMovePower: 140,
 		contestType: "Beautiful",
 	},
 	"flamecharge": {
@@ -4471,7 +6130,11 @@ exports.BattleMovedex = {
 		name: "Flame Charge",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 100,
 			self: {
@@ -4482,6 +6145,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Fire",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"flamewheel": {
@@ -4495,13 +6159,19 @@ exports.BattleMovedex = {
 		name: "Flame Wheel",
 		pp: 25,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, defrost: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			defrost: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'brn',
 		},
 		target: "normal",
 		type: "Fire",
+		zMovePower: 120,
 		contestType: "Beautiful",
 	},
 	"flamethrower": {
@@ -4516,13 +6186,17 @@ exports.BattleMovedex = {
 		name: "Flamethrower",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'brn',
 		},
 		target: "normal",
 		type: "Fire",
+		zMovePower: 175,
 		contestType: "Beautiful",
 	},
 	"flareblitz": {
@@ -4537,7 +6211,12 @@ exports.BattleMovedex = {
 		name: "Flare Blitz",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, defrost: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			defrost: 1
+		},
 		recoil: [33, 100],
 		secondary: {
 			chance: 10,
@@ -4545,6 +6224,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Fire",
+		zMovePower: 190,
 		contestType: "Cool",
 	},
 	"flash": {
@@ -4558,13 +6238,20 @@ exports.BattleMovedex = {
 		name: "Flash",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		boosts: {
 			accuracy: -1,
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			evasion: 1
+		},
 		contestType: "Beautiful",
 	},
 	"flashcannon": {
@@ -4579,7 +6266,10 @@ exports.BattleMovedex = {
 		name: "Flash Cannon",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			boosts: {
@@ -4588,6 +6278,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Steel",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"flatter": {
@@ -4601,7 +6292,12 @@ exports.BattleMovedex = {
 		name: "Flatter",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		volatileStatus: 'confusion',
 		boosts: {
 			spa: 1,
@@ -4609,7 +6305,37 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Clever",
+	},
+	"fleurcannon": {
+		num: 705,
+		accuracy: 90,
+		basePower: 130,
+		category: "Special",
+		desc: "Lowers the user's Special Attack by 2 stages.",
+		shortDesc: "Lowers the user's Sp. Atk by 2.",
+		id: "fleurcannon",
+		isViable: true,
+		name: "Fleur Cannon",
+		pp: 5,
+		priority: 0,
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
+		self: {
+			boosts: {
+				spa: -2,
+			},
+		},
+		secondary: false,
+		target: "normal",
+		type: "Fairy",
+		zMovePower: 195,
+		contestType: "Beautiful",
 	},
 	"fling": {
 		num: 374,
@@ -4622,15 +6348,19 @@ exports.BattleMovedex = {
 		name: "Fling",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
-		beforeMoveCallback: function (pokemon) {
-			if (pokemon.ignoringItem()) return;
-			let item = pokemon.getItem();
-			let noFling = item.onTakeItem && item.onTakeItem(item, pokemon) === false;
-			if (item.fling && !noFling) {
-				pokemon.addVolatile('fling');
-				pokemon.setItem('');
-				this.runEvent('AfterUseItem', pokemon, null, null, item);
+		flags: {
+			protect: 1,
+			mirror: 1,
+			mystery: 1
+		},
+		beforeMoveCallback: function (source, target, move) {
+			if (source.ignoringItem()) return;
+			let item = source.getItem();
+			if (!this.singleEvent('TakeItem', item, source.itemData, source, source, move, item)) return;
+			if (item.fling) {
+				source.addVolatile('fling');
+				source.setItem('');
+				this.runEvent('AfterUseItem', source, null, null, item);
 			}
 		},
 		onPrepareHit: function (target, source, move) {
@@ -4657,14 +6387,21 @@ exports.BattleMovedex = {
 						}
 						if (item.onEat) foe.ateBerry = true;
 					};
-				} else if (item.fling.effect) {
+				}
+				else if (item.fling.effect) {
 					move.onHit = item.fling.effect;
-				} else {
+				}
+				else {
 					if (!move.secondaries) move.secondaries = [];
 					if (item.fling.status) {
-						move.secondaries.push({status: item.fling.status});
-					} else if (item.fling.volatileStatus) {
-						move.secondaries.push({volatileStatus: item.fling.volatileStatus});
+						move.secondaries.push({
+							status: item.fling.status
+						});
+					}
+					else if (item.fling.volatileStatus) {
+						move.secondaries.push({
+							volatileStatus: item.fling.volatileStatus
+						});
 					}
 				}
 			},
@@ -4672,7 +6409,40 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMovePower: 100,
 		contestType: "Cute",
+	},
+	"floralhealing": {
+		num: 666,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "The target restores 1/2 of its maximum HP, rounded half up. If the terrain is Grassy Terrain, the target instead restores 2/3 of its maximum HP, rounded half down.",
+		shortDesc: "Heals the target by 50% of its max HP.",
+		id: "floralhealing",
+		isViable: true,
+		name: "Floral Healing",
+		pp: 10,
+		priority: 0,
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			heal: 1,
+			mystery: 1
+		},
+		onHit: function (target) {
+			if (this.isTerrain('grassyterrain')) {
+				this.heal(this.modify(target.maxhp, 0.667)); // TODO: find out the real value
+			}
+			else {
+				this.heal(Math.ceil(target.maxhp * 0.5));
+			}
+		},
+		secondary: false,
+		target: "normal",
+		type: "Fairy",
+		zMoveEffect: 'clearnegativeboost',
+		contestType: "Beautiful",
 	},
 	"flowershield": {
 		num: 579,
@@ -4685,7 +6455,9 @@ exports.BattleMovedex = {
 		name: "Flower Shield",
 		pp: 10,
 		priority: 0,
-		flags: {distance: 1},
+		flags: {
+			distance: 1
+		},
 		onHitField: function (target, source) {
 			let targets = [];
 			for (let sideSlot = 0; sideSlot < this.sides.length; sideSlot++) {
@@ -4699,12 +6471,17 @@ exports.BattleMovedex = {
 			}
 			if (!targets.length) return false; // No targets; move fails
 			for (let i = 0; i < targets.length; i++) {
-				this.boost({def: 1}, targets[i], source, this.getMove('Flower Shield'));
+				this.boost({
+					def: 1
+				}, targets[i], source, this.getMove('Flower Shield'));
 			}
 		},
 		secondary: false,
 		target: "all",
 		type: "Fairy",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Beautiful",
 	},
 	"fly": {
@@ -4718,7 +6495,14 @@ exports.BattleMovedex = {
 		name: "Fly",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, charge: 1, protect: 1, mirror: 1, gravity: 1, distance: 1},
+		flags: {
+			contact: 1,
+			charge: 1,
+			protect: 1,
+			mirror: 1,
+			gravity: 1,
+			distance: 1
+		},
 		onTry: function (attacker, defender, move) {
 			if (attacker.removeVolatile(move.id)) {
 				return;
@@ -4755,19 +6539,27 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "any",
 		type: "Flying",
+		zMovePower: 175,
 		contestType: "Clever",
 	},
 	"flyingpress": {
 		num: 560,
 		accuracy: 95,
-		basePower: 80,
+		basePower: 100,
 		category: "Physical",
 		desc: "This move combines Flying in its type effectiveness against the target. Damage doubles and no accuracy check is done if the target has used Minimize while active.",
 		shortDesc: "Combines Flying in its type effectiveness.",
 		id: "flyingpress",
 		name: "Flying Press",
 		pp: 10,
-		flags: {contact: 1, protect: 1, mirror: 1, gravity: 1, distance: 1, nonsky: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			gravity: 1,
+			distance: 1,
+			nonsky: 1
+		},
 		onEffectiveness: function (typeMod, type, move) {
 			return typeMod + this.getEffectiveness('Flying', type);
 		},
@@ -4775,6 +6567,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "any",
 		type: "Fighting",
+		zMovePower: 170,
 		contestType: "Tough",
 	},
 	"focusblast": {
@@ -4789,7 +6582,11 @@ exports.BattleMovedex = {
 		name: "Focus Blast",
 		pp: 5,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			boosts: {
@@ -4798,6 +6595,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 190,
 		contestType: "Cool",
 	},
 	"focusenergy": {
@@ -4811,7 +6609,9 @@ exports.BattleMovedex = {
 		name: "Focus Energy",
 		pp: 30,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		volatileStatus: 'focusenergy',
 		effect: {
 			onStart: function (pokemon) {
@@ -4824,6 +6624,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveBoost: {
+			accuracy: 1
+		},
 		contestType: "Cool",
 	},
 	"focuspunch": {
@@ -4837,7 +6640,11 @@ exports.BattleMovedex = {
 		name: "Focus Punch",
 		pp: 20,
 		priority: -3,
-		flags: {contact: 1, protect: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			punch: 1
+		},
 		beforeTurnCallback: function (pokemon) {
 			pokemon.addVolatile('focuspunch');
 		},
@@ -4861,6 +6668,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 200,
 		contestType: "Tough",
 	},
 	"followme": {
@@ -4881,8 +6689,13 @@ exports.BattleMovedex = {
 		},
 		effect: {
 			duration: 1,
-			onStart: function (pokemon) {
-				this.add('-singleturn', pokemon, 'move: Follow Me');
+			onStart: function (target, source, effect) {
+				if (effect && effect.id === 'zpower') {
+					this.add('-singleturn', target, 'move: Follow Me', '[zeffect]');
+				}
+				else {
+					this.add('-singleturn', target, 'move: Follow Me');
+				}
 			},
 			onFoeRedirectTargetPriority: 1,
 			onFoeRedirectTarget: function (target, source, source2, move) {
@@ -4895,6 +6708,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cute",
 	},
 	"forcepalm": {
@@ -4908,13 +6722,18 @@ exports.BattleMovedex = {
 		name: "Force Palm",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			status: 'par',
 		},
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 120,
 		contestType: "Cool",
 	},
 	"foresight": {
@@ -4928,7 +6747,12 @@ exports.BattleMovedex = {
 		name: "Foresight",
 		pp: 40,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			authentic: 1
+		},
 		volatileStatus: 'foresight',
 		onTryHit: function (target) {
 			if (target.volatiles['miracleeye']) return false;
@@ -4939,7 +6763,10 @@ exports.BattleMovedex = {
 				this.add('-start', pokemon, 'Foresight');
 			},
 			onNegateImmunity: function (pokemon, type) {
-				if (pokemon.hasType('Ghost') && type in {'Normal': 1, 'Fighting': 1}) return false;
+				if (pokemon.hasType('Ghost') && type in {
+						'Normal': 1,
+						'Fighting': 1
+					}) return false;
 			},
 			onModifyBoost: function (boosts) {
 				if (boosts.evasion && boosts.evasion > 0) {
@@ -4950,6 +6777,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveEffect: 'crit1',
 		contestType: "Clever",
 	},
 	"forestscurse": {
@@ -4963,7 +6791,12 @@ exports.BattleMovedex = {
 		name: "Forest's Curse",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		onHit: function (target) {
 			if (target.hasType('Grass')) return false;
 			if (!target.addType('Grass')) return false;
@@ -4972,6 +6805,13 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMoveBoost: {
+			atk: 1,
+			def: 1,
+			spa: 1,
+			spd: 1,
+			spe: 1
+		},
 		contestType: "Clever",
 	},
 	"foulplay": {
@@ -4986,11 +6826,16 @@ exports.BattleMovedex = {
 		name: "Foul Play",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		useTargetOffensive: true,
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMovePower: 175,
 		contestType: "Clever",
 	},
 	"freezedry": {
@@ -5005,7 +6850,10 @@ exports.BattleMovedex = {
 		name: "Freeze-Dry",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onEffectiveness: function (typeMod, type) {
 			if (type === 'Water') return 1;
 		},
@@ -5015,6 +6863,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Ice",
+		zMovePower: 140,
 		contestType: "Beautiful",
 	},
 	"freezeshock": {
@@ -5028,7 +6877,11 @@ exports.BattleMovedex = {
 		name: "Freeze Shock",
 		pp: 5,
 		priority: 0,
-		flags: {charge: 1, protect: 1, mirror: 1},
+		flags: {
+			charge: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onTry: function (attacker, defender, move) {
 			if (attacker.removeVolatile(move.id)) {
 				return;
@@ -5047,6 +6900,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Ice",
+		zMovePower: 200,
 		contestType: "Beautiful",
 	},
 	"frenzyplant": {
@@ -5060,13 +6914,19 @@ exports.BattleMovedex = {
 		name: "Frenzy Plant",
 		pp: 5,
 		priority: 0,
-		flags: {recharge: 1, protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			recharge: 1,
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		self: {
 			volatileStatus: 'mustrecharge',
 		},
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 200,
 		contestType: "Cool",
 	},
 	"frostbreath": {
@@ -5080,11 +6940,15 @@ exports.BattleMovedex = {
 		name: "Frost Breath",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		willCrit: true,
 		secondary: false,
 		target: "normal",
 		type: "Ice",
+		zMovePower: 120,
 		contestType: "Beautiful",
 	},
 	"frustration": {
@@ -5102,10 +6966,15 @@ exports.BattleMovedex = {
 		name: "Frustration",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Cute",
 	},
 	"furyattack": {
@@ -5119,11 +6988,16 @@ exports.BattleMovedex = {
 		name: "Fury Attack",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		multihit: [2, 5],
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"furycutter": {
@@ -5143,7 +7017,11 @@ exports.BattleMovedex = {
 		name: "Fury Cutter",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onHit: function (target, source) {
 			source.addVolatile('furycutter');
 		},
@@ -5162,6 +7040,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Bug",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"furyswipes": {
@@ -5175,11 +7054,16 @@ exports.BattleMovedex = {
 		name: "Fury Swipes",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		multihit: [2, 5],
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"fusionbolt": {
@@ -5194,7 +7078,10 @@ exports.BattleMovedex = {
 		name: "Fusion Bolt",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onBasePowerPriority: 4,
 		onBasePower: function (basePower, pokemon) {
 			let actives = pokemon.side.active;
@@ -5208,6 +7095,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Electric",
+		zMovePower: 180,
 		contestType: "Cool",
 	},
 	"fusionflare": {
@@ -5222,7 +7110,11 @@ exports.BattleMovedex = {
 		name: "Fusion Flare",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, defrost: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			defrost: 1
+		},
 		onBasePowerPriority: 4,
 		onBasePower: function (basePower, pokemon) {
 			let actives = pokemon.side.active;
@@ -5236,6 +7128,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Fire",
+		zMovePower: 180,
 		contestType: "Beautiful",
 	},
 	"futuresight": {
@@ -5267,6 +7160,7 @@ exports.BattleMovedex = {
 					accuracy: 100,
 					basePower: 120,
 					category: "Special",
+					priority: 0,
 					flags: {},
 					ignoreImmunity: false,
 					effectType: 'Move',
@@ -5280,6 +7174,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 190,
 		contestType: "Clever",
 	},
 	"gastroacid": {
@@ -5293,10 +7188,20 @@ exports.BattleMovedex = {
 		name: "Gastro Acid",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		volatileStatus: 'gastroacid',
 		onTryHit: function (pokemon) {
-			let bannedAbilities = {multitype:1, stancechange:1};
+			let bannedAbilities = {
+				comatose: 1,
+				multitype: 1,
+				schooling: 1,
+				stancechange: 1
+			};
 			if (bannedAbilities[pokemon.ability]) {
 				return false;
 			}
@@ -5311,6 +7216,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Poison",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Tough",
 	},
 	"geargrind": {
@@ -5325,12 +7233,74 @@ exports.BattleMovedex = {
 		name: "Gear Grind",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		multihit: 2,
 		secondary: false,
 		target: "normal",
 		type: "Steel",
+		zMovePower: 180,
 		contestType: "Clever",
+	},
+	"gearup": {
+		num: 674,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "Raises the Attack and Special Attack of Pokemon on the user's side with the Abilities Plus or Minus by 1 stage.",
+		shortDesc: "Raises Atk, Sp. Atk of allies with Plus/Minus by 1.",
+		id: "gearup",
+		name: "Gear Up",
+		pp: 20,
+		priority: 0,
+		flags: {
+			snatch: 1,
+			authentic: 1
+		},
+		onHitSide: function (side, source) {
+			let targets = [];
+			for (let p in side.active) {
+				if (side.active[p].hasAbility(['plus', 'minus'])) {
+					targets.push(side.active[p]);
+				}
+			}
+			if (!targets.length) return false;
+			for (let i = 0; i < targets.length; i++) this.boost({
+				atk: 1,
+				spa: 1
+			}, targets[i], source, 'move: Gear Up');
+		},
+		secondary: false,
+		target: "allySide",
+		type: "Steel",
+		zMoveBoost: {
+			spa: 1
+		},
+		contestType: "Clever",
+	},
+	"genesissupernova": {
+		num: 703,
+		accuracy: true,
+		basePower: 185,
+		category: "Special",
+		desc: "The terrain becomes Psychic Terrain.",
+		shortDesc: "Summons Psychic Terrain.",
+		id: "genesissupernova",
+		name: "Genesis Supernova",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "mewniumz",
+		onHit: function () {
+			this.setTerrain('psychicterrain');
+		},
+		secondary: false,
+		target: "normal",
+		type: "Psychic",
+		contestType: "Cool",
 	},
 	"geomancy": {
 		num: 601,
@@ -5344,7 +7314,10 @@ exports.BattleMovedex = {
 		name: "Geomancy",
 		pp: 10,
 		priority: 0,
-		flags: {charge: 1, nonsky: 1},
+		flags: {
+			charge: 1,
+			nonsky: 1
+		},
 		onTry: function (attacker, defender, move) {
 			if (attacker.removeVolatile(move.id)) {
 				return;
@@ -5366,6 +7339,13 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Fairy",
+		zMoveBoost: {
+			atk: 1,
+			def: 1,
+			spa: 1,
+			spd: 1,
+			spe: 1
+		},
 		contestType: "Beautiful",
 	},
 	"gigadrain": {
@@ -5380,11 +7360,16 @@ exports.BattleMovedex = {
 		name: "Giga Drain",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, heal: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			heal: 1
+		},
 		drain: [1, 2],
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 140,
 		contestType: "Clever",
 	},
 	"gigaimpact": {
@@ -5398,14 +7383,38 @@ exports.BattleMovedex = {
 		name: "Giga Impact",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, recharge: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			recharge: 1,
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			volatileStatus: 'mustrecharge',
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 200,
 		contestType: "Tough",
+	},
+	"gigavolthavoc": {
+		num: 646,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "gigavolthavoc",
+		isViable: true,
+		name: "Gigavolt Havoc",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "electriumz",
+		secondary: false,
+		target: "normal",
+		type: "Electric",
+		contestType: "Cool",
 	},
 	"glaciate": {
 		num: 549,
@@ -5418,7 +7427,10 @@ exports.BattleMovedex = {
 		name: "Glaciate",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 100,
 			boosts: {
@@ -5427,6 +7439,7 @@ exports.BattleMovedex = {
 		},
 		target: "allAdjacentFoes",
 		type: "Ice",
+		zMovePower: 120,
 		contestType: "Beautiful",
 	},
 	"glare": {
@@ -5441,11 +7454,18 @@ exports.BattleMovedex = {
 		name: "Glare",
 		pp: 30,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		status: 'par',
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Tough",
 	},
 	"grassknot": {
@@ -5485,10 +7505,16 @@ exports.BattleMovedex = {
 		name: "Grass Knot",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 160,
 		contestType: "Cute",
 	},
 	"grasspledge": {
@@ -5496,7 +7522,10 @@ exports.BattleMovedex = {
 		accuracy: 100,
 		basePower: 80,
 		basePowerCallback: function (target, source, move) {
-			if (move.sourceEffect in {waterpledge:1, firepledge:1}) {
+			if (move.sourceEffect in {
+					waterpledge: 1,
+					firepledge: 1
+				}) {
 				this.add('-combine');
 				return 150;
 			}
@@ -5509,12 +7538,19 @@ exports.BattleMovedex = {
 		name: "Grass Pledge",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		onPrepareHit: function (target, source, move) {
 			for (let i = 0; i < this.queue.length; i++) {
 				let decision = this.queue[i];
 				if (!decision.move || !decision.pokemon || !decision.pokemon.isActive || decision.pokemon.fainted) continue;
-				if (decision.pokemon.side === source.side && decision.move.id in {waterpledge:1, firepledge:1}) {
+				if (decision.pokemon.side === source.side && decision.move.id in {
+						waterpledge: 1,
+						firepledge: 1
+					}) {
 					this.prioritizeQueue(decision);
 					this.add('-waiting', source, decision.pokemon);
 					return null;
@@ -5554,6 +7590,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"grasswhistle": {
@@ -5567,11 +7604,20 @@ exports.BattleMovedex = {
 		name: "Grass Whistle",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		status: 'slp',
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Clever",
 	},
 	"grassyterrain": {
@@ -5585,12 +7631,24 @@ exports.BattleMovedex = {
 		name: "Grassy Terrain",
 		pp: 10,
 		priority: 0,
-		flags: {nonsky: 1},
+		flags: {
+			nonsky: 1
+		},
 		terrain: 'grassyterrain',
 		effect: {
 			duration: 5,
+			durationCallback: function (source, effect) {
+				if (source && source.hasItem('terrainextender')) {
+					return 8;
+				}
+				return 5;
+			},
 			onBasePower: function (basePower, attacker, defender, move) {
-				let weakenedMoves = {'earthquake':1, 'bulldoze':1, 'magnitude':1};
+				let weakenedMoves = {
+					'earthquake': 1,
+					'bulldoze': 1,
+					'magnitude': 1
+				};
 				if (move.id in weakenedMoves) {
 					this.debug('move weakened by grassy terrain');
 					return this.chainModify(0.5);
@@ -5603,7 +7661,8 @@ exports.BattleMovedex = {
 			onStart: function (battle, source, effect) {
 				if (effect && effect.effectType === 'Ability') {
 					this.add('-fieldstart', 'move: Grassy Terrain', '[from] ability: ' + effect, '[of] ' + source);
-				} else {
+				}
+				else {
 					this.add('-fieldstart', 'move: Grassy Terrain');
 				}
 			},
@@ -5640,6 +7699,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Grass",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Beautiful",
 	},
 	"gravity": {
@@ -5653,7 +7715,9 @@ exports.BattleMovedex = {
 		name: "Gravity",
 		pp: 5,
 		priority: 0,
-		flags: {nonsky: 1},
+		flags: {
+			nonsky: 1
+		},
 		pseudoWeather: 'gravity',
 		effect: {
 			duration: 5,
@@ -5721,6 +7785,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Psychic",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Clever",
 	},
 	"growl": {
@@ -5734,13 +7801,22 @@ exports.BattleMovedex = {
 		name: "Growl",
 		pp: 40,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		boosts: {
 			atk: -1,
 		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Normal",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Cute",
 	},
 	"growth": {
@@ -5754,9 +7830,14 @@ exports.BattleMovedex = {
 		name: "Growth",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		onModifyMove: function (move) {
-			if (this.isWeather(['sunnyday', 'desolateland'])) move.boosts = {atk: 2, spa: 2};
+			if (this.isWeather(['sunnyday', 'desolateland'])) move.boosts = {
+				atk: 2,
+				spa: 2
+			};
 		},
 		boosts: {
 			atk: 1,
@@ -5765,6 +7846,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Beautiful",
 	},
 	"grudge": {
@@ -5778,7 +7862,9 @@ exports.BattleMovedex = {
 		name: "Grudge",
 		pp: 5,
 		priority: 0,
-		flags: {authentic: 1},
+		flags: {
+			authentic: 1
+		},
 		volatileStatus: 'grudge',
 		effect: {
 			onStart: function (pokemon) {
@@ -5804,6 +7890,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Ghost",
+		zMoveEffect: 'redirect',
 		contestType: "Tough",
 	},
 	"guardsplit": {
@@ -5817,7 +7904,10 @@ exports.BattleMovedex = {
 		name: "Guard Split",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1},
+		flags: {
+			protect: 1,
+			mystery: 1
+		},
 		onHit: function (target, source) {
 			let newdef = Math.floor((target.stats.def + source.stats.def) / 2);
 			target.stats.def = newdef;
@@ -5830,6 +7920,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Clever",
 	},
 	"guardswap": {
@@ -5843,12 +7936,20 @@ exports.BattleMovedex = {
 		name: "Guard Swap",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			authentic: 1,
+			mystery: 1
+		},
 		onHit: function (target, source) {
 			let targetBoosts = {};
 			let sourceBoosts = {};
 
-			for (let i in {def:1, spd:1}) {
+			for (let i in {
+					def: 1,
+					spd: 1
+				}) {
 				targetBoosts[i] = target.boosts[i];
 				sourceBoosts[i] = source.boosts[i];
 			}
@@ -5861,7 +7962,35 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Clever",
+	},
+	"guardianofalola": {
+		num: 698,
+		accuracy: true,
+		basePower: 0,
+		damageCallback: function (pokemon, target) {
+			if (target.volatiles['banefulbunker'] || target.volatiles['kingsshield'] || target.side.sideConditions['matblock'] || target.volatiles['protect'] || target.volatiles['spikyshield']) {
+				this.add('-message', target.name + " couldn't fully protect itself and got hurt! (placeholder)");
+				return this.clampIntRange(Math.ceil(Math.floor(target.hp * 3 / 4) / 4 - 0.5), 1);
+			}
+			return this.clampIntRange(Math.floor(target.hp * 3 / 4), 1);
+		},
+		category: "Special",
+		desc: "Deals damage to the target equal to 3/4 of its current HP, rounded down, but not less than 1 HP.",
+		shortDesc: "Does damage equal to 3/4 target's current HP.",
+		id: "guardianofalola",
+		name: "Guardian of Alola",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "tapuniumz",
+		secondary: false,
+		target: "normal",
+		type: "Fairy",
+		contestType: "Tough",
 	},
 	"guillotine": {
 		num: 12,
@@ -5874,11 +8003,16 @@ exports.BattleMovedex = {
 		name: "Guillotine",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		ohko: true,
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 180,
 		contestType: "Cool",
 	},
 	"gunkshot": {
@@ -5893,13 +8027,17 @@ exports.BattleMovedex = {
 		name: "Gunk Shot",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			status: 'psn',
 		},
 		target: "normal",
 		type: "Poison",
+		zMovePower: 190,
 		contestType: "Tough",
 	},
 	"gust": {
@@ -5913,10 +8051,15 @@ exports.BattleMovedex = {
 		name: "Gust",
 		pp: 35,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, distance: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			distance: 1
+		},
 		secondary: false,
 		target: "any",
 		type: "Flying",
+		zMovePower: 100,
 		contestType: "Clever",
 	},
 	"gyroball": {
@@ -5937,10 +8080,16 @@ exports.BattleMovedex = {
 		name: "Gyro Ball",
 		pp: 5,
 		priority: 0,
-		flags: {bullet: 1, contact: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Steel",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"hail": {
@@ -5959,6 +8108,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Ice",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Beautiful",
 	},
 	"hammerarm": {
@@ -5973,7 +8125,12 @@ exports.BattleMovedex = {
 		name: "Hammer Arm",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
 		self: {
 			boosts: {
 				spe: -1,
@@ -5982,6 +8139,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 180,
 		contestType: "Tough",
 	},
 	"happyhour": {
@@ -6003,6 +8161,13 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allySide",
 		type: "Normal",
+		zMoveBoost: {
+			atk: 1,
+			def: 1,
+			spa: 1,
+			spd: 1,
+			spe: 1
+		},
 		contestType: "Cute",
 	},
 	"harden": {
@@ -6016,13 +8181,18 @@ exports.BattleMovedex = {
 		name: "Harden",
 		pp: 30,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			def: 1,
 		},
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Tough",
 	},
 	"haze": {
@@ -6037,7 +8207,9 @@ exports.BattleMovedex = {
 		name: "Haze",
 		pp: 30,
 		priority: 0,
-		flags: {authentic: 1},
+		flags: {
+			authentic: 1
+		},
 		onHitField: function () {
 			this.add('-clearallboost');
 			for (let i = 0; i < this.sides.length; i++) {
@@ -6049,6 +8221,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Ice",
+		zMoveEffect: 'heal',
 		contestType: "Beautiful",
 	},
 	"headcharge": {
@@ -6063,11 +8236,16 @@ exports.BattleMovedex = {
 		name: "Head Charge",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		recoil: [1, 4],
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 190,
 		contestType: "Tough",
 	},
 	"headsmash": {
@@ -6082,11 +8260,16 @@ exports.BattleMovedex = {
 		name: "Head Smash",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		recoil: [1, 2],
 		secondary: false,
 		target: "normal",
 		type: "Rock",
+		zMovePower: 200,
 		contestType: "Tough",
 	},
 	"headbutt": {
@@ -6100,13 +8283,18 @@ exports.BattleMovedex = {
 		name: "Headbutt",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Normal",
+		zMovePower: 140,
 		contestType: "Tough",
 	},
 	"healbell": {
@@ -6121,7 +8309,12 @@ exports.BattleMovedex = {
 		name: "Heal Bell",
 		pp: 5,
 		priority: 0,
-		flags: {snatch: 1, sound: 1, distance: 1, authentic: 1},
+		flags: {
+			snatch: 1,
+			sound: 1,
+			distance: 1,
+			authentic: 1
+		},
 		onHit: function (pokemon, source) {
 			this.add('-activate', source, 'move: Heal Bell');
 			let side = pokemon.side;
@@ -6132,6 +8325,7 @@ exports.BattleMovedex = {
 		},
 		target: "allyTeam",
 		type: "Normal",
+		zMoveEffect: 'heal',
 		contestType: "Beautiful",
 	},
 	"healblock": {
@@ -6145,7 +8339,11 @@ exports.BattleMovedex = {
 		name: "Heal Block",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		volatileStatus: 'healblock',
 		effect: {
 			duration: 5,
@@ -6181,6 +8379,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Psychic",
+		zMoveBoost: {
+			spa: 2
+		},
 		contestType: "Clever",
 	},
 	"healorder": {
@@ -6195,11 +8396,15 @@ exports.BattleMovedex = {
 		name: "Heal Order",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, heal: 1},
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
 		heal: [1, 2],
 		secondary: false,
 		target: "self",
 		type: "Bug",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Clever",
 	},
 	"healpulse": {
@@ -6213,17 +8418,26 @@ exports.BattleMovedex = {
 		name: "Heal Pulse",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, pulse: 1, reflectable: 1, distance: 1, heal: 1},
+		flags: {
+			protect: 1,
+			pulse: 1,
+			reflectable: 1,
+			distance: 1,
+			heal: 1,
+			mystery: 1
+		},
 		onHit: function (target, source) {
 			if (source.hasAbility('megalauncher')) {
 				this.heal(this.modify(target.maxhp, 0.75));
-			} else {
+			}
+			else {
 				this.heal(Math.ceil(target.maxhp * 0.5));
 			}
 		},
 		secondary: false,
 		target: "any",
 		type: "Psychic",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Beautiful",
 	},
 	"healingwish": {
@@ -6238,7 +8452,10 @@ exports.BattleMovedex = {
 		name: "Healing Wish",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, heal: 1},
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
 		onTryHit: function (pokemon, target, move) {
 			if (!this.canSwitch(pokemon.side)) {
 				delete move.selfdestruct;
@@ -6292,13 +8509,18 @@ exports.BattleMovedex = {
 		name: "Heart Stamp",
 		pp: 25,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 120,
 		contestType: "Cute",
 	},
 	"heartswap": {
@@ -6312,7 +8534,12 @@ exports.BattleMovedex = {
 		name: "Heart Swap",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			authentic: 1,
+			mystery: 1
+		},
 		onHit: function (target, source) {
 			let targetBoosts = {};
 			let sourceBoosts = {};
@@ -6330,6 +8557,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMoveEffect: 'crit1',
 		contestType: "Clever",
 	},
 	"heatcrash": {
@@ -6360,10 +8588,16 @@ exports.BattleMovedex = {
 		name: "Heat Crash",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Fire",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"heatwave": {
@@ -6378,13 +8612,17 @@ exports.BattleMovedex = {
 		name: "Heat Wave",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'brn',
 		},
 		target: "allAdjacentFoes",
 		type: "Fire",
+		zMovePower: 175,
 		contestType: "Beautiful",
 	},
 	"heavyslam": {
@@ -6416,10 +8654,16 @@ exports.BattleMovedex = {
 		name: "Heavy Slam",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Steel",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"helpinghand": {
@@ -6433,7 +8677,9 @@ exports.BattleMovedex = {
 		name: "Helping Hand",
 		pp: 20,
 		priority: 5,
-		flags: {authentic: 1},
+		flags: {
+			authentic: 1
+		},
 		volatileStatus: 'helpinghand',
 		effect: {
 			duration: 1,
@@ -6454,6 +8700,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "adjacentAlly",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Clever",
 	},
 	"hex": {
@@ -6461,7 +8708,7 @@ exports.BattleMovedex = {
 		accuracy: 100,
 		basePower: 65,
 		basePowerCallback: function (pokemon, target, move) {
-			if (target.status) return move.basePower * 2;
+			if (target.status || target.hasAbility('comatose')) return move.basePower * 2;
 			return move.basePower;
 		},
 		category: "Special",
@@ -6472,10 +8719,14 @@ exports.BattleMovedex = {
 		name: "Hex",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Ghost",
+		zMovePower: 160,
 		contestType: "Clever",
 	},
 	"hiddenpower": {
@@ -6489,13 +8740,17 @@ exports.BattleMovedex = {
 		name: "Hidden Power",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onModifyMove: function (move, pokemon) {
 			move.type = pokemon.hpType || 'Dark';
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 120,
 		contestType: "Clever",
 	},
 	"hiddenpowerbug": {
@@ -6508,7 +8763,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Bug",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Bug",
@@ -6524,7 +8782,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Dark",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Dark",
@@ -6540,7 +8801,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Dragon",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Dragon",
@@ -6557,7 +8821,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Electric",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Electric",
@@ -6574,7 +8841,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Fighting",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
@@ -6591,7 +8861,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Fire",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Fire",
@@ -6607,7 +8880,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Flying",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Flying",
@@ -6623,7 +8899,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Ghost",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Ghost",
@@ -6640,7 +8919,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Grass",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Grass",
@@ -6656,7 +8938,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Ground",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Ground",
@@ -6673,7 +8958,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Ice",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Ice",
@@ -6689,7 +8977,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Poison",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Poison",
@@ -6705,7 +8996,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Psychic",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
@@ -6721,7 +9015,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Rock",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Rock",
@@ -6737,7 +9034,10 @@ exports.BattleMovedex = {
 		name: "Hidden Power Steel",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Steel",
@@ -6753,11 +9053,36 @@ exports.BattleMovedex = {
 		name: "Hidden Power Water",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Water",
 		contestType: "Clever",
+	},
+	"highhorsepower": {
+		num: 667,
+		accuracy: 95,
+		basePower: 95,
+		category: "Physical",
+		desc: "No additional effect.",
+		shortDesc: "No additional effect.",
+		id: "highhorsepower",
+		name: "High Horsepower",
+		pp: 10,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		secondary: false,
+		target: "normal",
+		type: "Ground",
+		zMovePower: 175,
+		contestType: "Tough",
 	},
 	"highjumpkick": {
 		num: 136,
@@ -6771,7 +9096,12 @@ exports.BattleMovedex = {
 		name: "High Jump Kick",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, gravity: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			gravity: 1
+		},
 		hasCustomRecoil: true,
 		onMoveFail: function (target, source, move) {
 			this.damage(source.maxhp / 2, source, source, 'highjumpkick');
@@ -6779,6 +9109,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 195,
 		contestType: "Cool",
 	},
 	"holdback": {
@@ -6792,11 +9123,16 @@ exports.BattleMovedex = {
 		name: "Hold Back",
 		pp: 40,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		noFaint: true,
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"holdhands": {
@@ -6810,13 +9146,22 @@ exports.BattleMovedex = {
 		name: "Hold Hands",
 		pp: 40,
 		priority: 0,
-		flags: {authentic: 1},
+		flags: {
+			authentic: 1
+		},
 		onTryHit: function (target, source) {
 			return null;
 		},
 		secondary: false,
 		target: "adjacentAlly",
 		type: "Normal",
+		zMoveBoost: {
+			atk: 1,
+			def: 1,
+			spa: 1,
+			spd: 1,
+			spe: 1
+		},
 		contestType: "Cute",
 	},
 	"honeclaws": {
@@ -6831,7 +9176,9 @@ exports.BattleMovedex = {
 		name: "Hone Claws",
 		pp: 15,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			atk: 1,
 			accuracy: 1,
@@ -6839,6 +9186,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Dark",
+		zMoveBoost: {
+			atk: 1
+		},
 		contestType: "Cute",
 	},
 	"hornattack": {
@@ -6852,10 +9202,15 @@ exports.BattleMovedex = {
 		name: "Horn Attack",
 		pp: 25,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 120,
 		contestType: "Cool",
 	},
 	"horndrill": {
@@ -6869,11 +9224,16 @@ exports.BattleMovedex = {
 		name: "Horn Drill",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		ohko: true,
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 180,
 		contestType: "Cool",
 	},
 	"hornleech": {
@@ -6888,11 +9248,17 @@ exports.BattleMovedex = {
 		name: "Horn Leech",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, heal: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			heal: 1
+		},
 		drain: [1, 2],
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 140,
 		contestType: "Tough",
 	},
 	"howl": {
@@ -6906,13 +9272,18 @@ exports.BattleMovedex = {
 		name: "Howl",
 		pp: 40,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			atk: 1,
 		},
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveBoost: {
+			atk: 1
+		},
 		contestType: "Cool",
 	},
 	"hurricane": {
@@ -6927,11 +9298,16 @@ exports.BattleMovedex = {
 		name: "Hurricane",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, distance: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			distance: 1
+		},
 		onModifyMove: function (move) {
 			if (this.isWeather(['raindance', 'primordialsea'])) {
 				move.accuracy = true;
-			} else if (this.isWeather(['sunnyday', 'desolateland'])) {
+			}
+			else if (this.isWeather(['sunnyday', 'desolateland'])) {
 				move.accuracy = 50;
 			}
 		},
@@ -6941,6 +9317,7 @@ exports.BattleMovedex = {
 		},
 		target: "any",
 		type: "Flying",
+		zMovePower: 185,
 		contestType: "Tough",
 	},
 	"hydrocannon": {
@@ -6954,13 +9331,18 @@ exports.BattleMovedex = {
 		name: "Hydro Cannon",
 		pp: 5,
 		priority: 0,
-		flags: {recharge: 1, protect: 1, mirror: 1},
+		flags: {
+			recharge: 1,
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			volatileStatus: 'mustrecharge',
 		},
 		secondary: false,
 		target: "normal",
 		type: "Water",
+		zMovePower: 200,
 		contestType: "Beautiful",
 	},
 	"hydropump": {
@@ -6975,11 +9357,33 @@ exports.BattleMovedex = {
 		name: "Hydro Pump",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Water",
+		zMovePower: 185,
 		contestType: "Beautiful",
+	},
+	"hydrovortex": {
+		num: 642,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "hydrovortex",
+		isViable: true,
+		name: "Hydro Vortex",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "wateriumz",
+		secondary: false,
+		target: "normal",
+		type: "Water",
+		contestType: "Cool",
 	},
 	"hyperbeam": {
 		num: 63,
@@ -6992,13 +9396,18 @@ exports.BattleMovedex = {
 		name: "Hyper Beam",
 		pp: 5,
 		priority: 0,
-		flags: {recharge: 1, protect: 1, mirror: 1},
+		flags: {
+			recharge: 1,
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			volatileStatus: 'mustrecharge',
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 200,
 		contestType: "Cool",
 	},
 	"hyperfang": {
@@ -7012,13 +9421,19 @@ exports.BattleMovedex = {
 		name: "Hyper Fang",
 		pp: 15,
 		priority: 0,
-		flags: {bite: 1, contact: 1, protect: 1, mirror: 1},
+		flags: {
+			bite: 1,
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"hyperspacefury": {
@@ -7033,7 +9448,10 @@ exports.BattleMovedex = {
 		name: "Hyperspace Fury",
 		pp: 5,
 		priority: 0,
-		flags: {mirror: 1, authentic: 1},
+		flags: {
+			mirror: 1,
+			authentic: 1
+		},
 		breaksProtect: true,
 		onTry: function (pokemon) {
 			if (pokemon.template.species === 'Hoopa-Unbound') {
@@ -7055,6 +9473,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMovePower: 180,
 		contestType: "Tough",
 	},
 	"hyperspacehole": {
@@ -7068,11 +9487,15 @@ exports.BattleMovedex = {
 		name: "Hyperspace Hole",
 		pp: 5,
 		priority: 0,
-		flags: {mirror: 1, authentic: 1},
+		flags: {
+			mirror: 1,
+			authentic: 1
+		},
 		breaksProtect: true,
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 160,
 		contestType: "Clever",
 	},
 	"hypervoice": {
@@ -7087,10 +9510,16 @@ exports.BattleMovedex = {
 		name: "Hyper Voice",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Normal",
+		zMovePower: 175,
 		contestType: "Cool",
 	},
 	"hypnosis": {
@@ -7104,11 +9533,18 @@ exports.BattleMovedex = {
 		name: "Hypnosis",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		status: 'slp',
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Clever",
 	},
 	"iceball": {
@@ -7134,7 +9570,12 @@ exports.BattleMovedex = {
 		name: "Ice Ball",
 		pp: 20,
 		priority: 0,
-		flags: {bullet: 1, contact: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		effect: {
 			duration: 2,
 			onLockMove: 'iceball',
@@ -7157,6 +9598,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Ice",
+		zMovePower: 100,
 		contestType: "Beautiful",
 	},
 	"icebeam": {
@@ -7171,13 +9613,17 @@ exports.BattleMovedex = {
 		name: "Ice Beam",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'frz',
 		},
 		target: "normal",
 		type: "Ice",
+		zMovePower: 175,
 		contestType: "Beautiful",
 	},
 	"iceburn": {
@@ -7191,7 +9637,11 @@ exports.BattleMovedex = {
 		name: "Ice Burn",
 		pp: 5,
 		priority: 0,
-		flags: {charge: 1, protect: 1, mirror: 1},
+		flags: {
+			charge: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onTry: function (attacker, defender, move) {
 			if (attacker.removeVolatile(move.id)) {
 				return;
@@ -7210,6 +9660,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Ice",
+		zMovePower: 200,
 		contestType: "Beautiful",
 	},
 	"icefang": {
@@ -7224,19 +9675,52 @@ exports.BattleMovedex = {
 		name: "Ice Fang",
 		pp: 15,
 		priority: 0,
-		flags: {bite: 1, contact: 1, protect: 1, mirror: 1},
-		secondaries: [
-			{
-				chance: 10,
-				status: 'frz',
-			}, {
-				chance: 10,
-				volatileStatus: 'flinch',
-			},
-		],
+		flags: {
+			bite: 1,
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		secondaries: [{
+			chance: 10,
+			status: 'frz',
+		}, {
+			chance: 10,
+			volatileStatus: 'flinch',
+		}, ],
 		target: "normal",
 		type: "Ice",
+		zMovePower: 120,
 		contestType: "Cool",
+	},
+	"icehammer": {
+		num: 665,
+		accuracy: 90,
+		basePower: 100,
+		category: "Physical",
+		desc: "Lowers the user's Speed by 1 stage.",
+		shortDesc: "Lowers the user's Speed by 1.",
+		id: "icehammer",
+		isViable: true,
+		name: "Ice Hammer",
+		pp: 10,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
+		self: {
+			boosts: {
+				spe: -1,
+			},
+		},
+		secondary: false,
+		target: "normal",
+		type: "Ice",
+		zMovePower: 180,
+		contestType: "Tough",
 	},
 	"icepunch": {
 		num: 8,
@@ -7250,13 +9734,19 @@ exports.BattleMovedex = {
 		name: "Ice Punch",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'frz',
 		},
 		target: "normal",
 		type: "Ice",
+		zMovePower: 140,
 		contestType: "Beautiful",
 	},
 	"iceshard": {
@@ -7271,10 +9761,14 @@ exports.BattleMovedex = {
 		name: "Ice Shard",
 		pp: 30,
 		priority: 1,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Ice",
+		zMovePower: 100,
 		contestType: "Beautiful",
 	},
 	"iciclecrash": {
@@ -7289,13 +9783,17 @@ exports.BattleMovedex = {
 		name: "Icicle Crash",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Ice",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"iciclespear": {
@@ -7310,11 +9808,15 @@ exports.BattleMovedex = {
 		name: "Icicle Spear",
 		pp: 30,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		multihit: [2, 5],
 		secondary: false,
 		target: "normal",
 		type: "Ice",
+		zMovePower: 140,
 		contestType: "Beautiful",
 	},
 	"icywind": {
@@ -7328,7 +9830,10 @@ exports.BattleMovedex = {
 		name: "Icy Wind",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 100,
 			boosts: {
@@ -7337,6 +9842,7 @@ exports.BattleMovedex = {
 		},
 		target: "allAdjacentFoes",
 		type: "Ice",
+		zMovePower: 100,
 		contestType: "Beautiful",
 	},
 	"imprison": {
@@ -7350,7 +9856,10 @@ exports.BattleMovedex = {
 		name: "Imprison",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, authentic: 1},
+		flags: {
+			snatch: 1,
+			authentic: 1
+		},
 		volatileStatus: 'imprison',
 		effect: {
 			noCopy: true,
@@ -7377,6 +9886,9 @@ exports.BattleMovedex = {
 		pressureTarget: "foeSide",
 		target: "self",
 		type: "Psychic",
+		zMoveBoost: {
+			spd: 2
+		},
 		contestType: "Clever",
 	},
 	"incinerate": {
@@ -7390,7 +9902,10 @@ exports.BattleMovedex = {
 		name: "Incinerate",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onHit: function (pokemon, source) {
 			let item = pokemon.getItem();
 			if ((item.isBerry || item.isGem) && pokemon.takeItem(source)) {
@@ -7400,6 +9915,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Fire",
+		zMovePower: 120,
 		contestType: "Tough",
 	},
 	"inferno": {
@@ -7413,14 +9929,36 @@ exports.BattleMovedex = {
 		name: "Inferno",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 100,
 			status: 'brn',
 		},
 		target: "normal",
 		type: "Fire",
+		zMovePower: 180,
 		contestType: "Beautiful",
+	},
+	"infernooverdrive": {
+		num: 640,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "infernooverdrive",
+		isViable: true,
+		name: "Inferno Overdrive",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "firiumz",
+		secondary: false,
+		target: "normal",
+		type: "Fire",
+		contestType: "Cool",
 	},
 	"infestation": {
 		num: 611,
@@ -7433,11 +9971,16 @@ exports.BattleMovedex = {
 		name: "Infestation",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		volatileStatus: 'partiallytrapped',
 		secondary: false,
 		target: "normal",
 		type: "Bug",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"ingrain": {
@@ -7451,7 +9994,10 @@ exports.BattleMovedex = {
 		name: "Ingrain",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1, nonsky: 1},
+		flags: {
+			snatch: 1,
+			nonsky: 1
+		},
 		volatileStatus: 'ingrain',
 		effect: {
 			onStart: function (pokemon) {
@@ -7473,6 +10019,48 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Grass",
+		zMoveBoost: {
+			spd: 1
+		},
+		contestType: "Clever",
+	},
+	"instruct": {
+		num: 689,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "The target immediately uses its last used move. Fails if the target has not made a move, or if the move is...",
+		shortDesc: "The target immediately uses its last used move.",
+		id: "instruct",
+		name: "Instruct",
+		pp: 15,
+		priority: 0,
+		flags: {
+			protect: 1,
+			authentic: 1,
+			mystery: 1
+		},
+		onHit: function (target, source) {
+			if (!target.lastMove) return false;
+			let lastMove = this.getMove(target.lastMove);
+			let noInstruct = {
+				instruct: 1,
+				outrage: 1,
+				petaldance: 1,
+				thrash: 1, // TODO: fill this up
+			};
+			if (noInstruct[lastMove.id] || lastMove.isZ || lastMove.flags['charge'] || lastMove.flags['recharge']) {
+				return false;
+			}
+			this.add('-singleturn', target, 'move: Instruct', '[of] ' + source);
+			this.useMove(target.lastMove, target);
+		},
+		secondary: false,
+		target: "normal",
+		type: "Psychic",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Clever",
 	},
 	"iondeluge": {
@@ -7504,6 +10092,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Electric",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Beautiful",
 	},
 	"irondefense": {
@@ -7517,13 +10108,16 @@ exports.BattleMovedex = {
 		name: "Iron Defense",
 		pp: 15,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			def: 2,
 		},
 		secondary: false,
 		target: "self",
 		type: "Steel",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Tough",
 	},
 	"ironhead": {
@@ -7538,13 +10132,18 @@ exports.BattleMovedex = {
 		name: "Iron Head",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Steel",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"irontail": {
@@ -7558,7 +10157,11 @@ exports.BattleMovedex = {
 		name: "Iron Tail",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			boosts: {
@@ -7567,6 +10170,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Steel",
+		zMovePower: 180,
 		contestType: "Cool",
 	},
 	"judgment": {
@@ -7581,13 +10185,20 @@ exports.BattleMovedex = {
 		name: "Judgment",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onModifyMove: function (move, pokemon) {
-			move.type = this.runEvent('Plate', pokemon, null, 'judgment', 'Normal');
+			const item = pokemon.getItem();
+			if (item.id && item.onPlate && !item.zMove) {
+				move.type = item.onPlate;
+			}
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 180,
 		contestType: "Beautiful",
 	},
 	"jumpkick": {
@@ -7602,7 +10213,12 @@ exports.BattleMovedex = {
 		name: "Jump Kick",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, gravity: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			gravity: 1
+		},
 		hasCustomRecoil: true,
 		onMoveFail: function (target, source, move) {
 			this.damage(source.maxhp / 2, source, source, 'jumpkick');
@@ -7610,6 +10226,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 180,
 		contestType: "Cool",
 	},
 	"karatechop": {
@@ -7623,11 +10240,16 @@ exports.BattleMovedex = {
 		name: "Karate Chop",
 		pp: 25,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"kinesis": {
@@ -7641,13 +10263,20 @@ exports.BattleMovedex = {
 		name: "Kinesis",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		boosts: {
 			accuracy: -1,
 		},
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMoveBoost: {
+			evasion: 1
+		},
 		contestType: "Clever",
 	},
 	"kingsshield": {
@@ -7655,7 +10284,7 @@ exports.BattleMovedex = {
 		accuracy: true,
 		basePower: 0,
 		category: "Status",
-		desc: "The user is protected from most attacks made by other Pokemon during this turn, and Pokemon making contact with the user have their Attack lowered by 2 stages. Non-damaging moves go through this protection. This move has a 1/X chance of being successful, where X starts at 1 and triples each time this move is successfully used. X resets to 1 if this move fails or if the user's last move used is not Detect, Endure, King's Shield, Protect, Quick Guard, Spiky Shield, or Wide Guard. Fails if the user moves last this turn.",
+		desc: "The user is protected from most attacks made by other Pokemon during this turn, and Pokemon trying to make contact with the user have their Attack lowered by 2 stages. Non-damaging moves go through this protection. This move has a 1/X chance of being successful, where X starts at 1 and triples each time this move is successfully used. X resets to 1 if this move fails or if the user's last move used is not Detect, Endure, King's Shield, Protect, Quick Guard, Spiky Shield, or Wide Guard. Fails if the user moves last this turn.",
 		shortDesc: "Protects from attacks. Contact: lowers Atk by 2.",
 		id: "kingsshield",
 		isViable: true,
@@ -7676,6 +10305,12 @@ exports.BattleMovedex = {
 			onStart: function (target) {
 				this.add('-singleturn', target, 'Protect');
 			},
+			onSourcePrepareHit: function (source, target, effect) {
+				if (effect.effectType !== 'Move' || !effect.flags['protect'] || effect.category === 'Status') return;
+				if (effect.flags['contact']) {
+					effect.ignoreImmunity = true;
+				}
+			},
 			onTryHitPriority: 3,
 			onTryHit: function (target, source, move) {
 				if (!move.flags['protect'] || move.category === 'Status') return;
@@ -7688,7 +10323,9 @@ exports.BattleMovedex = {
 					}
 				}
 				if (move.flags['contact']) {
-					this.boost({atk:-2}, source, target, this.getMove("King's Shield"));
+					this.boost({
+						atk: -2
+					}, source, target, this.getMove("King's Shield"));
 				}
 				return null;
 			},
@@ -7696,6 +10333,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Steel",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cool",
 	},
 	"knockoff": {
@@ -7710,12 +10348,16 @@ exports.BattleMovedex = {
 		name: "Knock Off",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onBasePowerPriority: 4,
-		onBasePower: function (basePower, pokemon, target) {
+		onBasePower: function (basePower, source, target, move) {
 			let item = target.getItem();
-			let noKnockOff = item.onTakeItem && item.onTakeItem(item, target) === false;
-			if (item.id && !noKnockOff) {
+			if (!this.singleEvent('TakeItem', item, target.itemData, target, source, move, item)) return;
+			if (item.id) {
 				return this.chainModify(1.5);
 			}
 		},
@@ -7730,6 +10372,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMovePower: 120,
 		contestType: "Clever",
 	},
 	"landswrath": {
@@ -7743,11 +10386,48 @@ exports.BattleMovedex = {
 		name: "Land's Wrath",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Ground",
+		zMovePower: 185,
 		contestType: "Beautiful",
+	},
+	"laserfocus": {
+		num: 673,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "On the next turn, the user's attack will be a critical hit. Fails if the user already has the effect.",
+		shortDesc: "Next turn, the user's attack will be a critical hit.",
+		id: "laserfocus",
+		name: "Laser Focus",
+		pp: 30,
+		priority: 0,
+		flags: {
+			snatch: 1
+		},
+		volatileStatus: 'laserfocus',
+		effect: {
+			duration: 2,
+			onStart: function (pokemon) {
+				this.add('-start', pokemon, 'move: Laser Focus');
+			},
+			onModifyCritRatio: function (critRatio) {
+				return 5;
+			},
+		},
+		secondary: false,
+		target: "self",
+		type: "Normal",
+		zMoveBoost: {
+			atk: 1
+		},
+		contestType: "Cool",
 	},
 	"lastresort": {
 		num: 387,
@@ -7760,7 +10440,11 @@ exports.BattleMovedex = {
 		name: "Last Resort",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onTryHit: function (target, source) {
 			if (source.moveset.length === 1) return false; // Last Resort fails unless the user knows at least 2 moves
 			let hasLastResort = false; // User must actually have Last Resort for it to succeed
@@ -7776,6 +10460,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 200,
 		contestType: "Cute",
 	},
 	"lavaplume": {
@@ -7790,13 +10475,17 @@ exports.BattleMovedex = {
 		name: "Lava Plume",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			status: 'brn',
 		},
 		target: "allAdjacent",
 		type: "Fire",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"leafblade": {
@@ -7811,11 +10500,16 @@ exports.BattleMovedex = {
 		name: "Leaf Blade",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 175,
 		contestType: "Cool",
 	},
 	"leafstorm": {
@@ -7830,7 +10524,10 @@ exports.BattleMovedex = {
 		name: "Leaf Storm",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			boosts: {
 				spa: -2,
@@ -7839,6 +10536,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 195,
 		contestType: "Beautiful",
 	},
 	"leaftornado": {
@@ -7852,7 +10550,10 @@ exports.BattleMovedex = {
 		name: "Leaf Tornado",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 50,
 			boosts: {
@@ -7861,24 +10562,53 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Grass",
+		zMovePower: 120,
 		contestType: "Cool",
+	},
+	"leafage": {
+		num: 670,
+		accuracy: 100,
+		basePower: 40,
+		category: "Physical",
+		desc: "No additional effect.",
+		shortDesc: "No additional effect.",
+		id: "leafage",
+		name: "Leafage",
+		pp: 40,
+		priority: 0,
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
+		secondary: false,
+		target: "normal",
+		type: "Grass",
+		zMovePower: 100,
+		contestType: "Tough",
 	},
 	"leechlife": {
 		num: 141,
 		accuracy: 100,
-		basePower: 20,
+		basePower: 80,
 		category: "Physical",
 		desc: "The user recovers 1/2 the HP lost by the target, rounded half up. If Big Root is held by the user, the HP recovered is 1.3x normal, rounded half down.",
 		shortDesc: "User recovers 50% of the damage dealt.",
 		id: "leechlife",
+		isViable: true,
 		name: "Leech Life",
-		pp: 15,
+		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, heal: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			heal: 1
+		},
 		drain: [1, 2],
 		secondary: false,
 		target: "normal",
 		type: "Bug",
+		zMovePower: 160,
 		contestType: "Clever",
 	},
 	"leechseed": {
@@ -7893,7 +10623,11 @@ exports.BattleMovedex = {
 		name: "Leech Seed",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		volatileStatus: 'leechseed',
 		effect: {
 			onStart: function (target) {
@@ -7921,6 +10655,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Clever",
 	},
 	"leer": {
@@ -7934,13 +10669,20 @@ exports.BattleMovedex = {
 		name: "Leer",
 		pp: 30,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		boosts: {
 			def: -1,
 		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Normal",
+		zMoveBoost: {
+			atk: 1
+		},
 		contestType: "Cool",
 	},
 	"lick": {
@@ -7954,13 +10696,18 @@ exports.BattleMovedex = {
 		name: "Lick",
 		pp: 30,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			status: 'par',
 		},
 		target: "normal",
 		type: "Ghost",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"lightofruin": {
@@ -7975,12 +10722,16 @@ exports.BattleMovedex = {
 		name: "Light of Ruin",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		isUnreleased: true,
 		recoil: [1, 2],
 		secondary: false,
 		target: "normal",
 		type: "Fairy",
+		zMovePower: 200,
 		contestType: "Beautiful",
 	},
 	"lightscreen": {
@@ -7995,7 +10746,9 @@ exports.BattleMovedex = {
 		name: "Light Screen",
 		pp: 30,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		sideCondition: 'lightscreen',
 		effect: {
 			duration: 5,
@@ -8026,7 +10779,38 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allySide",
 		type: "Psychic",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Beautiful",
+	},
+	"liquidation": {
+		num: 710,
+		accuracy: 100,
+		basePower: 85,
+		category: "Physical",
+		desc: "Has a 20% chance to lower the target's Defense by 1 stage.",
+		shortDesc: "20% chance to lower the target's Defense by 1.",
+		id: "liquidation",
+		isViable: true,
+		name: "Liquidation",
+		pp: 10,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		secondary: {
+			chance: 20,
+			boosts: {
+				def: -1,
+			},
+		},
+		target: "normal",
+		type: "Water",
+		zMovePower: 160,
+		contestType: "Cool",
 	},
 	"lockon": {
 		num: 199,
@@ -8039,7 +10823,10 @@ exports.BattleMovedex = {
 		name: "Lock-On",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onTryHit: function (target, source) {
 			if (source.volatiles['lockon']) return false;
 		},
@@ -8057,6 +10844,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Clever",
 	},
 	"lovelykiss": {
@@ -8071,11 +10861,18 @@ exports.BattleMovedex = {
 		name: "Lovely Kiss",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		status: 'slp',
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Beautiful",
 	},
 	"lowkick": {
@@ -8109,10 +10906,15 @@ exports.BattleMovedex = {
 		name: "Low Kick",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"lowsweep": {
@@ -8126,7 +10928,11 @@ exports.BattleMovedex = {
 		name: "Low Sweep",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 100,
 			boosts: {
@@ -8135,6 +10941,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 120,
 		contestType: "Clever",
 	},
 	"luckychant": {
@@ -8148,7 +10955,9 @@ exports.BattleMovedex = {
 		name: "Lucky Chant",
 		pp: 30,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		sideCondition: 'luckychant',
 		effect: {
 			duration: 5,
@@ -8165,6 +10974,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allySide",
 		type: "Normal",
+		zMoveBoost: {
+			evasion: 1
+		},
 		contestType: "Cute",
 	},
 	"lunardance": {
@@ -8179,7 +10991,10 @@ exports.BattleMovedex = {
 		name: "Lunar Dance",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, heal: 1},
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
 		onTryHit: function (pokemon, target, move) {
 			if (!this.canSwitch(pokemon.side)) {
 				delete move.selfdestruct;
@@ -8225,6 +11040,34 @@ exports.BattleMovedex = {
 		type: "Psychic",
 		contestType: "Beautiful",
 	},
+	"lunge": {
+		num: 679,
+		accuracy: 100,
+		basePower: 80,
+		category: "Physical",
+		desc: "Has a 100% chance to lower the target's Attack by 1 stage.",
+		shortDesc: "100% chance to lower the target's Attack by 1.",
+		id: "lunge",
+		isViable: true,
+		name: "Lunge",
+		pp: 15,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		secondary: {
+			chance: 100,
+			boosts: {
+				atk: -1,
+			},
+		},
+		target: "normal",
+		type: "Bug",
+		zMovePower: 160,
+		contestType: "Cute",
+	},
 	"lusterpurge": {
 		num: 295,
 		accuracy: 100,
@@ -8236,7 +11079,10 @@ exports.BattleMovedex = {
 		name: "Luster Purge",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 50,
 			boosts: {
@@ -8245,6 +11091,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 140,
 		contestType: "Clever",
 	},
 	"machpunch": {
@@ -8259,10 +11106,16 @@ exports.BattleMovedex = {
 		name: "Mach Punch",
 		pp: 30,
 		priority: 1,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"magiccoat": {
@@ -8307,6 +11160,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Psychic",
+		zMoveBoost: {
+			spd: 2
+		},
 		contestType: "Beautiful",
 	},
 	"magicroom": {
@@ -8320,11 +11176,14 @@ exports.BattleMovedex = {
 		name: "Magic Room",
 		pp: 10,
 		priority: 0,
-		flags: {mirror: 1},
+		flags: {
+			mirror: 1
+		},
 		onHitField: function (target, source, effect) {
 			if (this.pseudoWeather['magicroom']) {
 				this.removePseudoWeather('magicroom', source, effect, '[of] ' + source);
-			} else {
+			}
+			else {
 				this.addPseudoWeather('magicroom', source, effect, '[of] ' + source);
 			}
 		},
@@ -8349,6 +11208,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Psychic",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Clever",
 	},
 	"magicalleaf": {
@@ -8362,10 +11224,14 @@ exports.BattleMovedex = {
 		name: "Magical Leaf",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 120,
 		contestType: "Beautiful",
 	},
 	"magmastorm": {
@@ -8379,11 +11245,15 @@ exports.BattleMovedex = {
 		name: "Magma Storm",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		volatileStatus: 'partiallytrapped',
 		secondary: false,
 		target: "normal",
 		type: "Fire",
+		zMovePower: 180,
 		contestType: "Tough",
 	},
 	"magnetbomb": {
@@ -8397,10 +11267,15 @@ exports.BattleMovedex = {
 		name: "Magnet Bomb",
 		pp: 20,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Steel",
+		zMovePower: 120,
 		contestType: "Cool",
 	},
 	"magneticflux": {
@@ -8414,7 +11289,11 @@ exports.BattleMovedex = {
 		name: "Magnetic Flux",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1, distance: 1, authentic: 1},
+		flags: {
+			snatch: 1,
+			distance: 1,
+			authentic: 1
+		},
 		onHitSide: function (side, source) {
 			let targets = [];
 			for (let p in side.active) {
@@ -8423,11 +11302,17 @@ exports.BattleMovedex = {
 				}
 			}
 			if (!targets.length) return false;
-			for (let i = 0; i < targets.length; i++) this.boost({def: 1, spd: 1}, targets[i], source, 'move: Magnetic Flux');
+			for (let i = 0; i < targets.length; i++) this.boost({
+				def: 1,
+				spd: 1
+			}, targets[i], source, 'move: Magnetic Flux');
 		},
 		secondary: false,
 		target: "allySide",
 		type: "Electric",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Clever",
 	},
 	"magnetrise": {
@@ -8441,7 +11326,10 @@ exports.BattleMovedex = {
 		name: "Magnet Rise",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, gravity: 1},
+		flags: {
+			snatch: 1,
+			gravity: 1
+		},
 		volatileStatus: 'magnetrise',
 		effect: {
 			duration: 5,
@@ -8460,6 +11348,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Electric",
+		zMoveBoost: {
+			evasion: 1
+		},
 		contestType: "Clever",
 	},
 	"magnitude": {
@@ -8473,28 +11364,38 @@ exports.BattleMovedex = {
 		name: "Magnitude",
 		pp: 30,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		onModifyMove: function (move, pokemon) {
 			let i = this.random(100);
 			if (i < 5) {
 				move.magnitude = 4;
 				move.basePower = 10;
-			} else if (i < 15) {
+			}
+			else if (i < 15) {
 				move.magnitude = 5;
 				move.basePower = 30;
-			} else if (i < 35) {
+			}
+			else if (i < 35) {
 				move.magnitude = 6;
 				move.basePower = 50;
-			} else if (i < 65) {
+			}
+			else if (i < 65) {
 				move.magnitude = 7;
 				move.basePower = 70;
-			} else if (i < 85) {
+			}
+			else if (i < 85) {
 				move.magnitude = 8;
 				move.basePower = 90;
-			} else if (i < 95) {
+			}
+			else if (i < 95) {
 				move.magnitude = 9;
 				move.basePower = 110;
-			} else {
+			}
+			else {
 				move.magnitude = 10;
 				move.basePower = 150;
 			}
@@ -8505,7 +11406,28 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allAdjacent",
 		type: "Ground",
+		zMovePower: 140,
 		contestType: "Tough",
+	},
+	"maliciousmoonsault": {
+		num: 696,
+		accuracy: true,
+		basePower: 180,
+		category: "Physical",
+		desc: "No additional effect.",
+		shortDesc: "No additional effect.",
+		id: "maliciousmoonsault",
+		name: "Malicious Moonsault",
+		pp: 1,
+		priority: 0,
+		flags: {
+			contact: 1
+		},
+		isZ: "inciniumz",
+		secondary: false,
+		target: "normal",
+		type: "Dark",
+		contestType: "Cool",
 	},
 	"matblock": {
 		num: 561,
@@ -8518,7 +11440,10 @@ exports.BattleMovedex = {
 		name: "Mat Block",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, nonsky: 1},
+		flags: {
+			snatch: 1,
+			nonsky: 1
+		},
 		stallingMove: true,
 		sideCondition: 'matblock',
 		onTryHitSide: function (side, source) {
@@ -8550,6 +11475,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allySide",
 		type: "Fighting",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Cool",
 	},
 	"mefirst": {
@@ -8563,12 +11491,23 @@ exports.BattleMovedex = {
 		name: "Me First",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			authentic: 1
+		},
 		onTryHit: function (target, pokemon) {
 			let decision = this.willMove(target);
 			if (decision) {
 				let noMeFirst = {
-					chatter:1, counter:1, covet:1, focuspunch:1, mefirst:1, metalburst:1, mirrorcoat:1, struggle:1, thief:1,
+					chatter: 1,
+					counter: 1,
+					covet: 1,
+					focuspunch: 1,
+					mefirst: 1,
+					metalburst: 1,
+					mirrorcoat: 1,
+					struggle: 1,
+					thief: 1,
 				};
 				let move = this.getMoveCopy(decision.move.id);
 				if (move.category !== 'Status' && !noMeFirst[move]) {
@@ -8589,6 +11528,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "adjacentFoe",
 		type: "Normal",
+		zMoveBoost: {
+			spe: 2
+		},
 		contestType: "Clever",
 	},
 	"meanlook": {
@@ -8602,7 +11544,10 @@ exports.BattleMovedex = {
 		name: "Mean Look",
 		pp: 5,
 		priority: 0,
-		flags: {reflectable: 1, mirror: 1},
+		flags: {
+			reflectable: 1,
+			mirror: 1
+		},
 		onHit: function (target, source, move) {
 			if (!target.addVolatile('trapped', source, move, 'trapper')) {
 				this.add('-fail', target);
@@ -8611,6 +11556,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Beautiful",
 	},
 	"meditate": {
@@ -8624,13 +11572,18 @@ exports.BattleMovedex = {
 		name: "Meditate",
 		pp: 40,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			atk: 1,
 		},
 		secondary: false,
 		target: "self",
 		type: "Psychic",
+		zMoveBoost: {
+			atk: 1
+		},
 		contestType: "Beautiful",
 	},
 	"megadrain": {
@@ -8644,11 +11597,16 @@ exports.BattleMovedex = {
 		name: "Mega Drain",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, heal: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			heal: 1
+		},
 		drain: [1, 2],
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 120,
 		contestType: "Clever",
 	},
 	"megakick": {
@@ -8662,10 +11620,15 @@ exports.BattleMovedex = {
 		name: "Mega Kick",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 190,
 		contestType: "Cool",
 	},
 	"megapunch": {
@@ -8679,10 +11642,16 @@ exports.BattleMovedex = {
 		name: "Mega Punch",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"megahorn": {
@@ -8697,10 +11666,15 @@ exports.BattleMovedex = {
 		name: "Megahorn",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Bug",
+		zMovePower: 190,
 		contestType: "Cool",
 	},
 	"memento": {
@@ -8715,7 +11689,10 @@ exports.BattleMovedex = {
 		name: "Memento",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		boosts: {
 			atk: -2,
 			spa: -2,
@@ -8724,6 +11701,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMoveEffect: 'healreplacement',
 		contestType: "Tough",
 	},
 	"metalburst": {
@@ -8741,7 +11719,10 @@ exports.BattleMovedex = {
 		name: "Metal Burst",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		beforeTurnCallback: function (pokemon) {
 			pokemon.addVolatile('metalburst');
 		},
@@ -8772,6 +11753,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "scripted",
 		type: "Steel",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"metalclaw": {
@@ -8785,7 +11767,11 @@ exports.BattleMovedex = {
 		name: "Metal Claw",
 		pp: 35,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			self: {
@@ -8796,6 +11782,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Steel",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"metalsound": {
@@ -8809,13 +11796,23 @@ exports.BattleMovedex = {
 		name: "Metal Sound",
 		pp: 40,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1,
+			mystery: 1
+		},
 		boosts: {
 			spd: -2,
 		},
 		secondary: false,
 		target: "normal",
 		type: "Steel",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Clever",
 	},
 	"meteormash": {
@@ -8830,7 +11827,12 @@ exports.BattleMovedex = {
 		name: "Meteor Mash",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
 		secondary: {
 			chance: 20,
 			self: {
@@ -8841,6 +11843,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Steel",
+		zMovePower: 175,
 		contestType: "Cool",
 	},
 	"metronome": {
@@ -8860,9 +11863,67 @@ exports.BattleMovedex = {
 			for (let i in exports.BattleMovedex) {
 				let move = exports.BattleMovedex[i];
 				if (i !== move.id) continue;
-				if (move.isNonstandard) continue;
+				if (move.isZ || move.isNonstandard) continue;
 				let noMetronome = {
-					afteryou:1, assist:1, belch:1, bestow:1, celebrate:1, chatter:1, copycat:1, counter:1, covet:1, craftyshield:1, destinybond:1, detect:1, diamondstorm:1, dragonascent:1, endure:1, feint:1, focuspunch:1, followme:1, freezeshock:1, happyhour:1, helpinghand:1, holdhands:1, hyperspacefury:1, hyperspacehole:1, iceburn:1, kingsshield:1, lightofruin:1, matblock:1, mefirst:1, metronome:1, mimic:1, mirrorcoat:1, mirrormove:1, naturepower:1, originpulse:1, precipiceblades:1, protect:1, quash:1, quickguard:1, ragepowder:1, relicsong:1, secretsword:1, sketch:1, sleeptalk:1, snarl:1, snatch:1, snore:1, spikyshield:1, steameruption:1, struggle:1, switcheroo:1, technoblast:1, thief:1, thousandarrows:1, thousandwaves:1, transform:1, trick:1, vcreate:1, wideguard:1,
+					afteryou: 1,
+					assist: 1,
+					belch: 1,
+					bestow: 1,
+					celebrate: 1,
+					chatter: 1,
+					copycat: 1,
+					counter: 1,
+					covet: 1,
+					craftyshield: 1,
+					destinybond: 1,
+					detect: 1,
+					diamondstorm: 1,
+					dragonascent: 1,
+					endure: 1,
+					feint: 1,
+					focuspunch: 1,
+					followme: 1,
+					freezeshock: 1,
+					happyhour: 1,
+					helpinghand: 1,
+					holdhands: 1,
+					hyperspacefury: 1,
+					hyperspacehole: 1,
+					iceburn: 1,
+					kingsshield: 1,
+					lightofruin: 1,
+					matblock: 1,
+					mefirst: 1,
+					metronome: 1,
+					mimic: 1,
+					mirrorcoat: 1,
+					mirrormove: 1,
+					naturepower: 1,
+					originpulse: 1,
+					precipiceblades: 1,
+					protect: 1,
+					quash: 1,
+					quickguard: 1,
+					ragepowder: 1,
+					relicsong: 1,
+					secretsword: 1,
+					sketch: 1,
+					sleeptalk: 1,
+					snarl: 1,
+					snatch: 1,
+					snore: 1,
+					spikyshield: 1,
+					steameruption: 1,
+					struggle: 1,
+					switcheroo: 1,
+					technoblast: 1,
+					thief: 1,
+					thousandarrows: 1,
+					thousandwaves: 1,
+					transform: 1,
+					trick: 1,
+					vcreate: 1,
+					wideguard: 1,
 				};
 				if (!noMetronome[move.id]) {
 					moves.push(move);
@@ -8895,11 +11956,15 @@ exports.BattleMovedex = {
 		name: "Milk Drink",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, heal: 1},
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
 		heal: [1, 2],
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cute",
 	},
 	"mimic": {
@@ -8913,9 +11978,19 @@ exports.BattleMovedex = {
 		name: "Mimic",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			authentic: 1,
+			mystery: 1
+		},
 		onHit: function (target, source) {
-			let disallowedMoves = {chatter:1, mimic:1, sketch:1, struggle:1, transform:1};
+			let disallowedMoves = {
+				chatter: 1,
+				mimic: 1,
+				sketch: 1,
+				struggle: 1,
+				transform: 1
+			};
 			if (source.transformed || !target.lastMove || disallowedMoves[target.lastMove] || source.moves.indexOf(target.lastMove) >= 0) return false;
 			let moveslot = source.moves.indexOf('mimic');
 			if (moveslot < 0) return false;
@@ -8936,6 +12011,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			accuracy: 1
+		},
 		contestType: "Cute",
 	},
 	"mindreader": {
@@ -8949,7 +12027,10 @@ exports.BattleMovedex = {
 		name: "Mind Reader",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onTryHit: function (target, source) {
 			if (source.volatiles['lockon']) return false;
 		},
@@ -8960,6 +12041,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Clever",
 	},
 	"minimize": {
@@ -8973,17 +12057,37 @@ exports.BattleMovedex = {
 		name: "Minimize",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		volatileStatus: 'minimize',
 		effect: {
 			noCopy: true,
 			onSourceModifyDamage: function (damage, source, target, move) {
-				if (move.id in {'stomp':1, 'steamroller':1, 'bodyslam':1, 'flyingpress':1, 'dragonrush':1, 'phantomforce':1, 'heatcrash':1, 'shadowforce':1}) {
+				if (move.id in {
+						'stomp': 1,
+						'steamroller': 1,
+						'bodyslam': 1,
+						'flyingpress': 1,
+						'dragonrush': 1,
+						'phantomforce': 1,
+						'heatcrash': 1,
+						'shadowforce': 1
+					}) {
 					return this.chainModify(2);
 				}
 			},
 			onAccuracy: function (accuracy, target, source, move) {
-				if (move.id in {'stomp':1, 'steamroller':1, 'bodyslam':1, 'flyingpress':1, 'dragonrush':1, 'phantomforce':1, 'heatcrash':1, 'shadowforce':1}) {
+				if (move.id in {
+						'stomp': 1,
+						'steamroller': 1,
+						'bodyslam': 1,
+						'flyingpress': 1,
+						'dragonrush': 1,
+						'phantomforce': 1,
+						'heatcrash': 1,
+						'shadowforce': 1
+					}) {
 					return true;
 				}
 				return accuracy;
@@ -8995,6 +12099,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cute",
 	},
 	"miracleeye": {
@@ -9008,7 +12113,12 @@ exports.BattleMovedex = {
 		name: "Miracle Eye",
 		pp: 40,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			authentic: 1
+		},
 		volatileStatus: 'miracleeye',
 		onTryHit: function (target) {
 			if (target.volatiles['foresight']) return false;
@@ -9030,6 +12140,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Clever",
 	},
 	"mirrorcoat": {
@@ -9047,7 +12160,9 @@ exports.BattleMovedex = {
 		name: "Mirror Coat",
 		pp: 20,
 		priority: -5,
-		flags: {protect: 1},
+		flags: {
+			protect: 1
+		},
 		beforeTurnCallback: function (pokemon) {
 			pokemon.addVolatile('mirrorcoat');
 		},
@@ -9078,6 +12193,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "scripted",
 		type: "Psychic",
+		zMovePower: 100,
 		contestType: "Beautiful",
 	},
 	"mirrormove": {
@@ -9102,6 +12218,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Flying",
+		zMoveBoost: {
+			atk: 2
+		},
 		contestType: "Clever",
 	},
 	"mirrorshot": {
@@ -9115,7 +12234,10 @@ exports.BattleMovedex = {
 		name: "Mirror Shot",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			boosts: {
@@ -9124,6 +12246,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Steel",
+		zMovePower: 120,
 		contestType: "Beautiful",
 	},
 	"mist": {
@@ -9137,7 +12260,9 @@ exports.BattleMovedex = {
 		name: "Mist",
 		pp: 30,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		sideCondition: 'mist',
 		effect: {
 			duration: 5,
@@ -9165,6 +12290,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allySide",
 		type: "Ice",
+		zMoveEffect: 'heal',
 		contestType: "Beautiful",
 	},
 	"mistball": {
@@ -9178,7 +12304,11 @@ exports.BattleMovedex = {
 		name: "Mist Ball",
 		pp: 5,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 50,
 			boosts: {
@@ -9187,6 +12317,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 140,
 		contestType: "Clever",
 	},
 	"mistyterrain": {
@@ -9194,22 +12325,37 @@ exports.BattleMovedex = {
 		accuracy: true,
 		basePower: 0,
 		category: "Status",
-		desc: "For 5 turns, the terrain becomes Misty Terrain. During the effect, the power of Dragon-type attacks used against grounded Pokemon is multiplied by 0.5 and grounded Pokemon cannot be inflicted with a major status condition. Camouflage transforms the user into a Fairy type, Nature Power becomes Moonblast, and Secret Power has a 30% chance to lower Special Attack by 1 stage. Fails if the current terrain is Misty Terrain.",
+		desc: "For 5 turns, the terrain becomes Misty Terrain. During the effect, the power of Dragon-type attacks used against grounded Pokemon is multiplied by 0.5 and grounded Pokemon cannot be inflicted with a major status condition nor confusion. Camouflage transforms the user into a Fairy type, Nature Power becomes Moonblast, and Secret Power has a 30% chance to lower Special Attack by 1 stage. Fails if the current terrain is Misty Terrain.",
 		shortDesc: "5 turns. Can't status,-Dragon power vs grounded.",
 		id: "mistyterrain",
 		name: "Misty Terrain",
 		pp: 10,
 		priority: 0,
-		flags: {nonsky: 1},
+		flags: {
+			nonsky: 1
+		},
 		terrain: 'mistyterrain',
 		effect: {
 			duration: 5,
+			durationCallback: function (source, effect) {
+				if (source && source.hasItem('terrainextender')) {
+					return 8;
+				}
+				return 5;
+			},
 			onSetStatus: function (status, target, source, effect) {
 				if (!target.isGrounded() || target.isSemiInvulnerable()) return;
 				if (effect.id === 'synchronize' || (effect.effectType === 'Move' && !effect.secondaries)) {
 					this.add('-activate', target, 'move: Misty Terrain');
 				}
 				return false;
+			},
+			onTryAddVolatile: function (status, target, source, effect) {
+				if (!target.isGrounded() || target.isSemiInvulnerable()) return;
+				if (status.id === 'confusion') {
+					this.add('-activate', target, 'move: Misty Terrain');
+					return null;
+				}
 			},
 			onBasePower: function (basePower, attacker, defender, move) {
 				if (move.type === 'Dragon' && defender.isGrounded() && !defender.isSemiInvulnerable()) {
@@ -9220,7 +12366,8 @@ exports.BattleMovedex = {
 			onStart: function (battle, source, effect) {
 				if (effect && effect.effectType === 'Ability') {
 					this.add('-fieldstart', 'move: Misty Terrain', '[from] ability: ' + effect, '[of] ' + source);
-				} else {
+				}
+				else {
 					this.add('-fieldstart', 'move: Misty Terrain');
 				}
 			},
@@ -9233,6 +12380,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Fairy",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Beautiful",
 	},
 	"moonblast": {
@@ -9247,7 +12397,10 @@ exports.BattleMovedex = {
 		name: "Moonblast",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			boosts: {
@@ -9256,7 +12409,31 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Fairy",
+		zMovePower: 175,
 		contestType: "Beautiful",
+	},
+	"moongeistbeam": {
+		num: 714,
+		accuracy: 100,
+		basePower: 100,
+		category: "Special",
+		desc: "This move and its effects ignore the Abilities of other Pokemon.",
+		shortDesc: "Ignores the Abilities of other Pokemon.",
+		id: "moongeistbeam",
+		isViable: true,
+		name: "Moongeist Beam",
+		pp: 5,
+		priority: 0,
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
+		ignoreAbility: true,
+		secondary: false,
+		target: "normal",
+		type: "Ghost",
+		zMovePower: 180,
+		contestType: "Cool",
 	},
 	"moonlight": {
 		num: 236,
@@ -9270,19 +12447,25 @@ exports.BattleMovedex = {
 		name: "Moonlight",
 		pp: 5,
 		priority: 0,
-		flags: {snatch: 1, heal: 1},
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
 		onHit: function (pokemon) {
 			if (this.isWeather(['sunnyday', 'desolateland'])) {
 				this.heal(this.modify(pokemon.maxhp, 0.667));
-			} else if (this.isWeather(['raindance', 'primordialsea', 'sandstorm', 'hail'])) {
+			}
+			else if (this.isWeather(['raindance', 'primordialsea', 'sandstorm', 'hail'])) {
 				this.heal(this.modify(pokemon.maxhp, 0.25));
-			} else {
+			}
+			else {
 				this.heal(this.modify(pokemon.maxhp, 0.5));
 			}
 		},
 		secondary: false,
 		target: "self",
 		type: "Fairy",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Beautiful",
 	},
 	"morningsun": {
@@ -9297,19 +12480,25 @@ exports.BattleMovedex = {
 		name: "Morning Sun",
 		pp: 5,
 		priority: 0,
-		flags: {snatch: 1, heal: 1},
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
 		onHit: function (pokemon) {
 			if (this.isWeather(['sunnyday', 'desolateland'])) {
 				this.heal(this.modify(pokemon.maxhp, 0.667));
-			} else if (this.isWeather(['raindance', 'primordialsea', 'sandstorm', 'hail'])) {
+			}
+			else if (this.isWeather(['raindance', 'primordialsea', 'sandstorm', 'hail'])) {
 				this.heal(this.modify(pokemon.maxhp, 0.25));
-			} else {
+			}
+			else {
 				this.heal(this.modify(pokemon.maxhp, 0.5));
 			}
 		},
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Beautiful",
 	},
 	"mudslap": {
@@ -9323,7 +12512,10 @@ exports.BattleMovedex = {
 		name: "Mud-Slap",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 100,
 			boosts: {
@@ -9332,6 +12524,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Ground",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"mudbomb": {
@@ -9345,7 +12538,11 @@ exports.BattleMovedex = {
 		name: "Mud Bomb",
 		pp: 10,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			boosts: {
@@ -9354,6 +12551,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Ground",
+		zMovePower: 120,
 		contestType: "Cute",
 	},
 	"mudshot": {
@@ -9367,7 +12565,10 @@ exports.BattleMovedex = {
 		name: "Mud Shot",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 100,
 			boosts: {
@@ -9376,6 +12577,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Ground",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"mudsport": {
@@ -9389,11 +12591,14 @@ exports.BattleMovedex = {
 		name: "Mud Sport",
 		pp: 15,
 		priority: 0,
-		flags: {nonsky: 1},
+		flags: {
+			nonsky: 1
+		},
 		onHitField: function (target, source, effect) {
 			if (this.pseudoWeather['mudsport']) {
 				return false;
-			} else {
+			}
+			else {
 				this.addPseudoWeather('mudsport', source, effect, '[of] ' + source);
 			}
 		},
@@ -9417,6 +12622,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Ground",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Cute",
 	},
 	"muddywater": {
@@ -9430,7 +12638,11 @@ exports.BattleMovedex = {
 		name: "Muddy Water",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		secondary: {
 			chance: 30,
 			boosts: {
@@ -9439,12 +12651,39 @@ exports.BattleMovedex = {
 		},
 		target: "allAdjacentFoes",
 		type: "Water",
+		zMovePower: 175,
+		contestType: "Tough",
+	},
+	"multiattack": {
+		num: 718,
+		accuracy: 100,
+		basePower: 90,
+		category: "Physical",
+		desc: "This move's type depends on the user's held Memory.",
+		shortDesc: "Type varies based on the held Memory.",
+		id: "multiattack",
+		isViable: true,
+		name: "Multi-Attack",
+		pp: 10,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		onModifyMove: function (move, pokemon) {
+			move.type = this.runEvent('Memory', pokemon, null, 'multiattack', 'Normal');
+		},
+		secondary: false,
+		target: "normal",
+		type: "Normal",
+		zMovePower: 185,
 		contestType: "Tough",
 	},
 	"mysticalfire": {
 		num: 595,
 		accuracy: 100,
-		basePower: 65,
+		basePower: 75,
 		category: "Special",
 		desc: "Has a 100% chance to lower the target's Special Attack by 1 stage.",
 		shortDesc: "100% chance to lower the target's Sp. Atk by 1.",
@@ -9452,7 +12691,10 @@ exports.BattleMovedex = {
 		name: "Mystical Fire",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 100,
 			boosts: {
@@ -9461,6 +12703,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Fire",
+		zMovePower: 140,
 		contestType: "Beautiful",
 	},
 	"nastyplot": {
@@ -9475,13 +12718,16 @@ exports.BattleMovedex = {
 		name: "Nasty Plot",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			spa: 2,
 		},
 		secondary: false,
 		target: "self",
 		type: "Dark",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Clever",
 	},
 	"naturalgift": {
@@ -9499,7 +12745,10 @@ exports.BattleMovedex = {
 		name: "Natural Gift",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		beforeMoveCallback: function (pokemon) {
 			if (pokemon.ignoringItem()) return;
 			let item = pokemon.getItem();
@@ -9526,6 +12775,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Clever",
 	},
 	"naturepower": {
@@ -9533,7 +12783,7 @@ exports.BattleMovedex = {
 		accuracy: true,
 		basePower: 0,
 		category: "Status",
-		desc: "This move calls another move for use based on the battle terrain. Tri Attack on the regular Wi-Fi terrain, Thunderbolt during Electric Terrain, Moonblast during Misty Terrain, and Energy Ball during Grassy Terrain.",
+		desc: "This move calls another move for use based on the battle terrain. Tri Attack on the regular Wi-Fi terrain, Thunderbolt during Electric Terrain, Moonblast during Misty Terrain, Energy Ball during Grassy Terrain, and Psychic during Psychic Terrain.",
 		shortDesc: "Attack depends on terrain (default Tri Attack).",
 		id: "naturepower",
 		name: "Nature Power",
@@ -9544,10 +12794,15 @@ exports.BattleMovedex = {
 			let move = 'triattack';
 			if (this.isTerrain('electricterrain')) {
 				move = 'thunderbolt';
-			} else if (this.isTerrain('grassyterrain')) {
+			}
+			else if (this.isTerrain('grassyterrain')) {
 				move = 'energyball';
-			} else if (this.isTerrain('mistyterrain')) {
+			}
+			else if (this.isTerrain('mistyterrain')) {
 				move = 'moonblast';
+			}
+			else if (this.isTerrain('psychicterrain')) {
+				move = 'psychic';
 			}
 			this.useMove(move, pokemon, target);
 			return null;
@@ -9556,6 +12811,31 @@ exports.BattleMovedex = {
 		target: "normal",
 		type: "Normal",
 		contestType: "Beautiful",
+	},
+	"naturesmadness": {
+		num: 717,
+		accuracy: 90,
+		basePower: 0,
+		damageCallback: function (pokemon, target) {
+			return this.clampIntRange(Math.floor(target.hp / 2), 1);
+		},
+		category: "Special",
+		desc: "Deals damage to the target equal to half of its current HP, rounded down, but not less than 1 HP.",
+		shortDesc: "Does damage equal to 1/2 target's current HP.",
+		id: "naturesmadness",
+		isViable: true,
+		name: "Nature's Madness",
+		pp: 10,
+		priority: 0,
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
+		secondary: false,
+		target: "normal",
+		type: "Fairy",
+		zMovePower: 100,
+		contestType: "Tough",
 	},
 	"needlearm": {
 		num: 302,
@@ -9568,14 +12848,37 @@ exports.BattleMovedex = {
 		name: "Needle Arm",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Grass",
+		zMovePower: 120,
 		contestType: "Clever",
+	},
+	"neverendingnightmare": {
+		num: 636,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "neverendingnightmare",
+		isViable: true,
+		name: "Never-Ending Nightmare",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "ghostiumz",
+		secondary: false,
+		target: "normal",
+		type: "Ghost",
+		contestType: "Cool",
 	},
 	"nightdaze": {
 		num: 539,
@@ -9588,7 +12891,10 @@ exports.BattleMovedex = {
 		name: "Night Daze",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 40,
 			boosts: {
@@ -9597,6 +12903,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Dark",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"nightshade": {
@@ -9612,10 +12919,14 @@ exports.BattleMovedex = {
 		name: "Night Shade",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Ghost",
+		zMovePower: 100,
 		contestType: "Clever",
 	},
 	"nightslash": {
@@ -9630,11 +12941,16 @@ exports.BattleMovedex = {
 		name: "Night Slash",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"nightmare": {
@@ -9648,12 +12964,15 @@ exports.BattleMovedex = {
 		name: "Nightmare",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		volatileStatus: 'nightmare',
 		effect: {
 			noCopy: true,
 			onStart: function (pokemon) {
-				if (pokemon.status !== 'slp') {
+				if (pokemon.status !== 'slp' && !pokemon.hasAbility('comatose')) {
 					return false;
 				}
 				this.add('-start', pokemon, 'Nightmare');
@@ -9663,7 +12982,7 @@ exports.BattleMovedex = {
 				this.damage(pokemon.maxhp / 4);
 			},
 			onUpdate: function (pokemon) {
-				if (pokemon.status !== 'slp') {
+				if (pokemon.status !== 'slp' && !pokemon.hasAbility('comatose')) {
 					pokemon.removeVolatile('nightmare');
 					this.add('-end', pokemon, 'Nightmare', '[silent]');
 				}
@@ -9672,6 +12991,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Ghost",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Clever",
 	},
 	"nobleroar": {
@@ -9685,7 +13007,13 @@ exports.BattleMovedex = {
 		name: "Noble Roar",
 		pp: 30,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		boosts: {
 			atk: -1,
 			spa: -1,
@@ -9693,6 +13021,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Tough",
 	},
 	"nuzzle": {
@@ -9707,13 +13038,18 @@ exports.BattleMovedex = {
 		name: "Nuzzle",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 100,
 			status: 'par',
 		},
 		target: "normal",
 		type: "Electric",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"oblivionwing": {
@@ -9728,11 +13064,35 @@ exports.BattleMovedex = {
 		name: "Oblivion Wing",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, distance: 1, heal: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			distance: 1,
+			heal: 1
+		},
 		drain: [3, 4],
 		secondary: false,
 		target: "any",
 		type: "Flying",
+		zMovePower: 160,
+		contestType: "Cool",
+	},
+	"oceanicoperetta": {
+		num: 697,
+		accuracy: true,
+		basePower: 195,
+		category: "Special",
+		desc: "No additional effect.",
+		shortDesc: "No additional effect.",
+		id: "oceanicoperetta",
+		name: "Oceanic Operetta",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "primariumz",
+		secondary: false,
+		target: "normal",
+		type: "Water",
 		contestType: "Cool",
 	},
 	"octazooka": {
@@ -9746,7 +13106,11 @@ exports.BattleMovedex = {
 		name: "Octazooka",
 		pp: 10,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 50,
 			boosts: {
@@ -9755,6 +13119,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Water",
+		zMovePower: 120,
 		contestType: "Tough",
 	},
 	"odorsleuth": {
@@ -9768,7 +13133,13 @@ exports.BattleMovedex = {
 		name: "Odor Sleuth",
 		pp: 40,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			authentic: 1,
+			mystery: 1
+		},
 		volatileStatus: 'foresight',
 		onTryHit: function (target) {
 			if (target.volatiles['miracleeye']) return false;
@@ -9776,6 +13147,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			atk: 1
+		},
 		contestType: "Clever",
 	},
 	"ominouswind": {
@@ -9789,7 +13163,10 @@ exports.BattleMovedex = {
 		name: "Ominous Wind",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			self: {
@@ -9804,6 +13181,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Ghost",
+		zMovePower: 120,
 		contestType: "Beautiful",
 	},
 	"originpulse": {
@@ -9818,9 +13196,14 @@ exports.BattleMovedex = {
 		name: "Origin Pulse",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, pulse: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			pulse: 1,
+			mirror: 1
+		},
 		target: "allAdjacentFoes",
 		type: "Water",
+		zMovePower: 185,
 		contestType: "Beautiful",
 	},
 	"outrage": {
@@ -9835,7 +13218,11 @@ exports.BattleMovedex = {
 		name: "Outrage",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			volatileStatus: 'lockedmove',
 		},
@@ -9847,6 +13234,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "randomNormal",
 		type: "Dragon",
+		zMovePower: 190,
 		contestType: "Cool",
 	},
 	"overheat": {
@@ -9861,7 +13249,10 @@ exports.BattleMovedex = {
 		name: "Overheat",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			boosts: {
 				spa: -2,
@@ -9870,6 +13261,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Fire",
+		zMovePower: 195,
 		contestType: "Beautiful",
 	},
 	"painsplit": {
@@ -9884,7 +13276,11 @@ exports.BattleMovedex = {
 		name: "Pain Split",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		onHit: function (target, pokemon) {
 			let averagehp = Math.floor((target.hp + pokemon.hp) / 2) || 1;
 			target.sethp(averagehp);
@@ -9894,12 +13290,15 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Clever",
 	},
 	"paraboliccharge": {
 		num: 570,
 		accuracy: 100,
-		basePower: 50,
+		basePower: 65,
 		category: "Special",
 		desc: "The user recovers 1/2 the HP lost by the target, rounded half up. If Big Root is held by the user, the HP recovered is 1.3x normal, rounded half down.",
 		shortDesc: "User recovers 50% of the damage dealt.",
@@ -9907,11 +13306,16 @@ exports.BattleMovedex = {
 		name: "Parabolic Charge",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, heal: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			heal: 1
+		},
 		drain: [1, 2],
 		secondary: false,
 		target: "allAdjacent",
 		type: "Electric",
+		zMovePower: 120,
 		contestType: "Clever",
 	},
 	"partingshot": {
@@ -9926,7 +13330,13 @@ exports.BattleMovedex = {
 		name: "Parting Shot",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		selfSwitch: true,
 		boosts: {
 			atk: -1,
@@ -9935,6 +13345,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMoveEffect: 'healreplacement',
 		contestType: "Cool",
 	},
 	"payday": {
@@ -9948,13 +13359,17 @@ exports.BattleMovedex = {
 		name: "Pay Day",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onHit: function () {
 			this.add('-fieldactivate', 'move: Pay Day');
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Clever",
 	},
 	"payback": {
@@ -9976,10 +13391,15 @@ exports.BattleMovedex = {
 		name: "Payback",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"peck": {
@@ -9993,10 +13413,16 @@ exports.BattleMovedex = {
 		name: "Peck",
 		pp: 35,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, distance: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			distance: 1
+		},
 		secondary: false,
 		target: "any",
 		type: "Flying",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"perishsong": {
@@ -10011,7 +13437,11 @@ exports.BattleMovedex = {
 		name: "Perish Song",
 		pp: 5,
 		priority: 0,
-		flags: {sound: 1, distance: 1, authentic: 1},
+		flags: {
+			sound: 1,
+			distance: 1,
+			authentic: 1
+		},
 		onHitField: function (target, source) {
 			let result = false;
 			let message = false;
@@ -10021,7 +13451,8 @@ exports.BattleMovedex = {
 						if (this.sides[i].active[j].hasAbility('soundproof')) {
 							this.add('-immune', this.sides[i].active[j], '[msg]', '[from] ability: Soundproof');
 							result = true;
-						} else if (!this.sides[i].active[j].volatiles['perishsong']) {
+						}
+						else if (!this.sides[i].active[j].volatiles['perishsong']) {
 							this.sides[i].active[j].addVolatile('perishsong');
 							this.add('-start', this.sides[i].active[j], 'perish3', '[silent]');
 							result = true;
@@ -10047,6 +13478,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Beautiful",
 	},
 	"petalblizzard": {
@@ -10061,10 +13493,14 @@ exports.BattleMovedex = {
 		name: "Petal Blizzard",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "allAdjacent",
 		type: "Grass",
+		zMovePower: 175,
 		contestType: "Beautiful",
 	},
 	"petaldance": {
@@ -10079,7 +13515,11 @@ exports.BattleMovedex = {
 		name: "Petal Dance",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			volatileStatus: 'lockedmove',
 		},
@@ -10091,6 +13531,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "randomNormal",
 		type: "Grass",
+		zMovePower: 190,
 		contestType: "Beautiful",
 	},
 	"phantomforce": {
@@ -10104,7 +13545,11 @@ exports.BattleMovedex = {
 		name: "Phantom Force",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, charge: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			charge: 1,
+			mirror: 1
+		},
 		breaksProtect: true,
 		onTry: function (attacker, defender, move) {
 			if (attacker.removeVolatile(move.id)) {
@@ -10134,6 +13579,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Ghost",
+		zMovePower: 175,
 		contestType: "Cool",
 	},
 	"pinmissile": {
@@ -10147,11 +13593,15 @@ exports.BattleMovedex = {
 		name: "Pin Missile",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		multihit: [2, 5],
 		secondary: false,
 		target: "normal",
 		type: "Bug",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"playnice": {
@@ -10165,13 +13615,20 @@ exports.BattleMovedex = {
 		name: "Play Nice",
 		pp: 20,
 		priority: 0,
-		flags: {reflectable: 1, mirror: 1, authentic: 1},
+		flags: {
+			reflectable: 1,
+			mirror: 1,
+			authentic: 1
+		},
 		boosts: {
 			atk: -1,
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Cute",
 	},
 	"playrough": {
@@ -10186,7 +13643,11 @@ exports.BattleMovedex = {
 		name: "Play Rough",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			boosts: {
@@ -10195,6 +13656,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Fairy",
+		zMovePower: 175,
 		contestType: "Cute",
 	},
 	"pluck": {
@@ -10208,7 +13670,12 @@ exports.BattleMovedex = {
 		name: "Pluck",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, distance: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			distance: 1
+		},
 		onHit: function (target, source) {
 			let item = target.getItem();
 			if (source.hp && item.isBerry && target.takeItem(source)) {
@@ -10222,6 +13689,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "any",
 		type: "Flying",
+		zMovePower: 120,
 		contestType: "Cute",
 	},
 	"poisonfang": {
@@ -10235,13 +13703,19 @@ exports.BattleMovedex = {
 		name: "Poison Fang",
 		pp: 15,
 		priority: 0,
-		flags: {bite: 1, contact: 1, protect: 1, mirror: 1},
+		flags: {
+			bite: 1,
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 50,
 			status: 'tox',
 		},
 		target: "normal",
 		type: "Poison",
+		zMovePower: 100,
 		contestType: "Clever",
 	},
 	"poisongas": {
@@ -10255,11 +13729,18 @@ exports.BattleMovedex = {
 		name: "Poison Gas",
 		pp: 40,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		status: 'psn',
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Poison",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Clever",
 	},
 	"poisonjab": {
@@ -10274,13 +13755,18 @@ exports.BattleMovedex = {
 		name: "Poison Jab",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			status: 'psn',
 		},
 		target: "normal",
 		type: "Poison",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"poisonpowder": {
@@ -10294,11 +13780,19 @@ exports.BattleMovedex = {
 		name: "Poison Powder",
 		pp: 35,
 		priority: 0,
-		flags: {powder: 1, protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			powder: 1,
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		status: 'psn',
 		secondary: false,
 		target: "normal",
 		type: "Poison",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Clever",
 	},
 	"poisonsting": {
@@ -10312,13 +13806,17 @@ exports.BattleMovedex = {
 		name: "Poison Sting",
 		pp: 35,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			status: 'psn',
 		},
 		target: "normal",
 		type: "Poison",
+		zMovePower: 100,
 		contestType: "Clever",
 	},
 	"poisontail": {
@@ -10332,7 +13830,11 @@ exports.BattleMovedex = {
 		name: "Poison Tail",
 		pp: 25,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: {
 			chance: 10,
@@ -10340,7 +13842,36 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Poison",
+		zMovePower: 100,
 		contestType: "Clever",
+	},
+	"pollenpuff": {
+		num: 676,
+		accuracy: 100,
+		basePower: 90,
+		category: "Special",
+		desc: "If the target is an ally, this move restores 1/2 of its maximum HP, rounded down, instead of dealing damage.",
+		shortDesc: "If the target is an ally, heals 50% of its max HP.",
+		id: "pollenpuff",
+		name: "Pollen Puff",
+		pp: 15,
+		priority: 0,
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
+		onTryHit: function (target, source, move) {
+			if (source.side === target.side) {
+				move.basePower = 0;
+				move.heal = [1, 2];
+			}
+		},
+		secondary: false,
+		target: "normal",
+		type: "Bug",
+		zMovePower: 175,
+		contestType: "Cute",
 	},
 	"pound": {
 		num: 1,
@@ -10353,10 +13884,15 @@ exports.BattleMovedex = {
 		name: "Pound",
 		pp: 35,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"powder": {
@@ -10370,7 +13906,13 @@ exports.BattleMovedex = {
 		name: "Powder",
 		pp: 20,
 		priority: 1,
-		flags: {powder: 1, protect: 1, reflectable: 1, mirror: 1, authentic: 1},
+		flags: {
+			powder: 1,
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			authentic: 1
+		},
 		volatileStatus: 'powder',
 		effect: {
 			duration: 1,
@@ -10388,6 +13930,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Bug",
+		zMoveBoost: {
+			spd: 2
+		},
 		contestType: "Clever",
 	},
 	"powdersnow": {
@@ -10401,13 +13946,17 @@ exports.BattleMovedex = {
 		name: "Powder Snow",
 		pp: 25,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'frz',
 		},
 		target: "allAdjacentFoes",
 		type: "Ice",
+		zMovePower: 100,
 		contestType: "Beautiful",
 	},
 	"powergem": {
@@ -10422,10 +13971,14 @@ exports.BattleMovedex = {
 		name: "Power Gem",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Rock",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"powersplit": {
@@ -10439,7 +13992,10 @@ exports.BattleMovedex = {
 		name: "Power Split",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1},
+		flags: {
+			protect: 1,
+			mystery: 1
+		},
 		onHit: function (target, source) {
 			let newatk = Math.floor((target.stats.atk + source.stats.atk) / 2);
 			target.stats.atk = newatk;
@@ -10452,6 +14008,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Clever",
 	},
 	"powerswap": {
@@ -10465,12 +14024,20 @@ exports.BattleMovedex = {
 		name: "Power Swap",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			authentic: 1,
+			mystery: 1
+		},
 		onHit: function (target, source) {
 			let targetBoosts = {};
 			let sourceBoosts = {};
 
-			for (let i in {atk:1, spa:1}) {
+			for (let i in {
+					atk: 1,
+					spa: 1
+				}) {
 				targetBoosts[i] = target.boosts[i];
 				sourceBoosts[i] = source.boosts[i];
 			}
@@ -10483,6 +14050,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Clever",
 	},
 	"powertrick": {
@@ -10496,7 +14066,9 @@ exports.BattleMovedex = {
 		name: "Power Trick",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		volatileStatus: 'powertrick',
 		effect: {
 			onStart: function (pokemon) {
@@ -10526,6 +14098,34 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Psychic",
+		zMoveBoost: {
+			atk: 1
+		},
+		contestType: "Clever",
+	},
+	"powertrip": {
+		num: 681,
+		accuracy: 100,
+		basePower: 20,
+		basePowerCallback: function (pokemon, target, move) {
+			return move.basePower + 20 * pokemon.positiveBoosts();
+		},
+		category: "Physical",
+		desc: "Power is equal to 20+(X*20), where X is the user's total stat stage changes that are greater than 0.",
+		shortDesc: " + 20 power for each of the user's stat boosts.",
+		id: "powertrip",
+		name: "Power Trip",
+		pp: 10,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		secondary: false,
+		target: "normal",
+		type: "Dark",
+		zMovePower: 160,
 		contestType: "Clever",
 	},
 	"poweruppunch": {
@@ -10540,7 +14140,12 @@ exports.BattleMovedex = {
 		name: "Power-Up Punch",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
 		secondary: {
 			chance: 100,
 			self: {
@@ -10551,6 +14156,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"powerwhip": {
@@ -10565,10 +14171,15 @@ exports.BattleMovedex = {
 		name: "Power Whip",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 190,
 		contestType: "Tough",
 	},
 	"precipiceblades": {
@@ -10583,9 +14194,14 @@ exports.BattleMovedex = {
 		name: "Precipice Blades",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		target: "allAdjacentFoes",
 		type: "Ground",
+		zMovePower: 190,
 		contestType: "Cool",
 	},
 	"present": {
@@ -10599,23 +14215,55 @@ exports.BattleMovedex = {
 		name: "Present",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onModifyMove: function (move, pokemon, target) {
 			let rand = this.random(10);
 			if (rand < 2) {
 				move.heal = [1, 4];
-			} else if (rand < 6) {
+			}
+			else if (rand < 6) {
 				move.basePower = 40;
-			} else if (rand < 9) {
+			}
+			else if (rand < 9) {
 				move.basePower = 80;
-			} else {
+			}
+			else {
 				move.basePower = 120;
 			}
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Cute",
+	},
+	"prismaticlaser": {
+		num: 711,
+		accuracy: 100,
+		basePower: 160,
+		category: "Special",
+		desc: "If this move is successful, the user must recharge on the following turn and cannot make a move.",
+		shortDesc: "User cannot move next turn.",
+		id: "prismaticlaser",
+		name: "Prismatic Laser",
+		pp: 10,
+		priority: 0,
+		flags: {
+			recharge: 1,
+			protect: 1,
+			mirror: 1
+		},
+		self: {
+			volatileStatus: 'mustrecharge',
+		},
+		secondary: false,
+		target: "normal",
+		type: "Psychic",
+		zMovePower: 200,
+		contestType: "Cool",
 	},
 	"protect": {
 		num: 182,
@@ -10660,6 +14308,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cute",
 	},
 	"psybeam": {
@@ -10673,13 +14322,17 @@ exports.BattleMovedex = {
 		name: "Psybeam",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			volatileStatus: 'confusion',
 		},
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 120,
 		contestType: "Beautiful",
 	},
 	"psychup": {
@@ -10693,7 +14346,10 @@ exports.BattleMovedex = {
 		name: "Psych Up",
 		pp: 10,
 		priority: 0,
-		flags: {authentic: 1},
+		flags: {
+			authentic: 1,
+			mystery: 1
+		},
 		onHit: function (target, source) {
 			for (let i in target.boosts) {
 				source.boosts[i] = target.boosts[i];
@@ -10703,6 +14359,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveEffect: 'heal',
 		contestType: "Clever",
 	},
 	"psychic": {
@@ -10717,7 +14374,10 @@ exports.BattleMovedex = {
 		name: "Psychic",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			boosts: {
@@ -10726,6 +14386,99 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 175,
+		contestType: "Clever",
+	},
+	"psychicfangs": {
+		num: 706,
+		accuracy: 100,
+		basePower: 85,
+		category: "Physical",
+		desc: "If this attack does not miss, the effects of Reflect, Light Screen, and Aurora Veil end for the target's side of the field before damage is calculated.",
+		shortDesc: "Destroys screens, unless the target is immune.",
+		id: "psychicfangs",
+		isViable: true,
+		name: "Psychic Fangs",
+		pp: 10,
+		priority: 0,
+		flags: {
+			bite: 1,
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		onTryHit: function (pokemon) {
+			// will shatter screens through sub, before you hit
+			if (pokemon.runImmunity('Psychic')) {
+				pokemon.side.removeSideCondition('reflect');
+				pokemon.side.removeSideCondition('lightscreen');
+				pokemon.side.removeSideCondition('auroraveil');
+			}
+		},
+		secondary: false,
+		target: "normal",
+		type: "Psychic",
+		zMovePower: 160,
+		contestType: "Clever",
+	},
+	"psychicterrain": {
+		num: 678,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "For 5 turns, the terrain becomes Psychic Terrain. During the effect, the power of Psychic-type attacks made by grounded Pokemon is multiplied by 1.5 and grounded Pokemon cannot be hit by moves with priority greater than 0, unless the target is an ally. Camouflage transforms the user into a Psychic type, Nature Power becomes Psychic, and Secret Power has a 30% chance to lower the target's Speed by 1 stage. Fails if the current terrain is Psychic Terrain.",
+		shortDesc: "5 turns. Grounded: +Psychic power, priority-safe.",
+		id: "psychicterrain",
+		name: "Psychic Terrain",
+		pp: 10,
+		priority: 0,
+		flags: {
+			nonsky: 1
+		},
+		terrain: 'psychicterrain',
+		effect: {
+			duration: 5,
+			durationCallback: function (source, effect) {
+				if (source && source.hasItem('terrainextender')) {
+					return 8;
+				}
+				return 5;
+			},
+			onTryHitPriority: 4,
+			onTryHit: function (target, source, effect) {
+				if (!target.isGrounded() || target.isSemiInvulnerable() || target.side === source.side) return;
+				if (effect && (effect.priority <= 0.1 || effect.target === 'self')) {
+					return;
+				}
+				this.add('-activate', target, 'move: Psychic Terrain');
+				return null;
+			},
+			onBasePower: function (basePower, attacker, defender, move) {
+				if (move.type === 'Psychic' && attacker.isGrounded() && !attacker.isSemiInvulnerable()) {
+					this.debug('psychic terrain boost');
+					return this.chainModify(1.5);
+				}
+			},
+			onStart: function (battle, source, effect) {
+				if (effect && effect.effectType === 'Ability') {
+					this.add('-fieldstart', 'move: Psychic Terrain', '[from] ability: ' + effect, '[of] ' + source);
+				}
+				else {
+					this.add('-fieldstart', 'move: Psychic Terrain');
+				}
+			},
+			onResidualOrder: 21,
+			onResidualSubOrder: 2,
+			onEnd: function () {
+				this.add('-fieldend', 'move: Psychic Terrain');
+			},
+		},
+		secondary: false,
+		target: "all",
+		type: "Psychic",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Clever",
 	},
 	"psychoboost": {
@@ -10740,7 +14493,10 @@ exports.BattleMovedex = {
 		name: "Psycho Boost",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			boosts: {
 				spa: -2,
@@ -10749,6 +14505,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 200,
 		contestType: "Clever",
 	},
 	"psychocut": {
@@ -10763,11 +14520,15 @@ exports.BattleMovedex = {
 		name: "Psycho Cut",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"psychoshift": {
@@ -10781,17 +14542,24 @@ exports.BattleMovedex = {
 		name: "Psycho Shift",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onHit: function (target, pokemon) {
 			if (pokemon.status && !target.status && target.trySetStatus(pokemon.status)) {
 				pokemon.cureStatus();
-			} else {
+			}
+			else {
 				return false;
 			}
 		},
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMoveBoost: {
+			spa: 2
+		},
 		contestType: "Clever",
 	},
 	"psyshock": {
@@ -10807,10 +14575,14 @@ exports.BattleMovedex = {
 		name: "Psyshock",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"psystrike": {
@@ -10826,10 +14598,14 @@ exports.BattleMovedex = {
 		name: "Psystrike",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 180,
 		contestType: "Cool",
 	},
 	"psywave": {
@@ -10846,11 +14622,35 @@ exports.BattleMovedex = {
 		name: "Psywave",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 100,
 		contestType: "Clever",
+	},
+	"pulverizingpancake": {
+		num: 701,
+		accuracy: true,
+		basePower: 210,
+		category: "Physical",
+		desc: "No additional effect.",
+		shortDesc: "No additional effect.",
+		id: "pulverizingpancake",
+		name: "Pulverizing Pancake",
+		pp: 1,
+		priority: 0,
+		flags: {
+			contact: 1
+		},
+		isZ: "snorliumz",
+		secondary: false,
+		target: "normal",
+		type: "Normal",
+		contestType: "Cool",
 	},
 	"punishment": {
 		num: 386,
@@ -10868,11 +14668,49 @@ exports.BattleMovedex = {
 		name: "Punishment",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMovePower: 160,
 		contestType: "Cool",
+	},
+	"purify": {
+		num: 685,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "The target is cured if it has a major status condition. If the target was cured, the user restores 1/2 of its maximum HP, rounded half up.",
+		shortDesc: "Cures target's status; heals user 1/2 maxHP if so.",
+		id: "purify",
+		name: "Purify",
+		pp: 20,
+		priority: 0,
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			heal: 1
+		},
+		onHit: function (target, source) {
+			if (!target.status) return false;
+			target.cureStatus();
+			this.heal(Math.ceil(source.maxhp * 0.5), source);
+		},
+		secondary: false,
+		target: "normal",
+		type: "Poison",
+		zMoveBoost: {
+			atk: 1,
+			def: 1,
+			spa: 1,
+			spd: 1,
+			spe: 1
+		},
+		contestType: "Beautiful",
 	},
 	"pursuit": {
 		num: 228,
@@ -10894,7 +14732,11 @@ exports.BattleMovedex = {
 		name: "Pursuit",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		beforeTurnCallback: function (pokemon, target) {
 			target.side.addSideCondition('pursuit', pokemon);
 			if (!target.side.sideConditions['pursuit'].sources) {
@@ -10927,6 +14769,7 @@ exports.BattleMovedex = {
 						for (let j = 0; j < this.queue.length; j++) {
 							if (this.queue[j].pokemon === sources[i] && this.queue[j].choice === 'megaEvo') {
 								this.runMegaEvo(sources[i]);
+								this.queue.splice(j, 1);
 								break;
 							}
 						}
@@ -10938,6 +14781,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMovePower: 100,
 		contestType: "Clever",
 	},
 	"quash": {
@@ -10951,7 +14795,10 @@ exports.BattleMovedex = {
 		name: "Quash",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onHit: function (target) {
 			if (target.side.active.length < 2) return false; // fails in singles
 			let decision = this.willMove(target);
@@ -10965,13 +14812,17 @@ exports.BattleMovedex = {
 					}
 				}
 				this.add('-activate', target, 'move: Quash');
-			} else {
+			}
+			else {
 				return false;
 			}
 		},
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Clever",
 	},
 	"quickattack": {
@@ -10986,10 +14837,15 @@ exports.BattleMovedex = {
 		name: "Quick Attack",
 		pp: 30,
 		priority: 1,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"quickguard": {
@@ -11003,7 +14859,9 @@ exports.BattleMovedex = {
 		name: "Quick Guard",
 		pp: 15,
 		priority: 3,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		sideCondition: 'quickguard',
 		onTryHitSide: function (side, source) {
 			return this.willAct();
@@ -11037,6 +14895,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allySide",
 		type: "Fighting",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Cool",
 	},
 	"quiverdance": {
@@ -11051,7 +14912,9 @@ exports.BattleMovedex = {
 		name: "Quiver Dance",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			spa: 1,
 			spd: 1,
@@ -11060,6 +14923,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Bug",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Beautiful",
 	},
 	"rage": {
@@ -11073,7 +14937,11 @@ exports.BattleMovedex = {
 		name: "Rage",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			volatileStatus: 'rage',
 		},
@@ -11083,7 +14951,9 @@ exports.BattleMovedex = {
 			},
 			onHit: function (target, source, move) {
 				if (target !== source && move.category !== 'Status') {
-					this.boost({atk:1});
+					this.boost({
+						atk: 1
+					});
 				}
 			},
 			onBeforeMovePriority: 100,
@@ -11095,6 +14965,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"ragepowder": {
@@ -11108,7 +14979,9 @@ exports.BattleMovedex = {
 		name: "Rage Powder",
 		pp: 20,
 		priority: 2,
-		flags: {powder: 1},
+		flags: {
+			powder: 1
+		},
 		volatileStatus: 'ragepowder',
 		onTryHit: function (target) {
 			if (target.side.active.length < 2) return false;
@@ -11129,6 +15002,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Bug",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Clever",
 	},
 	"raindance": {
@@ -11147,6 +15021,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Water",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Beautiful",
 	},
 	"rapidspin": {
@@ -11161,13 +15038,22 @@ exports.BattleMovedex = {
 		name: "Rapid Spin",
 		pp: 40,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			onHit: function (pokemon) {
 				if (pokemon.hp && pokemon.removeVolatile('leechseed')) {
 					this.add('-end', pokemon, 'Leech Seed', '[from] move: Rapid Spin', '[of] ' + pokemon);
 				}
-				let sideConditions = {spikes:1, toxicspikes:1, stealthrock:1, stickyweb:1};
+				let sideConditions = {
+					spikes: 1,
+					toxicspikes: 1,
+					stealthrock: 1,
+					stickyweb: 1
+				};
 				for (let i in sideConditions) {
 					if (pokemon.hp && pokemon.side.removeSideCondition(i)) {
 						this.add('-sideend', pokemon.side, this.getEffect(i).name, '[from] move: Rapid Spin', '[of] ' + pokemon);
@@ -11181,6 +15067,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"razorleaf": {
@@ -11194,11 +15081,15 @@ exports.BattleMovedex = {
 		name: "Razor Leaf",
 		pp: 25,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Grass",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"razorshell": {
@@ -11213,7 +15104,11 @@ exports.BattleMovedex = {
 		name: "Razor Shell",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 50,
 			boosts: {
@@ -11222,6 +15117,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Water",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"razorwind": {
@@ -11235,7 +15131,11 @@ exports.BattleMovedex = {
 		name: "Razor Wind",
 		pp: 10,
 		priority: 0,
-		flags: {charge: 1, protect: 1, mirror: 1},
+		flags: {
+			charge: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onTry: function (attacker, defender, move) {
 			if (attacker.volatiles['twoturnmove']) {
 				if (attacker.volatiles['twoturnmove'].duration === 2) return null;
@@ -11258,6 +15158,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"recover": {
@@ -11272,11 +15173,15 @@ exports.BattleMovedex = {
 		name: "Recover",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, heal: 1},
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
 		heal: [1, 2],
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Clever",
 	},
 	"recycle": {
@@ -11290,7 +15195,9 @@ exports.BattleMovedex = {
 		name: "Recycle",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		onHit: function (pokemon) {
 			if (pokemon.item || !pokemon.lastItem) return false;
 			pokemon.setItem(pokemon.lastItem);
@@ -11299,6 +15206,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveBoost: {
+			spe: 2
+		},
 		contestType: "Clever",
 	},
 	"reflect": {
@@ -11313,7 +15223,9 @@ exports.BattleMovedex = {
 		name: "Reflect",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		sideCondition: 'reflect',
 		effect: {
 			duration: 5,
@@ -11343,6 +15255,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allySide",
 		type: "Psychic",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Clever",
 	},
 	"reflecttype": {
@@ -11356,9 +15271,13 @@ exports.BattleMovedex = {
 		name: "Reflect Type",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			authentic: 1,
+			mystery: 1
+		},
 		onHit: function (target, source) {
-			if (source.template && source.template.num === 493) return false;
+			if (source.template && (source.template.num === 493 || source.template.num === 773)) return false;
 			this.add('-start', source, 'typechange', '[from] move: Reflect Type', '[of] ' + target);
 			source.types = target.getTypes(true);
 			source.addedType = target.addedType;
@@ -11367,6 +15286,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Clever",
 	},
 	"refresh": {
@@ -11380,14 +15302,21 @@ exports.BattleMovedex = {
 		name: "Refresh",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		onHit: function (pokemon) {
-			if (pokemon.status in {'': 1, 'slp': 1, 'frz': 1}) return false;
+			if (pokemon.status in {
+					'': 1,
+					'slp': 1,
+					'frz': 1
+				}) return false;
 			pokemon.cureStatus();
 		},
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'heal',
 		contestType: "Cute",
 	},
 	"relicsong": {
@@ -11402,7 +15331,12 @@ exports.BattleMovedex = {
 		name: "Relic Song",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'slp',
@@ -11423,6 +15357,7 @@ exports.BattleMovedex = {
 		},
 		target: "allAdjacentFoes",
 		type: "Normal",
+		zMovePower: 140,
 		contestType: "Beautiful",
 	},
 	"rest": {
@@ -11437,7 +15372,10 @@ exports.BattleMovedex = {
 		name: "Rest",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, heal: 1},
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
 		onHit: function (target) {
 			if (target.hp >= target.maxhp) return false;
 			if (!target.setStatus('slp')) return false;
@@ -11449,6 +15387,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Psychic",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cute",
 	},
 	"retaliate": {
@@ -11462,7 +15401,11 @@ exports.BattleMovedex = {
 		name: "Retaliate",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onBasePowerPriority: 4,
 		onBasePower: function (basePower, pokemon) {
 			if (pokemon.side.faintedLastTurn) {
@@ -11473,6 +15416,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"return": {
@@ -11490,11 +15434,41 @@ exports.BattleMovedex = {
 		name: "Return",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Cute",
+	},
+	"revelationdance": {
+		num: 686,
+		accuracy: 100,
+		basePower: 90,
+		category: "Special",
+		desc: "This move's type depends on the user's primary type.",
+		shortDesc: "Type varies based on the user's primary type.",
+		id: "revelationdance",
+		isViable: true,
+		name: "Revelation Dance",
+		pp: 15,
+		priority: 0,
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
+		onModifyMove: function (move, pokemon) {
+			move.type = pokemon.types[0]; // TODO: test with users other than Oricorio
+		},
+		secondary: false,
+		target: "normal",
+		type: "Normal",
+		zMovePower: 175,
+		contestType: "Beautiful",
 	},
 	"revenge": {
 		num: 279,
@@ -11514,10 +15488,15 @@ exports.BattleMovedex = {
 		name: "Revenge",
 		pp: 10,
 		priority: -4,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 120,
 		contestType: "Tough",
 	},
 	"reversal": {
@@ -11550,10 +15529,15 @@ exports.BattleMovedex = {
 		name: "Reversal",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"roar": {
@@ -11568,11 +15552,20 @@ exports.BattleMovedex = {
 		name: "Roar",
 		pp: 20,
 		priority: -6,
-		flags: {reflectable: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			reflectable: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1,
+			mystery: 1
+		},
 		forceSwitch: true,
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Cool",
 	},
 	"roaroftime": {
@@ -11586,13 +15579,18 @@ exports.BattleMovedex = {
 		name: "Roar of Time",
 		pp: 5,
 		priority: 0,
-		flags: {recharge: 1, protect: 1, mirror: 1},
+		flags: {
+			recharge: 1,
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			volatileStatus: 'mustrecharge',
 		},
 		secondary: false,
 		target: "normal",
 		type: "Dragon",
+		zMovePower: 200,
 		contestType: "Beautiful",
 	},
 	"rockblast": {
@@ -11607,11 +15605,15 @@ exports.BattleMovedex = {
 		name: "Rock Blast",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		multihit: [2, 5],
 		secondary: false,
 		target: "normal",
 		type: "Rock",
+		zMovePower: 140,
 		contestType: "Tough",
 	},
 	"rockclimb": {
@@ -11625,13 +15627,18 @@ exports.BattleMovedex = {
 		name: "Rock Climb",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 20,
 			volatileStatus: 'confusion',
 		},
 		target: "normal",
 		type: "Normal",
+		zMovePower: 175,
 		contestType: "Tough",
 	},
 	"rockpolish": {
@@ -11646,13 +15653,16 @@ exports.BattleMovedex = {
 		name: "Rock Polish",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			spe: 2,
 		},
 		secondary: false,
 		target: "self",
 		type: "Rock",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Tough",
 	},
 	"rockslide": {
@@ -11667,13 +15677,17 @@ exports.BattleMovedex = {
 		name: "Rock Slide",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			volatileStatus: 'flinch',
 		},
 		target: "allAdjacentFoes",
 		type: "Rock",
+		zMovePower: 140,
 		contestType: "Tough",
 	},
 	"rocksmash": {
@@ -11687,7 +15701,11 @@ exports.BattleMovedex = {
 		name: "Rock Smash",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 50,
 			boosts: {
@@ -11696,6 +15714,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"rockthrow": {
@@ -11709,10 +15728,14 @@ exports.BattleMovedex = {
 		name: "Rock Throw",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Rock",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"rocktomb": {
@@ -11726,7 +15749,10 @@ exports.BattleMovedex = {
 		name: "Rock Tomb",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 100,
 			boosts: {
@@ -11735,6 +15761,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Rock",
+		zMovePower: 120,
 		contestType: "Clever",
 	},
 	"rockwrecker": {
@@ -11748,13 +15775,19 @@ exports.BattleMovedex = {
 		name: "Rock Wrecker",
 		pp: 5,
 		priority: 0,
-		flags: {bullet: 1, recharge: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			recharge: 1,
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			volatileStatus: 'mustrecharge',
 		},
 		secondary: false,
 		target: "normal",
 		type: "Rock",
+		zMovePower: 200,
 		contestType: "Tough",
 	},
 	"roleplay": {
@@ -11768,9 +15801,22 @@ exports.BattleMovedex = {
 		name: "Role Play",
 		pp: 10,
 		priority: 0,
-		flags: {authentic: 1},
+		flags: {
+			authentic: 1,
+			mystery: 1
+		},
 		onTryHit: function (target, source) {
-			let bannedAbilities = {flowergift:1, forecast:1, illusion:1, imposter:1, multitype:1, trace:1, wonderguard:1, zenmode:1};
+			let bannedAbilities = {
+				comatose: 1,
+				flowergift: 1,
+				forecast: 1,
+				illusion: 1,
+				imposter: 1,
+				multitype: 1,
+				trace: 1,
+				wonderguard: 1,
+				zenmode: 1
+			};
 			if (bannedAbilities[target.ability] || source.ability === 'multitype' || target.ability === source.ability) {
 				return false;
 			}
@@ -11786,6 +15832,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Cute",
 	},
 	"rollingkick": {
@@ -11799,13 +15848,18 @@ exports.BattleMovedex = {
 		name: "Rolling Kick",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 120,
 		contestType: "Cool",
 	},
 	"rollout": {
@@ -11831,7 +15885,11 @@ exports.BattleMovedex = {
 		name: "Rollout",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		effect: {
 			duration: 2,
 			onLockMove: 'rollout',
@@ -11854,6 +15912,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Rock",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"roost": {
@@ -11868,7 +15927,10 @@ exports.BattleMovedex = {
 		name: "Roost",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, heal: 1},
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
 		heal: [1, 2],
 		self: {
 			volatileStatus: 'roost',
@@ -11880,6 +15942,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Flying",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Clever",
 	},
 	"rototiller": {
@@ -11893,7 +15956,10 @@ exports.BattleMovedex = {
 		name: "Rototiller",
 		pp: 10,
 		priority: 0,
-		flags: {distance: 1, nonsky: 1},
+		flags: {
+			distance: 1,
+			nonsky: 1
+		},
 		onHitField: function (target, source) {
 			let targets = [];
 			let anyAirborne = false;
@@ -11913,11 +15979,17 @@ exports.BattleMovedex = {
 				}
 			}
 			if (!targets.length && !anyAirborne) return false; // Fails when there are no grounded Grass types or airborne Pokemon
-			for (let i = 0; i < targets.length; i++) this.boost({atk: 1, spa: 1}, targets[i], source);
+			for (let i = 0; i < targets.length; i++) this.boost({
+				atk: 1,
+				spa: 1
+			}, targets[i], source);
 		},
 		secondary: false,
 		target: "all",
 		type: "Ground",
+		zMoveBoost: {
+			atk: 1
+		},
 		contestType: "Tough",
 	},
 	"round": {
@@ -11937,7 +16009,12 @@ exports.BattleMovedex = {
 		name: "Round",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		onTry: function () {
 			for (let i = 0; i < this.queue.length; i++) {
 				let decision = this.queue[i];
@@ -11951,6 +16028,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 120,
 		contestType: "Beautiful",
 	},
 	"sacredfire": {
@@ -11965,13 +16043,18 @@ exports.BattleMovedex = {
 		name: "Sacred Fire",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, defrost: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			defrost: 1
+		},
 		secondary: {
 			chance: 50,
 			status: 'brn',
 		},
 		target: "normal",
 		type: "Fire",
+		zMovePower: 180,
 		contestType: "Beautiful",
 	},
 	"sacredsword": {
@@ -11986,12 +16069,17 @@ exports.BattleMovedex = {
 		name: "Sacred Sword",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		ignoreEvasion: true,
 		ignoreDefensive: true,
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 175,
 		contestType: "Cool",
 	},
 	"safeguard": {
@@ -12005,7 +16093,9 @@ exports.BattleMovedex = {
 		name: "Safeguard",
 		pp: 25,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		sideCondition: 'safeguard',
 		effect: {
 			duration: 5,
@@ -12042,6 +16132,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allySide",
 		type: "Normal",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Beautiful",
 	},
 	"sandattack": {
@@ -12055,13 +16148,20 @@ exports.BattleMovedex = {
 		name: "Sand Attack",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		boosts: {
 			accuracy: -1,
 		},
 		secondary: false,
 		target: "normal",
 		type: "Ground",
+		zMoveBoost: {
+			evasion: 1
+		},
 		contestType: "Cute",
 	},
 	"sandtomb": {
@@ -12075,11 +16175,15 @@ exports.BattleMovedex = {
 		name: "Sand Tomb",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		volatileStatus: 'partiallytrapped',
 		secondary: false,
 		target: "normal",
 		type: "Ground",
+		zMovePower: 100,
 		contestType: "Clever",
 	},
 	"sandstorm": {
@@ -12098,7 +16202,27 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Rock",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Tough",
+	},
+	"savagespinout": {
+		num: 634,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "savagespinout",
+		name: "Savage Spin-Out",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "buginiumz",
+		secondary: false,
+		target: "normal",
+		type: "Bug",
+		contestType: "Cool",
 	},
 	"scald": {
 		num: 503,
@@ -12112,7 +16236,11 @@ exports.BattleMovedex = {
 		name: "Scald",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, defrost: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			defrost: 1
+		},
 		thawsTarget: true,
 		secondary: {
 			chance: 30,
@@ -12120,6 +16248,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Water",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"scaryface": {
@@ -12133,13 +16262,21 @@ exports.BattleMovedex = {
 		name: "Scary Face",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		boosts: {
 			spe: -2,
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Tough",
 	},
 	"scratch": {
@@ -12153,10 +16290,15 @@ exports.BattleMovedex = {
 		name: "Scratch",
 		pp: 35,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"screech": {
@@ -12170,13 +16312,23 @@ exports.BattleMovedex = {
 		name: "Screech",
 		pp: 40,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1,
+			mystery: 1
+		},
 		boosts: {
 			def: -2,
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			atk: 1
+		},
 		contestType: "Clever",
 	},
 	"searingshot": {
@@ -12190,13 +16342,18 @@ exports.BattleMovedex = {
 		name: "Searing Shot",
 		pp: 5,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			status: 'brn',
 		},
 		target: "allAdjacent",
 		type: "Fire",
+		zMovePower: 180,
 		contestType: "Cool",
 	},
 	"secretpower": {
@@ -12204,13 +16361,16 @@ exports.BattleMovedex = {
 		accuracy: 100,
 		basePower: 70,
 		category: "Physical",
-		desc: "Has a 30% chance to cause a secondary effect on the target based on the battle terrain. Causes paralysis on the regular Wi-Fi terrain, causes paralysis during Electric Terrain, lowers Special Attack by 1 stage during Misty Terrain, and causes sleep during Grassy Terrain. The secondary effect chance is not affected by the Ability Serene Grace.",
+		desc: "Has a 30% chance to cause a secondary effect on the target based on the battle terrain. Causes paralysis on the regular Wi-Fi terrain, causes paralysis during Electric Terrain, lowers Special Attack by 1 stage during Misty Terrain, causes sleep during Grassy Terrain and lowers Speed by 1 stage during Psychic Terrain. The secondary effect chance is not affected by the Ability Serene Grace.",
 		shortDesc: "Effect varies with terrain. (30% paralysis chance)",
 		id: "secretpower",
 		name: "Secret Power",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onModifyMove: function (move, pokemon) {
 			if (this.isTerrain('')) return;
 			move.secondaries = [];
@@ -12219,16 +16379,26 @@ exports.BattleMovedex = {
 					chance: 30,
 					status: 'par',
 				});
-			} else if (this.isTerrain('grassyterrain')) {
+			}
+			else if (this.isTerrain('grassyterrain')) {
 				move.secondaries.push({
 					chance: 30,
 					status: 'slp',
 				});
-			} else if (this.isTerrain('mistyterrain')) {
+			}
+			else if (this.isTerrain('mistyterrain')) {
 				move.secondaries.push({
 					chance: 30,
 					boosts: {
 						spa: -1,
+					},
+				});
+			}
+			else if (this.isTerrain('psychicterrain')) {
+				move.secondaries.push({
+					chance: 30,
+					boosts: {
+						spe: -1,
 					},
 				});
 			}
@@ -12239,6 +16409,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Normal",
+		zMovePower: 140,
 		contestType: "Clever",
 	},
 	"secretsword": {
@@ -12254,10 +16425,14 @@ exports.BattleMovedex = {
 		name: "Secret Sword",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"seedbomb": {
@@ -12272,10 +16447,15 @@ exports.BattleMovedex = {
 		name: "Seed Bomb",
 		pp: 15,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"seedflare": {
@@ -12290,7 +16470,10 @@ exports.BattleMovedex = {
 		name: "Seed Flare",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 40,
 			boosts: {
@@ -12299,6 +16482,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Grass",
+		zMovePower: 190,
 		contestType: "Beautiful",
 	},
 	"seismictoss": {
@@ -12314,10 +16498,16 @@ exports.BattleMovedex = {
 		name: "Seismic Toss",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"selfdestruct": {
@@ -12331,11 +16521,15 @@ exports.BattleMovedex = {
 		name: "Self-Destruct",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		selfdestruct: true,
 		secondary: false,
 		target: "allAdjacent",
 		type: "Normal",
+		zMovePower: 200,
 		contestType: "Beautiful",
 	},
 	"shadowball": {
@@ -12350,7 +16544,11 @@ exports.BattleMovedex = {
 		name: "Shadow Ball",
 		pp: 15,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 20,
 			boosts: {
@@ -12359,7 +16557,35 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Ghost",
+		zMovePower: 160,
 		contestType: "Clever",
+	},
+	"shadowbone": {
+		num: 708,
+		accuracy: 100,
+		basePower: 85,
+		category: "Physical",
+		desc: "Has a 20% chance to lower the target's Defense by 1 stage.",
+		shortDesc: "20% chance to lower the target's Defense by 1.",
+		id: "shadowbone",
+		isViable: true,
+		name: "Shadow Bone",
+		pp: 10,
+		priority: 0,
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
+		secondary: {
+			chance: 20,
+			boosts: {
+				def: -1,
+			},
+		},
+		target: "normal",
+		type: "Ghost",
+		zMovePower: 160,
+		contestType: "Cool",
 	},
 	"shadowclaw": {
 		num: 421,
@@ -12373,11 +16599,16 @@ exports.BattleMovedex = {
 		name: "Shadow Claw",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "normal",
 		type: "Ghost",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"shadowforce": {
@@ -12392,7 +16623,11 @@ exports.BattleMovedex = {
 		name: "Shadow Force",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, charge: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			charge: 1,
+			mirror: 1
+		},
 		breaksProtect: true,
 		onTry: function (attacker, defender, move) {
 			if (attacker.removeVolatile(move.id)) {
@@ -12422,6 +16657,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Ghost",
+		zMovePower: 190,
 		contestType: "Cool",
 	},
 	"shadowpunch": {
@@ -12436,10 +16672,16 @@ exports.BattleMovedex = {
 		name: "Shadow Punch",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Ghost",
+		zMovePower: 120,
 		contestType: "Clever",
 	},
 	"shadowsneak": {
@@ -12454,10 +16696,15 @@ exports.BattleMovedex = {
 		name: "Shadow Sneak",
 		pp: 30,
 		priority: 1,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Ghost",
+		zMovePower: 100,
 		contestType: "Clever",
 	},
 	"sharpen": {
@@ -12471,31 +16718,58 @@ exports.BattleMovedex = {
 		name: "Sharpen",
 		pp: 30,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			atk: 1,
 		},
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveBoost: {
+			atk: 1
+		},
 		contestType: "Cute",
+	},
+	"shatteredpsyche": {
+		num: 648,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "shatteredpsyche",
+		isViable: true,
+		name: "Shattered Psyche",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "psychiumz",
+		secondary: false,
+		target: "normal",
+		type: "Psychic",
+		contestType: "Cool",
 	},
 	"sheercold": {
 		num: 329,
 		accuracy: 30,
 		basePower: 0,
 		category: "Special",
-		desc: "Deals damage to the target equal to the target's maximum HP. Ignores accuracy and evasiveness modifiers. This attack's accuracy is equal to (user's level - target's level + 30)%, and fails if the target is at a higher level. Pokemon with the Ability Sturdy are immune.",
-		shortDesc: "OHKOs the target. Fails if user is a lower level.",
+		desc: "Deals damage to the target equal to the target's maximum HP. Ignores accuracy and evasiveness modifiers. This attack's accuracy is equal to (user's level - target's level + 30)%, and fails if the target is at a higher level. Pokemon with Ice typing or with the Ability Sturdy are immune.",
+		shortDesc: "OHKOs non-Ice targets. Fails if user's lower level.",
 		id: "sheercold",
 		name: "Sheer Cold",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
-		ohko: true,
+		ohko: 'Ice',
 		target: "normal",
 		type: "Ice",
+		zMovePower: 180,
 		contestType: "Beautiful",
 	},
 	"shellsmash": {
@@ -12510,7 +16784,9 @@ exports.BattleMovedex = {
 		name: "Shell Smash",
 		pp: 15,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			def: -1,
 			spd: -1,
@@ -12521,6 +16797,47 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
+		contestType: "Tough",
+	},
+	"shelltrap": {
+		num: 704,
+		accuracy: 100,
+		basePower: 150,
+		category: "Special",
+		desc: "Fails unless the user is hit by a physical attack this turn before it can execute the move.",
+		shortDesc: "User must take physical damage before moving.",
+		id: "shelltrap",
+		name: "Shell Trap",
+		pp: 5,
+		priority: -3,
+		flags: {
+			protect: 1
+		},
+		beforeTurnCallback: function (pokemon) {
+			pokemon.addVolatile('shelltrap');
+		},
+		beforeMoveCallback: function (pokemon) {
+			if (pokemon.volatiles['shelltrap'] && !pokemon.volatiles['shelltrap'].gotHit) {
+				this.add('cant', pokemon, 'Shell Trap', 'Shell Trap');
+				return true;
+			}
+		},
+		effect: {
+			duration: 1,
+			onStart: function (pokemon) {
+				this.add('-singleturn', pokemon, 'move: Shell Trap');
+			},
+			onHit: function (pokemon, source, move) {
+				if (move.category === 'Physical') {
+					pokemon.volatiles['shelltrap'].gotHit = true;
+				}
+			},
+		},
+		secondary: false,
+		target: "allAdjacentFoes",
+		type: "Fire",
+		zMovePower: 200,
 		contestType: "Tough",
 	},
 	"shiftgear": {
@@ -12535,7 +16852,9 @@ exports.BattleMovedex = {
 		name: "Shift Gear",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			spe: 2,
 			atk: 1,
@@ -12543,6 +16862,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Steel",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Clever",
 	},
 	"shockwave": {
@@ -12556,11 +16876,45 @@ exports.BattleMovedex = {
 		name: "Shock Wave",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Electric",
+		zMovePower: 120,
 		contestType: "Cool",
+	},
+	"shoreup": {
+		num: 659,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "The user restores 1/2 of its maximum HP, rounded half up. If the weather is Sandstorm, the user instead restores 2/3 of its maximum HP, rounded half down.",
+		shortDesc: "Heals the user by a weather-dependent amount.",
+		id: "shoreup",
+		isViable: true,
+		name: "Shore Up",
+		pp: 10,
+		priority: 0,
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
+		onHit: function (pokemon) {
+			if (this.isWeather('sandstorm')) {
+				this.heal(this.modify(pokemon.maxhp, 0.667));
+			}
+			else {
+				this.heal(this.modify(pokemon.maxhp, 0.5));
+			}
+		},
+		secondary: false,
+		target: "self",
+		type: "Ground",
+		zMoveEffect: 'clearnegativeboost',
+		contestType: "Beautiful",
 	},
 	"signalbeam": {
 		num: 324,
@@ -12574,13 +16928,17 @@ exports.BattleMovedex = {
 		name: "Signal Beam",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			volatileStatus: 'confusion',
 		},
 		target: "normal",
 		type: "Bug",
+		zMovePower: 140,
 		contestType: "Beautiful",
 	},
 	"silverwind": {
@@ -12594,7 +16952,10 @@ exports.BattleMovedex = {
 		name: "Silver Wind",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			self: {
@@ -12609,6 +16970,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Bug",
+		zMovePower: 120,
 		contestType: "Beautiful",
 	},
 	"simplebeam": {
@@ -12622,9 +16984,20 @@ exports.BattleMovedex = {
 		name: "Simple Beam",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		onTryHit: function (pokemon) {
-			let bannedAbilities = {multitype:1, simple:1, stancechange:1, truant:1};
+			let bannedAbilities = {
+				comatose: 1,
+				multitype: 1,
+				simple: 1,
+				stancechange: 1,
+				truant: 1
+			};
 			if (bannedAbilities[pokemon.ability]) {
 				return false;
 			}
@@ -12640,6 +17013,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Cute",
 	},
 	"sing": {
@@ -12653,12 +17029,39 @@ exports.BattleMovedex = {
 		name: "Sing",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		status: 'slp',
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Cute",
+	},
+	"sinisterarrowraid": {
+		num: 695,
+		accuracy: true,
+		basePower: 180,
+		category: "Physical",
+		desc: "No additional effect.",
+		shortDesc: "No additional effect.",
+		id: "sinisterarrowraid",
+		name: "Sinister Arrow Raid",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "decidiumz",
+		secondary: false,
+		target: "normal",
+		type: "Ghost",
+		contestType: "Cool",
 	},
 	"sketch": {
 		num: 166,
@@ -12672,9 +17075,16 @@ exports.BattleMovedex = {
 		pp: 1,
 		noPPBoosts: true,
 		priority: 0,
-		flags: {authentic: 1},
+		flags: {
+			authentic: 1,
+			mystery: 1
+		},
 		onHit: function (target, source) {
-			let disallowedMoves = {chatter:1, sketch:1, struggle:1};
+			let disallowedMoves = {
+				chatter: 1,
+				sketch: 1,
+				struggle: 1
+			};
 			if (source.transformed || !target.lastMove || disallowedMoves[target.lastMove] || source.moves.indexOf(target.lastMove) >= 0) return false;
 			let moveslot = source.moves.indexOf('sketch');
 			if (moveslot < 0) return false;
@@ -12696,6 +17106,13 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			atk: 1,
+			def: 1,
+			spa: 1,
+			spd: 1,
+			spe: 1
+		},
 		contestType: "Clever",
 	},
 	"skillswap": {
@@ -12709,9 +17126,21 @@ exports.BattleMovedex = {
 		name: "Skill Swap",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			authentic: 1,
+			mystery: 1
+		},
 		onTryHit: function (target, source) {
-			let bannedAbilities = {illusion:1, multitype:1, stancechange:1, wonderguard:1};
+			let bannedAbilities = {
+				comatose: 1,
+				illusion: 1,
+				multitype: 1,
+				schooling: 1,
+				stancechange: 1,
+				wonderguard: 1
+			};
 			if (bannedAbilities[target.ability] || bannedAbilities[source.ability]) {
 				return false;
 			}
@@ -12721,7 +17150,8 @@ exports.BattleMovedex = {
 			let sourceAbility = this.getAbility(source.ability);
 			if (target.side === source.side) {
 				this.add('-activate', source, 'move: Skill Swap', '', '', '[of] ' + target);
-			} else {
+			}
+			else {
 				this.add('-activate', source, 'move: Skill Swap', targetAbility, sourceAbility, '[of] ' + target);
 			}
 			source.battle.singleEvent('End', sourceAbility, source.abilityData, source);
@@ -12729,8 +17159,14 @@ exports.BattleMovedex = {
 			if (targetAbility.id !== sourceAbility.id) {
 				source.ability = targetAbility.id;
 				target.ability = sourceAbility.id;
-				source.abilityData = {id: source.ability.id, target: source};
-				target.abilityData = {id: target.ability.id, target: target};
+				source.abilityData = {
+					id: source.ability.id,
+					target: source
+				};
+				target.abilityData = {
+					id: target.ability.id,
+					target: target
+				};
 			}
 			source.battle.singleEvent('Start', targetAbility, source.abilityData, source);
 			target.battle.singleEvent('Start', sourceAbility, target.abilityData, target);
@@ -12738,6 +17174,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Clever",
 	},
 	"skullbash": {
@@ -12751,13 +17190,20 @@ exports.BattleMovedex = {
 		name: "Skull Bash",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, charge: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			charge: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onTry: function (attacker, defender, move) {
 			if (attacker.removeVolatile(move.id)) {
 				return;
 			}
 			this.add('-prepare', attacker, move.name, defender);
-			this.boost({def:1}, attacker, attacker, this.getMove('skullbash'));
+			this.boost({
+				def: 1
+			}, attacker, attacker, this.getMove('skullbash'));
 			if (!this.runEvent('ChargeMove', attacker, defender, move)) {
 				this.add('-anim', attacker, move.name, defender);
 				attacker.removeVolatile(move.id);
@@ -12769,6 +17215,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 195,
 		contestType: "Tough",
 	},
 	"skyattack": {
@@ -12782,7 +17229,12 @@ exports.BattleMovedex = {
 		name: "Sky Attack",
 		pp: 5,
 		priority: 0,
-		flags: {charge: 1, protect: 1, mirror: 1, distance: 1},
+		flags: {
+			charge: 1,
+			protect: 1,
+			mirror: 1,
+			distance: 1
+		},
 		critRatio: 2,
 		onTry: function (attacker, defender, move) {
 			if (attacker.removeVolatile(move.id)) {
@@ -12802,6 +17254,7 @@ exports.BattleMovedex = {
 		},
 		target: "any",
 		type: "Flying",
+		zMovePower: 200,
 		contestType: "Cool",
 	},
 	"skydrop": {
@@ -12815,7 +17268,14 @@ exports.BattleMovedex = {
 		name: "Sky Drop",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, charge: 1, protect: 1, mirror: 1, gravity: 1, distance: 1},
+		flags: {
+			contact: 1,
+			charge: 1,
+			protect: 1,
+			mirror: 1,
+			gravity: 1,
+			distance: 1
+		},
 		onModifyMove: function (move, source) {
 			if (!source.volatiles['skydrop']) {
 				move.accuracy = true;
@@ -12838,7 +17298,8 @@ exports.BattleMovedex = {
 					this.add('-end', target, 'Sky Drop');
 					return null;
 				}
-			} else {
+			}
+			else {
 				if (target.volatiles['substitute'] || target.side === source.side) {
 					return false;
 				}
@@ -12921,6 +17382,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "any",
 		type: "Flying",
+		zMovePower: 120,
 		contestType: "Tough",
 	},
 	"skyuppercut": {
@@ -12934,10 +17396,16 @@ exports.BattleMovedex = {
 		name: "Sky Uppercut",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"slackoff": {
@@ -12952,11 +17420,15 @@ exports.BattleMovedex = {
 		name: "Slack Off",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, heal: 1},
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
 		heal: [1, 2],
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cute",
 	},
 	"slam": {
@@ -12970,10 +17442,16 @@ exports.BattleMovedex = {
 		name: "Slam",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"slash": {
@@ -12987,11 +17465,16 @@ exports.BattleMovedex = {
 		name: "Slash",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"sleeppowder": {
@@ -13006,11 +17489,19 @@ exports.BattleMovedex = {
 		name: "Sleep Powder",
 		pp: 15,
 		priority: 0,
-		flags: {powder: 1, protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			powder: 1,
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		status: 'slp',
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Clever",
 	},
 	"sleeptalk": {
@@ -13028,14 +17519,27 @@ exports.BattleMovedex = {
 		flags: {},
 		sleepUsable: true,
 		onTryHit: function (pokemon) {
-			if (pokemon.status !== 'slp') return false;
+			if (pokemon.status !== 'slp' && !pokemon.hasAbility('comatose')) return false;
 		},
 		onHit: function (pokemon) {
 			let moves = [];
 			for (let i = 0; i < pokemon.moveset.length; i++) {
 				let move = pokemon.moveset[i].id;
 				let NoSleepTalk = {
-					assist:1, belch:1, bide:1, chatter:1, copycat:1, focuspunch:1, mefirst:1, metronome:1, mimic:1, mirrormove:1, naturepower:1, sketch:1, sleeptalk:1, uproar:1,
+					assist: 1,
+					belch: 1,
+					bide: 1,
+					chatter: 1,
+					copycat: 1,
+					focuspunch: 1,
+					mefirst: 1,
+					metronome: 1,
+					mimic: 1,
+					mirrormove: 1,
+					naturepower: 1,
+					sketch: 1,
+					sleeptalk: 1,
+					uproar: 1,
 				};
 				if (move && !(NoSleepTalk[move] || this.getMove(move).flags['charge'])) {
 					moves.push(move);
@@ -13051,6 +17555,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'crit1',
 		contestType: "Cute",
 	},
 	"sludge": {
@@ -13064,13 +17569,17 @@ exports.BattleMovedex = {
 		name: "Sludge",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			status: 'psn',
 		},
 		target: "normal",
 		type: "Poison",
+		zMovePower: 120,
 		contestType: "Tough",
 	},
 	"sludgebomb": {
@@ -13085,13 +17594,18 @@ exports.BattleMovedex = {
 		name: "Sludge Bomb",
 		pp: 10,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			status: 'psn',
 		},
 		target: "normal",
 		type: "Poison",
+		zMovePower: 175,
 		contestType: "Tough",
 	},
 	"sludgewave": {
@@ -13106,13 +17620,17 @@ exports.BattleMovedex = {
 		name: "Sludge Wave",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'psn',
 		},
 		target: "allAdjacent",
 		type: "Poison",
+		zMovePower: 175,
 		contestType: "Tough",
 	},
 	"smackdown": {
@@ -13126,7 +17644,11 @@ exports.BattleMovedex = {
 		name: "Smack Down",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		volatileStatus: 'smackdown',
 		effect: {
 			noCopy: true,
@@ -13161,7 +17683,30 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Rock",
+		zMovePower: 100,
 		contestType: "Tough",
+	},
+	"smartstrike": {
+		num: 684,
+		accuracy: true,
+		basePower: 70,
+		category: "Physical",
+		desc: "This move does not check accuracy.",
+		shortDesc: "This move does not check accuracy.",
+		id: "smartstrike",
+		name: "Smart Strike",
+		pp: 10,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		secondary: false,
+		target: "normal",
+		type: "Steel",
+		zMovePower: 140,
+		contestType: "Cool",
 	},
 	"smellingsalts": {
 		num: 265,
@@ -13178,13 +17723,18 @@ exports.BattleMovedex = {
 		name: "Smelling Salts",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onHit: function (target) {
 			if (target.status === 'par') target.cureStatus();
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 140,
 		contestType: "Tough",
 	},
 	"smog": {
@@ -13198,13 +17748,17 @@ exports.BattleMovedex = {
 		name: "Smog",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 40,
 			status: 'psn',
 		},
 		target: "normal",
 		type: "Poison",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"smokescreen": {
@@ -13218,13 +17772,20 @@ exports.BattleMovedex = {
 		name: "Smokescreen",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		boosts: {
 			accuracy: -1,
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			evasion: 1
+		},
 		contestType: "Clever",
 	},
 	"snarl": {
@@ -13238,7 +17799,12 @@ exports.BattleMovedex = {
 		name: "Snarl",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		secondary: {
 			chance: 100,
 			boosts: {
@@ -13247,6 +17813,7 @@ exports.BattleMovedex = {
 		},
 		target: "allAdjacentFoes",
 		type: "Dark",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"snatch": {
@@ -13260,7 +17827,9 @@ exports.BattleMovedex = {
 		name: "Snatch",
 		pp: 10,
 		priority: 4,
-		flags: {authentic: 1},
+		flags: {
+			authentic: 1
+		},
 		volatileStatus: 'snatch',
 		effect: {
 			duration: 1,
@@ -13281,6 +17850,9 @@ exports.BattleMovedex = {
 		pressureTarget: "foeSide",
 		target: "self",
 		type: "Dark",
+		zMoveBoost: {
+			spe: 2
+		},
 		contestType: "Clever",
 	},
 	"snore": {
@@ -13294,10 +17866,15 @@ exports.BattleMovedex = {
 		name: "Snore",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		sleepUsable: true,
 		onTryHit: function (target, source) {
-			if (source.status !== 'slp') return false;
+			if (source.status !== 'slp' && !source.hasAbility('comatose')) return false;
 		},
 		secondary: {
 			chance: 30,
@@ -13305,7 +17882,66 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Cute",
+	},
+	"spectralthief": {
+		num: 712,
+		accuracy: 100,
+		basePower: 90,
+		category: "Physical",
+		desc: "The target's raised stat stages are stolen from it and applied to the user before dealing damage.",
+		shortDesc: "Steals target's boosts before dealing damage.",
+		id: "spectralthief",
+		isUnreleased: true,
+		isViable: true,
+		name: "Spectral Thief",
+		pp: 10,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			authentic: 1
+		},
+		stealsBoosts: true,
+		// Boost stealing implemented in scripts.js
+		secondary: false,
+		target: "normal",
+		type: "Ghost",
+		zMovePower: 175,
+		contestType: "Cool",
+	},
+	"speedswap": {
+		num: 683,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "The user swaps its raw Speed stat with the target.",
+		shortDesc: "Swaps Speed stat with target.",
+		id: "speedswap",
+		name: "Speed Swap",
+		pp: 10,
+		priority: 0,
+		flags: {
+			protect: 1,
+			mirror: 1,
+			authentic: 1,
+			mystery: 1
+		},
+		onHit: function (target, source) {
+			const targetSpe = target.stats.spe;
+			target.stats.spe = source.stats.spe;
+			source.stats.spe = targetSpe;
+			this.add('-activate', source, 'move: Speed Swap', '[of] ' + target);
+		},
+		secondary: false,
+		target: "normal",
+		type: "Psychic",
+		zMoveBoost: {
+			spe: 1
+		},
+		contestType: "Clever",
 	},
 	"spikyshield": {
 		num: 596,
@@ -13353,6 +17989,34 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Grass",
+		zMoveBoost: {
+			def: 1
+		},
+		contestType: "Tough",
+	},
+	"spiritshackle": {
+		num: 662,
+		accuracy: 100,
+		basePower: 80,
+		category: "Physical",
+		desc: "Prevents the target from switching out. The target can still switch out if it is holding Shed Shell or uses Baton Pass, Parting Shot, U-turn, or Volt Switch. If the target leaves the field using Baton Pass, the replacement will remain trapped. The effect ends if the user leaves the field.",
+		shortDesc: "Prevents the target from switching out.",
+		id: "spiritshackle",
+		isViable: true,
+		name: "Spirit Shackle",
+		pp: 10,
+		priority: 0,
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
+		onHit: function (target, source, move) {
+			if (source.isActive) target.addVolatile('trapped', source, move, 'trapper');
+		},
+		secondary: false,
+		target: "normal",
+		type: "Ghost",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"soak": {
@@ -13366,7 +18030,12 @@ exports.BattleMovedex = {
 		name: "Soak",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		onHit: function (target) {
 			if (!target.setType('Water')) return false;
 			this.add('-start', target, 'typechange', 'Water');
@@ -13374,6 +18043,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Water",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Cute",
 	},
 	"softboiled": {
@@ -13388,11 +18060,15 @@ exports.BattleMovedex = {
 		name: "Soft-Boiled",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, heal: 1},
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
 		heal: [1, 2],
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cute",
 	},
 	"solarbeam": {
@@ -13406,7 +18082,11 @@ exports.BattleMovedex = {
 		name: "Solar Beam",
 		pp: 10,
 		priority: 0,
-		flags: {charge: 1, protect: 1, mirror: 1},
+		flags: {
+			charge: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onTry: function (attacker, defender, move) {
 			if (attacker.removeVolatile(move.id)) {
 				return;
@@ -13429,6 +18109,49 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 190,
+		contestType: "Cool",
+	},
+	"solarblade": {
+		num: 669,
+		accuracy: 100,
+		basePower: 125,
+		category: "Physical",
+		desc: "This attack charges on the first turn and executes on the second. Power is halved if the weather is Hail, Rain Dance, or Sandstorm. If the user is holding a Power Herb or the weather is Sunny Day, the move completes in one turn.",
+		shortDesc: "Charges turn 1. Hits turn 2. No charge in sunlight.",
+		id: "solarblade",
+		name: "Solar Blade",
+		pp: 10,
+		priority: 0,
+		flags: {
+			contact: 1,
+			charge: 1,
+			protect: 1,
+			mirror: 1
+		},
+		onTry: function (attacker, defender, move) {
+			if (attacker.removeVolatile(move.id)) {
+				return;
+			}
+			this.add('-prepare', attacker, move.name, defender);
+			if (this.isWeather(['sunnyday', 'desolateland']) || !this.runEvent('ChargeMove', attacker, defender, move)) {
+				this.add('-anim', attacker, move.name, defender);
+				return;
+			}
+			attacker.addVolatile('twoturnmove', defender);
+			return null;
+		},
+		onBasePowerPriority: 4,
+		onBasePower: function (basePower, pokemon, target) {
+			if (this.isWeather(['raindance', 'primordialsea', 'sandstorm', 'hail'])) {
+				this.debug('weakened by weather');
+				return this.chainModify(0.5);
+			}
+		},
+		secondary: false,
+		target: "normal",
+		type: "Grass",
+		zMovePower: 190,
 		contestType: "Cool",
 	},
 	"sonicboom": {
@@ -13443,10 +18166,34 @@ exports.BattleMovedex = {
 		name: "Sonic Boom",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
+		contestType: "Cool",
+	},
+	"soulstealing7starstrike": {
+		num: 699,
+		accuracy: true,
+		basePower: 195,
+		category: "Physical",
+		desc: "No additional effect.",
+		shortDesc: "No additional effect.",
+		id: "soulstealing7starstrike",
+		name: "Soul-Stealing 7-Star Strike",
+		pp: 1,
+		priority: 0,
+		flags: {
+			contact: 1
+		},
+		isZ: "marshadiumz",
+		secondary: false,
+		target: "normal",
+		type: "Ghost",
 		contestType: "Cool",
 	},
 	"spacialrend": {
@@ -13461,11 +18208,15 @@ exports.BattleMovedex = {
 		name: "Spacial Rend",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "normal",
 		type: "Dragon",
+		zMovePower: 180,
 		contestType: "Beautiful",
 	},
 	"spark": {
@@ -13479,14 +18230,45 @@ exports.BattleMovedex = {
 		name: "Spark",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			status: 'par',
 		},
 		target: "normal",
 		type: "Electric",
+		zMovePower: 120,
 		contestType: "Cool",
+	},
+	"sparklingaria": {
+		num: 664,
+		accuracy: 100,
+		basePower: 90,
+		category: "Special",
+		desc: "If the user has not fainted, the target is cured of its burn.",
+		shortDesc: "The target is cured of its burn.",
+		id: "sparklingaria",
+		name: "Sparkling Aria",
+		pp: 10,
+		priority: 0,
+		flags: {
+			protect: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
+		onHit: function (target) {
+			if (target.status === 'brn') target.cureStatus();
+		},
+		secondary: false,
+		target: "allAdjacent",
+		type: "Water",
+		zMovePower: 175,
+		contestType: "Tough",
 	},
 	"spiderweb": {
 		num: 169,
@@ -13499,7 +18281,11 @@ exports.BattleMovedex = {
 		name: "Spider Web",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		onHit: function (target, source, move) {
 			if (!target.addVolatile('trapped', source, move, 'trapper')) {
 				this.add('-fail', target);
@@ -13508,6 +18294,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Bug",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Clever",
 	},
 	"spikecannon": {
@@ -13521,11 +18310,15 @@ exports.BattleMovedex = {
 		name: "Spike Cannon",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		multihit: [2, 5],
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"spikes": {
@@ -13540,7 +18333,10 @@ exports.BattleMovedex = {
 		name: "Spikes",
 		pp: 20,
 		priority: 0,
-		flags: {reflectable: 1, nonsky: 1},
+		flags: {
+			reflectable: 1,
+			nonsky: 1
+		},
 		sideCondition: 'spikes',
 		effect: {
 			// this is a side condition
@@ -13562,6 +18358,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "foeSide",
 		type: "Ground",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Clever",
 	},
 	"spitup": {
@@ -13579,7 +18378,9 @@ exports.BattleMovedex = {
 		name: "Spit Up",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1},
+		flags: {
+			protect: 1
+		},
 		onTry: function (pokemon) {
 			if (!pokemon.volatiles['stockpile']) {
 				return false;
@@ -13591,6 +18392,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"spite": {
@@ -13604,7 +18406,12 @@ exports.BattleMovedex = {
 		name: "Spite",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			authentic: 1
+		},
 		onHit: function (target) {
 			if (target.deductPP(target.lastMove, 4)) {
 				this.add("-activate", target, 'move: Spite', this.getMove(target.lastMove).name, 4);
@@ -13615,6 +18422,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Ghost",
+		zMoveEffect: 'heal',
 		contestType: "Tough",
 	},
 	"splash": {
@@ -13628,7 +18436,9 @@ exports.BattleMovedex = {
 		name: "Splash",
 		pp: 40,
 		priority: 0,
-		flags: {gravity: 1},
+		flags: {
+			gravity: 1
+		},
 		onTryHit: function (target, source) {
 			this.add('-nothing');
 			return null;
@@ -13636,6 +18446,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveBoost: {
+			atk: 3
+		},
 		contestType: "Cute",
 	},
 	"spore": {
@@ -13650,12 +18463,59 @@ exports.BattleMovedex = {
 		name: "Spore",
 		pp: 15,
 		priority: 0,
-		flags: {powder: 1, protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			powder: 1,
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		status: 'slp',
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Beautiful",
+	},
+	"spotlight": {
+		num: 671,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "Until the end of the turn, all single-target attacks from other Pokemon are redirected to the target. Such attacks are redirected to the target before they can be reflected by Magic Coat or the Ability Magic Bounce, or drawn in by the Abilities Lightning Rod or Storm Drain. Fails if it is not a Double Battle or Battle Royale.",
+		shortDesc: "Moves redirect to the target on the turn used.",
+		id: "spotlight",
+		name: "Spotlight",
+		pp: 15,
+		priority: 3,
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mystery: 1
+		},
+		volatileStatus: 'spotlight',
+		onTryHit: function (target) {
+			if (target.side.active.length < 2) return false;
+		},
+		effect: {
+			duration: 1,
+			onStart: function (pokemon) {
+				this.add('-singleturn', pokemon, 'move: Spotlight');
+			},
+			onFoeRedirectTargetPriority: 2,
+			onFoeRedirectTarget: function (target, source, source2, move) {
+				if (this.validTarget(this.effectData.target, source, move.target)) {
+					this.debug("Spotlight redirected target of move");
+					return this.effectData.target;
+				}
+			},
+		},
+		secondary: false,
+		target: "normal",
+		type: "Normal",
+		zMoveBoost: {
+			spd: 1
+		},
+		contestType: "Cute",
 	},
 	"stealthrock": {
 		num: 446,
@@ -13669,7 +18529,9 @@ exports.BattleMovedex = {
 		name: "Stealth Rock",
 		pp: 20,
 		priority: 0,
-		flags: {reflectable: 1},
+		flags: {
+			reflectable: 1
+		},
 		sideCondition: 'stealthrock',
 		effect: {
 			// this is a side condition
@@ -13684,6 +18546,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "foeSide",
 		type: "Rock",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Cool",
 	},
 	"steameruption": {
@@ -13698,7 +18563,11 @@ exports.BattleMovedex = {
 		name: "Steam Eruption",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, defrost: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			defrost: 1
+		},
 		thawsTarget: true,
 		secondary: {
 			chance: 30,
@@ -13706,6 +18575,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Water",
+		zMovePower: 185,
 		contestType: "Beautiful",
 	},
 	"steelwing": {
@@ -13719,7 +18589,11 @@ exports.BattleMovedex = {
 		name: "Steel Wing",
 		pp: 25,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			self: {
@@ -13730,6 +18604,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Steel",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"stickyweb": {
@@ -13744,7 +18619,9 @@ exports.BattleMovedex = {
 		name: "Sticky Web",
 		pp: 20,
 		priority: 0,
-		flags: {reflectable: 1},
+		flags: {
+			reflectable: 1
+		},
 		sideCondition: 'stickyweb',
 		effect: {
 			onStart: function (side) {
@@ -13753,12 +18630,17 @@ exports.BattleMovedex = {
 			onSwitchIn: function (pokemon) {
 				if (!pokemon.isGrounded()) return;
 				this.add('-activate', pokemon, 'move: Sticky Web');
-				this.boost({spe: -1}, pokemon, pokemon.side.foe.active[0], this.getMove('stickyweb'));
+				this.boost({
+					spe: -1
+				}, pokemon, pokemon.side.foe.active[0], this.getMove('stickyweb'));
 			},
 		},
 		secondary: false,
 		target: "foeSide",
 		type: "Bug",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Tough",
 	},
 	"stockpile": {
@@ -13772,7 +18654,9 @@ exports.BattleMovedex = {
 		name: "Stockpile",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		onTryHit: function (pokemon) {
 			if (pokemon.volatiles['stockpile'] && pokemon.volatiles['stockpile'].layers >= 3) return false;
 		},
@@ -13782,25 +18666,56 @@ exports.BattleMovedex = {
 			onStart: function (target) {
 				this.effectData.layers = 1;
 				this.add('-start', target, 'stockpile' + this.effectData.layers);
-				this.boost({def:1, spd:1}, target, target, this.getMove('stockpile'));
+				this.boost({
+					def: 1,
+					spd: 1
+				}, target, target, this.getMove('stockpile'));
 			},
 			onRestart: function (target) {
 				if (this.effectData.layers >= 3) return false;
 				this.effectData.layers++;
 				this.add('-start', target, 'stockpile' + this.effectData.layers);
-				this.boost({def:1, spd:1}, target, target, this.getMove('stockpile'));
+				this.boost({
+					def: 1,
+					spd: 1
+				}, target, target, this.getMove('stockpile'));
 			},
 			onEnd: function (target) {
 				let layers = this.effectData.layers * -1;
 				this.effectData.layers = 0;
-				this.boost({def:layers, spd:layers}, target, target, this.getMove('stockpile'));
+				this.boost({
+					def: layers,
+					spd: layers
+				}, target, target, this.getMove('stockpile'));
 				this.add('-end', target, 'Stockpile');
 			},
 		},
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'heal',
 		contestType: "Tough",
+	},
+	"stokedsparksurfer": {
+		num: 700,
+		accuracy: true,
+		basePower: 175,
+		category: "Special",
+		desc: "Has a 100% chance to paralyze the target.",
+		shortDesc: "100% chance to paralyze the target.",
+		id: "stokedsparksurfer",
+		name: "Stoked Sparksurfer",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "aloraichiumz",
+		secondary: {
+			chance: 100,
+			status: 'par',
+		},
+		target: "normal",
+		type: "Electric",
+		contestType: "Cool",
 	},
 	"stomp": {
 		num: 23,
@@ -13813,13 +18728,42 @@ exports.BattleMovedex = {
 		name: "Stomp",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		secondary: {
 			chance: 30,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Normal",
+		zMovePower: 120,
+		contestType: "Tough",
+	},
+	"stompingtantrum": {
+		num: 707,
+		accuracy: 100,
+		basePower: 75,
+		category: "Physical",
+		desc: "Power doubles if the user's last move failed.",
+		shortDesc: "Power doubles if the user's last move failed.",
+		id: "stompingtantrum",
+		name: "Stomping Tantrum",
+		pp: 10,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		// TODO: find out what "failed" means and implement accordingly
+		secondary: false,
+		target: "normal",
+		type: "Ground",
+		zMovePower: 140,
 		contestType: "Tough",
 	},
 	"stoneedge": {
@@ -13834,11 +18778,15 @@ exports.BattleMovedex = {
 		name: "Stone Edge",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		critRatio: 2,
 		secondary: false,
 		target: "normal",
 		type: "Rock",
+		zMovePower: 180,
 		contestType: "Tough",
 	},
 	"storedpower": {
@@ -13855,10 +18803,14 @@ exports.BattleMovedex = {
 		name: "Stored Power",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 160,
 		contestType: "Clever",
 	},
 	"stormthrow": {
@@ -13873,11 +18825,16 @@ exports.BattleMovedex = {
 		name: "Storm Throw",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		willCrit: true,
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 120,
 		contestType: "Cool",
 	},
 	"steamroller": {
@@ -13891,13 +18848,18 @@ exports.BattleMovedex = {
 		name: "Steamroller",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 30,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Bug",
+		zMovePower: 120,
 		contestType: "Tough",
 	},
 	"strength": {
@@ -13911,11 +18873,49 @@ exports.BattleMovedex = {
 		name: "Strength",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Tough",
+	},
+	"strengthsap": {
+		num: 668,
+		accuracy: 100,
+		basePower: 0,
+		category: "Status",
+		desc: "The user restores its HP equal to the target's Attack stat, calculated with its stat stage, then lowers the target's Attack by 1 stage.",
+		shortDesc: "User heals HP=target's Atk stat. Lowers Atk by 1.",
+		id: "strengthsap",
+		isViable: true,
+		name: "Strength Sap",
+		pp: 10,
+		priority: 0,
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			heal: 1
+		},
+		onHit: function (target, source) {
+			if (target.boosts.atk === -6) return false;
+			this.heal(target.getStat('atk', false, true), source);
+			this.boost({
+				atk: -1
+			}, target, source, null, null, true);
+		},
+		secondary: false,
+		target: "normal",
+		type: "Grass",
+		zMoveBoost: {
+			def: 1
+		},
+		contestType: "Cute",
 	},
 	"stringshot": {
 		num: 81,
@@ -13928,13 +18928,20 @@ exports.BattleMovedex = {
 		name: "String Shot",
 		pp: 40,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		boosts: {
 			spe: -2,
 		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Bug",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Clever",
 	},
 	"struggle": {
@@ -13949,7 +18956,10 @@ exports.BattleMovedex = {
 		pp: 1,
 		noPPBoosts: true,
 		priority: 0,
-		flags: {contact: 1, protect: 1},
+		flags: {
+			contact: 1,
+			protect: 1
+		},
 		noSketch: true,
 		onModifyMove: function (move, pokemon, target) {
 			move.type = '???';
@@ -13959,6 +18969,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "randomNormal",
 		type: "Normal",
+		zMovePower: 1,
 		contestType: "Tough",
 	},
 	"strugglebug": {
@@ -13972,7 +18983,10 @@ exports.BattleMovedex = {
 		name: "Struggle Bug",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 100,
 			boosts: {
@@ -13981,6 +18995,7 @@ exports.BattleMovedex = {
 		},
 		target: "allAdjacentFoes",
 		type: "Bug",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"stunspore": {
@@ -13994,11 +19009,19 @@ exports.BattleMovedex = {
 		name: "Stun Spore",
 		pp: 30,
 		priority: 0,
-		flags: {powder: 1, protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			powder: 1,
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		status: 'par',
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Clever",
 	},
 	"submission": {
@@ -14012,11 +19035,16 @@ exports.BattleMovedex = {
 		name: "Submission",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		recoil: [1, 4],
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"substitute": {
@@ -14031,7 +19059,10 @@ exports.BattleMovedex = {
 		name: "Substitute",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, nonsky: 1},
+		flags: {
+			snatch: 1,
+			nonsky: 1
+		},
 		volatileStatus: 'Substitute',
 		onTryHit: function (target) {
 			if (target.volatiles['substitute']) {
@@ -14073,7 +19104,8 @@ exports.BattleMovedex = {
 				source.lastDamage = damage;
 				if (target.volatiles['substitute'].hp <= 0) {
 					target.removeVolatile('substitute');
-				} else {
+				}
+				else {
 					this.add('-activate', target, 'move: Substitute', '[damage]');
 				}
 				if (move.recoil) {
@@ -14092,12 +19124,31 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cute",
+	},
+	"subzeroslammer": {
+		num: 650,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "subzeroslammer",
+		isViable: true,
+		name: "Subzero Slammer",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "iciumz",
+		secondary: false,
+		target: "normal",
+		type: "Ice",
+		contestType: "Cool",
 	},
 	"suckerpunch": {
 		num: 389,
 		accuracy: 100,
-		basePower: 80,
+		basePower: 70,
 		category: "Physical",
 		desc: "Fails if the target did not select a physical attack, special attack, or Me First for use this turn, or if the target moves before the user.",
 		shortDesc: "Usually goes first. Fails if target is not attacking.",
@@ -14106,7 +19157,11 @@ exports.BattleMovedex = {
 		name: "Sucker Punch",
 		pp: 5,
 		priority: 1,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onTry: function (source, target) {
 			let decision = this.willMove(target);
 			if (!decision || decision.choice !== 'move' || (decision.move.category === 'Status' && decision.move.id !== 'mefirst') || target.volatiles.mustrecharge) {
@@ -14118,6 +19173,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMovePower: 140,
 		contestType: "Clever",
 	},
 	"sunnyday": {
@@ -14136,7 +19192,34 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Fire",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Beautiful",
+	},
+	"sunsteelstrike": {
+		num: 713,
+		accuracy: 100,
+		basePower: 100,
+		category: "Physical",
+		desc: "This move and its effects ignore the Abilities of other Pokemon.",
+		shortDesc: "Ignores the Abilities of other Pokemon.",
+		id: "sunsteelstrike",
+		isViable: true,
+		name: "Sunsteel Strike",
+		pp: 5,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		ignoreAbility: true,
+		secondary: false,
+		target: "normal",
+		type: "Steel",
+		zMovePower: 180,
+		contestType: "Cool",
 	},
 	"superfang": {
 		num: 162,
@@ -14153,10 +19236,15 @@ exports.BattleMovedex = {
 		name: "Super Fang",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"superpower": {
@@ -14171,7 +19259,11 @@ exports.BattleMovedex = {
 		name: "Superpower",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			boosts: {
 				atk: -1,
@@ -14181,6 +19273,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 190,
 		contestType: "Tough",
 	},
 	"supersonic": {
@@ -14194,12 +19287,39 @@ exports.BattleMovedex = {
 		name: "Supersonic",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		volatileStatus: 'confusion',
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Clever",
+	},
+	"supersonicskystrike": {
+		num: 626,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "supersonicskystrike",
+		isViable: true,
+		name: "Supersonic Skystrike",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "flyiniumz",
+		secondary: false,
+		target: "normal",
+		type: "Flying",
+		contestType: "Cool",
 	},
 	"surf": {
 		num: 57,
@@ -14213,15 +19333,20 @@ exports.BattleMovedex = {
 		name: "Surf",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		secondary: false,
 		target: "allAdjacent",
 		type: "Water",
+		zMovePower: 175,
 		contestType: "Beautiful",
 	},
 	"swagger": {
 		num: 207,
-		accuracy: 90,
+		accuracy: 85,
 		basePower: 0,
 		category: "Status",
 		desc: "Raises the target's Attack by 2 stages and confuses it.",
@@ -14230,7 +19355,12 @@ exports.BattleMovedex = {
 		name: "Swagger",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		volatileStatus: 'confusion',
 		boosts: {
 			atk: 2,
@@ -14238,6 +19368,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Cute",
 	},
 	"swallow": {
@@ -14251,7 +19382,10 @@ exports.BattleMovedex = {
 		name: "Swallow",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, heal: 1},
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
 		onTryHit: function (pokemon) {
 			if (!pokemon.volatiles['stockpile'] || !pokemon.volatiles['stockpile'].layers) return false;
 		},
@@ -14263,6 +19397,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Tough",
 	},
 	"sweetkiss": {
@@ -14276,11 +19411,18 @@ exports.BattleMovedex = {
 		name: "Sweet Kiss",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		volatileStatus: 'confusion',
 		secondary: false,
 		target: "normal",
 		type: "Fairy",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Cute",
 	},
 	"sweetscent": {
@@ -14294,13 +19436,20 @@ exports.BattleMovedex = {
 		name: "Sweet Scent",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		boosts: {
 			evasion: -2,
 		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Normal",
+		zMoveBoost: {
+			accuracy: 1
+		},
 		contestType: "Cute",
 	},
 	"swift": {
@@ -14314,10 +19463,14 @@ exports.BattleMovedex = {
 		name: "Swift",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Normal",
+		zMovePower: 120,
 		contestType: "Cool",
 	},
 	"switcheroo": {
@@ -14332,18 +19485,26 @@ exports.BattleMovedex = {
 		name: "Switcheroo",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		onTryHit: function (target) {
 			if (target.hasAbility('stickyhold')) {
 				this.add('-immune', target, '[msg]');
 				return null;
 			}
 		},
-		onHit: function (target, source) {
+		onHit: function (target, source, move) {
 			let yourItem = target.takeItem(source);
 			let myItem = source.takeItem();
-			if (target.item || source.item || (!yourItem && !myItem) ||
-					(myItem.onTakeItem && myItem.onTakeItem(myItem, target) === false)) {
+			if (target.item || source.item || (!yourItem && !myItem)) {
+				if (yourItem) target.item = yourItem.id;
+				if (myItem) source.item = myItem.id;
+				return false;
+			}
+			if (!this.singleEvent('TakeItem', myItem, source.itemData, source, target, move, myItem)) {
 				if (yourItem) target.item = yourItem.id;
 				if (myItem) source.item = myItem.id;
 				return false;
@@ -14361,6 +19522,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMoveBoost: {
+			spe: 2
+		},
 		contestType: "Clever",
 	},
 	"swordsdance": {
@@ -14375,13 +19539,16 @@ exports.BattleMovedex = {
 		name: "Swords Dance",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			atk: 2,
 		},
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Beautiful",
 	},
 	"synchronoise": {
@@ -14395,13 +19562,17 @@ exports.BattleMovedex = {
 		name: "Synchronoise",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onTryHit: function (target, source) {
 			return target.hasType(source.getTypes());
 		},
 		secondary: false,
 		target: "allAdjacent",
 		type: "Psychic",
+		zMovePower: 190,
 		contestType: "Clever",
 	},
 	"synthesis": {
@@ -14416,25 +19587,31 @@ exports.BattleMovedex = {
 		name: "Synthesis",
 		pp: 5,
 		priority: 0,
-		flags: {snatch: 1, heal: 1},
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
 		onHit: function (pokemon) {
 			if (this.isWeather(['sunnyday', 'desolateland'])) {
 				this.heal(this.modify(pokemon.maxhp, 0.667));
-			} else if (this.isWeather(['raindance', 'primordialsea', 'sandstorm', 'hail'])) {
+			}
+			else if (this.isWeather(['raindance', 'primordialsea', 'sandstorm', 'hail'])) {
 				this.heal(this.modify(pokemon.maxhp, 0.25));
-			} else {
+			}
+			else {
 				this.heal(this.modify(pokemon.maxhp, 0.5));
 			}
 		},
 		secondary: false,
 		target: "self",
 		type: "Grass",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Clever",
 	},
 	"tackle": {
 		num: 33,
 		accuracy: 100,
-		basePower: 50,
+		basePower: 40,
 		category: "Physical",
 		desc: "No additional effect.",
 		shortDesc: "No additional effect.",
@@ -14442,10 +19619,15 @@ exports.BattleMovedex = {
 		name: "Tackle",
 		pp: 35,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"tailglow": {
@@ -14460,13 +19642,16 @@ exports.BattleMovedex = {
 		name: "Tail Glow",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			spa: 3,
 		},
 		secondary: false,
 		target: "self",
 		type: "Bug",
+		zMoveEffect: 'clearnegativeboost',
 		contestType: "Beautiful",
 	},
 	"tailslap": {
@@ -14481,11 +19666,16 @@ exports.BattleMovedex = {
 		name: "Tail Slap",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		multihit: [2, 5],
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 140,
 		contestType: "Cute",
 	},
 	"tailwhip": {
@@ -14499,13 +19689,20 @@ exports.BattleMovedex = {
 		name: "Tail Whip",
 		pp: 30,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		boosts: {
 			def: -1,
 		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Normal",
+		zMoveBoost: {
+			atk: 1
+		},
 		contestType: "Cute",
 	},
 	"tailwind": {
@@ -14520,7 +19717,9 @@ exports.BattleMovedex = {
 		name: "Tailwind",
 		pp: 15,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		sideCondition: 'tailwind',
 		effect: {
 			duration: 4,
@@ -14545,6 +19744,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allySide",
 		type: "Flying",
+		zMoveEffect: 'crit1',
 		contestType: "Cool",
 	},
 	"takedown": {
@@ -14558,11 +19758,16 @@ exports.BattleMovedex = {
 		name: "Take Down",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		recoil: [1, 4],
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 175,
 		contestType: "Tough",
 	},
 	"taunt": {
@@ -14577,7 +19782,12 @@ exports.BattleMovedex = {
 		name: "Taunt",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			authentic: 1
+		},
 		volatileStatus: 'taunt',
 		effect: {
 			duration: 3,
@@ -14610,7 +19820,37 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMoveBoost: {
+			atk: 1
+		},
 		contestType: "Clever",
+	},
+	"tearfullook": {
+		num: 715,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "Lowers the target's Attack and Special Attack by 1 stage.",
+		shortDesc: "Lowers the target's Attack and Sp. Atk by 1.",
+		id: "tearfullook",
+		name: "Tearful Look",
+		pp: 20,
+		priority: 0,
+		flags: {
+			reflectable: 1,
+			mirror: 1
+		},
+		boosts: {
+			atk: -1,
+			spa: -1,
+		},
+		secondary: false,
+		target: "normal",
+		type: "Normal",
+		zMoveBoost: {
+			def: 1
+		},
+		contestType: "Cute",
 	},
 	"technoblast": {
 		num: 546,
@@ -14624,13 +19864,35 @@ exports.BattleMovedex = {
 		name: "Techno Blast",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onModifyMove: function (move, pokemon) {
 			move.type = this.runEvent('Drive', pokemon, null, 'technoblast', 'Normal');
 		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 190,
+		contestType: "Cool",
+	},
+	"tectonicrage": {
+		num: 630,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "tectonicrage",
+		isViable: true,
+		name: "Tectonic Rage",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "groundiumz",
+		secondary: false,
+		target: "normal",
+		type: "Ground",
 		contestType: "Cool",
 	},
 	"teeterdance": {
@@ -14644,11 +19906,17 @@ exports.BattleMovedex = {
 		name: "Teeter Dance",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		volatileStatus: 'confusion',
 		secondary: false,
 		target: "allAdjacent",
 		type: "Normal",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Cute",
 	},
 	"telekinesis": {
@@ -14662,7 +19930,13 @@ exports.BattleMovedex = {
 		name: "Telekinesis",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, gravity: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			gravity: 1,
+			mystery: 1
+		},
 		volatileStatus: 'telekinesis',
 		effect: {
 			duration: 3,
@@ -14685,6 +19959,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMoveBoost: {
+			spa: 1
+		},
 		contestType: "Clever",
 	},
 	"teleport": {
@@ -14703,6 +19980,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Psychic",
+		zMoveEffect: 'heal',
 		contestType: "Cool",
 	},
 	"thief": {
@@ -14716,7 +19994,11 @@ exports.BattleMovedex = {
 		name: "Thief",
 		pp: 25,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onHit: function (target, source) {
 			if (source.item || source.volatiles['gem']) {
 				return;
@@ -14734,6 +20016,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMovePower: 120,
 		contestType: "Tough",
 	},
 	"thousandarrows": {
@@ -14748,8 +20031,11 @@ exports.BattleMovedex = {
 		name: "Thousand Arrows",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
-		isUnreleased: true,
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		onEffectiveness: function (typeMod, type, move) {
 			if (move.type !== 'Ground') return;
 			let target = this.activeTarget;
@@ -14760,10 +20046,13 @@ exports.BattleMovedex = {
 			}
 		},
 		volatileStatus: 'smackdown',
-		ignoreImmunity: {'Ground': true},
+		ignoreImmunity: {
+			'Ground': true
+		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Ground",
+		zMovePower: 180,
 		contestType: "Beautiful",
 	},
 	"thousandwaves": {
@@ -14777,14 +20066,18 @@ exports.BattleMovedex = {
 		name: "Thousand Waves",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
-		isUnreleased: true,
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		onHit: function (target, source, move) {
 			if (source.isActive) target.addVolatile('trapped', source, move, 'trapper');
 		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Ground",
+		zMovePower: 175,
 		contestType: "Tough",
 	},
 	"thrash": {
@@ -14798,7 +20091,11 @@ exports.BattleMovedex = {
 		name: "Thrash",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			volatileStatus: 'lockedmove',
 		},
@@ -14810,7 +20107,48 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "randomNormal",
 		type: "Normal",
+		zMovePower: 190,
 		contestType: "Tough",
+	},
+	"throatchop": {
+		num: 675,
+		accuracy: 100,
+		basePower: 80,
+		category: "Physical",
+		desc: "For 2 turns, the target cannot use sound-based moves.",
+		shortDesc: "For 2 turns, the target cannot use sound moves.",
+		id: "throatchop",
+		name: "Throat Chop",
+		pp: 15,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		volatileStatus: 'throatchop',
+		effect: {
+			duration: 2,
+			onStart: function (target) {
+				this.add('-start', target, 'Throat Chop', '[silent]');
+			},
+			onBeforeMovePriority: 6,
+			onBeforeMove: function (pokemon, target, move) {
+				if (move.flags['sound']) {
+					this.add('cant', pokemon, 'move: Throat Chop');
+					return false;
+				}
+			},
+			onResidualOrder: 22,
+			onEnd: function (target) {
+				this.add('-end', target, 'Throat Chop', '[silent]');
+			},
+		},
+		secondary: false,
+		target: "normal",
+		type: "Dark",
+		zMovePower: 160,
+		contestType: "Clever",
 	},
 	"thunder": {
 		num: 87,
@@ -14824,11 +20162,15 @@ exports.BattleMovedex = {
 		name: "Thunder",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onModifyMove: function (move) {
 			if (this.isWeather(['raindance', 'primordialsea'])) {
 				move.accuracy = true;
-			} else if (this.isWeather(['sunnyday', 'desolateland'])) {
+			}
+			else if (this.isWeather(['sunnyday', 'desolateland'])) {
 				move.accuracy = 50;
 			}
 		},
@@ -14838,6 +20180,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Electric",
+		zMovePower: 185,
 		contestType: "Cool",
 	},
 	"thunderfang": {
@@ -14851,18 +20194,22 @@ exports.BattleMovedex = {
 		name: "Thunder Fang",
 		pp: 15,
 		priority: 0,
-		flags: {bite: 1, contact: 1, protect: 1, mirror: 1},
-		secondaries: [
-			{
-				chance: 10,
-				status: 'par',
-			}, {
-				chance: 10,
-				volatileStatus: 'flinch',
-			},
-		],
+		flags: {
+			bite: 1,
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		secondaries: [{
+			chance: 10,
+			status: 'par',
+		}, {
+			chance: 10,
+			volatileStatus: 'flinch',
+		}, ],
 		target: "normal",
 		type: "Electric",
+		zMovePower: 120,
 		contestType: "Cool",
 	},
 	"thunderpunch": {
@@ -14877,13 +20224,19 @@ exports.BattleMovedex = {
 		name: "Thunder Punch",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			punch: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'par',
 		},
 		target: "normal",
 		type: "Electric",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"thundershock": {
@@ -14897,18 +20250,22 @@ exports.BattleMovedex = {
 		name: "Thunder Shock",
 		pp: 30,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'par',
 		},
 		target: "normal",
 		type: "Electric",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"thunderwave": {
 		num: 86,
-		accuracy: 100,
+		accuracy: 90,
 		basePower: 0,
 		category: "Status",
 		desc: "Paralyzes the target.",
@@ -14918,12 +20275,19 @@ exports.BattleMovedex = {
 		name: "Thunder Wave",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		status: 'par',
 		ignoreImmunity: false,
 		secondary: false,
 		target: "normal",
 		type: "Electric",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Cool",
 	},
 	"thunderbolt": {
@@ -14938,13 +20302,17 @@ exports.BattleMovedex = {
 		name: "Thunderbolt",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 10,
 			status: 'par',
 		},
 		target: "normal",
 		type: "Electric",
+		zMovePower: 175,
 		contestType: "Cool",
 	},
 	"tickle": {
@@ -14958,7 +20326,12 @@ exports.BattleMovedex = {
 		name: "Tickle",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		boosts: {
 			atk: -1,
 			def: -1,
@@ -14966,6 +20339,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Cute",
 	},
 	"topsyturvy": {
@@ -14979,7 +20355,12 @@ exports.BattleMovedex = {
 		name: "Topsy-Turvy",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		onHit: function (target) {
 			let success = false;
 			for (let i in target.boosts) {
@@ -14993,6 +20374,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMoveBoost: {
+			atk: 1
+		},
 		contestType: "Clever",
 	},
 	"torment": {
@@ -15006,7 +20390,12 @@ exports.BattleMovedex = {
 		name: "Torment",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			authentic: 1
+		},
 		volatileStatus: 'torment',
 		effect: {
 			noCopy: true,
@@ -15023,6 +20412,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Dark",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Tough",
 	},
 	"toxic": {
@@ -15037,12 +20429,19 @@ exports.BattleMovedex = {
 		name: "Toxic",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		// No Guard-like effect for Poison-type users implemented in BattleScripts#tryMoveHit
 		status: 'tox',
 		secondary: false,
 		target: "normal",
 		type: "Poison",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Clever",
 	},
 	"toxicspikes": {
@@ -15057,7 +20456,10 @@ exports.BattleMovedex = {
 		name: "Toxic Spikes",
 		pp: 20,
 		priority: 0,
-		flags: {reflectable: 1, nonsky: 1},
+		flags: {
+			reflectable: 1,
+			nonsky: 1
+		},
 		sideCondition: 'toxicspikes',
 		effect: {
 			// this is a side condition
@@ -15076,9 +20478,11 @@ exports.BattleMovedex = {
 				if (pokemon.hasType('Poison')) {
 					this.add('-sideend', pokemon.side, 'move: Toxic Spikes', '[of] ' + pokemon);
 					pokemon.side.removeSideCondition('toxicspikes');
-				} else if (this.effectData.layers >= 2) {
+				}
+				else if (this.effectData.layers >= 2) {
 					pokemon.trySetStatus('tox', pokemon.side.foe.active[0]);
-				} else {
+				}
+				else {
 					pokemon.trySetStatus('psn', pokemon.side.foe.active[0]);
 				}
 			},
@@ -15086,7 +20490,39 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "foeSide",
 		type: "Poison",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Clever",
+	},
+	"toxicthread": {
+		num: 672,
+		accuracy: 100,
+		basePower: 0,
+		category: "Status",
+		desc: "Lowers the target's Speed by 1 stage and poisons it.",
+		shortDesc: "Lowers the target's Speed by 1 and poisons it.",
+		id: "toxicthread",
+		isViable: true,
+		name: "Toxic Thread",
+		pp: 20,
+		priority: 0,
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
+		status: 'psn',
+		boosts: {
+			spe: -1,
+		},
+		secondary: false,
+		target: "normal",
+		type: "Poison",
+		zMoveBoost: {
+			spe: 1
+		},
+		contestType: "Tough",
 	},
 	"transform": {
 		num: 144,
@@ -15099,7 +20535,9 @@ exports.BattleMovedex = {
 		name: "Transform",
 		pp: 10,
 		priority: 0,
-		flags: {},
+		flags: {
+			mystery: 1
+		},
 		onHit: function (target, pokemon) {
 			if (!pokemon.transformInto(target, pokemon)) {
 				return false;
@@ -15108,6 +20546,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveEffect: 'heal',
 		contestType: "Clever",
 	},
 	"triattack": {
@@ -15122,22 +20561,28 @@ exports.BattleMovedex = {
 		name: "Tri Attack",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 20,
 			onHit: function (target, source) {
 				let result = this.random(3);
 				if (result === 0) {
 					target.trySetStatus('brn', source);
-				} else if (result === 1) {
+				}
+				else if (result === 1) {
 					target.trySetStatus('par', source);
-				} else {
+				}
+				else {
 					target.trySetStatus('frz', source);
 				}
 			},
 		},
 		target: "normal",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"trick": {
@@ -15152,18 +20597,26 @@ exports.BattleMovedex = {
 		name: "Trick",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		onTryHit: function (target) {
 			if (target.hasAbility('stickyhold')) {
 				this.add('-immune', target, '[msg]');
 				return null;
 			}
 		},
-		onHit: function (target, source) {
+		onHit: function (target, source, move) {
 			let yourItem = target.takeItem(source);
 			let myItem = source.takeItem();
-			if (target.item || source.item || (!yourItem && !myItem) ||
-					(myItem.onTakeItem && myItem.onTakeItem(myItem, target) === false)) {
+			if (target.item || source.item || (!yourItem && !myItem)) {
+				if (yourItem) target.item = yourItem.id;
+				if (myItem) source.item = myItem.id;
+				return false;
+			}
+			if (!this.singleEvent('TakeItem', myItem, source.itemData, source, target, move, myItem)) {
 				if (yourItem) target.item = yourItem.id;
 				if (myItem) source.item = myItem.id;
 				return false;
@@ -15172,19 +20625,24 @@ exports.BattleMovedex = {
 			if (myItem) {
 				target.setItem(myItem);
 				this.add('-item', target, myItem, '[from] move: Trick');
-			} else {
+			}
+			else {
 				this.add('-enditem', target, yourItem, '[silent]');
 			}
 			if (yourItem) {
 				source.setItem(yourItem);
 				this.add('-item', source, yourItem, '[from] move: Trick');
-			} else {
+			}
+			else {
 				this.add('-enditem', source, myItem, '[silent]');
 			}
 		},
 		secondary: false,
 		target: "normal",
 		type: "Psychic",
+		zMoveBoost: {
+			spe: 2
+		},
 		contestType: "Clever",
 	},
 	"trickortreat": {
@@ -15198,7 +20656,12 @@ exports.BattleMovedex = {
 		name: "Trick-or-Treat",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		onHit: function (target) {
 			if (target.hasType('Ghost')) return false;
 			if (!target.addType('Ghost')) return false;
@@ -15217,6 +20680,13 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Ghost",
+		zMoveBoost: {
+			atk: 1,
+			def: 1,
+			spa: 1,
+			spd: 1,
+			spe: 1
+		},
 		contestType: "Cute",
 	},
 	"trickroom": {
@@ -15230,11 +20700,14 @@ exports.BattleMovedex = {
 		name: "Trick Room",
 		pp: 5,
 		priority: -7,
-		flags: {mirror: 1},
+		flags: {
+			mirror: 1
+		},
 		onHitField: function (target, source, effect) {
 			if (this.pseudoWeather['trickroom']) {
 				this.removePseudoWeather('trickroom', source, effect, '[of] ' + source);
-			} else {
+			}
+			else {
 				this.addPseudoWeather('trickroom', source, effect, '[of] ' + source);
 			}
 		},
@@ -15258,6 +20731,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Psychic",
+		zMoveBoost: {
+			accuracy: 1
+		},
 		contestType: "Clever",
 	},
 	"triplekick": {
@@ -15275,7 +20751,11 @@ exports.BattleMovedex = {
 		name: "Triple Kick",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		multihit: 3,
 		multiaccuracy: true,
 		effect: {
@@ -15293,7 +20773,35 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 120,
 		contestType: "Cool",
+	},
+	"tropkick": {
+		num: 688,
+		accuracy: 100,
+		basePower: 70,
+		category: "Physical",
+		desc: "Has a 100% chance to lower the target's Attack by 1 stage.",
+		shortDesc: "100% chance to lower the target's Attack by 1.",
+		id: "tropkick",
+		name: "Trop Kick",
+		pp: 15,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		secondary: {
+			chance: 100,
+			boosts: {
+				atk: -1,
+			},
+		},
+		target: "normal",
+		type: "Grass",
+		zMovePower: 140,
+		contestType: "Cute",
 	},
 	"trumpcard": {
 		num: 376,
@@ -15322,10 +20830,15 @@ exports.BattleMovedex = {
 		pp: 5,
 		noPPBoosts: true,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"twineedle": {
@@ -15339,7 +20852,10 @@ exports.BattleMovedex = {
 		name: "Twineedle",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		multihit: [2, 2],
 		secondary: {
 			chance: 20,
@@ -15347,6 +20863,25 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Bug",
+		zMovePower: 100,
+		contestType: "Cool",
+	},
+	"twinkletackle": {
+		num: 656,
+		accuracy: true,
+		basePower: 1,
+		category: "Physical",
+		shortDesc: "Power is equal to the base move's Z-Power.",
+		id: "twinkletackle",
+		isViable: true,
+		name: "Twinkle Tackle",
+		pp: 1,
+		priority: 0,
+		flags: {},
+		isZ: "fairiumz",
+		secondary: false,
+		target: "normal",
+		type: "Fairy",
 		contestType: "Cool",
 	},
 	"twister": {
@@ -15360,13 +20895,17 @@ exports.BattleMovedex = {
 		name: "Twister",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 20,
 			volatileStatus: 'flinch',
 		},
 		target: "allAdjacentFoes",
 		type: "Dragon",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"uturn": {
@@ -15381,11 +20920,16 @@ exports.BattleMovedex = {
 		name: "U-turn",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		selfSwitch: true,
 		secondary: false,
 		target: "normal",
 		type: "Bug",
+		zMovePower: 140,
 		contestType: "Cute",
 	},
 	"uproar": {
@@ -15399,7 +20943,12 @@ exports.BattleMovedex = {
 		name: "Uproar",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			sound: 1,
+			authentic: 1
+		},
 		self: {
 			volatileStatus: 'uproar',
 		},
@@ -15431,7 +20980,8 @@ exports.BattleMovedex = {
 				if (status.id === 'slp') {
 					if (pokemon === this.effectData.target) {
 						this.add('-fail', pokemon, 'slp', '[from] Uproar', '[msg]');
-					} else {
+					}
+					else {
 						this.add('-fail', pokemon, 'slp', '[from] Uproar');
 					}
 					return null;
@@ -15441,6 +20991,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "randomNormal",
 		type: "Normal",
+		zMovePower: 175,
 		contestType: "Cute",
 	},
 	"vcreate": {
@@ -15455,7 +21006,11 @@ exports.BattleMovedex = {
 		name: "V-create",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		self: {
 			boosts: {
 				spe: -1,
@@ -15466,6 +21021,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Fire",
+		zMovePower: 220,
 		contestType: "Cool",
 	},
 	"vacuumwave": {
@@ -15479,10 +21035,14 @@ exports.BattleMovedex = {
 		name: "Vacuum Wave",
 		pp: 30,
 		priority: 1,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"venomdrench": {
@@ -15496,16 +21056,27 @@ exports.BattleMovedex = {
 		name: "Venom Drench",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		onHit: function (target, source, move) {
 			if (target.status === 'psn' || target.status === 'tox') {
-				return this.boost({atk:-1, spa:-1, spe:-1}, target, source, move);
+				return this.boost({
+					atk: -1,
+					spa: -1,
+					spe: -1
+				}, target, source, move);
 			}
 			return false;
 		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Poison",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Clever",
 	},
 	"venoshock": {
@@ -15519,7 +21090,10 @@ exports.BattleMovedex = {
 		name: "Venoshock",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		onBasePowerPriority: 4,
 		onBasePower: function (basePower, pokemon, target) {
 			if (target.status === 'psn' || target.status === 'tox') {
@@ -15529,6 +21103,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Poison",
+		zMovePower: 120,
 		contestType: "Beautiful",
 	},
 	"vicegrip": {
@@ -15542,10 +21117,15 @@ exports.BattleMovedex = {
 		name: "Vice Grip",
 		pp: 30,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"vinewhip": {
@@ -15559,10 +21139,15 @@ exports.BattleMovedex = {
 		name: "Vine Whip",
 		pp: 25,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"vitalthrow": {
@@ -15576,10 +21161,15 @@ exports.BattleMovedex = {
 		name: "Vital Throw",
 		pp: 10,
 		priority: -1,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"voltswitch": {
@@ -15594,11 +21184,15 @@ exports.BattleMovedex = {
 		name: "Volt Switch",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		selfSwitch: true,
 		secondary: false,
 		target: "normal",
 		type: "Electric",
+		zMovePower: 140,
 		contestType: "Cool",
 	},
 	"volttackle": {
@@ -15613,7 +21207,11 @@ exports.BattleMovedex = {
 		name: "Volt Tackle",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		recoil: [33, 100],
 		secondary: {
 			chance: 10,
@@ -15621,6 +21219,7 @@ exports.BattleMovedex = {
 		},
 		target: "normal",
 		type: "Electric",
+		zMovePower: 190,
 		contestType: "Cool",
 	},
 	"wakeupslap": {
@@ -15628,7 +21227,7 @@ exports.BattleMovedex = {
 		accuracy: 100,
 		basePower: 70,
 		basePowerCallback: function (pokemon, target, move) {
-			if (target.status === 'slp') return move.basePower * 2;
+			if (target.status === 'slp' || target.hasAbility('comatose')) return move.basePower * 2;
 			return move.basePower;
 		},
 		category: "Physical",
@@ -15638,13 +21237,18 @@ exports.BattleMovedex = {
 		name: "Wake-Up Slap",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onHit: function (target) {
 			if (target.status === 'slp') target.cureStatus();
 		},
 		secondary: false,
 		target: "normal",
 		type: "Fighting",
+		zMovePower: 140,
 		contestType: "Tough",
 	},
 	"watergun": {
@@ -15658,10 +21262,14 @@ exports.BattleMovedex = {
 		name: "Water Gun",
 		pp: 25,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Water",
+		zMovePower: 100,
 		contestType: "Cute",
 	},
 	"waterpledge": {
@@ -15669,7 +21277,10 @@ exports.BattleMovedex = {
 		accuracy: 100,
 		basePower: 80,
 		basePowerCallback: function (target, source, move) {
-			if (move.sourceEffect in {firepledge:1, grasspledge:1}) {
+			if (move.sourceEffect in {
+					firepledge: 1,
+					grasspledge: 1
+				}) {
 				this.add('-combine');
 				return 150;
 			}
@@ -15682,12 +21293,19 @@ exports.BattleMovedex = {
 		name: "Water Pledge",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, nonsky: 1},
+		flags: {
+			protect: 1,
+			mirror: 1,
+			nonsky: 1
+		},
 		onPrepareHit: function (target, source, move) {
 			for (let i = 0; i < this.queue.length; i++) {
 				let decision = this.queue[i];
 				if (!decision.move || !decision.pokemon || !decision.pokemon.isActive || decision.pokemon.fainted) continue;
-				if (decision.pokemon.side === source.side && decision.move.id in {firepledge:1, grasspledge:1}) {
+				if (decision.pokemon.side === source.side && decision.move.id in {
+						firepledge: 1,
+						grasspledge: 1
+					}) {
 					this.prioritizeQueue(decision);
 					this.add('-waiting', source, decision.pokemon);
 					return null;
@@ -15732,6 +21350,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Water",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"waterpulse": {
@@ -15745,13 +21364,19 @@ exports.BattleMovedex = {
 		name: "Water Pulse",
 		pp: 20,
 		priority: 0,
-		flags: {protect: 1, pulse: 1, mirror: 1, distance: 1},
+		flags: {
+			protect: 1,
+			pulse: 1,
+			mirror: 1,
+			distance: 1
+		},
 		secondary: {
 			chance: 20,
 			volatileStatus: 'confusion',
 		},
 		target: "any",
 		type: "Water",
+		zMovePower: 120,
 		contestType: "Beautiful",
 	},
 	"watersport": {
@@ -15765,11 +21390,14 @@ exports.BattleMovedex = {
 		name: "Water Sport",
 		pp: 15,
 		priority: 0,
-		flags: {nonsky: 1},
+		flags: {
+			nonsky: 1
+		},
 		onHitField: function (target, source, effect) {
 			if (this.pseudoWeather['watersport']) {
 				return false;
-			} else {
+			}
+			else {
 				this.addPseudoWeather('watersport', source, effect, '[of] ' + source);
 			}
 		},
@@ -15793,6 +21421,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Water",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Cute",
 	},
 	"waterspout": {
@@ -15810,10 +21441,14 @@ exports.BattleMovedex = {
 		name: "Water Spout",
 		pp: 5,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "allAdjacentFoes",
 		type: "Water",
+		zMovePower: 200,
 		contestType: "Beautiful",
 	},
 	"waterfall": {
@@ -15828,31 +21463,46 @@ exports.BattleMovedex = {
 		name: "Waterfall",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 20,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Water",
+		zMovePower: 160,
 		contestType: "Tough",
 	},
 	"watershuriken": {
 		num: 594,
 		accuracy: 100,
 		basePower: 15,
-		category: "Physical",
-		desc: "Hits two to five times. Has a 1/3 chance to hit two or three times, and a 1/6 chance to hit four or five times. If one of the hits breaks the target's substitute, it will take damage for the remaining hits. If the user has the Ability Skill Link, this move will always hit five times.",
+		basePowerCallback: function (pokemon, target, move) {
+			if (pokemon.template.species === 'Greninja-Ash' && pokemon.hasAbility('battlebond')) {
+				return move.basePower + 5;
+			}
+			return move.basePower;
+		},
+		category: "Special",
+		desc: "Hits two to five times. Has a 1/3 chance to hit two or three times, and a 1/6 chance to hit four or five times. If one of the hits breaks the target's substitute, it will take damage for the remaining hits. If the user has the Ability Skill Link, this move will always hit five times. Base power is 20 if the user is Ash-Greninja.",
 		shortDesc: "Hits 2-5 times in one turn.",
 		id: "watershuriken",
 		name: "Water Shuriken",
 		pp: 20,
 		priority: 1,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		multihit: [2, 5],
 		secondary: false,
 		target: "normal",
 		type: "Water",
+		zMovePower: 100,
 		contestType: "Cool",
 	},
 	"weatherball": {
@@ -15870,7 +21520,11 @@ exports.BattleMovedex = {
 		name: "Weather Ball",
 		pp: 10,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		onModifyMove: function (move) {
 			switch (this.effectiveWeather()) {
 			case 'sunnyday':
@@ -15892,6 +21546,7 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 160,
 		contestType: "Beautiful",
 	},
 	"whirlpool": {
@@ -15905,11 +21560,15 @@ exports.BattleMovedex = {
 		name: "Whirlpool",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		volatileStatus: 'partiallytrapped',
 		secondary: false,
 		target: "normal",
 		type: "Water",
+		zMovePower: 100,
 		contestType: "Beautiful",
 	},
 	"whirlwind": {
@@ -15924,11 +21583,19 @@ exports.BattleMovedex = {
 		name: "Whirlwind",
 		pp: 20,
 		priority: -6,
-		flags: {reflectable: 1, mirror: 1, authentic: 1},
+		flags: {
+			reflectable: 1,
+			mirror: 1,
+			authentic: 1,
+			mystery: 1
+		},
 		forceSwitch: true,
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Clever",
 	},
 	"wideguard": {
@@ -15942,7 +21609,9 @@ exports.BattleMovedex = {
 		name: "Wide Guard",
 		pp: 10,
 		priority: 3,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		sideCondition: 'wideguard',
 		onTryHitSide: function (side, source) {
 			return this.willAct();
@@ -15975,6 +21644,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "allySide",
 		type: "Rock",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Tough",
 	},
 	"wildcharge": {
@@ -15989,11 +21661,16 @@ exports.BattleMovedex = {
 		name: "Wild Charge",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		recoil: [1, 4],
 		secondary: false,
 		target: "normal",
 		type: "Electric",
+		zMovePower: 175,
 		contestType: "Tough",
 	},
 	"willowisp": {
@@ -16008,11 +21685,18 @@ exports.BattleMovedex = {
 		name: "Will-O-Wisp",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		status: 'brn',
 		secondary: false,
 		target: "normal",
 		type: "Fire",
+		zMoveBoost: {
+			atk: 1
+		},
 		contestType: "Beautiful",
 	},
 	"wingattack": {
@@ -16026,10 +21710,16 @@ exports.BattleMovedex = {
 		name: "Wing Attack",
 		pp: 35,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, distance: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1,
+			distance: 1
+		},
 		secondary: false,
 		target: "any",
 		type: "Flying",
+		zMovePower: 120,
 		contestType: "Cool",
 	},
 	"wish": {
@@ -16044,7 +21734,10 @@ exports.BattleMovedex = {
 		name: "Wish",
 		pp: 10,
 		priority: 0,
-		flags: {snatch: 1, heal: 1},
+		flags: {
+			snatch: 1,
+			heal: 1
+		},
 		sideCondition: 'Wish',
 		effect: {
 			duration: 2,
@@ -16064,6 +21757,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Cute",
 	},
 	"withdraw": {
@@ -16077,13 +21773,18 @@ exports.BattleMovedex = {
 		name: "Withdraw",
 		pp: 40,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			def: 1,
 		},
 		secondary: false,
 		target: "self",
 		type: "Water",
+		zMoveBoost: {
+			def: 1
+		},
 		contestType: "Cute",
 	},
 	"wonderroom": {
@@ -16097,11 +21798,14 @@ exports.BattleMovedex = {
 		name: "Wonder Room",
 		pp: 10,
 		priority: 0,
-		flags: {mirror: 1},
+		flags: {
+			mirror: 1
+		},
 		onHitField: function (target, source, effect) {
 			if (this.pseudoWeather['wonderroom']) {
 				this.removePseudoWeather('wonderroom', source, effect, '[of] ' + source);
-			} else {
+			}
+			else {
 				this.addPseudoWeather('wonderroom', source, effect, '[of] ' + source);
 			}
 		},
@@ -16119,6 +21823,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "all",
 		type: "Psychic",
+		zMoveBoost: {
+			spd: 1
+		},
 		contestType: "Clever",
 	},
 	"woodhammer": {
@@ -16133,11 +21840,16 @@ exports.BattleMovedex = {
 		name: "Wood Hammer",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		recoil: [33, 100],
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMovePower: 190,
 		contestType: "Tough",
 	},
 	"workup": {
@@ -16151,7 +21863,9 @@ exports.BattleMovedex = {
 		name: "Work Up",
 		pp: 30,
 		priority: 0,
-		flags: {snatch: 1},
+		flags: {
+			snatch: 1
+		},
 		boosts: {
 			atk: 1,
 			spa: 1,
@@ -16159,6 +21873,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "self",
 		type: "Normal",
+		zMoveBoost: {
+			atk: 1
+		},
 		contestType: "Tough",
 	},
 	"worryseed": {
@@ -16172,9 +21889,21 @@ exports.BattleMovedex = {
 		name: "Worry Seed",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1,
+			mystery: 1
+		},
 		onTryHit: function (pokemon) {
-			let bannedAbilities = {insomnia:1, multitype:1, stancechange:1, truant:1};
+			let bannedAbilities = {
+				comatose: 1,
+				insomnia: 1,
+				multitype: 1,
+				schooling: 1,
+				stancechange: 1,
+				truant: 1
+			};
 			if (bannedAbilities[pokemon.ability]) {
 				return false;
 			}
@@ -16193,6 +21922,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Grass",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Clever",
 	},
 	"wrap": {
@@ -16206,11 +21938,16 @@ exports.BattleMovedex = {
 		name: "Wrap",
 		pp: 20,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		volatileStatus: 'partiallytrapped',
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 100,
 		contestType: "Tough",
 	},
 	"wringout": {
@@ -16227,10 +21964,15 @@ exports.BattleMovedex = {
 		name: "Wring Out",
 		pp: 5,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMovePower: 190,
 		contestType: "Tough",
 	},
 	"xscissor": {
@@ -16245,10 +21987,15 @@ exports.BattleMovedex = {
 		name: "X-Scissor",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: false,
 		target: "normal",
 		type: "Bug",
+		zMovePower: 160,
 		contestType: "Cool",
 	},
 	"yawn": {
@@ -16262,7 +22009,11 @@ exports.BattleMovedex = {
 		name: "Yawn",
 		pp: 10,
 		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			reflectable: 1,
+			mirror: 1
+		},
 		volatileStatus: 'yawn',
 		onTryHit: function (target) {
 			if (target.status || !target.runStatusImmunity('slp')) {
@@ -16283,6 +22034,9 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Normal",
+		zMoveBoost: {
+			spe: 1
+		},
 		contestType: "Cute",
 	},
 	"zapcannon": {
@@ -16296,13 +22050,18 @@ exports.BattleMovedex = {
 		name: "Zap Cannon",
 		pp: 5,
 		priority: 0,
-		flags: {bullet: 1, protect: 1, mirror: 1},
+		flags: {
+			bullet: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 100,
 			status: 'par',
 		},
 		target: "normal",
 		type: "Electric",
+		zMovePower: 190,
 		contestType: "Cool",
 	},
 	"zenheadbutt": {
@@ -16317,14 +22076,45 @@ exports.BattleMovedex = {
 		name: "Zen Headbutt",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 20,
 			volatileStatus: 'flinch',
 		},
 		target: "normal",
 		type: "Psychic",
+		zMovePower: 160,
 		contestType: "Clever",
+	},
+	"zingzap": {
+		num: 716,
+		accuracy: 100,
+		basePower: 80,
+		category: "Physical",
+		desc: "Has a 30% chance to flinch the target.",
+		shortDesc: "30% chance to flinch the target.",
+		id: "zingzap",
+		isViable: true,
+		name: "Zing Zap",
+		pp: 10,
+		priority: 0,
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
+		secondary: {
+			chance: 30,
+			volatileStatus: 'flinch',
+		},
+		target: "normal",
+		type: "Electric",
+		zMovePower: 160,
+		contestType: "Cool",
 	},
 	"paleowave": {
 		accuracy: 100,
@@ -16338,7 +22128,10 @@ exports.BattleMovedex = {
 		name: "Paleo Wave",
 		pp: 15,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 20,
 			boosts: {
@@ -16361,7 +22154,11 @@ exports.BattleMovedex = {
 		name: "Shadow Strike",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			protect: 1,
+			mirror: 1
+		},
 		secondary: {
 			chance: 50,
 			boosts: {
@@ -16383,7 +22180,12 @@ exports.BattleMovedex = {
 		name: "Magikarp's Revenge",
 		pp: 10,
 		priority: 0,
-		flags: {contact: 1, recharge: 1, protect: 1, mirror: 1},
+		flags: {
+			contact: 1,
+			recharge: 1,
+			protect: 1,
+			mirror: 1
+		},
 		noSketch: true,
 		drain: [1, 2],
 		onTry: function (pokemon) {
