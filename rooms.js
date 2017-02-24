@@ -90,6 +90,9 @@ class Room {
 	addRaw(message) {
 		return this.add('|raw|' + message);
 	}
+	addLogMessage(user, text) {
+		return this.add('|c|' + user.getIdentity(this) + '|/log ' + text).update();
+	}
 	getLogSlice(amount) {
 		let log = this.log.slice(amount);
 		log.unshift('|:|' + (~~(Date.now() / 1000)));
@@ -220,7 +223,8 @@ class Room {
 				if (i === 0) {
 					this.muteQueue.splice(0, 1);
 					this.runMuteTimer(true);
-				} else {
+				}
+				else {
 					this.muteQueue.splice(i, 1);
 				}
 				successUserid = entry.userid;
@@ -264,13 +268,15 @@ class GlobalRoom {
 		this.lastBattle = 0;
 		try {
 			this.lastBattle = parseInt(fs.readFileSync('logs/lastbattle.txt', 'utf8')) || 0;
-		} catch (e) {} // file doesn't exist [yet]
+		}
+		catch (e) {} // file doesn't exist [yet]
 
 		this.chatRoomData = [];
 		try {
 			this.chatRoomData = require('./config/chatrooms.json');
 			if (!Array.isArray(this.chatRoomData)) this.chatRoomData = [];
-		} catch (e) {} // file doesn't exist [yet]
+		}
+		catch (e) {} // file doesn't exist [yet]
 
 		if (!this.chatRoomData.length) {
 			this.chatRoomData = [{
@@ -281,6 +287,12 @@ class GlobalRoom {
 				title: 'Staff',
 				isPrivate: true,
 				staffRoom: true,
+				staffAutojoin: true,
+				godAutojoin: true,
+			}, {
+				title: 'Development',
+				isPrivate: true,
+				devRoom: true,
 				staffAutojoin: true,
 			}];
 		}
@@ -311,7 +323,7 @@ class GlobalRoom {
 		// this function is complex in order to avoid several race conditions
 		this.writeNumRooms = (() => {
 			let writing = false;
-			let lastBattle = -1;	// last lastBattle to be written to file
+			let lastBattle = -1; // last lastBattle to be written to file
 			return () => {
 				if (writing) return;
 
@@ -375,7 +387,9 @@ class GlobalRoom {
 		);
 
 		// Create writestream for modlog
-		this.modlogStream = fs.createWriteStream(path.resolve(__dirname, 'logs/modlog/modlog_global.txt'), {flags:'a+'});
+		this.modlogStream = fs.createWriteStream(path.resolve(__dirname, 'logs/modlog/modlog_global.txt'), {
+			flags: 'a+'
+		});
 	}
 
 	reportUserStats() {
@@ -450,7 +464,12 @@ class GlobalRoom {
 		return roomTable;
 	}
 	getRooms(user) {
-		let roomsData = {official:[], chat:[], userCount: this.userCount, battleCount: this.battleCount};
+		let roomsData = {
+			official: [],
+			chat: [],
+			userCount: this.userCount,
+			battleCount: this.battleCount
+		};
 		for (let i = 0; i < this.chatRooms.length; i++) {
 			let room = this.chatRooms[i];
 			if (!room) continue;
@@ -525,7 +544,8 @@ class GlobalRoom {
 		if (user1.lastMatch === user2.userid || user2.lastMatch === user1.userid) return false;
 
 		// search must be within range
-		let searchRange = 100, elapsed = Date.now() - Math.min(search1.time, search2.time);
+		let searchRange = 100,
+			elapsed = Date.now() - Math.min(search1.time, search2.time);
 		if (formatid === 'ou' || formatid === 'oucurrent' || formatid === 'randombattle') searchRange = 50;
 		searchRange += elapsed / 300; // +1 every .3 seconds
 		if (searchRange > 300) searchRange = 300 + (searchRange - 300) / 10; // +1 every 3 sec after 300
@@ -553,7 +573,9 @@ class GlobalRoom {
 				delete user.searching[formatid];
 				delete searchUser.searching[formatid];
 				formatSearches.splice(i, 1);
-				this.startBattle(searchUser, user, formatid, search.team, newSearch.team, {rated: minRating});
+				this.startBattle(searchUser, user, formatid, search.team, newSearch.team, {
+					rated: minRating
+				});
 				return;
 			}
 		}
@@ -579,7 +601,9 @@ class GlobalRoom {
 					delete searchUser.searching[formatid];
 					formatSearches.splice(i, 1);
 					formatSearches.splice(0, 1);
-					this.startBattle(searchUser, longestSearcher, formatid, search.team, longestSearch.team, {rated: minRating});
+					this.startBattle(searchUser, longestSearcher, formatid, search.team, longestSearch.team, {
+						rated: minRating
+					});
 					return;
 				}
 			}
@@ -595,7 +619,8 @@ class GlobalRoom {
 	send(message, user) {
 		if (user) {
 			user.sendTo(this, message);
-		} else {
+		}
+		else {
 			Sockets.channelBroadcast(this.id, message);
 		}
 	}
@@ -682,8 +707,8 @@ class GlobalRoom {
 				continue;
 			}
 			if (room.staffAutojoin === true && user.isStaff ||
-					typeof room.staffAutojoin === 'string' && room.staffAutojoin.includes(user.group) ||
-					room.auth && user.userid in room.auth) {
+				typeof room.staffAutojoin === 'string' && room.staffAutojoin.includes(user.group) ||
+				room.auth && user.userid in room.auth) {
 				// if staffAutojoin is true: autojoin if isStaff
 				// if staffAutojoin is String: autojoin if user.group in staffAutojoin
 				// if staffAutojoin is anything truthy: autojoin if user has any roomauth
@@ -781,7 +806,9 @@ class GlobalRoom {
 		}
 		if (Config.logladderip && options.rated) {
 			if (!this.ladderIpLog) {
-				this.ladderIpLog = fs.createWriteStream('logs/ladderip/ladderip.txt', {flags: 'a'});
+				this.ladderIpLog = fs.createWriteStream('logs/ladderip/ladderip.txt', {
+					flags: 'a'
+				});
 			}
 			this.ladderIpLog.write(p1.userid + ': ' + p1.latestIp + '\n');
 			this.ladderIpLog.write(p2.userid + ': ' + p2.latestIp + '\n');
@@ -802,10 +829,12 @@ class GlobalRoom {
 					curRoom.addRaw(`<div class="broadcast-red"><b>The server needs to restart because of a crash:</b> ${stack}<br />Please restart the server.</div>`);
 					curRoom.addRaw(`<div class="broadcast-red">You will not be able to start new battles until the server restarts.</div>`);
 					curRoom.update();
-				} else {
+				}
+				else {
 					curRoom.addRaw(`<div class="broadcast-red"><b>The server needs restart because of a crash.</b><br />No new battles can be started until the server is done restarting.</div>`).update();
 				}
-			} else {
+			}
+			else {
 				curRoom.addRaw(`<div class="broadcast-red"><b>The server is restarting soon.</b><br />Please finish your battles quickly. No new battles can be started until the server resets in a few minutes.</div>`).update();
 			}
 			if (!slow && curRoom.requestKickInactive && !curRoom.battle.ended) {
@@ -832,7 +861,8 @@ class GlobalRoom {
 		const devRoom = Rooms('development');
 		if (devRoom) {
 			devRoom.add(crashMessage).update();
-		} else {
+		}
+		else {
 			if (Rooms.lobby) Rooms.lobby.add(crashMessage).update();
 			const staffRoom = Rooms('staff');
 			if (staffRoom) staffRoom.add(crashMessage).update();
@@ -874,13 +904,15 @@ class BattleRoom extends Room {
 		let rated;
 		if (options.rated && Tools.getFormat(formatid).rated !== false) {
 			rated = options.rated;
-		} else {
+		}
+		else {
 			rated = false;
 		}
 
 		if (options.tour) {
 			this.tour = options.tour;
-		} else {
+		}
+		else {
 			this.tour = false;
 		}
 
@@ -903,64 +935,69 @@ class BattleRoom extends Room {
 	push(message) {
 		if (typeof message === 'string') {
 			this.log.push(message);
-		} else {
+		}
+		else {
 			this.log = this.log.concat(message);
 		}
 	}
 	win(winner) {
-		// Declare variables here in case we need them for non-rated battles logging.
-		let p1score = 0.5;
-		let winnerid = toId(winner);
+			// Declare variables here in case we need them for non-rated battles logging.
+			let p1score = 0.5;
+			let winnerid = toId(winner);
 
-		// Check if the battle was rated to update the ladder, return its response, and log the battle.
-		if (this.rated) {
-			this.rated = false;
-			let p1 = this.battle.p1;
-			let p2 = this.battle.p2;
+			// Check if the battle was rated to update the ladder, return its response, and log the battle.
+			if (this.rated) {
+				this.rated = false;
+				let p1 = this.battle.p1;
+				let p2 = this.battle.p2;
 
-			if (winnerid === p1.userid) {
-				p1score = 1;
-			} else if (winnerid === p2.userid) {
-				p1score = 0;
+				if (winnerid === p1.userid) {
+					p1score = 1;
+				}
+				else if (winnerid === p2.userid) {
+					p1score = 0;
+				}
+
+				let p1name = p1.name;
+				let p2name = p2.name;
+
+				//update.updates.push('[DEBUG] uri: ' + Config.loginserver + 'action.php?act=ladderupdate&serverid=' + Config.serverid + '&p1=' + encodeURIComponent(p1) + '&p2=' + encodeURIComponent(p2) + '&score=' + p1score + '&format=' + toId(rated.format) + '&servertoken=[token]');
+
+				winner = Users.get(winnerid);
+				if (winner && !winner.registered) {
+					this.sendUser(winner, '|askreg|' + winner.userid);
+				}
+				// update rankings
+				Ladders(this.battle.format).updateRating(p1name, p2name, p1score, this);
 			}
-
-			let p1name = p1.name;
-			let p2name = p2.name;
-
-			//update.updates.push('[DEBUG] uri: ' + Config.loginserver + 'action.php?act=ladderupdate&serverid=' + Config.serverid + '&p1=' + encodeURIComponent(p1) + '&p2=' + encodeURIComponent(p2) + '&score=' + p1score + '&format=' + toId(rated.format) + '&servertoken=[token]');
-
-			winner = Users.get(winnerid);
-			if (winner && !winner.registered) {
-				this.sendUser(winner, '|askreg|' + winner.userid);
+			else if (Config.logchallenges) {
+				// Log challenges if the challenge logging config is enabled.
+				if (winnerid === this.p1.userid) {
+					p1score = 1;
+				}
+				else if (winnerid === this.p2.userid) {
+					p1score = 0;
+				}
+				this.update();
+				this.logBattle(p1score);
 			}
-			// update rankings
-			Ladders(this.battle.format).updateRating(p1name, p2name, p1score, this);
-		} else if (Config.logchallenges) {
-			// Log challenges if the challenge logging config is enabled.
-			if (winnerid === this.p1.userid) {
-				p1score = 1;
-			} else if (winnerid === this.p2.userid) {
-				p1score = 0;
+			else {
+				this.battle.logData = null;
+			}
+			if (Config.autosavereplays) {
+				let uploader = Users.get(winnerid);
+				if (uploader && uploader.connections[0]) {
+					Chat.parse('/savereplay', this, uploader, uploader.connections[0]);
+				}
+			}
+			if (this.tour) {
+				this.tour.onBattleWin(this, winnerid);
 			}
 			this.update();
-			this.logBattle(p1score);
-		} else {
-			this.battle.logData = null;
 		}
-		if (Config.autosavereplays) {
-			let uploader = Users.get(winnerid);
-			if (uploader && uploader.connections[0]) {
-				Chat.parse('/savereplay', this, uploader, uploader.connections[0]);
-			}
-		}
-		if (this.tour) {
-			this.tour.onBattleWin(this, winnerid);
-		}
-		this.update();
-	}
-	// logNum = 0    : spectator log (no exact HP)
-	// logNum = 1, 2 : player log (exact HP for that player)
-	// logNum = 3    : debug log (exact HP for all players)
+		// logNum = 0    : spectator log (no exact HP)
+		// logNum = 1, 2 : player log (exact HP for that player)
+		// logNum = 3    : debug log (exact HP for all players)
 	getLog(logNum) {
 		let log = [];
 		for (let i = 0; i < this.log.length; ++i) {
@@ -968,7 +1005,8 @@ class BattleRoom extends Room {
 			if (line === '|split') {
 				log.push(this.log[i + logNum + 1]);
 				i += 4;
-			} else {
+			}
+			else {
 				log.push(line);
 			}
 		}
@@ -994,7 +1032,8 @@ class BattleRoom extends Room {
 		if (!hasUsers) {
 			if (this.expireTimer) clearTimeout(this.expireTimer);
 			this.expireTimer = setTimeout(() => this.tryExpire(), TIMEOUT_EMPTY_DEALLOCATE);
-		} else {
+		}
+		else {
 			if (this.expireTimer) clearTimeout(this.expireTimer);
 			this.expireTimer = setTimeout(() => this.tryExpire(), TIMEOUT_INACTIVE_DEALLOCATE);
 		}
@@ -1091,7 +1130,8 @@ class BattleRoom extends Room {
 				if (inactiveTicksLeft % 3 === 0 || inactiveTicksLeft <= 4) {
 					this.send('|inactive|' + (inactiveUser ? inactiveUser.name : 'Player ' + (inactiveSide + 1)) + ' has ' + (inactiveTicksLeft * 10) + ' seconds left.');
 				}
-			} else {
+			}
+			else {
 				// both sides are inactive
 				let inactiveUser0 = this.getPlayer(0);
 				if (inactiveUser0 && (ticksLeft[0] % 3 === 0 || ticksLeft[0] <= 4)) {
@@ -1110,7 +1150,8 @@ class BattleRoom extends Room {
 		if (inactiveSide < 0) {
 			if (ticksLeft[0]) {
 				inactiveSide = 1;
-			} else if (ticksLeft[1]) {
+			}
+			else if (ticksLeft[1]) {
 				inactiveSide = 0;
 			}
 		}
@@ -1127,7 +1168,8 @@ class BattleRoom extends Room {
 			if (!force && !(user in this.game.players)) return false;
 			this.resetUser = user.userid;
 			this.send('|inactive|Battle timer is now ON: inactive players will automatically lose when time\'s up. (requested by ' + user.name + ')');
-		} else if (user === false) {
+		}
+		else if (user === false) {
 			this.resetUser = '~';
 			this.add('|inactive|Battle timer is ON: inactive players will automatically lose when time\'s up.');
 		}
@@ -1201,7 +1243,8 @@ class BattleRoom extends Room {
 						this.disconnectTickDiff[0] = this.sideTurnTicks[0] - 7;
 						this.sideTurnTicks[0] = 7;
 						changed = true;
-					} else if (p2inactive && inactiveSide === 1 && this.sideTurnTicks[1] > 7) {
+					}
+					else if (p2inactive && inactiveSide === 1 && this.sideTurnTicks[1] > 7) {
 						this.disconnectTickDiff[1] = this.sideTurnTicks[1] - 7;
 						this.sideTurnTicks[1] = 7;
 						changed = true;
@@ -1212,7 +1255,8 @@ class BattleRoom extends Room {
 						return true;
 					}
 				}
-			} else if (!p1inactive && !p2inactive) {
+			}
+			else if (!p1inactive && !p2inactive) {
 				// Only one of the following conditions should happen, but do
 				// them both since you never know...
 				if (this.disconnectTickDiff[0]) {
@@ -1241,10 +1285,12 @@ class BattleRoom extends Room {
 		if (user === null) {
 			this.modchatUser = '';
 			return;
-		} else if (user.can('modchat') || !this.modchatUser || this.modchatUser === user.userid) {
+		}
+		else if (user.can('modchat') || !this.modchatUser || this.modchatUser === user.userid) {
 			this.modchatUser = user.userid;
 			return;
-		} else {
+		}
+		else {
 			return "Only the user who set modchat and global staff can change modchat levels in battle rooms";
 		}
 	}
@@ -1382,8 +1428,11 @@ class ChatRoom extends Room {
 
 		if (this.isPersonal) {
 			this.modlogStream = Rooms.groupchatModlogStream;
-		} else {
-			this.modlogStream = fs.createWriteStream(path.resolve(__dirname, 'logs/modlog/modlog_' + roomid + '.txt'), {flags:'a+'});
+		}
+		else {
+			this.modlogStream = fs.createWriteStream(path.resolve(__dirname, 'logs/modlog/modlog_' + roomid + '.txt'), {
+				flags: 'a+'
+			});
 		}
 	}
 
@@ -1402,7 +1451,8 @@ class ChatRoom extends Room {
 		let mkdir = sync ? (path, mode, callback) => {
 			try {
 				fs.mkdirSync(path, mode);
-			} catch (e) {}	// directory already exists
+			}
+			catch (e) {} // directory already exists
 			callback();
 		} : fs.mkdir;
 		let date = new Date();
@@ -1416,20 +1466,25 @@ class ChatRoom extends Room {
 				if (path !== this.logFilename) {
 					this.logFilename = path;
 					if (this.logFile) this.logFile.destroySoon();
-					this.logFile = fs.createWriteStream(basepath + path, {flags: 'a'});
+					this.logFile = fs.createWriteStream(basepath + path, {
+						flags: 'a'
+					});
 					// Create a symlink to today's lobby log.
 					// These operations need to be synchronous, but it's okay
 					// because this code is only executed once every 24 hours.
 					let link0 = basepath + 'today.txt.0';
 					try {
 						fs.unlinkSync(link0);
-					} catch (e) {} // file doesn't exist
+					}
+					catch (e) {} // file doesn't exist
 					try {
 						fs.symlinkSync(path, link0); // `basepath` intentionally not included
 						try {
 							fs.renameSync(link0, basepath + 'today.txt');
-						} catch (e) {} // OS doesn't support atomic rename
-					} catch (e) {} // OS doesn't support symlinks
+						}
+						catch (e) {} // OS doesn't support atomic rename
+					}
+					catch (e) {} // OS doesn't support symlinks
 				}
 				let currentTime = date.getTime();
 				let nextHour = new Date(date.setMinutes(60)).setSeconds(1);
@@ -1441,10 +1496,11 @@ class ChatRoom extends Room {
 		this.destroyingLog = true;
 		initialCallback();
 		if (this.logFile) {
-			this.logEntry = function () { };
+			this.logEntry = function () {};
 			this.logFile.on('close', finalCallback);
 			this.logFile.destroySoon();
-		} else {
+		}
+		else {
 			finalCallback();
 		}
 	}
@@ -1463,7 +1519,8 @@ class ChatRoom extends Room {
 			}
 			if (this.auth && this.auth[user.userid] && this.auth[user.userid] in groups) {
 				++groups[this.auth[user.userid]];
-			} else {
+			}
+			else {
 				++groups[user.group];
 			}
 		}
@@ -1501,7 +1558,8 @@ class ChatRoom extends Room {
 			}
 
 			this.reportJoinsQueue.push(entry);
-		} else {
+		}
+		else {
 			this.send(entry);
 		}
 		this.logEntry(entry);
@@ -1535,7 +1593,7 @@ class ChatRoom extends Room {
 	}
 	getIntroMessage(user) {
 		let message = '';
-		if (this.introMessage) message += '\n|raw|<div class="infobox infobox-roomintro"><div' + (!this.isOfficial ? ' class="infobox-limited"' : '') + '>' + this.introMessage.replace(/\n/g, '') + '</div>';
+		if (this.introMessage) message += '\n|raw|<div class="infobox infobox-roomintro"><div' + (!this.isOfficial ? ' class="infobox-unlimited"' : '') + '>' + this.introMessage.replace(/\n/g, '') + '</div>';
 		if (this.staffMessage && user.can('mute', null, this)) message += (message ? '<br />' : '\n|raw|<div class="infobox">') + '(Staff intro:)<br /><div>' + this.staffMessage.replace(/\n/g, '') + '</div>';
 		if (this.modchat) {
 			message += (message ? '<br />' : '\n|raw|<div class="infobox">') + '<div class="broadcast-red">' +
@@ -1566,22 +1624,24 @@ class ChatRoom extends Room {
 		return user;
 	}
 	onRename(user, oldid, joining) {
-		delete this.users[oldid];
-		this.users[user.userid] = user;
-		if (joining) {
-			this.reportJoin('j', user.getIdentity(this.id));
-			if (this.staffMessage && user.can('mute', null, this)) this.sendUser(user, '|raw|<div class="infobox">(Staff intro:)<br /><div>' + this.staffMessage.replace(/\n/g, '') + '</div></div>');
-		} else if (!user.named) {
-			this.reportJoin('l', oldid);
-		} else {
-			this.reportJoin('n', user.getIdentity(this.id) + '|' + oldid);
+			delete this.users[oldid];
+			this.users[user.userid] = user;
+			if (joining) {
+				this.reportJoin('j', user.getIdentity(this.id));
+				if (this.staffMessage && user.can('mute', null, this)) this.sendUser(user, '|raw|<div class="infobox">(Staff intro:)<br /><div>' + this.staffMessage.replace(/\n/g, '') + '</div></div>');
+			}
+			else if (!user.named) {
+				this.reportJoin('l', oldid);
+			}
+			else {
+				this.reportJoin('n', user.getIdentity(this.id) + '|' + oldid);
+			}
+			if (this.poll && user.userid in this.poll.voters) this.poll.updateFor(user);
+			return user;
 		}
-		if (this.poll && user.userid in this.poll.voters) this.poll.updateFor(user);
-		return user;
-	}
-	/**
-	 * onRename, but without a userid change
-	 */
+		/**
+		 * onRename, but without a userid change
+		 */
 	onUpdateIdentity(user) {
 		if (user && user.connected && user.named) {
 			if (!this.users[user.userid]) return false;
@@ -1679,8 +1739,12 @@ Rooms.createChatRoom = function (roomid, title, data) {
 	return room;
 };
 
-Rooms.battleModlogStream = fs.createWriteStream(path.resolve(__dirname, 'logs/modlog/modlog_battle.txt'), {flags:'a+'});
-Rooms.groupchatModlogStream = fs.createWriteStream(path.resolve(__dirname, 'logs/modlog/modlog_groupchat.txt'), {flags:'a+'});
+Rooms.battleModlogStream = fs.createWriteStream(path.resolve(__dirname, 'logs/modlog/modlog_battle.txt'), {
+	flags: 'a+'
+});
+Rooms.groupchatModlogStream = fs.createWriteStream(path.resolve(__dirname, 'logs/modlog/modlog_groupchat.txt'), {
+	flags: 'a+'
+});
 
 Rooms.global = null;
 Rooms.lobby = null;
