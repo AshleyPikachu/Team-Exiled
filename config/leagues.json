@@ -1,0 +1,3 @@
+{
+	"league": {"name":"league","id":"league","pendingInvites":[],"points":0,"desc":"","badges":{},"users":["valianthawk"],"ranks":{"owner":{"title":"Owner","users":["valianthawk"],"permissions":{"all":true},"sortBy":100},"champion":{"title":"Champion","users":[],"permissions":{"invite":true,"kick":true,"desc":true,"masspm":true,"promote":true,"editbadges":true,"manageranks":true},"sortBy":8},"elitefour":{"title":"Elite Four","users":[],"permissions":{"lvl":true},"sortBy":6},"gymleader":{"title":"Gym Leader","users":[],"permissions":{"givebadge":true},"sortBy":4},"trainer":{"title":"Trainer","users":[],"permissions":{},"sortBy":2}}}
+}

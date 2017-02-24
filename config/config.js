@@ -2,6 +2,7 @@
 
 // The server port - the port to run Pokemon Showdown under
 exports.port = 8080;
+exports.serverid = 'exiled';
 
 // proxyip - proxy IPs with trusted X-Forwarded-For headers
 //   This can be either false (meaning not to trust any proxies) or an array
@@ -27,20 +28,22 @@ exports.crashguard = true;
 //   Don't change this setting - there aren't any other login servers right now
 exports.loginserver = 'http://play.pokemonshowdown.com/';
 exports.loginserverkeyalgo = "RSA-SHA1";
-exports.loginserverpublickeyid = 2;
-exports.loginserverpublickey = "-----BEGIN RSA PUBLIC KEY-----\n" +
-	"MIICCgKCAgEAtFldA2rTCsPgqsp1odoH9vwhf5+QGIlOJO7STyY73W2+io33cV7t\n" +
-	"ReNuzs75YBkZ3pWoDn2be0eb2UqO8dM3xN419FdHNORQ897K9ogoeSbLNQwyA7XB\n" +
-	"N/wpAg9NpNu00wce2zi3/+4M/2H+9vlv2/POOj1epi6cD5hjVnAuKsuoGaDcByg2\n" +
-	"EOullPh/00TkEkcyYtaBknZpED0lt/4ekw16mjHKcbo9uFiw+tu5vv7DXOkfciW+\n" +
-	"9ApyYbNksC/TbDIvJ2RjzR9G33CPE+8J+XbS7U1jPvdFragCenz+B3AiGcPZwT66\n" +
-	"dvHAOYRus/w5ELswOVX/HvHUb/GRrh4blXWUDn4KpjqtlwqY4H2oa+h9tEENCk8T\n" +
-	"BWmv3gzGBM5QcehNsyEi9+1RUAmknqJW0QOC+kifbjbo/qtlzzlSvtbr4MwghCFe\n" +
-	"1EfezeNAtqwvICznq8ebsGETyPSqI7fSbpmVULkKbebSDw6kqDnQso3iLjSX9K9C\n" +
-	"0rwxwalCs/YzgX9Eq4jdx6yAHd7FNGEx4iu8qM78c7GKCisygZxF8kd0B7V7a5UO\n" +
-	"wdlWIlTxJ2dfCnnJBFEt/wDsL54q8KmGbzOTvRq5uz/tMvs6ycgLVgA9r1xmVU+1\n" +
-	"6lMr2wdSzyG7l3X3q1XyQ/CT5IP4unFs5HKpG31skxlfXv5a7KW5AfsCAwEAAQ==\n" +
-	"-----END RSA PUBLIC KEY-----\n";
+exports.loginserverpublickeyid = 4;
+exports.loginserverpublickey = `-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAzfWKQXg2k8c92aiTyN37
+dl76iW0aeAighgzeesdar4xZT1A9yzLpj2DgR8F8rh4R32/EVOPmX7DCf0bYWeh3
+QttP0HVKKKfsncJZ9DdNtKj1vWdUTklH8oeoIZKs54dwWgnEFKzb9gxqu+z+FJoQ
+vPnvfjCRUPA84O4kqKSuZT2qiWMFMWNQPXl87v+8Atb+br/WXvZRyiLqIFSG+ySn
+Nwx6V1C8CA1lYqcPcTfmQs+2b4SzUa8Qwkr9c1tZnXlWIWj8dVvdYtlo0sZZBfAm
+X71Rsp2vwEleSFKV69jj+IzAfNHRRw+SADe3z6xONtrJOrp+uC/qnLNuuCfuOAgL
+dnUVFLX2aGH0Wb7ZkriVvarRd+3otV33A8ilNPIoPb8XyFylImYEnoviIQuv+0VW
+RMmQlQ6RMZNr6sf9pYMDhh2UjU11++8aUxBaso8zeSXC9hhp7mAa7OTxts1t3X57
+72LqtHHEzxoyLj/QDJAsIfDmUNAq0hpkiRaXb96wTh3IyfI/Lqh+XmyJuo+S5GSs
+RhlSYTL4lXnj/eOa23yaqxRihS2MT9EZ7jNd3WVWlWgExIS2kVyZhL48VA6rXDqr
+Ko0LaPAMhcfETxlFQFutoWBRcH415A/EMXJa4FqYa9oeXWABNtKkUW0zrQ194btg
+Y929lRybWEiKUr+4Yw2O1W0CAwEAAQ==
+-----END PUBLIC KEY-----
+`;
 
 // crashguardemail - if the server has been running for more than an hour
 //   and crashes, send an email using these settings, rather than locking down
@@ -151,6 +154,7 @@ exports.logchallenges = false;
 // lobby log. This has no effect if `logchat` is disabled.
 exports.loguserstats = 1000 * 60 * 10; // 10 minutes
 
+exports.tellsexpiryage = 1000 * 60 * 60 * 24 * 7;
 // validatorprocesses - the number of processes to use for validating teams
 // simulatorprocesses - the number of processes to use for handling battles
 // You should leave both of these at 1 unless your server has a very large
@@ -160,7 +164,8 @@ exports.simulatorprocesses = 1;
 
 // inactiveuserthreshold - how long a user must be inactive before being pruned
 // from the `users` array. The default is 1 hour.
-exports.inactiveuserthreshold = 1000 * 60 * 60;
+// Set to 7 days
+exports.inactiveuserthreshold = 1000 * 60 * 60 * 24 * 7;
 
 // tellsexpiryage - how long an offline message remains in existence before being removed.
 // By default, 7 days
@@ -189,12 +194,12 @@ exports.customavatars = {
 // the room 'tournaments').
 // tourannouncements - announcements are only allowed in these rooms
 exports.tourroom = 'Lobby';
-exports.tourannouncements = ['tournaments'];
+exports.tourannouncements = ['tournaments', 'sotascapfun', 'events', 'casino', 'lobby', 'gamecorner', 'exiledmetas', 'spammerino'];
 
 // appealurl - specify a URL containing information on how users can appeal
 // disciplinary actions on your section. You can also leave this blank, in
 // which case users won't be given any information on how to appeal.
-exports.appealurl = 'http://exiledps.boards.net/thread/2/make-discipline-appeal';
+exports.appealurl = 'http://exiledps.boards.net/board/5/appeals';
 
 // replsocketprefix - the prefix for the repl sockets to be listening on
 // replsocketmode - the file mode bits to use for the repl sockets
@@ -264,6 +269,7 @@ exports.grouplist = [{
 	id: "god",
 	name: "God",
 	root: true,
+	globalonly: true,
 }, {
 	symbol: '#',
 	id: "owner",
@@ -287,10 +293,10 @@ exports.grouplist = [{
 	inherit: '@',
 	jurisdiction: '@u',
 	promote: 'u',
+	ignorelimits: true,
 	roomowner: true,
 	roombot: true,
 	hotpatch: true,
-	ignorelimits: true,
 	battlemessage: true,
 	roommod: true,
 	roomdriver: true,
@@ -311,7 +317,6 @@ exports.grouplist = [{
 	inherit: '+',
 	roomvoice: true,
 	modchat: true,
-	roomonly: true,
 	editroom: true,
 	joinbattle: true,
 	nooverride: true,
@@ -333,10 +338,9 @@ exports.grouplist = [{
 	modchat: true,
 	roomvoice: true,
 	forcerename: true,
+	receivemutedpms: true,
 	ip: true,
 	alts: '@u',
-	tournaments: true,
-	game: true,
 }, {
 	symbol: '%',
 	id: "driver",
@@ -354,16 +358,20 @@ exports.grouplist = [{
 	alts: '%u',
 	bypassblocks: 'u%@&~',
 	receiveauthmessages: true,
-	tournamentsmoderation: true,
-	jeopardy: true,
 	joinbattle: true,
-	minigame: true,
 }, {
 	symbol: '+',
 	id: "voice",
 	name: "Voice",
 	inherit: ' ',
 	alts: 's',
+	tournamentsmanagement: true,
+	tournamentsmoderation: true,
+	tournaments: true,
+	games: true,
+	gamemanagement: true,
+	minigame: true,
+	jeopardy: true,
 	broadcast: true,
 }, {
 	symbol: ' ',
