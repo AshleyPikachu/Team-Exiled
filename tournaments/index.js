@@ -4,6 +4,9 @@ const BRACKET_MINIMUM_UPDATE_INTERVAL = 2 * 1000;
 const AUTO_DISQUALIFY_WARNING_TIMEOUT = 30 * 1000;
 const AUTO_START_MINIMUM_TIMEOUT = 30 * 1000;
 const MAX_REASON_LENGTH = 300;
+const TOURBAN_DURATION = 14 * 24 * 60 * 60 * 1000;
+
+Punishments.roomPunishmentTypes.set('TOURBAN', 'banned from tournaments');
 
 let TournamentGenerators = Object.create(null);
 let generatorFiles = {
@@ -30,7 +33,7 @@ class Tournament {
 		this.allowRenames = false;
 		this.players = Object.create(null);
 		this.playerCount = 0;
-		this.playerCap = parseInt(playerCap) || Config.tournamentDefaultPlayerCap || 0;
+		this.playerCap = parseInt(playerCap) || Config.tourdefaultplayercap || 0;
 
 		this.format = format;
 		this.banlist = [];
@@ -38,8 +41,9 @@ class Tournament {
 		this.isRated = isRated;
 		this.scouting = true;
 		this.modjoin = false;
+		this.forceTimer = false;
 		this.autostartcap = false;
-		if (Config.tournamentDefaultPlayerCap && this.playerCap > Config.tournamentDefaultPlayerCap) {
+		if (Config.tourdefaultplayercap && this.playerCap > Config.tourdefaultplayercap) {
 			Monitor.log('[TourMonitor] Room ' + room.id + ' starting a tour over default cap (' + this.playerCap + ')');
 		}
 
@@ -92,7 +96,9 @@ class Tournament {
 		if (isErrored) return;
 
 		this.generator = generator;
-		this.room.send('|tournament|update|' + JSON.stringify({generator: generator.name}));
+		this.room.send('|tournament|update|' + JSON.stringify({
+			generator: generator.name,
+		}));
 		this.isBracketInvalidated = true;
 		this.update();
 		return true;
@@ -122,13 +128,15 @@ class Tournament {
 				if (format.unbanlist && format.unbanlist.includes(ban)) continue;
 				oppositeBan = ban;
 				ban = '!' + ban;
-			} else {
+			}
+			else {
 				oppositeBan = '!' + ban;
 			}
 			let index = banlist.indexOf(oppositeBan);
 			if (index > -1) {
 				banlist.splice(index, 1);
-			} else {
+			}
+			else {
 				if (!format.banlist || !format.banlist.includes(ban)) banlist.push(ban);
 			}
 		}
@@ -149,7 +157,8 @@ class Tournament {
 					match.room.addRaw("<div class=\"broadcast-red\"><b>The tournament was forcefully ended.</b><br />You can finish playing, but this battle is no longer considered a tournament battle.</div>");
 				}
 			});
-		} else if (this.autoStartTimer) {
+		}
+		else if (this.autoStartTimer) {
 			clearTimeout(this.autoStartTimer);
 		}
 		for (let i in this.players) {
@@ -188,9 +197,14 @@ class Tournament {
 			let pendingChallenge = this.pendingChallenges.get(this.players[targetUser.userid]);
 			if (pendingChallenge) {
 				if (pendingChallenge.to) {
-					connection.sendTo(this.room, '|tournament|update|' + JSON.stringify({challenging: pendingChallenge.to.name}));
-				} else if (pendingChallenge.from) {
-					connection.sendTo(this.room, '|tournament|update|' + JSON.stringify({challenged: pendingChallenge.from.name}));
+					connection.sendTo(this.room, '|tournament|update|' + JSON.stringify({
+						challenging: pendingChallenge.to.name,
+					}));
+				}
+				else if (pendingChallenge.from) {
+					connection.sendTo(this.room, '|tournament|update|' + JSON.stringify({
+						challenged: pendingChallenge.from.name,
+					}));
 				}
 			}
 		}
@@ -207,12 +221,15 @@ class Tournament {
 					this.bracketUpdateTimer = null;
 					this.update();
 				}, BRACKET_MINIMUM_UPDATE_INTERVAL);
-			} else {
+			}
+			else {
 				this.lastBracketUpdate = Date.now();
 
 				this.bracketCache = this.getBracketData();
 				this.isBracketInvalidated = false;
-				this.room.send('|tournament|update|' + JSON.stringify({bracketData: this.bracketCache}));
+				this.room.send('|tournament|update|' + JSON.stringify({
+					bracketData: this.bracketCache,
+				}));
 			}
 		}
 
@@ -221,13 +238,21 @@ class Tournament {
 			this.isAvailableMatchesInvalidated = false;
 
 			this.availableMatchesCache.challenges.forEach((opponents, player) => {
-				player.sendRoom('|tournament|update|' + JSON.stringify({challenges: usersToNames(opponents)}));
+				player.sendRoom('|tournament|update|' + JSON.stringify({
+					challenges: usersToNames(opponents),
+				}));
 			});
 			this.availableMatchesCache.challengeBys.forEach((opponents, player) => {
-				player.sendRoom('|tournament|update|' + JSON.stringify({challengeBys: usersToNames(opponents)}));
+				player.sendRoom('|tournament|update|' + JSON.stringify({
+					challengeBys: usersToNames(opponents),
+				}));
 			});
 		}
 		this.room.send('|tournament|updateEnd');
+	}
+
+	checkBanned(user) {
+		return Punishments.getRoomPunishType(this.room, toId(user)) === 'TOURBAN';
 	}
 
 	removeBannedUser(user) {
@@ -236,7 +261,8 @@ class Tournament {
 			if (!this.disqualifiedUsers.get(this.players[user.userid])) {
 				this.disqualifyUser(user.userid, user, null);
 			}
-		} else {
+		}
+		else {
 			this.removeUser(user);
 		}
 		this.room.update();
@@ -258,9 +284,14 @@ class Tournament {
 			return;
 		}
 
+		if (this.checkBanned(user)) {
+			output.sendReply('|tournament|error|Banned');
+			return;
+		}
+
 		let gameCount = user.games.size;
-		if (gameCount > 4) {
-			output.errorReply("Due to high load, you are limited to 4 games at the same time.");
+		if (gameCount > 100) {
+			output.errorReply("Due to high load, you are limited to 100 games at the same time.");
 			return;
 		}
 
@@ -292,7 +323,8 @@ class Tournament {
 		if (this.playerCount === this.playerCap) {
 			if (this.autostartcap === true) {
 				this.startTournament(output);
-			} else {
+			}
+			else {
 				this.room.add("The tournament is now full.");
 			}
 		}
@@ -370,7 +402,8 @@ class Tournament {
 					queue.push(child);
 				});
 			}
-		} else if (data.type === 'table') {
+		}
+		else if (data.type === 'table') {
 			if (this.isTournamentStarted) {
 				data.tableContents.forEach((row, r) => {
 					let pendingChallenge = this.pendingChallenges.get(data.tableHeaders.rows[r]);
@@ -486,9 +519,11 @@ class Tournament {
 		let sendReply;
 		if (output) {
 			sendReply = msg => output.sendReply(msg);
-		} else if (user) {
+		}
+		else if (user) {
 			sendReply = msg => user.sendTo(this.id, msg);
-		} else {
+		}
+		else {
 			sendReply = () => {};
 		}
 		if (!this.isTournamentStarted) {
@@ -513,6 +548,9 @@ class Tournament {
 			return false;
 		}
 
+		user.tourBoost = false;
+		user.gameBoost = false;
+
 		this.disqualifiedUsers.set(player, true);
 		this.generator.setUserBusy(player, false);
 
@@ -523,7 +561,8 @@ class Tournament {
 				this.generator.setUserBusy(challenge.to, false);
 				this.pendingChallenges.set(challenge.to, null);
 				challenge.to.sendRoom('|tournament|update|{"challenged":null}');
-			} else if (challenge.from) {
+			}
+			else if (challenge.from) {
 				this.generator.setUserBusy(challenge.from, false);
 				this.pendingChallenges.set(challenge.from, null);
 				challenge.from.sendRoom('|tournament|update|{"challenging":null}');
@@ -560,7 +599,8 @@ class Tournament {
 
 		if (this.generator.isTournamentEnded()) {
 			this.onTournamentEnd();
-		} else {
+		}
+		else {
 			this.update();
 		}
 
@@ -581,7 +621,8 @@ class Tournament {
 		if (this.autoStartTimer) clearTimeout(this.autoStartTimer);
 		if (timeout === Infinity) {
 			this.room.add('|tournament|autostart|off');
-		} else {
+		}
+		else {
 			this.autoStartTimer = setTimeout(() => this.startTournament(output), timeout);
 			this.room.add('|tournament|autostart|on|' + timeout);
 		}
@@ -601,7 +642,8 @@ class Tournament {
 			this.room.add('|tournament|autodq|off');
 			if (this.autoDisqualifyTimer) clearTimeout(this.autoDisqualifyTimer);
 			if (this.autoDisqualifyWarnings) this.autoDisqualifyWarnings.clear();
-		} else {
+		}
+		else {
 			this.room.add('|tournament|autodq|on|' + this.autoDisqualifyTimeout);
 			if (this.isTournamentStarted) this.runAutoDisqualify();
 		}
@@ -630,12 +672,14 @@ class Tournament {
 				let reason;
 				if (pendingChallenge && pendingChallenge.from) {
 					reason = "You failed to accept your opponent's challenge in time.";
-				} else {
+				}
+				else {
 					reason = "You failed to challenge your opponent in time.";
 				}
 				this.disqualifyUser(player.userid, output, reason);
 				this.room.update();
-			} else if (now > time + this.autoDisqualifyTimeout - AUTO_DISQUALIFY_WARNING_TIMEOUT) {
+			}
+			else if (now > time + this.autoDisqualifyTimeout - AUTO_DISQUALIFY_WARNING_TIMEOUT) {
 				if (this.autoDisqualifyWarnings.has(player)) return;
 				let remainingTime = this.autoDisqualifyTimeout - now + time;
 				if (remainingTime <= 0) {
@@ -645,7 +689,8 @@ class Tournament {
 
 				this.autoDisqualifyWarnings.set(player, true);
 				player.sendRoom('|tournament|autodq|target|' + remainingTime);
-			} else {
+			}
+			else {
 				this.autoDisqualifyWarnings.delete(player);
 			}
 		});
@@ -701,10 +746,20 @@ class Tournament {
 		}
 
 		this.lastActionTimes.set(to, Date.now());
-		this.pendingChallenges.set(from, {to: to, team: user.team});
-		this.pendingChallenges.set(to, {from: from, team: user.team});
-		from.sendRoom('|tournament|update|' + JSON.stringify({challenging: to.name}));
-		to.sendRoom('|tournament|update|' + JSON.stringify({challenged: from.name}));
+		this.pendingChallenges.set(from, {
+			to: to,
+			team: user.team,
+		});
+		this.pendingChallenges.set(to, {
+			from: from,
+			team: user.team,
+		});
+		from.sendRoom('|tournament|update|' + JSON.stringify({
+			challenging: to.name,
+		}));
+		to.sendRoom('|tournament|update|' + JSON.stringify({
+			challenged: from.name,
+		}));
 
 		this.isBracketInvalidated = true;
 		this.update();
@@ -764,7 +819,10 @@ class Tournament {
 		let player = this.players[user.userid];
 		if (!this.pendingChallenges.get(player)) return;
 
-		let room = Rooms.global.startBattle(from, user, this.format, challenge.team, user.team, {rated: this.isRated, tour: this});
+		let room = Rooms.global.startBattle(from, user, this.format, challenge.team, user.team, {
+			rated: this.isRated,
+			tour: this,
+		});
 		if (!room) return;
 
 		this.pendingChallenges.set(challenge.from, null);
@@ -772,11 +830,15 @@ class Tournament {
 		from.sendTo(this.room, '|tournament|update|{"challenging":null}');
 		user.sendTo(this.room, '|tournament|update|{"challenged":null}');
 
-		this.inProgressMatches.set(challenge.from, {to: player, room: room});
+		this.inProgressMatches.set(challenge.from, {
+			to: player,
+			room: room,
+		});
 		this.room.add('|tournament|battlestart|' + from.name + '|' + user.name + '|' + room.id).update();
 
 		this.isBracketInvalidated = true;
 		if (this.autoDisqualifyTimeout !== Infinity) this.runAutoDisqualify(this.room);
+		if (this.forceTimer) room.requestKickInactive(false);
 		this.update();
 	}
 	forfeit(user) {
@@ -792,7 +854,8 @@ class Tournament {
 		if (oldUserid in this.players) {
 			if (user.userid === oldUserid) {
 				this.players[user.userid].name = user.name;
-			} else {
+			}
+			else {
 				this.players[user.userid] = this.players[oldUserid];
 				this.players[user.userid].userid = user.userid;
 				this.players[user.userid].name = user.name;
@@ -821,7 +884,8 @@ class Tournament {
 		let result = 'draw';
 		if (from === winner) {
 			result = 'win';
-		} else if (to === winner) {
+		}
+		else if (to === winner) {
 			result = 'loss';
 		}
 
@@ -857,7 +921,8 @@ class Tournament {
 
 		if (this.generator.isTournamentEnded()) {
 			this.onTournamentEnd();
-		} else {
+		}
+		else {
 			if (this.autoDisqualifyTimeout !== Infinity) this.runAutoDisqualify();
 			this.update();
 		}
@@ -872,9 +937,70 @@ class Tournament {
 		}));
 		this.isEnded = true;
 		if (this.autoDisqualifyTimer) clearTimeout(this.autoDisqualifyTimer);
+
+		//
+		// Tournament Winnings
+		//
+
+		let color = '#088cc7';
+		let sizeRequiredToEarn = 2;
+		let data = this.generator.getResults().map(usersToNames).toString();
+		let winner, runnerUp;
+
+		if (data.indexOf(',') >= 0) {
+			data = data.split(',');
+			winner = data[0];
+			if (data[1]) runnerUp = data[1];
+		}
+		else {
+			winner = data;
+		}
+
+		let wid = toId(winner);
+		let rid = toId(runnerUp);
+		let tourSize = this.generator.users.size;
+
+		if ((tourSize >= sizeRequiredToEarn) && this.room.isOfficial) {
+			let firstMoney = Math.round(tourSize / 2);
+			if (firstMoney < 2) firstMoney = 2;
+			if (Db('userBadges').has(wid) && Db('userBadges').get(wid).indexOf('Tournament Champion') > -1) firstMoney = Math.ceil(firstMoney * 1.5);
+			if (Users(wid).tourBoost) firstMoney *= 2;
+			if (Users(wid).gameBoost) firstMoney *= 2;
+			let secondMoney = Math.round(firstMoney / 2);
+			if (runnerUp) {
+				if (Users(rid).tourBoost) secondMoney *= 2;
+				if (Users(rid).gameBoost) secondMoney *= 2;
+				if (Db('userBadges').has(rid) && Db('userBadges').get(rid).indexOf('Tournament Champion') > -1) secondMoney = Math.ceil(firstMoney * 1.5);
+			}
+
+			Economy.writeMoney(wid, firstMoney, () => {
+				Economy.readMoney(wid, newAmount => {
+					if (Users(wid) && Users(wid).connected) {
+						Users.get(wid).popup('|html|You have received ' + firstMoney + ' ' + (firstMoney === 1 ? global.moneyName : global.moneyPlural) + ' from winning the tournament.');
+					}
+					Economy.logTransaction(Chat.escapeHTML(winner) + ' has won ' + firstMoney + ' ' + (firstMoney === 1 ? global.moneyName : global.moneyPlural) + ' from a tournament.');
+				});
+			});
+			this.room.addRaw("<b><font color='" + color + "'>" + Chat.escapeHTML(winner) + "</font> has won " + "<font color='" + color + "'>" + firstMoney + " </font>" + (firstMoney === 1 ? global.moneyName : global.moneyPlural) + " for winning the tournament!</b>");
+
+			if (runnerUp) {
+				Economy.writeMoney(rid, secondMoney, () => {
+					Economy.readMoney(rid, newAmount => {
+						if (Users(rid) && Users(rid).connected) {
+							Users.get(rid).popup('|html|You have received ' + secondMoney + ' ' + (secondMoney === 1 ? global.moneyName : global.moneyPlural) + ' from winning the tournament.');
+						}
+						Economy.logTransaction(Chat.escapeHTML(runnerUp) + ' has won ' + secondMoney + ' ' + (secondMoney === 1 ? global.moneyName : global.moneyPlural) + ' from a tournament.');
+					});
+				});
+				this.room.addRaw("<b><font color='" + color + "'>" + Chat.escapeHTML(runnerUp) + "</font> has won " + "<font color='" + color + "'>" + secondMoney + "</font>" + (firstMoney === 1 ? global.moneyName : global.moneyPlural) + " for winning the tournament!</b>");
+			}
+		}
+
 		delete exports.tournaments[this.room.id];
 		delete this.room.game;
 		for (let i in this.players) {
+			Users(this.players[i].userid).tourBoost = false;
+			Users(this.players[i].userid).gameBoost = false;
 			this.players[i].destroy();
 		}
 	}
@@ -888,8 +1014,9 @@ function createTournamentGenerator(generator, args, output) {
 		return;
 	}
 	args.unshift(null);
-	return new (Generator.bind.apply(Generator, args))();
+	return new(Generator.bind.apply(Generator, args))();
 }
+
 function createTournament(room, format, generator, playerCap, isRated, args, output) {
 	if (room.type !== 'chat') {
 		output.errorReply("Tournaments can only be created in chat rooms.");
@@ -921,6 +1048,7 @@ function createTournament(room, format, generator, playerCap, isRated, args, out
 	room.game = exports.tournaments[room.id] = new Tournament(room, format, createTournamentGenerator(generator, args, output), playerCap, isRated);
 	return room.game;
 }
+
 function deleteTournament(id, output) {
 	let tournament = exports.tournaments[id];
 	if (!tournament) {
@@ -933,6 +1061,7 @@ function deleteTournament(id, output) {
 	if (room) delete room.game;
 	return true;
 }
+
 function getTournament(id, output) {
 	if (exports.tournaments[id]) {
 		return exports.tournaments[id];
@@ -952,10 +1081,12 @@ let commands = {
 			if (tournament.isTournamentStarted) {
 				if (tournament.generator.getUsers(true).some(player => player.userid === user.userid)) {
 					tournament.disqualifyUser(user.userid, this);
-				} else {
+				}
+				else {
 					this.errorReply("You have already been eliminated from this tournament.");
 				}
-			} else {
+			}
+			else {
 				tournament.removeUser(user, this);
 			}
 		},
@@ -998,10 +1129,11 @@ let commands = {
 			if (generator && tournament.setGenerator(generator, this)) {
 				if (playerCap && playerCap >= 2) {
 					tournament.playerCap = playerCap;
-					if (Config.tournamentDefaultPlayerCap && tournament.playerCap > Config.tournamentDefaultPlayerCap) {
+					if (Config.tourdefaultplayercap && tournament.playerCap > Config.tourdefaultplayercap) {
 						Monitor.log('[TourMonitor] Room ' + tournament.room.id + ' starting a tour over default cap (' + tournament.playerCap + ')');
 					}
-				} else if (tournament.playerCap && !playerCap) {
+				}
+				else if (tournament.playerCap && !playerCap) {
 					tournament.playerCap = 0;
 				}
 				const capNote = (tournament.playerCap ? " with a player cap of " + tournament.playerCap : "");
@@ -1073,15 +1205,18 @@ let commands = {
 			if (option === 'on' || option === 'true' || option === 'start') {
 				if (tournament.isTournamentStarted) {
 					return this.errorReply("The tournament has already started.");
-				} else if (!tournament.playerCap) {
+				}
+				else if (!tournament.playerCap) {
 					return this.errorReply("The tournament does not have a player cap set.");
-				} else {
+				}
+				else {
 					if (tournament.autostartcap) return this.errorReply("The tournament is already set to autostart when the player cap is reached.");
 					tournament.autostartcap = true;
 					this.room.add("The tournament will start once " + tournament.playerCap + " players have joined.");
 					this.privateModCommand("(The tournament was set to autostart when the player cap is reached by " + user.name + ")");
 				}
-			} else {
+			}
+			else {
 				if (option === '0' || option === 'infinity' || option === 'off' || option === 'false' || option === 'stop' || option === 'remove') {
 					if (!tournament.autostartcap && tournament.autoStartTimeout === Infinity) return this.errorReply("The automatic tournament start timer is already off.");
 					params[0] = 'off';
@@ -1098,7 +1233,8 @@ let commands = {
 			if (params.length < 1) {
 				if (tournament.autoDisqualifyTimeout !== Infinity) {
 					return this.sendReply("Usage: " + cmd + " <minutes|off>; The current automatic disqualify timer is set to " + (tournament.autoDisqualifyTimeout / 1000 / 60) + " minute(s)");
-				} else {
+				}
+				else {
 					return this.sendReply("Usage: " + cmd + " <minutes|off>");
 				}
 			}
@@ -1114,6 +1250,33 @@ let commands = {
 			tournament.runAutoDisqualify(this);
 			this.logEntry(user.name + " used /tour runautodq");
 		},
+		remind: function (tournament, user) {
+			let users = tournament.generator.getAvailableMatches().toString().split(',');
+			let offlineUsers = [];
+			for (let u = 0; u < users.length; u++) {
+				let targetUser = Users.get(users[u]);
+				if (!targetUser) {
+					offlineUsers.push(users[u]);
+					continue;
+				}
+				else if (!targetUser.connected) {
+					offlineUsers.push(targetUser.userid);
+					continue;
+				}
+				else {
+					let pmName = ' Tour Remind [Do not reply]';
+					let message = '|pm|' + pmName + '|' + user.getIdentity() + '|' + 'You have a tournament battle in the room "' + tournament.room.title + '". If you do not start soon you may be disqualified.';
+					targetUser.send(message);
+				}
+			}
+			if (tournament.isTournamentStarted) {
+				tournament.room.addRaw('<b>Players have been reminded of their tournament battles by ' + user.name + '.</b>');
+				if (offlineUsers.length > 0 && offlineUsers !== '') tournament.room.addRaw('<b>The following users are currently offline: ' + offlineUsers + '.</b>');
+			}
+			else {
+				this.errorReply('The tournament hasen\'t started yet.');
+			}
+		},
 		scout: 'setscouting',
 		scouting: 'setscouting',
 		setscout: 'setscouting',
@@ -1121,7 +1284,8 @@ let commands = {
 			if (params.length < 1) {
 				if (tournament.scouting) {
 					return this.sendReply("This tournament allows spectating other battles while in a tournament.");
-				} else {
+				}
+				else {
 					return this.sendReply("This tournament disallows spectating other battles while in a tournament.");
 				}
 			}
@@ -1133,13 +1297,15 @@ let commands = {
 				tournament.modjoin = false;
 				this.room.add('|tournament|scouting|allow');
 				this.privateModCommand("(The tournament was set to allow scouting by " + user.name + ")");
-			} else if (option === 'off' || option === 'false' || option === 'disallow' || option === 'disallowed') {
+			}
+			else if (option === 'off' || option === 'false' || option === 'disallow' || option === 'disallowed') {
 				if (!tournament.scouting) return this.errorReply("Scouting for this tournament is already disabled.");
 				tournament.scouting = false;
 				tournament.modjoin = true;
 				this.room.add('|tournament|scouting|disallow');
 				this.privateModCommand("(The tournament was set to disallow scouting by " + user.name + ")");
-			} else {
+			}
+			else {
 				return this.sendReply("Usage: " + cmd + " <allow|disallow>");
 			}
 		},
@@ -1148,7 +1314,8 @@ let commands = {
 			if (params.length < 1) {
 				if (tournament.modjoin) {
 					return this.sendReply("This tournament allows players to modjoin their battles.");
-				} else {
+				}
+				else {
 					return this.sendReply("This tournament does not allow players to modjoin their battles.");
 				}
 			}
@@ -1159,14 +1326,71 @@ let commands = {
 				tournament.modjoin = true;
 				this.room.add('Modjoining is now allowed (Players can modjoin their tournament battles).');
 				this.privateModCommand("(The tournament was set to allow modjoin by " + user.name + ")");
-			} else if (option === 'off' || option === 'false' || option === 'disallow' || option === 'disallowed') {
+			}
+			else if (option === 'off' || option === 'false' || option === 'disallow' || option === 'disallowed') {
 				if (!tournament.modjoin) return this.errorReply("Modjoining is already not allowed for this tournament.");
 				tournament.modjoin = false;
 				this.room.add('Modjoining is now banned (Players cannot modjoin their tournament battles).');
 				this.privateModCommand("(The tournament was set to disallow modjoin by " + user.name + ")");
-			} else {
+			}
+			else {
 				return this.sendReply("Usage: " + cmd + " <allow|disallow>");
 			}
+		},
+		forcetimer: function (tournament, user, params, cmd) {
+			let option = params.length ? params[0].toLowerCase() : 'on';
+			if (option === 'on' || option === 'true') {
+				tournament.forceTimer = true;
+				this.room.add('Forcetimer is now on for the tournament.');
+				this.privateModCommand("(The timer was turned on for the tournament by " + user.name + ")");
+			}
+			else if (option === 'off' || option === 'false' || option === 'stop') {
+				tournament.forceTimer = false;
+				this.room.add('Forcetimer is now off for the tournament.');
+				this.privateModCommand("(The timer was turned off for the tournament by " + user.name + ")");
+			}
+			else {
+				return this.sendReply("Usage: " + cmd + " <on|off>");
+			}
+		},
+		ban: function (tournament, user, params, cmd) {
+			if (params.length < 1) {
+				return this.sendReply("Usage: " + cmd + " <user>, <reason>");
+			}
+			let targetUser = Users.get(params[0]);
+			let online = !!targetUser;
+			if (!online) targetUser = params[0];
+			let targetUserid = toId(targetUser);
+			let reason = '';
+			if (params[1]) {
+				reason = params[1].trim();
+				if (reason.length > MAX_REASON_LENGTH) return this.errorReply("The reason is too long. It cannot exceed " + MAX_REASON_LENGTH + " characters.");
+			}
+
+			if (tournament.checkBanned(targetUser)) return this.errorReply("This user is already banned from tournaments.");
+
+			let punishment = ['TOURBAN', targetUserid, Date.now() + TOURBAN_DURATION, reason];
+			if (online) {
+				Punishments.roomPunish(this.room, targetUser, punishment);
+			}
+			else {
+				Punishments.roomPunishName(this.room, targetUser, punishment);
+			}
+			tournament.removeBannedUser(targetUser);
+			this.privateModCommand((targetUser.name || targetUserid) + " was banned from tournaments by " + user.name + "." + (reason ? " (" + reason + ")" : ""));
+		},
+		unban: function (tournament, user, params, cmd) {
+			if (params.length < 1) {
+				return this.sendReply("Usage: " + cmd + " <user>");
+			}
+			let targetUser = Users.get(params[0]) || params[0];
+			let targetUserid = toId(targetUser);
+
+			if (!tournament.checkBanned(targetUser)) return this.errorReply("This user isn't banned from tournaments.");
+
+			Punishments.roomUnpunish(this.room, targetUser, 'TOURBAN');
+			tournament.removeBannedUser(targetUser);
+			this.privateModCommand((targetUser.name || targetUserid) + " was unbanned from tournaments by " + user.name + ".");
 		},
 	},
 };
@@ -1188,11 +1412,19 @@ Chat.commands.tournament = function (paramString, room, user) {
 			return !tournament.room.isPrivate && !tournament.room.isPersonal && !tournament.room.staffRoom;
 		}).map(tournament => {
 			tournament = exports.tournaments[tournament];
-			return {room: tournament.room.id, title: tournament.room.title, format: tournament.format, generator: tournament.generator.name, isStarted: tournament.isTournamentStarted};
+			return {
+				room: tournament.room.id,
+				title: tournament.room.title,
+				format: tournament.format,
+				generator: tournament.generator.name,
+				isStarted: tournament.isTournamentStarted,
+			};
 		})));
-	} else if (cmd === 'help') {
+	}
+	else if (cmd === 'help') {
 		return this.parse('/help tournament');
-	} else if (cmd === 'on' || cmd === 'enable') {
+	}
+	else if (cmd === 'on' || cmd === 'enable') {
 		if (!this.can('tournamentsmanagement', null, room)) return;
 		let rank = params[0];
 		if (rank && rank === '@') {
@@ -1203,7 +1435,8 @@ Chat.commands.tournament = function (paramString, room, user) {
 				Rooms.global.writeChatRoomData();
 			}
 			return this.sendReply("Tournaments are now enabled for @ and up.");
-		} else if (rank && rank === '%') {
+		}
+		else if (rank && rank === '%') {
 			if (room.toursEnabled === rank) return this.errorReply("Tournaments are already enabled for % and above in this room.");
 			room.toursEnabled = rank;
 			if (room.chatRoomData) {
@@ -1211,10 +1444,12 @@ Chat.commands.tournament = function (paramString, room, user) {
 				Rooms.global.writeChatRoomData();
 			}
 			return this.sendReply("Tournaments are now enabled for % and up.");
-		} else {
+		}
+		else {
 			return this.errorReply("Tournament enable setting not recognized.  Valid options include [%|@].");
 		}
-	} else if (cmd === 'off' || cmd === 'disable') {
+	}
+	else if (cmd === 'off' || cmd === 'disable') {
 		if (!this.can('tournamentsmanagement', null, room)) return;
 		if (!room.toursEnabled) {
 			return this.errorReply("Tournaments are already disabled.");
@@ -1225,7 +1460,8 @@ Chat.commands.tournament = function (paramString, room, user) {
 			Rooms.global.writeChatRoomData();
 		}
 		return this.sendReply("Tournaments are now disabled.");
-	} else if (cmd === 'announce' || cmd === 'announcements') {
+	}
+	else if (cmd === 'announce' || cmd === 'announcements') {
 		if (!this.can('tournamentsmanagement', null, room)) return;
 		if (!Config.tourannouncements.includes(room.id)) {
 			return this.errorReply("Tournaments in this room cannot be announced.");
@@ -1233,7 +1469,8 @@ Chat.commands.tournament = function (paramString, room, user) {
 		if (params.length < 1) {
 			if (room.tourAnnouncements) {
 				return this.sendReply("Tournament announcements are enabled.");
-			} else {
+			}
+			else {
 				return this.sendReply("Tournament announcements are disabled.");
 			}
 		}
@@ -1243,11 +1480,13 @@ Chat.commands.tournament = function (paramString, room, user) {
 			if (room.tourAnnouncements) return this.errorReply("Tournament announcements are already enabled.");
 			room.tourAnnouncements = true;
 			this.privateModCommand("(Tournament announcements were enabled by " + user.name + ")");
-		} else if (option === 'off' || option === 'disable') {
+		}
+		else if (option === 'off' || option === 'disable') {
 			if (!room.tourAnnouncements) return this.errorReply("Tournament announcements are already disabled.");
 			room.tourAnnouncements = false;
 			this.privateModCommand("(Tournament announcements were disabled by " + user.name + ")");
-		} else {
+		}
+		else {
 			return this.sendReply("Usage: " + cmd + " <on|off>");
 		}
 
@@ -1255,12 +1494,15 @@ Chat.commands.tournament = function (paramString, room, user) {
 			room.chatRoomData.tourAnnouncements = room.tourAnnouncements;
 			Rooms.global.writeChatRoomData();
 		}
-	} else if (cmd === 'create' || cmd === 'new') {
+	}
+	else if (cmd === 'create' || cmd === 'new') {
 		if (room.toursEnabled === true) {
 			if (!this.can('tournaments', null, room)) return;
-		} else if (room.toursEnabled === '%') {
+		}
+		else if (room.toursEnabled === '%') {
 			if (!this.can('tournamentsmoderation', null, room)) return;
-		} else {
+		}
+		else {
 			if (!user.can('tournamentsmanagement', null, room)) {
 				return this.errorReply("Tournaments are disabled in this room (" + room.id + ").");
 			}
@@ -1269,7 +1511,7 @@ Chat.commands.tournament = function (paramString, room, user) {
 			return this.sendReply("Usage: " + cmd + " <format>, <type> [, <comma-separated arguments>]");
 		}
 
-		let tour = createTournament(room, params.shift(), params.shift(), params.shift(), Config.istournamentsrated, params, this);
+		let tour = createTournament(room, params.shift(), params.shift(), params.shift(), Config.ratedtours, params, this);
 		if (tour) {
 			this.privateModCommand("(" + user.name + " created a tournament in " + tour.format + " format.)");
 			if (room.tourAnnouncements) {
@@ -1277,7 +1519,8 @@ Chat.commands.tournament = function (paramString, room, user) {
 				if (tourRoom && tourRoom !== room) tourRoom.addRaw('<div class="infobox"><a href="/' + room.id + '" class="ilink"><strong>' + Chat.escapeHTML(Tools.getFormat(tour.format).name) + '</strong> tournament created in <strong>' + Chat.escapeHTML(room.title) + '</strong>.</a></div>').update();
 			}
 		}
-	} else {
+	}
+	else {
 		let tournament = getTournament(room.id);
 		if (!tournament) {
 			return this.sendReply("There is currently no tournament running in this room.");
@@ -1291,9 +1534,11 @@ Chat.commands.tournament = function (paramString, room, user) {
 		if (commands.creation[cmd]) {
 			if (room.toursEnabled === true) {
 				if (!this.can('tournaments', null, room)) return;
-			} else if (room.toursEnabled === '%') {
+			}
+			else if (room.toursEnabled === '%') {
 				if (!this.can('tournamentsmoderation', null, room)) return;
-			} else {
+			}
+			else {
 				if (!user.can('tournamentsmanagement', null, room)) {
 					return this.errorReply("Tournaments are disabled in this room (" + room.id + ").");
 				}
@@ -1310,7 +1555,8 @@ Chat.commands.tournament = function (paramString, room, user) {
 
 		if (!commandHandler) {
 			this.errorReply(cmd + " is not a tournament command.");
-		} else {
+		}
+		else {
 			commandHandler.call(this, tournament, user, params, cmd);
 		}
 	}
@@ -1331,10 +1577,12 @@ Chat.commands.tournamenthelp = function (target, room, user) {
 		"- runautodq: Manually run the automatic disqualifier.<br />" +
 		"- scouting &lt;allow|disallow>: Specifies whether joining tournament matches while in a tournament is allowed.<br />" +
 		"- modjoin &lt;allow|disallow>: Specifies whether players can modjoin their battles.<br />" +
+		"- forcetimer &lt;on|off>: Turn on the timer for tournament battles.<br />" +
 		"- getusers: Lists the users in the current tournament.<br />" +
 		"- on/enable &lt;%|@>: Enables allowing drivers or mods to start tournaments in the current room.<br />" +
 		"- off/disable: Disables allowing drivers and mods to start tournaments in the current room.<br />" +
 		"- announce/announcements &lt;on|off>: Enables/disables tournament announcements for the current room.<br />" +
+		"- ban/unban &lt;user>: Bans/unbans a user from joining tournaments in this room. Lasts 2 weeks.<br />" +
 		"More detailed help can be found <a href=\"https://www.smogon.com/forums/threads/3570628/#post-6777489\">here</a>"
 	);
 };
