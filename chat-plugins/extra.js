@@ -239,7 +239,7 @@ exports.commands = {
 			return this.sendReply("The reason is too long. It cannot exceed 300 characters.");
 		}
 
-		let muteDuration = 365 * 24 * 60 * 60 * 1000;
+		let muteDuration = 12 * 30 * 24 * 60 * 60 * 1000;
 		if (!this.can('mute', targetUser, room)) return false;
 		let canBeMutedFurther = ((room.getMuteTime(targetUser) || 0) <= (muteDuration * 5 / 6));
 		if ((room.isMuted(targetUser) && !canBeMutedFurther) || targetUser.locked || !targetUser.connected) {
