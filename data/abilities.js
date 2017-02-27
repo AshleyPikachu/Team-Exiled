@@ -118,9 +118,7 @@ exports.BattleAbilities = {
 		onHit: function (target, source, move) {
 			if (!target.hp) return;
 			if (move && move.effectType === 'Move' && move.crit) {
-				target.setBoost({
-					atk: 6
-				});
+				target.setBoost({atk: 6});
 				this.add('-setboost', target, 'atk', 12, '[from] ability: Anger Point');
 			}
 		},
@@ -175,14 +173,7 @@ exports.BattleAbilities = {
 		desc: "This Pokemon and its allies cannot be affected by Attract, Disable, Encore, Heal Block, Taunt, or Torment.",
 		shortDesc: "Protects user/allies from Attract, Disable, Encore, Heal Block, Taunt, and Torment.",
 		onAllyTryAddVolatile: function (status, target, source, effect) {
-			if (status.id in {
-					attract: 1,
-					disable: 1,
-					encore: 1,
-					healblock: 1,
-					taunt: 1,
-					torment: 1
-				}) {
+			if (status.id in {attract:1, disable:1, encore:1, healblock:1, taunt:1, torment:1}) {
 				if (effect.effectType === 'Move') {
 					this.add('-activate', this.effectData.target, 'ability: Aroma Veil', '[of] ' + target);
 				}
@@ -258,7 +249,7 @@ exports.BattleAbilities = {
 		desc: "If this Pokemon is a Greninja, it transforms into Ash-Greninja after knocking out a Pokemon. As Ash-Greninja, its Water Shuriken has 20 base power and always hits 3 times.",
 		shortDesc: "After KOing a Pokemon: becomes Ash-Greninja, Water Shuriken: 20 power, hits 3x.",
 		onSourceFaint: function (target, source, effect) {
-			if (effect && effect.effectType === 'Move' && source.template.speciesid === 'greninja' && !source.transformed && source.side.foe.pokemonLeft) {
+			if (effect && effect.effectType === 'Move' && source.template.speciesid === 'greninja' && source.hp && !source.transformed && source.side.foe.pokemonLeft) {
 				this.add('-activate', source, 'ability: Battle Bond');
 				let template = this.getTemplate('Greninja-Ash');
 				source.formeChange(template);
@@ -290,9 +281,7 @@ exports.BattleAbilities = {
 						bestStat = source.stats[i];
 					}
 				}
-				this.boost({
-					[stat]: 1
-				}, source);
+				this.boost({[stat]:1}, source);
 			}
 		},
 		id: "beastboost",
@@ -301,14 +290,12 @@ exports.BattleAbilities = {
 		num: 224,
 	},
 	"berserk": {
-		desc: "This Pokemon's Special Attack is raised by 1 stage when it reaches 1/2 or less of its maximum HP.",
+		desc: "When this Pokemon has more than 1/2 its maximum HP and takes damage from an attack bringing it to 1/2 or less of its maximum HP, its Special Attack is raised by 1 stage. This effect applies after all hits from a multi-hit move; Sheer Force prevents it from activating if the move has a secondary effect.",
 		shortDesc: "This Pokemon's Sp. Atk is raised by 1 when it reaches 1/2 or less of its max HP.",
-		onAfterDamage: function (damage, target, source, move) {
-			if (!target.hp || !damage || move.effectType !== 'Move') return;
-			if (target.hp <= target.maxhp / 2 && target.hp + damage > target.maxhp / 2) {
-				this.boost({
-					spa: 1
-				});
+		onAfterMoveSecondary: function (target, source, move) {
+			if (!source || source === target || !target.hp || !move.totalDamage) return;
+			if (target.hp <= target.maxhp / 2 && target.hp + move.totalDamage > target.maxhp / 2) {
+				this.boost({spa: 1});
 			}
 		},
 		id: "berserk",
@@ -432,8 +419,6 @@ exports.BattleAbilities = {
 					const decision = this.willMove(target);
 					if (decision && decision.move.id === 'curse') {
 						decision.targetLoc = -1;
-						decision.targetSide = target.side;
-						decision.targetPosition = 0;
 					}
 				}
 			}
@@ -444,6 +429,7 @@ exports.BattleAbilities = {
 		num: 16,
 	},
 	"comatose": {
+		desc: "This Pokemon cannot be statused, and is considered to be asleep. Moongeist Beam, Sunsteel Strike, and the Abilities Mold Breaker, Teravolt, and Turboblaze cannot ignore this Ability.",
 		shortDesc: "This Pokemon cannot be statused, and is considered to be asleep.",
 		onStart: function (pokemon) {
 			this.add('-ability', pokemon, 'Comatose');
@@ -474,9 +460,7 @@ exports.BattleAbilities = {
 				}
 			}
 			if (statsLowered) {
-				this.boost({
-					spa: 2
-				}, null, null, null, true);
+				this.boost({spa: 2}, null, null, null, true);
 			}
 		},
 		id: "competitive",
@@ -498,7 +482,8 @@ exports.BattleAbilities = {
 	},
 	"contrary": {
 		shortDesc: "If this Pokemon has a stat stage raised it is lowered instead, and vice versa.",
-		onBoost: function (boost) {
+		onBoost: function (boost, target, source, effect) {
+			if (effect && effect.id === 'zpower') return;
 			for (let i in boost) {
 				boost[i] *= -1;
 			}
@@ -572,11 +557,11 @@ exports.BattleAbilities = {
 		shortDesc: "After another Pokemon uses a dance move, this Pokemon uses the same move.",
 		id: "dancer",
 		onAnyAfterMove: function (source, target, move) {
-			if (!this.effectData.target.hp || source === this.effectData.target) return;
+			if (!this.effectData.target.hp || source === this.effectData.target || move.isExternal) return;
 			if (move.id.includes('dance') && move.id !== 'raindance') {
 				this.faintMessages();
 				this.add('-activate', this.effectData.target, 'ability: Dancer');
-				this.useMove(move, this.effectData.target);
+				this.runMove(move, this.effectData.target, 0, this.getAbility('dancer'), undefined, true);
 			}
 		},
 		name: "Dancer",
@@ -604,7 +589,7 @@ exports.BattleAbilities = {
 		desc: "While this Pokemon is active, priority moves from opposing Pokemon targeted at allies are prevented from having an effect.",
 		shortDesc: "While this Pokemon is active, allies are protected from opposing priority moves.",
 		onFoeTryMove: function (target, source, effect) {
-			if (source.side === this.effectData.target.side && effect.priority > 0.1 && effect.target !== 'self') {
+			if ((source.side === this.effectData.target.side || effect.id === 'perishsong') && effect.priority > 0.1 && effect.target !== 'foeSide') {
 				this.attrLastMove('[still]');
 				this.add('cant', this.effectData.target, 'ability: Dazzling', effect, '[of] ' + target);
 				return false;
@@ -649,9 +634,7 @@ exports.BattleAbilities = {
 				}
 			}
 			if (statsLowered) {
-				this.boost({
-					atk: 2
-				}, null, null, null, true);
+				this.boost({atk: 2}, null, null, null, true);
 			}
 		},
 		id: "defiant",
@@ -666,11 +649,7 @@ exports.BattleAbilities = {
 			this.setWeather('deltastream');
 		},
 		onAnySetWeather: function (target, source, weather) {
-			if (this.getWeather().id === 'deltastream' && !(weather.id in {
-					desolateland: 1,
-					primordialsea: 1,
-					deltastream: 1
-				})) return false;
+			if (this.getWeather().id === 'deltastream' && !(weather.id in {desolateland:1, primordialsea:1, deltastream:1})) return false;
 		},
 		onEnd: function (pokemon) {
 			if (this.weatherData.source !== pokemon) return;
@@ -698,11 +677,7 @@ exports.BattleAbilities = {
 			this.setWeather('desolateland');
 		},
 		onAnySetWeather: function (target, source, weather) {
-			if (this.getWeather().id === 'desolateland' && !(weather.id in {
-					desolateland: 1,
-					primordialsea: 1,
-					deltastream: 1
-				})) return false;
+			if (this.getWeather().id === 'desolateland' && !(weather.id in {desolateland:1, primordialsea:1, deltastream:1})) return false;
 		},
 		onEnd: function (pokemon) {
 			if (this.weatherData.source !== pokemon) return;
@@ -724,8 +699,8 @@ exports.BattleAbilities = {
 		num: 190,
 	},
 	"disguise": {
-		desc: "If this Pokemon is a Mimikyu, it will take 0 damage the first time it is attacked in battle. It then changes to Busted Form.",
-		shortDesc: "If this Pokemon is a Mimikyu, it takes 0 damage the first time it is attacked in battle.",
+		desc: "If this Pokemon is a Mimikyu, the first hit it takes in battle deals 0 neutral damage. Its disguise is then broken and it changes to Busted Form. Confusion damage also breaks the disguise.",
+		shortDesc: "If this Pokemon is a Mimikyu, the first hit it takes in battle deals 0 neutral damage.",
 		onDamagePriority: 1,
 		onDamage: function (damage, target, source, effect) {
 			if (effect && effect.effectType === 'Move' && target.template.speciesid === 'mimikyu' && !target.transformed) {
@@ -733,6 +708,13 @@ exports.BattleAbilities = {
 				this.effectData.busted = true;
 				return 0;
 			}
+		},
+		onEffectiveness: function (typeMod, type, move) {
+			if (!this.activeTarget) return;
+			let pokemon = this.activeTarget;
+			if (pokemon.template.speciesid !== 'mimikyu' || pokemon.transformed) return;
+			if (!pokemon.runImmunity(move.type)) return;
+			return 0;
 		},
 		onUpdate: function (pokemon) {
 			if (pokemon.template.speciesid === 'mimikyu' && this.effectData.busted) {
@@ -761,14 +743,9 @@ exports.BattleAbilities = {
 				totalspd += foeactive[i].getStat('spd', false, true);
 			}
 			if (totaldef && totaldef >= totalspd) {
-				this.boost({
-					spa: 1
-				});
-			}
-			else if (totalspd) {
-				this.boost({
-					atk: 1
-				});
+				this.boost({spa:1});
+			} else if (totalspd) {
+				this.boost({atk:1});
 			}
 		},
 		id: "download",
@@ -825,8 +802,7 @@ exports.BattleAbilities = {
 		onWeather: function (target, source, effect) {
 			if (effect.id === 'raindance' || effect.id === 'primordialsea') {
 				this.heal(target.maxhp / 8);
-			}
-			else if (effect.id === 'sunnyday' || effect.id === 'desolateland') {
+			} else if (effect.id === 'sunnyday' || effect.id === 'desolateland') {
 				this.damage(target.maxhp / 8, target, target);
 			}
 		},
@@ -851,11 +827,9 @@ exports.BattleAbilities = {
 				let r = this.random(100);
 				if (r < 11) {
 					source.setStatus('slp', target);
-				}
-				else if (r < 21) {
+				} else if (r < 21) {
 					source.setStatus('par', target);
-				}
-				else if (r < 30) {
+				} else if (r < 30) {
 					source.setStatus('psn', target);
 				}
 			}
@@ -876,6 +850,7 @@ exports.BattleAbilities = {
 		num: 226,
 	},
 	"emergencyexit": {
+		desc: "When this Pokemon has more than 1/2 its maximum HP and takes damage bringing it to 1/2 or less of its maximum HP, it immediately switches out to a chosen ally. This effect applies after all hits from a multi-hit move; Sheer Force prevents it from activating if the move has a secondary effect. This effect applies to both direct and indirect damage, except Curse and Substitute on use, Belly Drum, Pain Split, Struggle recoil, and confusion damage.",
 		shortDesc: "This Pokemon switches out when it reaches 1/2 or less of its maximum HP.",
 		onAfterMoveSecondary: function (target, source, move) {
 			if (!source || source === target || !target.hp || !move.totalDamage) return;
@@ -883,6 +858,14 @@ exports.BattleAbilities = {
 				if (!this.canSwitch(target.side) || target.forceSwitchFlag || target.switchFlag) return;
 				target.switchFlag = true;
 				source.switchFlag = false;
+				this.add('-activate', target, 'ability: Emergency Exit');
+			}
+		},
+		onAfterDamage: function (damage, target, source, effect) {
+			if (!target.hp || effect.effectType === 'Move') return;
+			if (target.hp <= target.maxhp / 2 && target.hp + damage > target.maxhp / 2) {
+				if (!this.canSwitch(target.side) || target.forceSwitchFlag || target.switchFlag) return;
+				target.switchFlag = true;
 				this.add('-activate', target, 'ability: Emergency Exit');
 			}
 		},
@@ -1005,8 +988,7 @@ exports.BattleAbilities = {
 					pokemon.formeChange('Cherrim-Sunshine');
 					this.add('-formechange', pokemon, 'Cherrim-Sunshine', '[msg]', '[from] ability: Flower Gift');
 				}
-			}
-			else {
+			} else {
 				if (pokemon.template.speciesid === 'cherrimsunshine') {
 					pokemon.formeChange('Cherrim');
 					this.add('-formechange', pokemon, 'Cherrim', '[msg]', '[from] ability: Flower Gift');
@@ -1121,12 +1103,9 @@ exports.BattleAbilities = {
 					if (move.id === 'counter' || move.id === 'metalburst' || move.id === 'mirrorcoat') bp = 120;
 					if (!bp && move.category !== 'Status') bp = 80;
 					if (bp > warnBp) {
-						warnMoves = [
-							[move, targets[i]]
-						];
+						warnMoves = [[move, targets[i]]];
 						warnBp = bp;
-					}
-					else if (bp === warnBp) {
+					} else if (bp === warnBp) {
 						warnMoves.push([move, targets[i]]);
 					}
 				}
@@ -1170,6 +1149,7 @@ exports.BattleAbilities = {
 		num: 119,
 	},
 	"fullmetalbody": {
+		desc: "Prevents other Pokemon from lowering this Pokemon's stat stages. Moongeist Beam, Sunsteel Strike, and the Abilities Mold Breaker, Teravolt, and Turboblaze cannot ignore this Ability.",
 		shortDesc: "Prevents other Pokemon from lowering this Pokemon's stat stages.",
 		onBoost: function (boost, target, source, effect) {
 			if (source && target === source) return;
@@ -1243,9 +1223,7 @@ exports.BattleAbilities = {
 		onAfterDamage: function (damage, target, source, effect) {
 			if (effect && effect.flags['contact']) {
 				this.add('-ability', target, 'Gooey');
-				this.boost({
-					spe: -1
-				}, source, target, null, true);
+				this.boost({spe: -1}, source, target, null, true);
 			}
 		},
 		id: "gooey",
@@ -1580,11 +1558,8 @@ exports.BattleAbilities = {
 				}
 				if (foeactive[i].volatiles['substitute']) {
 					this.add('-immune', foeactive[i], '[msg]');
-				}
-				else {
-					this.boost({
-						atk: -1
-					}, foeactive[i], pokemon);
+				} else {
+					this.boost({atk: -1}, foeactive[i], pokemon);
 				}
 			}
 		},
@@ -1626,9 +1601,7 @@ exports.BattleAbilities = {
 		shortDesc: "This Pokemon's Attack is raised by 1 stage after it is damaged by a Dark-type move.",
 		onAfterDamage: function (damage, target, source, effect) {
 			if (effect && effect.type === 'Dark') {
-				this.boost({
-					atk: 1
-				});
+				this.boost({atk:1});
 			}
 		},
 		id: "justified",
@@ -1707,20 +1680,14 @@ exports.BattleAbilities = {
 		shortDesc: "This Pokemon draws Electric moves to itself to raise Sp. Atk by 1; Electric immunity.",
 		onTryHit: function (target, source, move) {
 			if (target !== source && move.type === 'Electric') {
-				if (!this.boost({
-						spa: 1
-					})) {
+				if (!this.boost({spa:1})) {
 					this.add('-immune', target, '[msg]', '[from] ability: Lightning Rod');
 				}
 				return null;
 			}
 		},
 		onAnyRedirectTarget: function (target, source, source2, move) {
-			if (move.type !== 'Electric' || move.id in {
-					firepledge: 1,
-					grasspledge: 1,
-					waterpledge: 1
-				}) return;
+			if (move.type !== 'Electric' || move.id in {firepledge:1, grasspledge:1, waterpledge:1}) return;
 			if (this.validTarget(this.effectData.target, source, move.target)) {
 				if (this.effectData.target !== target) {
 					this.add('-activate', this.effectData.target, 'ability: Lightning Rod');
@@ -1757,10 +1724,7 @@ exports.BattleAbilities = {
 		id: "liquidooze",
 		onSourceTryHeal: function (damage, target, source, effect) {
 			this.debug("Heal is occurring: " + target + " <- " + source + " :: " + effect.id);
-			let canOoze = {
-				drain: 1,
-				leechseed: 1
-			};
+			let canOoze = {drain: 1, leechseed: 1, strengthsap: 1};
 			if (canOoze[effect.id]) {
 				this.damage(damage);
 				return 0;
@@ -1806,6 +1770,7 @@ exports.BattleAbilities = {
 			}
 			let newMove = this.getMoveCopy(move.id);
 			newMove.hasBounced = true;
+			newMove.pranksterBoosted = false;
 			this.useMove(newMove, target, source);
 			return null;
 		},
@@ -1815,6 +1780,7 @@ exports.BattleAbilities = {
 			}
 			let newMove = this.getMoveCopy(move.id);
 			newMove.hasBounced = true;
+			newMove.pranksterBoosted = false;
 			this.useMove(newMove, this.effectData.target, source);
 			return null;
 		},
@@ -1924,10 +1890,7 @@ exports.BattleAbilities = {
 	"merciless": {
 		shortDesc: "This Pokemon's attacks are critical hits if the target is poisoned.",
 		onModifyCritRatio: function (critRatio, source, target) {
-			if (target && target.status in {
-					'psn': 1,
-					'tox': 1
-				}) return 5;
+			if (target && target.status in {'psn':1, 'tox':1}) return 5;
 		},
 		id: "merciless",
 		name: "Merciless",
@@ -2014,9 +1977,7 @@ exports.BattleAbilities = {
 		shortDesc: "This Pokemon's Speed is raised 1 stage if hit by an Electric move; Electric immunity.",
 		onTryHit: function (target, source, move) {
 			if (target !== source && move.type === 'Electric') {
-				if (!this.boost({
-						spe: 1
-					})) {
+				if (!this.boost({spe:1})) {
 					this.add('-immune', target, '[msg]', '[from] ability: Motor Drive');
 				}
 				return null;
@@ -2032,9 +1993,7 @@ exports.BattleAbilities = {
 		shortDesc: "This Pokemon's Attack is raised by 1 stage if it attacks and KOes another Pokemon.",
 		onSourceFaint: function (target, source, effect) {
 			if (effect && effect.effectType === 'Move') {
-				this.boost({
-					atk: 1
-				}, source);
+				this.boost({atk:1}, source);
 			}
 		},
 		id: "moxie",
@@ -2124,8 +2083,7 @@ exports.BattleAbilities = {
 				if (curPoke.hasAbility('naturalcure')) {
 					// this.add('-message', "" + curPoke + " confirmed: could be Natural Cure (and is)");
 					cureList.push(curPoke);
-				}
-				else {
+				} else {
 					// this.add('-message', "" + curPoke + " confirmed: could be Natural Cure (but isn't)");
 					noCureCount++;
 				}
@@ -2136,8 +2094,7 @@ exports.BattleAbilities = {
 				for (let i = 0; i < cureList.length; i++) {
 					cureList[i].showCure = true;
 				}
-			}
-			else {
+			} else {
 				// It's not possible to know what pokemon were cured
 
 				// Unlike a -hint, this is real information that battlers need, so we use a -message
@@ -2295,10 +2252,7 @@ exports.BattleAbilities = {
 		desc: "This Pokemon's damaging moves become multi-hit moves that hit twice. The second hit has its damage quartered. Does not affect multi-hit moves or moves that have multiple targets.",
 		shortDesc: "This Pokemon's damaging moves hit twice. The second hit has its damage quartered.",
 		onPrepareHit: function (source, target, move) {
-			if (move.id in {
-					iceball: 1,
-					rollout: 1
-				}) return;
+			if (move.id in {iceball: 1, rollout: 1}) return;
 			if (move.category !== 'Status' && !move.selfdestruct && !move.multihit && !move.flags['charge'] && !move.spreadHit && !move.isZ) {
 				move.multihit = 2;
 				source.addVolatile('parentalbond');
@@ -2311,8 +2265,7 @@ exports.BattleAbilities = {
 				if (this.effectData.hit) {
 					this.effectData.hit++;
 					return this.chainModify(0.25);
-				}
-				else {
+				} else {
 					this.effectData.hit = 1;
 				}
 			},
@@ -2498,18 +2451,7 @@ exports.BattleAbilities = {
 		onAllyFaint: function (target) {
 			if (!this.effectData.target.hp) return;
 			let ability = this.getAbility(target.ability);
-			let bannedAbilities = {
-				comatose: 1,
-				flowergift: 1,
-				forecast: 1,
-				illusion: 1,
-				imposter: 1,
-				multitype: 1,
-				stancechange: 1,
-				trace: 1,
-				wonderguard: 1,
-				zenmode: 1
-			};
+			let bannedAbilities = {comatose:1, flowergift:1, forecast:1, illusion:1, imposter:1, multitype:1, stancechange:1, trace:1, wonderguard:1, zenmode:1};
 			if (bannedAbilities[target.ability]) return;
 			this.add('-ability', this.effectData.target, ability, '[from] ability: Power of Alchemy', '[of] ' + target);
 			this.effectData.target.setAbility(ability);
@@ -2558,11 +2500,7 @@ exports.BattleAbilities = {
 			this.setWeather('primordialsea');
 		},
 		onAnySetWeather: function (target, source, weather) {
-			if (this.getWeather().id === 'primordialsea' && !(weather.id in {
-					desolateland: 1,
-					primordialsea: 1,
-					deltastream: 1
-				})) return false;
+			if (this.getWeather().id === 'primordialsea' && !(weather.id in {desolateland:1, primordialsea:1, deltastream:1})) return false;
 		},
 		onEnd: function (pokemon) {
 			if (this.weatherData.source !== pokemon) return;
@@ -2584,6 +2522,7 @@ exports.BattleAbilities = {
 		num: 189,
 	},
 	"prismarmor": {
+		desc: "This Pokemon receives 3/4 damage from supereffective attacks. Moongeist Beam, Sunsteel Strike, and the Abilities Mold Breaker, Teravolt, and Turboblaze cannot ignore this Ability.",
 		shortDesc: "This Pokemon receives 3/4 damage from supereffective attacks.",
 		onSourceModifyDamage: function (damage, source, target, move) {
 			if (move.typeMod > 0) {
@@ -2638,7 +2577,7 @@ exports.BattleAbilities = {
 		desc: "While this Pokemon is active, priority moves from opposing Pokemon targeted at allies are prevented from having an effect.",
 		shortDesc: "While this Pokemon is active, allies are protected from opposing priority moves.",
 		onFoeTryMove: function (target, source, effect) {
-			if (source.side === this.effectData.target.side && effect.priority > 0.1 && effect.target !== 'self') {
+			if ((source.side === this.effectData.target.side || effect.id === 'perishsong') && effect.priority > 0.1 && effect.target !== 'foeSide') {
 				this.attrLastMove('[still]');
 				this.add('cant', this.effectData.target, 'ability: Queenly Majesty', effect, '[of] ' + target);
 				return false;
@@ -2680,9 +2619,7 @@ exports.BattleAbilities = {
 		shortDesc: "This Pokemon's Speed is raised 1 stage if hit by a Bug-, Dark-, or Ghost-type attack.",
 		onAfterDamage: function (damage, target, source, effect) {
 			if (effect && (effect.type === 'Dark' || effect.type === 'Bug' || effect.type === 'Ghost')) {
-				this.boost({
-					spe: 1
-				});
+				this.boost({spe:1});
 			}
 		},
 		id: "rattled",
@@ -2696,18 +2633,7 @@ exports.BattleAbilities = {
 		onAllyFaint: function (target) {
 			if (!this.effectData.target.hp) return;
 			let ability = this.getAbility(target.ability);
-			let bannedAbilities = {
-				comatose: 1,
-				flowergift: 1,
-				forecast: 1,
-				illusion: 1,
-				imposter: 1,
-				multitype: 1,
-				stancechange: 1,
-				trace: 1,
-				wonderguard: 1,
-				zenmode: 1
-			};
+			let bannedAbilities = {comatose:1, flowergift:1, forecast:1, illusion:1, imposter:1, multitype:1, stancechange:1, trace:1, wonderguard:1, zenmode:1};
 			if (bannedAbilities[target.ability]) return;
 			this.add('-ability', this.effectData.target, ability, '[from] ability: Receiver', '[of] ' + target);
 			this.effectData.target.setAbility(ability);
@@ -2773,8 +2699,7 @@ exports.BattleAbilities = {
 				if (attacker.gender === defender.gender) {
 					this.debug('Rivalry boost');
 					return this.chainModify(1.25);
-				}
-				else {
+				} else {
 					this.debug('Rivalry weaken');
 					return this.chainModify(0.75);
 				}
@@ -2895,9 +2820,7 @@ exports.BattleAbilities = {
 		onTryHitPriority: 1,
 		onTryHit: function (target, source, move) {
 			if (target !== source && move.type === 'Grass') {
-				if (!this.boost({
-						atk: 1
-					})) {
+				if (!this.boost({atk:1})) {
 					this.add('-immune', target, '[msg]', '[from] ability: Sap Sipper');
 				}
 				return null;
@@ -2906,9 +2829,7 @@ exports.BattleAbilities = {
 		onAllyTryHitSide: function (target, source, move) {
 			if (target === this.effectData.target || target.side !== source.side) return;
 			if (move.type === 'Grass') {
-				this.boost({
-					atk: 1
-				}, this.effectData.target);
+				this.boost({atk:1}, this.effectData.target);
 			}
 		},
 		id: "sapsipper",
@@ -2926,8 +2847,7 @@ exports.BattleAbilities = {
 					pokemon.formeChange('Wishiwashi-School');
 					this.add('-formechange', pokemon, 'Wishiwashi-School', '[from] ability: Schooling');
 				}
-			}
-			else {
+			} else {
 				if (pokemon.template.speciesid === 'wishiwashischool') {
 					pokemon.formeChange('Wishiwashi');
 					this.add('-formechange', pokemon, 'Wishiwashi', '[from] ability: Schooling');
@@ -2942,8 +2862,7 @@ exports.BattleAbilities = {
 					pokemon.formeChange('Wishiwashi-School');
 					this.add('-formechange', pokemon, 'Wishiwashi-School', '[from] ability: Schooling');
 				}
-			}
-			else {
+			} else {
 				if (pokemon.template.speciesid === 'wishiwashischool') {
 					pokemon.formeChange('Wishiwashi');
 					this.add('-formechange', pokemon, 'Wishiwashi', '[from] ability: Schooling');
@@ -2987,6 +2906,7 @@ exports.BattleAbilities = {
 		num: 32,
 	},
 	"shadowshield": {
+		desc: "If this Pokemon is at full HP, damage taken from attacks is halved. Moongeist Beam, Sunsteel Strike, and the Abilities Mold Breaker, Teravolt, and Turboblaze cannot ignore this Ability.",
 		shortDesc: "If this Pokemon is at full HP, damage taken from attacks is halved.",
 		onSourceModifyDamage: function (damage, source, target, move) {
 			if (target.hp >= target.maxhp) {
@@ -3085,13 +3005,12 @@ exports.BattleAbilities = {
 			if (pokemon.hp > pokemon.maxhp / 2) {
 				if (pokemon.template.speciesid === 'minior') {
 					pokemon.formeChange('Minior-Meteor');
-					this.add('-formechange', pokemon, 'Minior-Meteor', '[msg]', '[from] ability: Shields Down');
+					this.add('-formechange', pokemon, 'Minior-Meteor', '[from] ability: Shields Down');
 				}
-			}
-			else {
+			} else {
 				if (pokemon.template.speciesid !== 'minior') {
 					pokemon.formeChange(pokemon.set.species);
-					this.add('-formechange', pokemon, pokemon.set.species, '[msg]', '[from] ability: Shields Down');
+					this.add('-formechange', pokemon, pokemon.set.species, '[from] ability: Shields Down');
 				}
 			}
 		},
@@ -3103,8 +3022,7 @@ exports.BattleAbilities = {
 					pokemon.formeChange('Minior-Meteor');
 					this.add('-formechange', pokemon, 'Minior-Meteor', '[msg]', '[from] ability: Shields Down');
 				}
-			}
-			else {
+			} else {
 				if (pokemon.template.speciesid !== 'minior') {
 					pokemon.formeChange(pokemon.set.species);
 					this.add('-formechange', pokemon, pokemon.set.species, '[msg]', '[from] ability: Shields Down');
@@ -3124,7 +3042,8 @@ exports.BattleAbilities = {
 	},
 	"simple": {
 		shortDesc: "If this Pokemon's stat stages are raised or lowered, the effect is doubled instead.",
-		onBoost: function (boost) {
+		onBoost: function (boost, target, source, effect) {
+			if (effect && effect.id === 'zpower') return;
 			for (let i in boost) {
 				boost[i] *= 2;
 			}
@@ -3180,15 +3099,11 @@ exports.BattleAbilities = {
 		num: 112,
 	},
 	"slushrush": {
-		desc: "If Hail is active, this Pokemon's Speed is doubled. This Pokemon takes no damage from Hail.",
-		shortDesc: "If Hail is active, this Pokemon's Speed is doubled; immunity to Hail.",
+		shortDesc: "If Hail is active, this Pokemon's Speed is doubled.",
 		onModifySpe: function (spe, pokemon) {
 			if (this.isWeather('hail')) {
 				return this.chainModify(2);
 			}
-		},
-		onImmunity: function (type, pokemon) {
-			if (type === 'hail') return false;
 		},
 		id: "slushrush",
 		name: "Slush Rush",
@@ -3272,9 +3187,7 @@ exports.BattleAbilities = {
 		desc: "This Pokemon's Special Attack is raised by 1 stage when another Pokemon faints.",
 		shortDesc: "This Pokemon's Sp. Atk is raised by 1 stage when another Pokemon faints.",
 		onAnyFaint: function () {
-			this.boost({
-				spa: 1
-			}, this.effectData.target);
+			this.boost({spa:1}, this.effectData.target);
 		},
 		id: "soulheart",
 		name: "Soul-Heart",
@@ -3306,9 +3219,7 @@ exports.BattleAbilities = {
 		onResidualSubOrder: 1,
 		onResidual: function (pokemon) {
 			if (pokemon.activeTurns) {
-				this.boost({
-					spe: 1
-				});
+				this.boost({spe:1});
 			}
 		},
 		id: "speedboost",
@@ -3343,9 +3254,7 @@ exports.BattleAbilities = {
 		shortDesc: "This Pokemon's Defense is raised by 1 stage after it is damaged by a move.",
 		onAfterDamage: function (damage, target, source, effect) {
 			if (effect && effect.effectType === 'Move' && effect.id !== 'confused') {
-				this.boost({
-					def: 1
-				});
+				this.boost({def:1});
 			}
 		},
 		id: "stamina",
@@ -3387,9 +3296,7 @@ exports.BattleAbilities = {
 	"steadfast": {
 		shortDesc: "If this Pokemon flinches, its Speed is raised by 1 stage.",
 		onFlinch: function (pokemon) {
-			this.boost({
-				spe: 1
-			});
+			this.boost({spe: 1});
 		},
 		id: "steadfast",
 		name: "Steadfast",
@@ -3449,20 +3356,14 @@ exports.BattleAbilities = {
 		shortDesc: "This Pokemon draws Water moves to itself to raise Sp. Atk by 1; Water immunity.",
 		onTryHit: function (target, source, move) {
 			if (target !== source && move.type === 'Water') {
-				if (!this.boost({
-						spa: 1
-					})) {
+				if (!this.boost({spa:1})) {
 					this.add('-immune', target, '[msg]', '[from] ability: Storm Drain');
 				}
 				return null;
 			}
 		},
 		onAnyRedirectTarget: function (target, source, source2, move) {
-			if (move.type !== 'Water' || move.id in {
-					firepledge: 1,
-					grasspledge: 1,
-					waterpledge: 1
-				}) return;
+			if (move.type !== 'Water' || move.id in {firepledge:1, grasspledge:1, waterpledge:1}) return;
 			if (this.validTarget(this.effectData.target, source, move.target)) {
 				if (this.effectData.target !== target) {
 					this.add('-activate', this.effectData.target, 'ability: Storm Drain');
@@ -3627,10 +3528,7 @@ exports.BattleAbilities = {
 			if (effect && effect.id === 'toxicspikes') return;
 			if (status.id === 'slp' || status.id === 'frz') return;
 			this.add('-activate', target, 'ability: Synchronize');
-			source.trySetStatus(status, target, {
-				status: status.id,
-				id: 'synchronize'
-			});
+			source.trySetStatus(status, target, {status: status.id, id: 'synchronize'});
 		},
 		id: "synchronize",
 		name: "Synchronize",
@@ -3656,9 +3554,7 @@ exports.BattleAbilities = {
 		onAfterDamage: function (damage, target, source, effect) {
 			if (effect && effect.flags['contact']) {
 				this.add('-ability', target, 'Tangling Hair');
-				this.boost({
-					spe: -1
-				}, source, target, null, null, true);
+				this.boost({spe: -1}, source, target, null, null, true);
 			}
 		},
 		id: "tanglinghair",
@@ -3795,6 +3691,7 @@ exports.BattleAbilities = {
 		desc: "On switch-in, this Pokemon copies a random adjacent opposing Pokemon's Ability. If there is no Ability that can be copied at that time, this Ability will activate as soon as an Ability can be copied. Abilities that cannot be copied are Comatose, Disguise, Flower Gift, Forecast, Illusion, Imposter, Multitype, Schooling, Stance Change, Trace, and Zen Mode.",
 		shortDesc: "On switch-in, or when it can, this Pokemon copies a random adjacent foe's Ability.",
 		onUpdate: function (pokemon) {
+			if (!pokemon.isStarted) return;
 			let possibleTargets = [];
 			for (let i = 0; i < pokemon.side.foe.active.length; i++) {
 				if (pokemon.side.foe.active[i] && !pokemon.side.foe.active[i].fainted) possibleTargets.push(pokemon.side.foe.active[i]);
@@ -3804,19 +3701,7 @@ exports.BattleAbilities = {
 				if (possibleTargets.length > 1) rand = this.random(possibleTargets.length);
 				let target = possibleTargets[rand];
 				let ability = this.getAbility(target.ability);
-				let bannedAbilities = {
-					comatose: 1,
-					disguise: 1,
-					flowergift: 1,
-					forecast: 1,
-					illusion: 1,
-					imposter: 1,
-					multitype: 1,
-					schooling: 1,
-					stancechange: 1,
-					trace: 1,
-					zenmode: 1
-				};
+				let bannedAbilities = {comatose:1, disguise:1, flowergift:1, forecast:1, illusion:1, imposter:1, multitype:1, schooling:1, stancechange:1, trace:1, zenmode:1};
 				if (bannedAbilities[target.ability]) {
 					possibleTargets.splice(rand, 1);
 					continue;
@@ -4028,9 +3913,7 @@ exports.BattleAbilities = {
 		shortDesc: "This Pokemon's Defense is raised 2 stages after it is damaged by a Water-type move.",
 		onAfterDamage: function (damage, target, source, effect) {
 			if (effect && effect.type === 'Water') {
-				this.boost({
-					def: 2
-				});
+				this.boost({def:2});
 			}
 		},
 		id: "watercompaction",
@@ -4062,10 +3945,7 @@ exports.BattleAbilities = {
 		shortDesc: "If a physical attack hits this Pokemon, Defense is lowered by 1, Speed is raised by 2.",
 		onAfterDamage: function (damage, target, source, move) {
 			if (move.category === 'Physical') {
-				this.boost({
-					def: -1,
-					spe: 2
-				});
+				this.boost({def:-1, spe:2});
 			}
 		},
 		id: "weakarmor",
@@ -4092,6 +3972,7 @@ exports.BattleAbilities = {
 		num: 73,
 	},
 	"wimpout": {
+		desc: "When this Pokemon has more than 1/2 its maximum HP and takes damage bringing it to 1/2 or less of its maximum HP, it immediately switches out to a chosen ally. This effect applies after all hits from a multi-hit move; Sheer Force prevents it from activating if the move has a secondary effect. This effect applies to both direct and indirect damage, except Curse and Substitute on use, Belly Drum, Pain Split, Struggle recoil, and confusion damage.",
 		shortDesc: "This Pokemon switches out when it reaches 1/2 or less of its maximum HP.",
 		onAfterMoveSecondary: function (target, source, move) {
 			if (!source || source === target || !target.hp || !move.totalDamage) return;
@@ -4099,6 +3980,14 @@ exports.BattleAbilities = {
 				if (!this.canSwitch(target.side) || target.forceSwitchFlag || target.switchFlag) return;
 				target.switchFlag = true;
 				source.switchFlag = false;
+				this.add('-activate', target, 'ability: Wimp Out');
+			}
+		},
+		onAfterDamage: function (damage, target, source, effect) {
+			if (!target.hp || effect.effectType === 'Move') return;
+			if (target.hp <= target.maxhp / 2 && target.hp + damage > target.maxhp / 2) {
+				if (!this.canSwitch(target.side) || target.forceSwitchFlag || target.switchFlag) return;
+				target.switchFlag = true;
 				this.add('-activate', target, 'ability: Wimp Out');
 			}
 		},
@@ -4147,8 +4036,7 @@ exports.BattleAbilities = {
 			}
 			if (pokemon.hp <= pokemon.maxhp / 2 && pokemon.template.speciesid === 'darmanitan') {
 				pokemon.addVolatile('zenmode');
-			}
-			else if (pokemon.hp > pokemon.maxhp / 2 && pokemon.template.speciesid === 'darmanitanzen') {
+			} else if (pokemon.hp > pokemon.maxhp / 2 && pokemon.template.speciesid === 'darmanitanzen') {
 				pokemon.addVolatile('zenmode'); // in case of base Darmanitan-Zen
 				pokemon.removeVolatile('zenmode');
 			}
