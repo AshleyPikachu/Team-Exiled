@@ -228,3 +228,18 @@ Superpower
 Moonblast
 Focus Blast
 Aura Sphere
+
+##Octanko
+Dex: 9005
+![Water Type](http://play.pokemonshowdown.com/sprites/types/Water.png)  
+![Steel Type](http://play.pokemonshowdown.com/sprites/types/Steel.png)
+
+| HP | Atk | Def | SpA | SpD | Spe |
+|----|-----|-----|-----|-----|-----|
+| 90 | 105 | 110 | 125 | 85  | 40  |
+
+Abilities: Shell Armor / Sniper / Regenerator<br/>
+Height: 103 m Weight: 532 kg Color: Blue	Egg Groups: Water 3<br/>
+Prevo: Octillery<br/>
+### Learnset:
+All of Octillery's moveset + Recover and Hurricane.
