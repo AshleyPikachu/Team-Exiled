@@ -3,6 +3,7 @@
 /* * * * * * * * * * * *
  *       Gangs         *
  *	   By Insist       *
+ *     and Volco       *
  * * * * * * * * * * * */
 
 const rankLadder = require('../rank-ladder');
@@ -15,7 +16,7 @@ const gangs = {
 	magma: {
 		icon: 'http://i.imgur.com/reKEhUA.png',
 		name: 'Magma',
-		godfather: ' ',
+		godfather: 'Volco',
 	},
 	aqua: {
 		icon: 'http://i.imgur.com/n9sKSKj.png',
@@ -25,12 +26,12 @@ const gangs = {
 	galactic: {
 		icon: 'http://i.imgur.com/qmsDFHx.png',
 		name: 'Galactic',
-		godfather: ' ',
+		godfather: 'Insist',
 	},
 	plasma: {
 		icon: 'http://i.imgur.com/czbcEE4.gif',
 		name: 'Plasma',
-		godfather: ' ',
+		godfather: 'Wobbleleez',
 	},
 	flare: {
 		icon: 'http://i.imgur.com/X6g6fbc.png',
@@ -88,7 +89,7 @@ exports.commands = {
 		},
 		leave: function (target, room, user, connection, cmd) {
 			if (!user.gang) return this.errorReply("You are not currently in a gang!");
-			if (user.gangrank !== 'capo' || user.gangrank !== 'godfather') return this.errorReply("You cannot leave a gang if you have a gang rank of godfather or capo");
+			if (user.gangrank === 'capo' || user.gangrank === 'godfather') return this.errorReply("You cannot leave a gang if you have a gang rank of godfather or capo");
 			if (!target || user.gang !== toId(target)) return this.errorReply("Please specify what gang you are leaving to confirm your choice.");
 			Db('gangs').delete(user.userid);
 			Db('gangranks').delete(user.userid);
@@ -98,52 +99,53 @@ exports.commands = {
 		},
 		add: function (target, room, user) {
 			if (!target) return this.errorReply("You must specify a user.");
-			let targetUser = Users(toId(target));
+			let targetUser = target.toLowerCase();
 			if (!Users(targetUser)) return this.errorReply("User not found.");
-			if (!user.gangrank !== 'godfather' || user.gang === '' && !this.can('makechatroom')) return this.errorReply("/gang add - Access denied.");
-			if (targetUser.gang !== '') return this.errorReply("User is already a member of a rival gang.");
+			if (user.gangrank !== 'godfather') return this.errorReply("/gang add - Access denied.");
+			if (!(targetUser.gang !== '')) return this.errorReply("User is already a member of a rival gang.");
 			Db('gangs').set(targetUser, user.gang);
-			targetUser.gang = user.gang;
+			targetUser.gang === user.gang;
 			this.sendReply(targetUser + " has been added to the gang: " + user.gang);
-			targetUser.popup("You have been added to the gang: " + user.gang + " by " + user + ".");
+			Users(target).popup("You have been added to the gang: " + user.gang + " by " + user + ".");
 		},
 		remove: function (target, room, user) {
 			if (!target) return this.errorReply("You must specify a user.");
-			let targetUser = toId(target);
+			let targetUser = target.toLowerCase();
 			if (!Users(targetUser)) return this.errorReply("User not found.");
-			if (!user.gangrank !== 'capo' || user.gangrank !== 'godfather' || user.gang === '' && !this.can('makechatroom')) return this.errorReply("/gang remove - Access denied.");
+			if (!(user.gangrank === 'capo' || user.gangrank === 'godfather')) return this.errorReply("/gang remove - Access denied.");
 			if (targetUser.gang !== user.gang && !this.can('makechatroom')) return this.errorReply("User is not a member of your gang.");
 			Db('gangs').set(targetUser, '');
-			targetUser.gang = '';
+			Users(target).gang = '';
 			this.sendReply(targetUser + " has been removed from the gang: " + user.gang);
-			targetUser.popup("You have been removed from the gang: " + user.gang + " by " + user + ".");
+			Users(targetUser).popup("You have been removed from the gang: " + user.gang + " by " + user + ".");
 		},
 		promote: function (target, room, user) {
 			if (!target) return this.errorReply("You must specify a user.");
-			let targetUser = toId(target);
+			let targetUser = target.toLowerCase();
 			if (!Users(targetUser)) return this.errorReply("User not found.");
-			if (!user.gangrank !== 'capo' || user.gangrank !== 'godfather' || user.gang === '' && !this.can('makechatroom')) return this.errorReply("/gang promote - Access denied.");
+			if (!(user.gangrank === 'capo' || user.gangrank === 'godfather') || user.gang === '' && !this.can('makechatroom')) return this.errorReply("/gang promote - Access denied.");
 			if (targetUser.gang !== user.gang && !this.can('makechatroom')) return this.errorReply("User is not a member of your gang.");
 			Db('gangranks').set(targetUser, 'capo');
-			user.gangrank = 'capo';
+			Users(target).gangrank = 'capo';
 			this.sendReply(targetUser + " has been promoted to capo in the gang: " + user.gang);
-			targetUser.popup("You have been promoted to capo in the gang: " + user.gang + " by " + user + ".");
+			Users(target).popup("You have been promoted to capo in the gang: " + user.gang + " by " + user + ".");
 		},
 		demote: function (target, room, user) {
 			if (!target) return this.errorReply("You must specify a user.");
-			let targetUser = toId(target);
+			let targetUser = target.toLowerCase();
 			if (!Users(targetUser)) return this.errorReply("User not found.");
-			if (!user.gangrank !== 'godfather' || user.gang === '' && !this.can('makechatroom')) return this.errorReply("/gang demote - Access denied.");
+			if (user.gangrank !== 'godfather') return this.errorReply("/gang demote - Access denied.");
 			if (targetUser.gang !== user.gang && !this.can('makechatroom')) return this.errorReply("User is not a member of your gang.");
 			Db('gangranks').set(targetUser, '');
-			user.gangrank = '';
+			Users(target).gangrank = '';
 			this.sendReply(targetUser + " has been demoted in the gang: " + user.gang);
-			targetUser.popup("You have been demoted in the gang: " + user.gang + " by " + user + ".");
+			Users(target).popup("You have been demoted in the gang: " + user.gang + " by " + user + ".");
 		},
 		godfather: function (target, room, user) {
 			let parts = target.split(',');
+			for (let u = 0; u < parts.length; u++) parts[u] = parts[u].trim();
 			if (parts.length < 2) return this.errorReply("You must specify a user and a gang");
-			let gang = parts[1];
+			let gang = parts[1].toLowerCase();
 			if (!Users(toId(parts[0]))) return this.errorReply("User not found.");
 			if (!gangs[gang]) return this.errorReply("This gang does not exist.");
 			let targetUser = Users(toId(parts[0]));
