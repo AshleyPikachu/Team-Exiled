@@ -2485,4 +2485,37 @@ exports.BattleMovedex = {
         target: "normal",
         type: "Rock",
     },
+    "nowimfire": {
+        id: "nowimfire",
+        name: "Now I'm Fire",
+        basePower: 120,
+        accuracy: 100,
+        pp: 15,
+        secondary: false,
+        priority: false,
+        flags: {
+            contact: 1,
+            protect: 1,
+            mirror: 1
+        },
+        self: {
+            boosts: {
+                atk: 1,
+                def: 1,
+                spd: 1,
+                spe: 1
+            }
+        },
+        drain: [1, 2],
+        onHit: function (source) {
+            this.setWeather('sunnyday');
+        },
+        onTryHit: function (target, source) {
+            this.attrLastMove('[still]');
+            this.add('-anim', source, "Flare Blitz", target);
+        },
+        category: "Physical",
+        type: "Fire",
+        target: "normal",
+    },
 };
