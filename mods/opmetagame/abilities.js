@@ -4766,4 +4766,309 @@ exports.BattleAbilities = {
 			}
 		},
 	},
+	"stainlesssteel": {
+		id: "stainlesssteel",
+		name: "Stainless Steel",
+		//iron barbs and rough skin
+		onAfterDamageOrder: 1,
+		onAfterDamage: function (damage, target, source, move) {
+			if (source && source !== target && move && move.flags['contact']) {
+				this.damage(source.maxhp / 4, source, target, null, true);
+			}
+			//aftermath
+			if (source && source !== target && move && move.flags['contact'] && !target.hp) {
+				this.damage(source.maxhp / 4, source, target, null, true);
+			}
+		},
+		//heatproof
+		onBasePowerPriority: 7,
+		onSourceBasePower: function (basePower, attacker, defender, move) {
+			if (move.type === 'Fire') {
+				return this.chainModify(0.5);
+			}
+		},
+		onDamage: function (damage, target, source, effect) {
+			if (effect && effect.id === 'brn') {
+				return damage / 2;
+			}
+		},
+		//filter
+		onSourceModifyDamage: function (damage, source, target, move) {
+			if (move.typeMod > 0) {
+				this.debug('Filter neutralize');
+				return this.chainModify(0.75);
+			}
+		},
+		//stamina
+		onAfterDamage: function (damage, target, source, effect) {
+			if (effect && effect.effectType === 'Move') {
+				this.boost({
+					def: 1,
+					spd: 1
+				});
+			}
+		},
+		//stakeout
+		onModifyDamage: function (damage, source, target) {
+			if (!target.activeTurns) {
+				this.debug('Stakeout boost');
+				return this.chainModify(2);
+			}
+		},
+		//fur coat
+		onModifyDefPriority: 6,
+		onModifyDef: function (def) {
+			return this.chainModify(2);
+		},
+		//special fur coat
+		onModifySpDPriority: 6,
+		onModifySpD: function (spd) {
+			return this.chainModify(2);
+		},
+		//magic guard
+		onDamage: function (damage, target, source, effect) {
+			if (effect.effectType !== 'Move') {
+				return false;
+			}
+		},
+		//moxie
+		onSourceFaint: function (target, source, effect) {
+			if (effect && effect.effectType === 'Move') {
+				this.boost({
+					atk: 1
+				}, source);
+			}
+		},
+		//huge power
+		onModifyAtkPriority: 5,
+		onModifyAtk: function (atk) {
+			return this.chainModify(2);
+		},
+		//mold breaker
+		stopattackevents: true,
+		//speed boost
+		onResidualOrder: 26,
+		onResidualSubOrder: 1,
+		onResidual: function (pokemon) {
+			if (pokemon.activeTurns) {
+				this.boost({
+					atk: 1,
+					def: 1,
+				});
+			}
+		},
+		//tough claws
+		onBasePowerPriority: 8,
+		onBasePower: function (basePower, attacker, defender, move) {
+			if (move.flags['contact']) {
+				return this.chainModify([0x14CD, 0x1000]);
+			}
+		},
+		//long reach
+		onModifyMove: function (move) {
+			delete move.flags['contact'];
+		},
+		//unaware
+		onAnyModifyBoost: function (boosts, target) {
+			let source = this.effectData.target;
+			if (source === target) return;
+			if (source === this.activePokemon && target === this.activeTarget) {
+				boosts['def'] = 0;
+				boosts['spd'] = 0;
+				boosts['evasion'] = 0;
+			}
+			if (target === this.activePokemon && source === this.activeTarget) {
+				boosts['atk'] = 0;
+				boosts['spa'] = 0;
+				boosts['accuracy'] = 0;
+			}
+		},
+		//adaptability
+		onModifyMove: function (move) {
+			move.stab = 2;
+		},
+		onModifyMove: function (move) {
+			move.infiltrates = true;
+		},
+		onStart: function (pokemon) {
+			let foeactive = pokemon.side.foe.active;
+			let activated = false;
+			for (let i = 0; i < foeactive.length; i++) {
+				if (!foeactive[i] || !this.isAdjacent(foeactive[i], pokemon)) continue;
+				if (!activated) {
+					this.add('-ability', pokemon, 'Intimidate', 'boost');
+					activated = true;
+				}
+				if (foeactive[i].volatiles['substitute']) {
+					this.add('-immune', foeactive[i], '[msg]');
+				}
+				else {
+					this.boost({
+						atk: -1
+					}, foeactive[i], pokemon);
+				}
+			}
+		},
+		//justified
+		onAfterDamage: function (damage, target, source, effect) {
+			if (effect && effect.type === 'Dark') {
+				this.boost({
+					atk: 1
+				});
+			}
+		},
+		//magnet pull
+		onFoeTrapPokemon: function (pokemon) {
+			if (pokemon.hasType('Steel') && this.isAdjacent(pokemon, this.effectData.target)) {
+				pokemon.tryTrap(true);
+			}
+		},
+		onFoeMaybeTrapPokemon: function (pokemon, source) {
+			if (!source) source = this.effectData.target;
+			if ((!pokemon.knownType || pokemon.hasType('Steel')) && this.isAdjacent(pokemon, source)) {
+				pokemon.maybeTrapped = true;
+			}
+		},
+		//marvel scale
+		onModifyDefPriority: 6,
+		onModifyDef: function (def, pokemon) {
+			if (pokemon.status) {
+				return this.chainModify(1.5);
+			}
+		},
+		//own tempo
+		onUpdate: function (pokemon) {
+			if (pokemon.volatiles['confusion']) {
+				this.add('-activate', pokemon, 'ability: Own Tempo');
+				pokemon.removeVolatile('confusion');
+			}
+		},
+		onTryAddVolatile: function (status, pokemon) {
+			if (status.id === 'confusion') return null;
+		},
+		onHit: function (target, source, move) {
+			if (move && move.volatileStatus === 'confusion') {
+				this.add('-immune', target, 'confusion', '[from] ability: Own Tempo');
+			}
+		},
+		//parental bond
+		onPrepareHit: function (source, target, move) {
+			if (move.id in {
+					iceball: 1,
+					rollout: 1
+				}) return;
+			if (move.category !== 'Status' && !move.selfdestruct && !move.multihit && !move.flags['charge'] && !move.spreadHit && !move.isZ) {
+				move.multihit = 2;
+				source.addVolatile('parentalbond');
+			}
+		},
+		effect: {
+			duration: 1,
+			onBasePowerPriority: 8,
+			onBasePower: function (basePower) {
+				if (this.effectData.hit) {
+					this.effectData.hit++;
+					return this.chainModify(0.25);
+				}
+				else {
+					this.effectData.hit = 1;
+				}
+			},
+			onSourceModifySecondaries: function (secondaries, target, source, move) {
+				if (move.id === 'secretpower' && this.effectData.hit < 2) {
+					// hack to prevent accidentally suppressing King's Rock/Razor Fang
+					return secondaries.filter(effect => effect.volatileStatus === 'flinch');
+				}
+			},
+		},
+		//pressure
+		onDeductPP: function (target, source) {
+			if (target.side === source.side) return;
+			return 1;
+		},
+		isUnbreakable: true,
+		//sand force
+		onBasePowerPriority: 8,
+		onBasePower: function (basePower, attacker, defender, move) {
+			if (this.isWeather('sandstorm')) {
+				if (move.type === 'Rock' || move.type === 'Ground' || move.type === 'Steel') {
+					this.debug('Sand Force boost');
+					return this.chainModify([0x14CD, 0x1000]);
+				}
+			}
+		},
+		onImmunity: function (type, pokemon) {
+			if (type === 'sandstorm') return false;
+		},
+		//sand stream
+		onStart: function (source) {
+			this.setWeather('sandstorm');
+		},
+		//sand rush
+		onModifySpe: function (spe, pokemon) {
+			if (this.isWeather('sandstorm')) {
+				return this.chainModify(2);
+			}
+		},
+		//sand veil
+		onModifyAccuracy: function (accuracy) {
+			if (typeof accuracy !== 'number') return;
+			if (this.isWeather('sandstorm')) {
+				this.debug('Sand Veil - decreasing accuracy');
+				return accuracy * 0.8;
+			}
+		},
+		//can't be crit'ed
+		onCriticalHit: false,
+		//sniper
+		onModifyDamage: function (damage, source, target, move) {
+			if (move.crit) {
+				this.debug('Sniper boost');
+				return this.chainModify(1.5);
+			}
+		},
+		//soundproof
+		onTryHit: function (target, source, move) {
+			if (target !== source && move.flags['sound']) {
+				this.add('-immune', target, '[msg]', '[from] ability: Soundproof');
+				return null;
+			}
+		},
+		onAllyTryHitSide: function (target, source, move) {
+			if (move.flags['sound']) {
+				this.add('-immune', this.effectData.target, '[msg]', '[from] ability: Soundproof');
+			}
+		},
+		//steelworker
+		onBasePowerPriority: 8,
+		onBasePower: function (basePower, attacker, defender, move) {
+			if (move.type === 'Steel') {
+				this.debug('Steelworker boost');
+				return this.chainModify(1.5);
+			}
+		},
+		//thick fat
+		onModifyAtkPriority: 6,
+		onSourceModifyAtk: function (atk, attacker, defender, move) {
+			if (move.type === 'Ice' || move.type === 'Fire') {
+				this.debug('Thick Fat weaken');
+				return this.chainModify(0.5);
+			}
+		},
+		onModifySpAPriority: 5,
+		onSourceModifySpA: function (atk, attacker, defender, move) {
+			if (move.type === 'Ice' || move.type === 'Fire') {
+				this.debug('Thick Fat weaken');
+				return this.chainModify(0.5);
+			}
+		},
+		//tinted lens
+		onModifyDamage: function (damage, source, target, move) {
+			if (move.typeMod < 0) {
+				this.debug('Tinted Lens boost');
+				return this.chainModify(2);
+			}
+		},
+
+	},
 };
