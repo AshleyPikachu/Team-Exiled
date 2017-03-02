@@ -2,6 +2,7 @@
 
 // The server port - the port to run Pokemon Showdown under
 exports.port = 8080;
+exports.serverid = 'exiled';
 
 // proxyip - proxy IPs with trusted X-Forwarded-For headers
 //   This can be either false (meaning not to trust any proxies) or an array
@@ -189,21 +190,42 @@ exports.customavatars = {
 	//'userid': 'customavatar.png'
 };
 
+// notify staff when users have a certain amount of room punishments.
+//   Setting this to a number greater than zero will notify staff for everyone with
+//   the required amount of room punishments.
+//   Set this to 0 to turn the monitor off.
+exports.monitorminpunishments = 3;
+
+// allow punishmentmonitor to lock users with multiple roombans.
+//	 When set to `true`, this feature will automatically lock any users with three or more
+//	 active roombans, and notify the staff room.
+//   Note that this requires punishmentmonitor to be enabled, and therefore requires the `monitorminpunishments`
+//   option to be set to a number greater than zero. If `monitorminpunishments` is set to a value greater than 3,
+//   the autolock will only apply to people who pass this threshold.
+exports.punishmentautolock = false;
+
 // tourroom - specify a room to receive tournament announcements (defaults to
 // the room 'tournaments').
 // tourannouncements - announcements are only allowed in these rooms
-exports.tourroom = 'Lobby';
-exports.tourannouncements = ['tournaments', 'sotascapfun', 'events', 'casino', 'lobby', 'gamecorner', 'exiledmetas', 'spammerino'];
+exports.tourroom = '';
+exports.tourannouncements = [/*roomid(s)*/];
 
 // appealurl - specify a URL containing information on how users can appeal
 // disciplinary actions on your section. You can also leave this blank, in
 // which case users won't be given any information on how to appeal.
-exports.appealurl = 'http://exiledps.boards.net/board/5/appeals';
+exports.appealurl = ' ';
 
 // replsocketprefix - the prefix for the repl sockets to be listening on
 // replsocketmode - the file mode bits to use for the repl sockets
 exports.replsocketprefix = './logs/repl/';
 exports.replsocketmode = 0o600;
+
+//github repo config
+exports.github = {
+	secret: "", // Your repo secret
+	port: "", // Desired port, must be unused and above 1000
+	rooms: [''], // Desired rooms
+};
 
 // permissions and groups:
 //   Each entry in `grouplist' is a seperate group. Some of the members are "special"
