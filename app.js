@@ -107,6 +107,8 @@ if (Config.watchconfig) {
 
 global.Exiled = {};
 
+global.SG = {};
+
 global.Monitor = require('./monitor');
 
 global.Tools = require('./tools');
@@ -117,6 +119,8 @@ global.LoginServer = require('./loginserver');
 global.Ladders = require(Config.remoteladder ? './ladders-remote' : './ladders');
 
 global.Users = require('./users');
+
+global.Console = require('./console');
 
 global.Punishments = require('./punishments');
 
@@ -132,7 +136,7 @@ global.Wisp = {};
 
 global.Gold = {};
 
-global.SG = {};
+global.SG = require('./SG.js').SG;
 
 global.forever = {};
 
