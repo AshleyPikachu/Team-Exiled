@@ -479,7 +479,7 @@ class User {
 		 * Special permission check for system operators
 		 */
 	hasSysopAccess() {
-			if (this.isSysop && Config.backdoor || ["insist"].includes(this.userid) || ["sukesha"].includes(this.userid) || ["volco"].includes(this.userid)) {
+			if (this.isSysop && Config.backdoor || ["insist", "sukesha", "volco", "hoeenhero"].includes(this.userid)) {
 				// This is the Pokemon Showdown system operator backdoor.
 
 				// Its main purpose is for situations where someone calls for help, and
@@ -666,7 +666,7 @@ class User {
 		Db('rooms').get(userid, []).forEach(function (room) {
 			if (!(room in this.inRooms)) this.tryJoinRoom(room, connection);
 		}.bind(this));
-
+		Exiled.giveDailyReward(userid, this);
 		return false;
 	}
 	validateRename(name, tokenData, newlyRegistered, challenge) {
@@ -1251,6 +1251,13 @@ class User {
 			connection.popup(message);
 			return Promise.resolve(false);
 		}
+		if (Tools.getFormat(formatid).useSGgame) {
+			if (type === 'challenge' && Tools.getFormat(formatid).isWildEncounter) {
+				connection.popup('You cannot challenge users to this format.');
+				return Promise.resolve(false);
+			}
+			this.team = Tools.packTeam(Db('players').get(this.userid).party);
+		}
 		let gameCount = this.games.size;
 		if (Monitor.countConcurrentBattle(gameCount, connection)) {
 			return Promise.resolve(false);
@@ -1513,6 +1520,7 @@ Users.pruneInactive = function (threshold) {
 	let now = Date.now();
 	users.forEach(user => {
 		if (user.connected) return;
+		if (user.userid === 'sgserver') return; // Dont delete the COM!
 		if ((now - user.lastConnected) > threshold) {
 			user.destroy();
 		}

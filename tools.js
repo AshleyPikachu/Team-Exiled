@@ -49,6 +49,11 @@ if (!Object.values) {
 		for (let k in object) values.push(object[k]);
 		return values;
 	};
+	Object.entries = function (object) {
+		let entries = [];
+		for (let k in object) entries.push([k, object[k]]);
+		return entries;
+	};
 }
 
 // shim padStart
@@ -83,38 +88,129 @@ const DATA_FILES = {
 };
 
 const BattleNatures = {
-	adamant: {name:"Adamant", plus:'atk', minus:'spa'},
-	bashful: {name:"Bashful"},
-	bold: {name:"Bold", plus:'def', minus:'atk'},
-	brave: {name:"Brave", plus:'atk', minus:'spe'},
-	calm: {name:"Calm", plus:'spd', minus:'atk'},
-	careful: {name:"Careful", plus:'spd', minus:'spa'},
-	docile: {name:"Docile"},
-	gentle: {name:"Gentle", plus:'spd', minus:'def'},
-	hardy: {name:"Hardy"},
-	hasty: {name:"Hasty", plus:'spe', minus:'def'},
-	impish: {name:"Impish", plus:'def', minus:'spa'},
-	jolly: {name:"Jolly", plus:'spe', minus:'spa'},
-	lax: {name:"Lax", plus:'def', minus:'spd'},
-	lonely: {name:"Lonely", plus:'atk', minus:'def'},
-	mild: {name:"Mild", plus:'spa', minus:'def'},
-	modest: {name:"Modest", plus:'spa', minus:'atk'},
-	naive: {name:"Naive", plus:'spe', minus:'spd'},
-	naughty: {name:"Naughty", plus:'atk', minus:'spd'},
-	quiet: {name:"Quiet", plus:'spa', minus:'spe'},
-	quirky: {name:"Quirky"},
-	rash: {name:"Rash", plus:'spa', minus:'spd'},
-	relaxed: {name:"Relaxed", plus:'def', minus:'spe'},
-	sassy: {name:"Sassy", plus:'spd', minus:'spe'},
-	serious: {name:"Serious"},
-	timid: {name:"Timid", plus:'spe', minus:'atk'},
+	adamant: {
+		name: "Adamant",
+		plus: 'atk',
+		minus: 'spa'
+	},
+	bashful: {
+		name: "Bashful"
+	},
+	bold: {
+		name: "Bold",
+		plus: 'def',
+		minus: 'atk'
+	},
+	brave: {
+		name: "Brave",
+		plus: 'atk',
+		minus: 'spe'
+	},
+	calm: {
+		name: "Calm",
+		plus: 'spd',
+		minus: 'atk'
+	},
+	careful: {
+		name: "Careful",
+		plus: 'spd',
+		minus: 'spa'
+	},
+	docile: {
+		name: "Docile"
+	},
+	gentle: {
+		name: "Gentle",
+		plus: 'spd',
+		minus: 'def'
+	},
+	hardy: {
+		name: "Hardy"
+	},
+	hasty: {
+		name: "Hasty",
+		plus: 'spe',
+		minus: 'def'
+	},
+	impish: {
+		name: "Impish",
+		plus: 'def',
+		minus: 'spa'
+	},
+	jolly: {
+		name: "Jolly",
+		plus: 'spe',
+		minus: 'spa'
+	},
+	lax: {
+		name: "Lax",
+		plus: 'def',
+		minus: 'spd'
+	},
+	lonely: {
+		name: "Lonely",
+		plus: 'atk',
+		minus: 'def'
+	},
+	mild: {
+		name: "Mild",
+		plus: 'spa',
+		minus: 'def'
+	},
+	modest: {
+		name: "Modest",
+		plus: 'spa',
+		minus: 'atk'
+	},
+	naive: {
+		name: "Naive",
+		plus: 'spe',
+		minus: 'spd'
+	},
+	naughty: {
+		name: "Naughty",
+		plus: 'atk',
+		minus: 'spd'
+	},
+	quiet: {
+		name: "Quiet",
+		plus: 'spa',
+		minus: 'spe'
+	},
+	quirky: {
+		name: "Quirky"
+	},
+	rash: {
+		name: "Rash",
+		plus: 'spa',
+		minus: 'spd'
+	},
+	relaxed: {
+		name: "Relaxed",
+		plus: 'def',
+		minus: 'spe'
+	},
+	sassy: {
+		name: "Sassy",
+		plus: 'spd',
+		minus: 'spe'
+	},
+	serious: {
+		name: "Serious"
+	},
+	timid: {
+		name: "Timid",
+		plus: 'spe',
+		minus: 'atk'
+	},
 };
 
 function toId(text) {
 	// this is a duplicate of Dex.getId, for performance reasons
 	if (text && text.id) {
 		text = text.id;
-	} else if (text && text.userid) {
+	}
+	else if (text && text.userid) {
 		text = text.userid;
 	}
 	if (typeof text !== 'string' && typeof text !== 'number') return '';
@@ -229,7 +325,8 @@ class BattleDex {
 	getId(text) {
 		if (text && text.id) {
 			text = text.id;
-		} else if (text && text.userid) {
+		}
+		else if (text && text.userid) {
 			text = text.userid;
 		}
 		if (typeof text !== 'string' && typeof text !== 'number') return '';
@@ -267,11 +364,14 @@ class BattleDex {
 		let typeData = this.data.TypeChart[targetTyping];
 		if (!typeData) return 0;
 		switch (typeData.damageTaken[sourceType]) {
-		case 1: return 1; // super-effective
-		case 2: return -1; // resist
-		// in case of weird situations like Gravity, immunity is
-		// handled elsewhere
-		default: return 0;
+		case 1:
+			return 1; // super-effective
+		case 2:
+			return -1; // resist
+			// in case of weird situations like Gravity, immunity is
+			// handled elsewhere
+		default:
+			return 0;
 		}
 	}
 
@@ -289,7 +389,8 @@ class BattleDex {
 		if (template.otherForms && template.otherForms.indexOf(id) >= 0) {
 			let form = id.slice(template.species.length);
 			species = template.species + '-' + form[0].toUpperCase() + form.slice(1);
-		} else {
+		}
+		else {
 			species = template.species;
 		}
 		return species;
@@ -301,7 +402,8 @@ class BattleDex {
 			let id = toId(name);
 			if (id === 'nidoran' && name.slice(-1) === '♀') {
 				id = 'nidoranf';
-			} else if (id === 'nidoran' && name.slice(-1) === '♂') {
+			}
+			else if (id === 'nidoran' && name.slice(-1) === '♂') {
 				id = 'nidoranm';
 			}
 			template = this.data.TemplateCache.get(id);
@@ -317,11 +419,14 @@ class BattleDex {
 				let aliasTo = '';
 				if (id.startsWith('mega') && this.data.Pokedex[id.slice(4) + 'mega']) {
 					aliasTo = id.slice(4) + 'mega';
-				} else if (id.startsWith('m') && this.data.Pokedex[id.slice(1) + 'mega']) {
+				}
+				else if (id.startsWith('m') && this.data.Pokedex[id.slice(1) + 'mega']) {
 					aliasTo = id.slice(1) + 'mega';
-				} else if (id.startsWith('primal') && this.data.Pokedex[id.slice(6) + 'primal']) {
+				}
+				else if (id.startsWith('primal') && this.data.Pokedex[id.slice(6) + 'primal']) {
 					aliasTo = id.slice(6) + 'primal';
-				} else if (id.startsWith('p') && this.data.Pokedex[id.slice(1) + 'primal']) {
+				}
+				else if (id.startsWith('p') && this.data.Pokedex[id.slice(1) + 'primal']) {
 					aliasTo = id.slice(1) + 'primal';
 				}
 				if (aliasTo) {
@@ -335,7 +440,8 @@ class BattleDex {
 			if (id && this.data.Pokedex.hasOwnProperty(id)) {
 				template = this.deepClone(this.data.Pokedex[id]);
 				template.exists = true;
-			} else {
+			}
+			else {
 				template = {};
 			}
 			name = template.species || template.name || name;
@@ -358,37 +464,62 @@ class BattleDex {
 			if (!template.nfe) template.nfe = !!template.evos.length;
 			if (!template.eggGroups) template.eggGroups = [];
 			if (!template.gender) template.gender = '';
-			if (!template.genderRatio && template.gender === 'M') template.genderRatio = {M:1, F:0};
-			if (!template.genderRatio && template.gender === 'F') template.genderRatio = {M:0, F:1};
-			if (!template.genderRatio && template.gender === 'N') template.genderRatio = {M:0, F:0};
-			if (!template.genderRatio) template.genderRatio = {M:0.5, F:0.5};
+			if (!template.genderRatio && template.gender === 'M') template.genderRatio = {
+				M: 1,
+				F: 0
+			};
+			if (!template.genderRatio && template.gender === 'F') template.genderRatio = {
+				M: 0,
+				F: 1
+			};
+			if (!template.genderRatio && template.gender === 'N') template.genderRatio = {
+				M: 0,
+				F: 0
+			};
+			if (!template.genderRatio) template.genderRatio = {
+				M: 0.5,
+				F: 0.5
+			};
 			if (!template.tier && template.baseSpecies !== template.species) template.tier = this.data.FormatsData[toId(template.baseSpecies)].tier;
 			if (!template.requiredItems && template.requiredItem) template.requiredItems = [template.requiredItem];
 			if (!template.tier) template.tier = 'Illegal';
 			if (!template.gen) {
 				if (template.num >= 722 || template.forme === 'Alola') {
 					template.gen = 7;
-				} else if (template.forme && template.forme in {'Mega':1, 'Mega-X':1, 'Mega-Y':1}) {
+				}
+				else if (template.forme && template.forme in {
+						'Mega': 1,
+						'Mega-X': 1,
+						'Mega-Y': 1
+					}) {
 					template.gen = 6;
 					template.isMega = true;
 					template.battleOnly = true;
-				} else if (template.forme === 'Primal') {
+				}
+				else if (template.forme === 'Primal') {
 					template.gen = 6;
 					template.isPrimal = true;
 					template.battleOnly = true;
-				} else if (template.num >= 650) {
+				}
+				else if (template.num >= 650) {
 					template.gen = 6;
-				} else if (template.num >= 494) {
+				}
+				else if (template.num >= 494) {
 					template.gen = 5;
-				} else if (template.num >= 387) {
+				}
+				else if (template.num >= 387) {
 					template.gen = 4;
-				} else if (template.num >= 252) {
+				}
+				else if (template.num >= 252) {
 					template.gen = 3;
-				} else if (template.num >= 152) {
+				}
+				else if (template.num >= 152) {
 					template.gen = 2;
-				} else if (template.num >= 1) {
+				}
+				else if (template.num >= 1) {
 					template.gen = 1;
-				} else {
+				}
+				else {
 					template.gen = 0;
 				}
 			}
@@ -402,74 +533,82 @@ class BattleDex {
 		return this.data.Learnsets[id].learnset;
 	}
 	getMove(move) {
-		if (!move || typeof move === 'string') {
-			let name = (move || '').trim();
-			let id = toId(name);
-			move = this.data.MoveCache.get(id);
-			if (move) return move;
-			if (this.data.Aliases.hasOwnProperty(id)) {
-				move = this.getMove(this.data.Aliases[id]);
-				if (move.exists) {
-					this.data.MoveCache.set(id, move);
+			if (!move || typeof move === 'string') {
+				let name = (move || '').trim();
+				let id = toId(name);
+				move = this.data.MoveCache.get(id);
+				if (move) return move;
+				if (this.data.Aliases.hasOwnProperty(id)) {
+					move = this.getMove(this.data.Aliases[id]);
+					if (move.exists) {
+						this.data.MoveCache.set(id, move);
+					}
+					return move;
 				}
-				return move;
-			}
-			if (id.substr(0, 11) === 'hiddenpower') {
-				let matches = /([a-z]*)([0-9]*)/.exec(id);
-				id = matches[1];
-			}
-			if (id && this.data.Movedex.hasOwnProperty(id)) {
-				move = this.deepClone(this.data.Movedex[id]);
-				move.exists = true;
-			} else {
-				move = {};
-			}
-			if (!move.id) move.id = id;
-			if (!move.name) move.name = name;
-			if (!move.fullname) move.fullname = 'move: ' + move.name;
-			move.toString = this.effectToString;
-			if (!move.critRatio) move.critRatio = 1;
-			if (!move.baseType) move.baseType = move.type;
-			if (!move.effectType) move.effectType = 'Move';
-			if (!move.secondaries && move.secondary) move.secondaries = [move.secondary];
-			if (!move.gen) {
-				if (move.num >= 622) {
-					move.gen = 7;
-				} else if (move.num >= 560) {
-					move.gen = 6;
-				} else if (move.num >= 468) {
-					move.gen = 5;
-				} else if (move.num >= 355) {
-					move.gen = 4;
-				} else if (move.num >= 252) {
-					move.gen = 3;
-				} else if (move.num >= 166) {
-					move.gen = 2;
-				} else if (move.num >= 1) {
-					move.gen = 1;
-				} else {
-					move.gen = 0;
+				if (id.substr(0, 11) === 'hiddenpower') {
+					let matches = /([a-z]*)([0-9]*)/.exec(id);
+					id = matches[1];
 				}
+				if (id && this.data.Movedex.hasOwnProperty(id)) {
+					move = this.deepClone(this.data.Movedex[id]);
+					move.exists = true;
+				}
+				else {
+					move = {};
+				}
+				if (!move.id) move.id = id;
+				if (!move.name) move.name = name;
+				if (!move.fullname) move.fullname = 'move: ' + move.name;
+				move.toString = this.effectToString;
+				if (!move.critRatio) move.critRatio = 1;
+				if (!move.baseType) move.baseType = move.type;
+				if (!move.effectType) move.effectType = 'Move';
+				if (!move.secondaries && move.secondary) move.secondaries = [move.secondary];
+				if (!move.gen) {
+					if (move.num >= 622) {
+						move.gen = 7;
+					}
+					else if (move.num >= 560) {
+						move.gen = 6;
+					}
+					else if (move.num >= 468) {
+						move.gen = 5;
+					}
+					else if (move.num >= 355) {
+						move.gen = 4;
+					}
+					else if (move.num >= 252) {
+						move.gen = 3;
+					}
+					else if (move.num >= 166) {
+						move.gen = 2;
+					}
+					else if (move.num >= 1) {
+						move.gen = 1;
+					}
+					else {
+						move.gen = 0;
+					}
+				}
+				if (!move.priority) move.priority = 0;
+				if (move.ignoreImmunity === undefined) move.ignoreImmunity = (move.category === 'Status');
+				if (!move.flags) move.flags = {};
+				if (move.exists) this.data.MoveCache.set(id, move);
 			}
-			if (!move.priority) move.priority = 0;
-			if (move.ignoreImmunity === undefined) move.ignoreImmunity = (move.category === 'Status');
-			if (!move.flags) move.flags = {};
-			if (move.exists) this.data.MoveCache.set(id, move);
+			return move;
 		}
-		return move;
-	}
-	/**
-	 * Ensure we're working on a copy of a move (and make a copy if we aren't)
-	 *
-	 * Remember: "ensure" - by default, it won't make a copy of a copy:
-	 *     moveCopy === Tools.getMoveCopy(moveCopy)
-	 *
-	 * If you really want to, use:
-	 *     moveCopyCopy = Tools.getMoveCopy(moveCopy.id)
-	 *
-	 * @param  move    Move ID, move object, or movecopy object describing move to copy
-	 * @return         movecopy object
-	 */
+		/**
+		 * Ensure we're working on a copy of a move (and make a copy if we aren't)
+		 *
+		 * Remember: "ensure" - by default, it won't make a copy of a copy:
+		 *     moveCopy === Tools.getMoveCopy(moveCopy)
+		 *
+		 * If you really want to, use:
+		 *     moveCopyCopy = Tools.getMoveCopy(moveCopy.id)
+		 *
+		 * @param  move    Move ID, move object, or movecopy object describing move to copy
+		 * @return         movecopy object
+		 */
 	getMoveCopy(move) {
 		if (move && move.isCopy) return move;
 		move = this.getMove(move);
@@ -485,25 +624,31 @@ class BattleDex {
 			if (id && this.data.Statuses[id]) {
 				effect = this.data.Statuses[id];
 				effect.name = effect.name || this.data.Statuses[id].name;
-			} else if (id && this.data.Movedex[id] && this.data.Movedex[id].effect) {
+			}
+			else if (id && this.data.Movedex[id] && this.data.Movedex[id].effect) {
 				effect = this.data.Movedex[id].effect;
 				effect.name = effect.name || this.data.Movedex[id].name;
-			} else if (id && this.data.Abilities[id] && this.data.Abilities[id].effect) {
+			}
+			else if (id && this.data.Abilities[id] && this.data.Abilities[id].effect) {
 				effect = this.data.Abilities[id].effect;
 				effect.name = effect.name || this.data.Abilities[id].name;
-			} else if (id && this.data.Items[id] && this.data.Items[id].effect) {
+			}
+			else if (id && this.data.Items[id] && this.data.Items[id].effect) {
 				effect = this.data.Items[id].effect;
 				effect.name = effect.name || this.data.Items[id].name;
-			} else if (id && this.data.Formats[id]) {
+			}
+			else if (id && this.data.Formats[id]) {
 				effect = this.data.Formats[id];
 				effect.name = effect.name || this.data.Formats[id].name;
 				if (!effect.mod) effect.mod = 'gen6';
 				if (!effect.effectType) effect.effectType = 'Format';
-			} else if (id === 'recoil') {
+			}
+			else if (id === 'recoil') {
 				effect = {
 					effectType: 'Recoil',
 				};
-			} else if (id === 'drain') {
+			}
+			else if (id === 'drain') {
 				effect = {
 					effectType: 'Drain',
 				};
@@ -565,7 +710,8 @@ class BattleDex {
 			if (id && this.data.Items.hasOwnProperty(id)) {
 				item = this.data.Items[id];
 				item.exists = true;
-			} else {
+			}
+			else {
 				item = {};
 			}
 			if (!item.id) item.id = id;
@@ -574,21 +720,35 @@ class BattleDex {
 			item.toString = this.effectToString;
 			if (!item.category) item.category = 'Effect';
 			if (!item.effectType) item.effectType = 'Item';
-			if (item.isBerry) item.fling = {basePower: 10};
-			if (item.id.endsWith('plate')) item.fling = {basePower: 90};
-			if (item.onDrive) item.fling = {basePower: 70};
-			if (item.megaStone) item.fling = {basePower: 80};
-			if (item.onMemory) item.fling = {basePower: 50};
+			if (item.isBerry) item.fling = {
+				basePower: 10
+			};
+			if (item.id.endsWith('plate')) item.fling = {
+				basePower: 90
+			};
+			if (item.onDrive) item.fling = {
+				basePower: 70
+			};
+			if (item.megaStone) item.fling = {
+				basePower: 80
+			};
+			if (item.onMemory) item.fling = {
+				basePower: 50
+			};
 			if (!item.gen) {
 				if (item.num >= 689) {
 					item.gen = 7;
-				} else if (item.num >= 577) {
+				}
+				else if (item.num >= 577) {
 					item.gen = 6;
-				} else if (item.num >= 537) {
+				}
+				else if (item.num >= 537) {
 					item.gen = 5;
-				} else if (item.num >= 377) {
+				}
+				else if (item.num >= 377) {
 					item.gen = 4;
-				} else {
+				}
+				else {
 					item.gen = 3;
 				}
 				// Due to difference in storing items, gen 2 items must be specified manually
@@ -608,7 +768,8 @@ class BattleDex {
 				if (ability.cached) return ability;
 				ability.cached = true;
 				ability.exists = true;
-			} else {
+			}
+			else {
 				ability = {};
 			}
 			if (!ability.id) ability.id = id;
@@ -620,15 +781,20 @@ class BattleDex {
 			if (!ability.gen) {
 				if (ability.num >= 192) {
 					ability.gen = 7;
-				} else if (ability.num >= 165) {
+				}
+				else if (ability.num >= 165) {
 					ability.gen = 6;
-				} else if (ability.num >= 124) {
+				}
+				else if (ability.num >= 124) {
 					ability.gen = 5;
-				} else if (ability.num >= 77) {
+				}
+				else if (ability.num >= 77) {
 					ability.gen = 4;
-				} else if (ability.num >= 1) {
+				}
+				else if (ability.num >= 1) {
 					ability.gen = 3;
-				} else {
+				}
+				else {
 					ability.gen = 0;
 				}
 			}
@@ -676,7 +842,13 @@ class BattleDex {
 		return nature;
 	}
 	spreadModify(stats, set) {
-		const modStats = {atk:10, def:10, spa:10, spd:10, spe:10};
+		const modStats = {
+			atk: 10,
+			def: 10,
+			spa: 10,
+			spd: 10,
+			spe: 10
+		};
 		for (let statName in modStats) {
 			let stat = stats[statName];
 			modStats[statName] = Math.floor(Math.floor(2 * stat + set.ivs[statName] + Math.floor(set.evs[statName] / 4)) * set.level / 100 + 5);
@@ -694,13 +866,53 @@ class BattleDex {
 		return stats;
 	}
 
+	getHiddenPower(ivs) {
+		const hpTypes = ['Fighting', 'Flying', 'Poison', 'Ground', 'Rock', 'Bug', 'Ghost', 'Steel', 'Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Ice', 'Dragon', 'Dark'];
+		const stats = {
+			hp: 31,
+			atk: 31,
+			def: 31,
+			spe: 31,
+			spa: 31,
+			spd: 31
+		};
+		if (this.gen <= 2) {
+			// Gen 2 specific Hidden Power check. IVs are still treated 0-31 so we get them 0-15
+			const atkDV = Math.floor(ivs.atk / 2);
+			const defDV = Math.floor(ivs.def / 2);
+			const speDV = Math.floor(ivs.spe / 2);
+			const spcDV = Math.floor(ivs.spa / 2);
+			return {
+				type: hpTypes[4 * (atkDV % 4) + (defDV % 4)],
+				power: Math.floor((5 * ((spcDV >> 3) + (2 * (speDV >> 3)) + (4 * (defDV >> 3)) + (8 * (atkDV >> 3))) + (spcDV > 2 ? 3 : spcDV)) / 2 + 31),
+			};
+		}
+		else {
+			// Hidden Power check for gen 3 onwards
+			let hpTypeX = 0,
+				hpPowerX = 0;
+			let i = 1;
+			for (const s in stats) {
+				hpTypeX += i * (ivs[s] % 2);
+				hpPowerX += i * (Math.floor(ivs[s] / 2) % 2);
+				i *= 2;
+			}
+			return {
+				type: hpTypes[Math.floor(hpTypeX * 15 / 63)],
+				// In Gen 6, Hidden Power is always 60 base power
+				power: (this.gen && this.gen < 6) ? Math.floor(hpPowerX * 40 / 63) + 30 : 60,
+			};
+		}
+	}
+
 	getBanlistTable(format, subformat, depth) {
 		let banlistTable;
 		if (!depth) depth = 0;
 		if (depth > 8) return; // avoid infinite recursion
 		if (format.banlistTable && !subformat) {
 			banlistTable = format.banlistTable;
-		} else {
+		}
+		else {
 			if (!format.banlistTable) format.banlistTable = {};
 			if (!format.setBanTable) format.setBanTable = [];
 			if (!format.teamBanTable) format.teamBanTable = [];
@@ -730,7 +942,8 @@ class BattleDex {
 						complexList = banlist.split('+').map(toId);
 						complexList.unshift(banlist, subformat.name, limit);
 						format.teamLimitTable.push(complexList);
-					} else if (subformat.banlist[i].includes('+')) {
+					}
+					else if (subformat.banlist[i].includes('+')) {
 						if (subformat.banlist[i].includes('++')) {
 							complexList = subformat.banlist[i].split('++');
 							let banlist = complexList.join('+');
@@ -739,7 +952,8 @@ class BattleDex {
 							}
 							complexList.unshift(banlist);
 							format.teamBanTable.push(complexList);
-						} else {
+						}
+						else {
 							complexList = subformat.banlist[i].split('+');
 							for (let j = 0; j < complexList.length; j++) {
 								complexList[j] = toId(complexList[j]);
@@ -841,8 +1055,20 @@ class BattleDex {
 
 		searchIn = searchIn || ['Pokedex', 'Movedex', 'Abilities', 'Items', 'Natures'];
 
-		let searchFunctions = {Pokedex: 'getTemplate', Movedex: 'getMove', Abilities: 'getAbility', Items: 'getItem', Natures: 'getNature'};
-		let searchTypes = {Pokedex: 'pokemon', Movedex: 'move', Abilities: 'ability', Items: 'item', Natures: 'nature'};
+		let searchFunctions = {
+			Pokedex: 'getTemplate',
+			Movedex: 'getMove',
+			Abilities: 'getAbility',
+			Items: 'getItem',
+			Natures: 'getNature'
+		};
+		let searchTypes = {
+			Pokedex: 'pokemon',
+			Movedex: 'move',
+			Abilities: 'ability',
+			Items: 'item',
+			Natures: 'nature'
+		};
 		let searchResults = [];
 		for (let i = 0; i < searchIn.length; i++) {
 			let res = this[searchFunctions[searchIn[i]]](target);
@@ -862,9 +1088,11 @@ class BattleDex {
 		let maxLd = 3;
 		if (cmpTarget.length <= 1) {
 			return false;
-		} else if (cmpTarget.length <= 4) {
+		}
+		else if (cmpTarget.length <= 4) {
 			maxLd = 1;
-		} else if (cmpTarget.length <= 6) {
+		}
+		else if (cmpTarget.length <= 6) {
 			maxLd = 2;
 		}
 		for (let i = 0; i < searchIn.length; i++) {
@@ -884,7 +1112,10 @@ class BattleDex {
 
 				let ld = this.levenshtein(cmpTarget, word.toLowerCase(), maxLd);
 				if (ld <= maxLd) {
-					searchResults.push({word: word, ld: ld});
+					searchResults.push({
+						word: word,
+						ld: ld
+					});
 				}
 			}
 		}
@@ -934,14 +1165,18 @@ class BattleDex {
 			if (abilities) {
 				if (id === toId(abilities['0'])) {
 					buf += '|';
-				} else if (id === toId(abilities['1'])) {
+				}
+				else if (id === toId(abilities['1'])) {
 					buf += '|1';
-				} else if (id === toId(abilities['H'])) {
+				}
+				else if (id === toId(abilities['H'])) {
 					buf += '|H';
-				} else {
+				}
+				else {
 					buf += '|' + id;
 				}
-			} else {
+			}
+			else {
 				buf += '|' + id;
 			}
 
@@ -958,14 +1193,16 @@ class BattleDex {
 			}
 			if (evs === '|,,,,,') {
 				buf += '|';
-			} else {
+			}
+			else {
 				buf += evs;
 			}
 
 			// gender
 			if (set.gender && set.gender !== template.gender) {
 				buf += '|' + set.gender;
-			} else {
+			}
+			else {
 				buf += '|';
 			}
 
@@ -976,29 +1213,39 @@ class BattleDex {
 			}
 			if (ivs === '|,,,,,') {
 				buf += '|';
-			} else {
+			}
+			else {
 				buf += ivs;
 			}
 
 			// shiny
 			if (set.shiny) {
 				buf += '|S';
-			} else {
+			}
+			else {
 				buf += '|';
 			}
 
 			// level
 			if (set.level && set.level !== 100) {
 				buf += '|' + set.level;
-			} else {
+			}
+			else {
 				buf += '|';
 			}
 
 			// happiness
 			if (set.happiness !== undefined && set.happiness !== 255) {
 				buf += '|' + set.happiness;
-			} else {
+			}
+			else {
 				buf += '|';
+			}
+
+			if (set.pokeball || set.hpType || set.exp) {
+				buf += ',' + set.hpType;
+				buf += ',' + toId(set.pokeball);
+				buf += ',' + set.exp;
 			}
 		}
 
@@ -1009,7 +1256,8 @@ class BattleDex {
 		if (!buf) return null;
 
 		let team = [];
-		let i = 0, j = 0;
+		let i = 0,
+			j = 0;
 
 		// limit to 24
 		for (let count = 0; count < 24; count++) {
@@ -1039,13 +1287,18 @@ class BattleDex {
 			if (j < 0) return;
 			let ability = buf.substring(i, j);
 			let template = dexes['base'].getTemplate(set.species);
-			set.ability = (template.abilities && ability in {'':1, 0:1, 1:1, H:1} ? template.abilities[ability || '0'] : ability);
+			set.ability = (template.abilities && ability in {
+				'': 1,
+				0: 1,
+				1: 1,
+				H: 1
+			} ? template.abilities[ability || '0'] : ability);
 			i = j + 1;
 
 			// moves
 			j = buf.indexOf('|', i);
 			if (j < 0) return;
-			set.moves = buf.substring(i, j).split(',');
+			set.moves = buf.substring(i, j).split(',', 24);
 			i = j + 1;
 
 			// nature
@@ -1058,7 +1311,7 @@ class BattleDex {
 			j = buf.indexOf('|', i);
 			if (j < 0) return;
 			if (j !== i) {
-				let evs = buf.substring(i, j).split(',');
+				let evs = buf.substring(i, j).split(',', 6);
 				set.evs = {
 					hp: Number(evs[0]) || 0,
 					atk: Number(evs[1]) || 0,
@@ -1080,7 +1333,7 @@ class BattleDex {
 			j = buf.indexOf('|', i);
 			if (j < 0) return;
 			if (j !== i) {
-				let ivs = buf.substring(i, j).split(',');
+				let ivs = buf.substring(i, j).split(',', 6);
 				set.ivs = {
 					hp: ivs[0] === '' ? 31 : Number(ivs[0]) || 0,
 					atk: ivs[1] === '' ? 31 : Number(ivs[1]) || 0,
@@ -1106,13 +1359,20 @@ class BattleDex {
 
 			// happiness
 			j = buf.indexOf(']', i);
+			let misc;
 			if (j < 0) {
-				if (buf.substring(i)) {
-					set.happiness = Number(buf.substring(i));
-				}
-				break;
+				if (i < buf.length) misc = buf.substring(i).split(',', 4);
 			}
-			if (i !== j) set.happiness = Number(buf.substring(i, j));
+			else {
+				if (i !== j) misc = buf.substring(i, j).split(',', 4);
+			}
+			if (misc) {
+				set.happiness = Number(misc[0]);
+				set.hpType = misc[1];
+				set.pokeball = misc[2];
+				set.exp = Number(misc[3]);
+			}
+			if (j < 0) break;
 			i = j + 1;
 		}
 
@@ -1139,7 +1399,8 @@ class BattleDex {
 			if (!dataObject || typeof dataObject !== 'object') return new TypeError(`${filePath}, if it exists, must export a non-null object`);
 			if (!dataObject[key] || typeof dataObject[key] !== 'object') return new TypeError(`${filePath}, if it exists, must export an object whose '${key}' property is a non-null object`);
 			return dataObject[key];
-		} catch (e) {
+		}
+		catch (e) {
 			if (e.code !== 'MODULE_NOT_FOUND') {
 				throw e;
 			}
@@ -1170,7 +1431,9 @@ class BattleDex {
 	includeData() {
 		if (this.dataLoaded) return this;
 		dexes['base'].includeMods();
-		if (!this.data) this.data = {mod: this.currentMod};
+		if (!this.data) this.data = {
+			mod: this.currentMod
+		};
 
 		let basePath = this.isBase ? './data/' : './mods/' + this.currentMod + '/';
 
@@ -1200,7 +1463,8 @@ class BattleDex {
 		if (this.isBase) {
 			// Formats are inherited by mods
 			this.includeFormats();
-		} else {
+		}
+		else {
 			for (let dataType of DATA_TYPES) {
 				const parentTypedData = parentDex.data[dataType];
 				const childTypedData = this.data[dataType] || (this.data[dataType] = {});
@@ -1208,16 +1472,19 @@ class BattleDex {
 					if (childTypedData[entryId] === null) {
 						// null means don't inherit
 						delete childTypedData[entryId];
-					} else if (!(entryId in childTypedData)) {
+					}
+					else if (!(entryId in childTypedData)) {
 						// If it doesn't exist it's inherited from the parent data
 						if (dataType === 'Pokedex') {
 							// Pokedex entries can be modified too many different ways
 							// e.g. inheriting different formats-data/learnsets
 							childTypedData[entryId] = this.deepClone(parentTypedData[entryId]);
-						} else {
+						}
+						else {
 							childTypedData[entryId] = parentTypedData[entryId];
 						}
-					} else if (childTypedData[entryId] && childTypedData[entryId].inherit) {
+					}
+					else if (childTypedData[entryId] && childTypedData[entryId].inherit) {
 						// {inherit: true} can be used to modify only parts of the parent data,
 						// instead of overwriting entirely
 						delete childTypedData[entryId].inherit;
@@ -1246,7 +1513,9 @@ class BattleDex {
 		this.includeMods();
 		if (this.formatsLoaded) return this;
 
-		if (!this.data) this.data = {mod: this.currentMod};
+		if (!this.data) this.data = {
+			mod: this.currentMod
+		};
 		if (!this.data.Formats) this.data.Formats = {};
 
 		// Load [formats] aliases
@@ -1257,7 +1526,8 @@ class BattleDex {
 		let Formats;
 		try {
 			Formats = require('./config/formats').Formats;
-		} catch (e) {
+		}
+		catch (e) {
 			if (e.code !== 'MODULE_NOT_FOUND') throw e;
 		}
 		if (!Array.isArray(Formats)) throw new TypeError("Exported property `Formats` from `" + "./config/formats.js" + "` must be an array.");

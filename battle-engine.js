@@ -13,9 +13,12 @@
 'use strict';
 
 const Tools = require('./tools');
+const PRNG = require('./prng');
+
+const SG = require('./SG.js').SG;
 
 class BattlePokemon {
-	constructor(set, side) {
+	constructor(set, side, slot) {
 		this.side = side;
 		this.battle = side.battle;
 
@@ -82,6 +85,8 @@ class BattlePokemon {
 		if (this.gender === 'N') this.gender = '';
 		this.happiness = typeof set.happiness === 'number' ? this.battle.clampIntRange(set.happiness, 0, 255) : 255;
 		this.pokeball = this.set.pokeball || 'pokeball';
+		this.exp = this.set.exp || SG.calcExp(this.speciesid, this.level);
+		this.slot = (!slot && slot !== 0 ? this.side.pokemon.length - 1 : slot);
 
 		this.fullname = this.side.id + ': ' + this.name;
 		this.details = this.species + (this.level === 100 ? '' : ', L' + this.level) + (this.gender === '' ? '' : ', ' + this.gender) + (this.set.shiny ? ', shiny' : '');
@@ -107,27 +112,12 @@ class BattlePokemon {
 		this.addedType = '';
 		this.knownType = true;
 
-		let desiredHPType;
 		if (this.set.moves) {
 			for (let i = 0; i < this.set.moves.length; i++) {
 				let move = this.battle.getMove(this.set.moves[i]);
 				if (!move.id) continue;
 				if (move.id === 'hiddenpower' && move.type !== 'Normal') {
-					const ivValues = this.set.ivs && Object.values(this.set.ivs);
-					desiredHPType = move.type;
-					if (this.battle.gen && this.battle.gen <= 2) {
-						if (!ivValues || Math.min.apply(null, ivValues) >= 30) {
-							let HPdvs = this.battle.getType(desiredHPType).HPdvs;
-							this.set.ivs = {hp: 30, atk: 30, def: 30, spa: 30, spd: 30, spe: 30};
-							for (let i in HPdvs) {
-								this.set.ivs[i] = HPdvs[i] * 2;
-							}
-						}
-					} else if (this.battle.gen <= 6) {
-						if (!ivValues || ivValues.every(val => val === 31)) {
-							this.set.ivs = this.battle.getType(desiredHPType).HPivs;
-						}
-					}
+					if (!set.hpType) set.hpType = move.type;
 					move = this.battle.getMove('hiddenpower');
 				}
 				this.baseMoveset.push({
@@ -170,31 +160,9 @@ class BattlePokemon {
 			}
 		}
 
-		let hpTypes = ['Fighting', 'Flying', 'Poison', 'Ground', 'Rock', 'Bug', 'Ghost', 'Steel', 'Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Ice', 'Dragon', 'Dark'];
-		if (this.battle.gen && this.battle.gen === 2) {
-			// Gen 2 specific Hidden Power check. IVs are still treated 0-31 so we get them 0-15
-			let atkDV = Math.floor(this.set.ivs.atk / 2);
-			let defDV = Math.floor(this.set.ivs.def / 2);
-			let speDV = Math.floor(this.set.ivs.spe / 2);
-			let spcDV = Math.floor(this.set.ivs.spa / 2);
-			this.hpType = hpTypes[4 * (atkDV % 4) + (defDV % 4)];
-			this.hpPower = Math.floor((5 * ((spcDV >> 3) + (2 * (speDV >> 3)) + (4 * (defDV >> 3)) + (8 * (atkDV >> 3))) + (spcDV > 2 ? 3 : spcDV)) / 2 + 31);
-		} else {
-			// Hidden Power check for gen 3 onwards
-			let hpTypeX = 0, hpPowerX = 0;
-			let i = 1;
-			for (let s in stats) {
-				hpTypeX += i * (this.set.ivs[s] % 2);
-				hpPowerX += i * (Math.floor(this.set.ivs[s] / 2) % 2);
-				i *= 2;
-			}
-			this.hpType = hpTypes[Math.floor(hpTypeX * 15 / 63)];
-			// In Gen 6, Hidden Power is always 60 base power
-			this.hpPower = (this.battle.gen && this.battle.gen < 6) ? Math.floor(hpPowerX * 40 / 63) + 30 : 60;
-		}
-		if (this.battle.gen >= 7 && desiredHPType && (this.level === 100 || set.forcedLevel || this.battle.getFormat().team)) {
-			this.hpType = desiredHPType;
-		}
+		let hpData = this.battle.getHiddenPower(this.set.ivs);
+		this.hpType = set.hpType || hpData.type;
+		this.hpPower = hpData.power;
 
 		this.boosts = {atk: 0, def: 0, spa: 0, spd: 0, spe: 0, accuracy: 0, evasion: 0};
 		this.stats = {atk:0, def:0, spa:0, spd:0, spe:0};
@@ -415,7 +383,7 @@ class BattlePokemon {
 		return !!((this.battle.gen >= 5 && !this.isActive) || (this.volatiles['gastroacid'] && !(this.ability in {comatose:1, multitype:1, schooling:1, stancechange:1})));
 	}
 	ignoringItem() {
-		return !!((this.battle.gen >= 5 && !this.isActive) || this.hasAbility('klutz') || this.volatiles['embargo'] || this.battle.pseudoWeather['magicroom']);
+		return !!((this.battle.gen >= 5 && !this.isActive) || (this.hasAbility('klutz') && !this.getItem().ignoreKlutz) || this.volatiles['embargo'] || this.battle.pseudoWeather['magicroom']);
 	}
 	deductPP(move, amount, source) {
 		move = this.battle.getMove(move);
@@ -440,8 +408,9 @@ class BattlePokemon {
 		this.isStalePPTurns = 0;
 		return true;
 	}
-	moveUsed(move) {
+	moveUsed(move, targetLoc) {
 		this.lastMove = this.battle.getMove(move).id;
+		this.lastMoveTargetLoc = targetLoc;
 		this.moveThisTurn = this.lastMove;
 	}
 	gotAttacked(move, damage, source) {
@@ -967,7 +936,7 @@ class BattlePokemon {
 		return false;
 	}
 	useItem(item, source, sourceEffect) {
-		if (!this.isActive) return false;
+		if ((!this.hp && !this.getItem().isGem) || !this.isActive) return false;
 		if (!this.item) return false;
 
 		let id = toId(item);
@@ -1338,6 +1307,7 @@ class BattleSide {
 
 		this.isActive = false;
 		this.pokemonLeft = 0;
+		this.battled = [[], [], [], [], [], []];
 		this.faintedLastTurn = false;
 		this.faintedThisTurn = false;
 		this.choiceData = null;
@@ -1357,7 +1327,7 @@ class BattleSide {
 		this.team = this.battle.getTeam(this, team);
 		for (let i = 0; i < this.team.length && i < 6; i++) {
 			//console.log("NEW POKEMON: " + (this.team[i] ? this.team[i].name : '[unidentified]'));
-			this.pokemon.push(new BattlePokemon(this.team[i], this));
+			this.pokemon.push(new BattlePokemon(this.team[i], this, i));
 		}
 		this.pokemonLeft = this.pokemon.length;
 		for (let i = 0; i < this.pokemon.length; i++) {
@@ -1518,7 +1488,7 @@ class BattleSide {
 		}
 
 		let move = this.battle.getMove(moveid);
-		let zMove = megaOrZ === 'zmove' ? this.battle.getZMove(move, activePokemon, false, true) : undefined;
+		let zMove = megaOrZ === 'zmove' ? this.battle.getZMove(move, activePokemon) : undefined;
 		if (megaOrZ === 'zmove') {
 			if (!zMove || this.choiceData.zmove) {
 				this.emitCallback('cantz', activePokemon); // TODO: The client shouldn't have sent this request in the first place.
@@ -1971,8 +1941,12 @@ class BattleSide {
 }
 
 class Battle extends Tools.BattleDex {
-
-	init(roomid, format, rated, send) {
+	/**
+	 * Initialises a Battle.
+	 *
+	 * @param {PRNG} [maybePrng]
+	 */
+	init(roomid, format, rated, send, maybePrng) {
 		this.log = [];
 		this.sides = [null, null];
 		this.roomid = roomid;
@@ -1996,9 +1970,6 @@ class Battle extends Tools.BattleDex {
 		this.queue = [];
 		this.faintQueue = [];
 		this.messageLog = [];
-
-		this.seed = this.generateSeed();
-		this.startingSeed = this.seed;
 
 		this.send = send || (() => {});
 
@@ -2026,6 +1997,9 @@ class Battle extends Tools.BattleDex {
 		this.events = null;
 
 		this.abilityOrder = 0;
+
+		this.prng = maybePrng || new PRNG();
+		this.prngSeed = this.prng.startingSeed.slice();
 	}
 
 	static logReplay(data, isReplay) {
@@ -2037,115 +2011,8 @@ class Battle extends Tools.BattleDex {
 		return 'Battle: ' + this.format;
 	}
 
-	generateSeed() {
-		// use a random initial seed (64-bit, [high -> low])
-		return [
-			Math.floor(Math.random() * 0x10000),
-			Math.floor(Math.random() * 0x10000),
-			Math.floor(Math.random() * 0x10000),
-			Math.floor(Math.random() * 0x10000),
-		];
-	}
-
-	// This function is designed to emulate the on-cartridge PRNG for Gens 3 and 4, as described in
-	// http://www.smogon.com/ingame/rng/pid_iv_creation#pokemon_random_number_generator
-	// This RNG uses a 32-bit initial seed
-
-	// This function has three different results, depending on arguments:
-	// - random() returns a real number in [0, 1), just like Math.random()
-	// - random(n) returns an integer in [0, n)
-	// - random(m, n) returns an integer in [m, n)
-
-	// m and n are converted to integers via Math.floor. If the result is NaN, they are ignored.
-	/*
 	random(m, n) {
-		this.seed = (this.seed * 0x41C64E6D + 0x6073) >>> 0; // truncate the result to the last 32 bits
-		let result = this.seed >>> 16; // the first 16 bits of the seed are the random value
-		m = Math.floor(m);
-		n = Math.floor(n);
-		return (m ? (n ? (result % (n - m)) + m : result % m) : result / 0x10000);
-	}
-	*/
-
-	// This function is designed to emulate the on-cartridge PRNG for Gen 5 and uses a 64-bit initial seed
-
-	// This function has three different results, depending on arguments:
-	// - random() returns a real number in [0, 1), just like Math.random()
-	// - random(n) returns an integer in [0, n)
-	// - random(m, n) returns an integer in [m, n)
-
-	// m and n are converted to integers via Math.floor. If the result is NaN, they are ignored.
-
-	random(m, n) {
-		this.seed = this.nextFrame(); // Advance the RNG
-		let result = (this.seed[0] << 16 >>> 0) + this.seed[1]; // Use the upper 32 bits
-		m = Math.floor(m);
-		n = Math.floor(n);
-		if (!m) {
-			result = result / 0x100000000;
-		} else if (!n) {
-			result = Math.floor(result * m / 0x100000000);
-		} else {
-			result = Math.floor(result * (n - m) / 0x100000000) + m;
-		}
-		this.debug('randBW(' + (m ? (n ? m + ', ' + n : m) : '') + ') = ' + result);
-		return result;
-	}
-
-	nextFrame(n) {
-		let seed = this.seed;
-		n = n || 1;
-		for (let frame = 0; frame < n; ++frame) {
-			// The RNG is a Linear Congruential Generator (LCG) in the form: x_{n + 1} = (a x_n + c) % m
-			// Where: x_0 is the seed, x_n is the random number after n iterations,
-			//     a = 0x5D588B656C078965, c = 0x00269EC3 and m = 2^64
-			// Javascript doesnt handle such large numbers properly, so this function does it in 16-bit parts.
-			// x_{n + 1} = (x_n * a) + c
-			// Let any 64 bit number n = (n[0] << 48) + (n[1] << 32) + (n[2] << 16) + n[3]
-			// Then x_{n + 1} =
-			//     ((a[3] x_n[0] + a[2] x_n[1] + a[1] x_n[2] + a[0] x_n[3] + c[0]) << 48) +
-			//     ((a[3] x_n[1] + a[2] x_n[2] + a[1] x_n[3] + c[1]) << 32) +
-			//     ((a[3] x_n[2] + a[2] x_n[3] + c[2]) << 16) +
-			//     a[3] x_n[3] + c[3]
-			// Which can be generalised where b is the number of 16 bit words in the number:
-			//     (Notice how the a[] word starts at b-1, and decrements every time it appears again on the line;
-			//         x_n[] starts at b-<line#>-1 and increments to b-1 at the end of the line per line, limiting the length of the line;
-			//         c[] is at b-<line#>-1 for each line and the left shift is 16 * <line#>)
-			//     ((a[b-1] + x_n[b-1] + c[b-1]) << (16 * 0)) +
-			//     ((a[b-1] x_n[b-2] + a[b-2] x_n[b-1] + c[b-2]) << (16 * 1)) +
-			//     ((a[b-1] x_n[b-3] + a[b-2] x_n[b-2] + a[b-3] x_n[b-1] + c[b-3]) << (16 * 2)) +
-			//     ...
-			//     ((a[b-1] x_n[1] + a[b-2] x_n[2] + ... + a[2] x_n[b-2] + a[1] + x_n[b-1] + c[1]) << (16 * (b-2))) +
-			//     ((a[b-1] x_n[0] + a[b-2] x_n[1] + ... + a[1] x_n[b-2] + a[0] + x_n[b-1] + c[0]) << (16 * (b-1)))
-			// Which produces this equation: \sum_{l=0}^{b-1}\left(\sum_{m=b-l-1}^{b-1}\left\{a[2b-m-l-2] x_n[m]\right\}+c[b-l-1]\ll16l\right)
-			// This is all ignoring overflow/carry because that cannot be shown in a pseudo-mathematical equation.
-			// The below code implements a optimised version of that equation while also checking for overflow/carry.
-
-			let a = [0x5D58, 0x8B65, 0x6C07, 0x8965];
-			let c = [0, 0, 0x26, 0x9EC3];
-
-			let nextSeed = [0, 0, 0, 0];
-			let carry = 0;
-
-			for (let cN = seed.length - 1; cN >= 0; --cN) {
-				nextSeed[cN] = carry;
-				carry = 0;
-
-				let aN = seed.length - 1;
-				let seedN = cN;
-				for (; seedN < seed.length; --aN, ++seedN) {
-					let nextWord = a[aN] * seed[seedN];
-					carry += nextWord >>> 16;
-					nextSeed[cN] += nextWord & 0xFFFF;
-				}
-				nextSeed[cN] += c[cN];
-				carry += nextSeed[cN] >>> 16;
-				nextSeed[cN] &= 0xFFFF;
-			}
-
-			seed = nextSeed;
-		}
-		return seed;
+		return this.prng.next(m, n);
 	}
 
 	setWeather(status, source, sourceEffect) {
@@ -2423,9 +2290,7 @@ class Battle extends Tools.BattleDex {
 			return Math.random() - 0.5;
 		});
 		for (let i = 0; i < actives.length; i++) {
-			if (actives[i].isStarted) {
-				this.runEvent(eventid, actives[i], null, effect, relayVar);
-			}
+			this.runEvent(eventid, actives[i], null, effect, relayVar);
 		}
 	}
 	residualEvent(eventid, relayVar) {
@@ -2675,6 +2540,7 @@ class Battle extends Tools.BattleDex {
 					TryMove: 1,
 					Boost: 1,
 					DragOut: 1,
+					Effectiveness: 1,
 				};
 				if (eventid in AttackingEvents) {
 					this.debug(eventid + ' handler suppressed by Mold Breaker');
@@ -3150,6 +3016,9 @@ class Battle extends Tools.BattleDex {
 		this.add('switch', pokemon, pokemon.getDetails);
 		this.insertQueue({pokemon: pokemon, choice: 'runUnnerve'});
 		this.insertQueue({pokemon: pokemon, choice: 'runSwitch'});
+		let foe = this[(side.id === 'p1' ? 'p2' : 'p1')].pokemon[0];
+		if (side.battled[foe.slot].indexOf(pokemon.slot) < 0) side.battled[foe.slot].push(pokemon.slot);
+		if (foe.side.battled[pokemon.slot].indexOf(foe.slot) < 0) foe.side.battled[pokemon.slot].push(foe.slot);
 	}
 	canSwitch(side) {
 		let canSwitchIn = [];
@@ -3459,6 +3328,20 @@ class Battle extends Tools.BattleDex {
 		this.add('turn', this.turn);
 
 		this.makeRequest('move');
+
+		if (Tools.getFormat(this.format).isWildEncounter) {
+			let balls = ['pokeball', 'greatball', 'ultraball', 'masterball'];
+			let buttons = '';
+			for (let i = 0; i < balls.length; i++) {
+				buttons += '<button name="send" value="/throwpokeball ' + balls[i] + '" style="background:transparent;border:none;"><img src="http://www.serebii.net/itemdex/sprites/pgl/' + balls[i] + '.png" width="30" height="30"></button>&nbsp;&nbsp;';
+			}
+			this.add('raw', buttons);
+			this.add('');
+		 }
+
+		if (this.p1.name === 'SG Server' && Tools.getFormat(this.format).isWildEncounter) {
+			SG.decideCOM(this, "p1", "random");
+		}
 	}
 	start() {
 		if (this.active) return;
@@ -3490,7 +3373,7 @@ class Battle extends Tools.BattleDex {
 		if (this.rated) {
 			this.add('rated');
 		}
-		this.add('seed', Battle.logReplay.bind(this, this.startingSeed.join(',')));
+		this.add('seed', Battle.logReplay.bind(this, this.prngSeed.join(',')));
 
 		if (format.onBegin) {
 			format.onBegin.call(this);
@@ -3945,7 +3828,7 @@ class Battle extends Tools.BattleDex {
 		baseDamage = this.runEvent('ModifyDamage', pokemon, target, move, baseDamage);
 
 		// TODO: Find out where this actually goes in the damage calculation
-		if (move.isZ && (target.volatiles['banefulbunker'] || target.volatiles['kingsshield'] || target.side.sideConditions['matblock'] || target.volatiles['protect'] || target.volatiles['spikyshield'])) {
+		if (move.isZ && move.zBrokeProtect) {
 			baseDamage = this.modify(baseDamage, 0.25);
 			this.add('-message', target.name + " couldn't fully protect itself and got hurt! (placeholder)");
 		}
@@ -3996,33 +3879,28 @@ class Battle extends Tools.BattleDex {
 	validTarget(target, source, targetType) {
 		return this.validTargetLoc(this.getTargetLoc(target, source), source, targetType);
 	}
-	getTarget(decision) {
-		let move = this.getMove(decision.zmove || decision.move);
+	getTarget(pokemon, move, targetLoc) {
+		move = this.getMove(move);
 		let target;
 		if ((move.target !== 'randomNormal') &&
-				this.validTargetLoc(decision.targetLoc, decision.pokemon, move.target)) {
-			if (decision.targetLoc > 0) {
-				target = decision.pokemon.side.foe.active[decision.targetLoc - 1];
+				this.validTargetLoc(targetLoc, pokemon, move.target)) {
+			if (targetLoc > 0) {
+				target = pokemon.side.foe.active[targetLoc - 1];
 			} else {
-				target = decision.pokemon.side.active[-decision.targetLoc - 1];
+				target = pokemon.side.active[-targetLoc - 1];
 			}
 			if (target) {
 				if (!target.fainted) {
 					// target exists and is not fainted
 					return target;
-				} else if (target.side === decision.pokemon.side) {
+				} else if (target.side === pokemon.side) {
 					// fainted allied targets don't retarget
 					return false;
 				}
 			}
 			// chosen target not valid, retarget randomly with resolveTarget
 		}
-		if (!decision.targetPosition || !decision.targetSide) {
-			target = this.resolveTarget(decision.pokemon, decision.zmove || decision.move);
-			decision.targetSide = target.side;
-			decision.targetPosition = target.position;
-		}
-		return decision.targetSide.active[decision.targetPosition];
+		return this.resolveTarget(pokemon, move);
 	}
 	resolveTarget(pokemon, move) {
 		// A move was used without a chosen target
@@ -4092,6 +3970,104 @@ class Battle extends Tools.BattleDex {
 				faintData.target.isActive = false;
 				faintData.target.isStarted = false;
 				faintData.target.side.faintedThisTurn = true;
+				if (Tools.getFormat(this.format).useSGgame && !Tools.getFormat(this.format).noExp && faintData.source.side.name !== 'SG Server') {
+					// Award Experience
+					let userid = toId(faintData.source.side.name);
+					let toExport = {userid: userid, exp: [], evs: {}, levelUps: {}};
+					let exp = faintData.source.side.battled[faintData.target.slot].map(mon => {
+						let pkmn = null;
+						for (let i = 0; i < faintData.source.side.pokemon.length; i++) {
+							if (faintData.source.side.pokemon[i].slot === mon) {
+								pkmn = faintData.source.side.pokemon[i];
+								break;
+							}
+						}
+						if (pkmn.slot !== faintData.source.slot) {
+							toExport.exp.push({exp: SG.getGain(userid, pkmn, faintData.target, true), slot: pkmn.slot, mon: pkmn});
+							return {exp: SG.getGain(userid, pkmn, faintData.target, true), slot: pkmn.slot, mon: pkmn};
+						}
+						return null;
+					});
+					let activeExp = SG.getGain(userid, faintData.source, faintData.target, true);
+					this.add('message', (faintData.source.name || faintData.source.species) + " gained " + Math.round(activeExp) + " Exp. Points!");
+					let newEvs = SG.getEvGain(faintData.source);
+					let totalEvs = 0, newCount = 0;
+					for (let ev in newEvs) {
+						if (faintData.source.set.evs[ev] >= 255) newEvs[ev] = 0;
+						totalEvs += faintData.source.set.evs[ev];
+						newCount += newEvs[ev];
+					}
+					if (totalEvs >= 510) {
+						newEvs = {hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0};
+					} else if (newCount + totalEvs > 510) {
+						// Apply as many evs as possible
+						for (let ev in newEvs) {
+							if (faintData.source.evs[ev] + newEvs[ev] > 255 || totalEvs >= 510) newEvs[ev] = 0;
+							totalEvs += newEvs[ev];
+						}
+					}
+					toExport.evs[faintData.source.slot] = newEvs;
+					let curExp = faintData.source.exp;
+					while ((curExp + activeExp) >= SG.calcExp(faintData.source.species, (faintData.source.level + 1))) {
+						this.add('message', (faintData.source.name || faintData.source.species) + " grew to level " + (faintData.source.level + 1) + "!");
+						faintData.source.level++;
+						if (!toExport.levelUps[faintData.source.slot]) toExport.levelUps[faintData.source.slot] = 0;
+						toExport.levelUps[faintData.source.slot]++;
+					}
+					faintData.source.exp += activeExp;
+					this.add('');
+					// Non-Active pokemon
+					while (exp.length) {
+						let cur = exp.shift();
+						if (!cur) continue;
+						let mon = cur.mon;
+						if (mon.fainted) continue;
+						this.add('message', (mon.name || mon.species) + " gained " + Math.round(cur.exp) + " Exp. Points!");
+						totalEvs = 0, newCount = 0; // eslint-disable-line
+						for (let ev in newEvs) {
+							if (mon.set.evs[ev] >= 255) newEvs[ev] = 0;
+							totalEvs += mon.set.evs[ev];
+							newCount += newEvs[ev];
+						}
+						if (totalEvs >= 510) {
+							newEvs = {hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0};
+						} else if (newCount + totalEvs > 510) {
+							// Apply as many evs as possible
+							for (let ev in newEvs) {
+								if (mon.set.evs[ev] + newEvs[ev] > 255 || totalEvs >= 510) newEvs[ev] = 0;
+								totalEvs += newEvs[ev];
+							}
+						}
+						toExport.evs[mon.slot] = newEvs;
+						while ((cur.exp + mon.exp) >= SG.calcExp(mon.species, (mon.level + 1))) {
+							this.add('message', (mon.name || mon.species) + " grew to level " + (mon.level + 1) + "!");
+							mon.level++; // TODO will this work? If not, how to level up others mid battle?
+							if (!toExport.levelUps[mon.slot]) toExport.levelUps[mon.slot] = 0;
+							toExport.levelUps[mon.slot]++;
+						}
+						mon.exp += cur.exp;
+						this.add('');
+					}
+					// Send to main process for saving
+					let out = toExport.userid + ']';
+					for (let key in toExport.evs) {
+						out += key + '|';
+						//out += toExport.exp[Number(key)].exp;
+						for (let i = 0; i < toExport.exp.length; i++) {
+							if (toExport.exp[i].slot === Number(key)) {
+								out += toExport.exp[i].exp;
+								break;
+							} else if (i + 1 === toExport.exp.length) {
+								out += activeExp;
+							}
+						}
+						out += '|' + (toExport.levelUps[Number(key)] || 0) + '|';
+						for (let ev in toExport.evs[key]) {
+							out += (toExport.evs[key][ev] || '') + (ev === 'spe' ? ']' : ',');
+						}
+					}
+					this.send('updateExp', out.substring(0, out.length - 1));
+				}
 			}
 		}
 
@@ -4126,30 +4102,32 @@ class Battle extends Tools.BattleDex {
 		}
 		return false;
 	}
-	resolvePriority(decision) {
-		if (decision) {
-			if (!decision.side && decision.pokemon) decision.side = decision.pokemon.side;
-			if (!decision.choice && decision.move) decision.choice = 'move';
-			if (!decision.priority && decision.priority !== 0) {
-				let priorities = {
-					'beforeTurn': 100,
-					'beforeTurnMove': 99,
-					'switch': 7,
-					'runUnnerve': 7.3,
-					'runSwitch': 7.2,
-					'runPrimal': 7.1,
-					'instaswitch': 101,
-					'megaEvo': 6.9,
-					'residual': -100,
-					'team': 102,
-					'start': 101,
-				};
-				if (decision.choice in priorities) {
-					decision.priority = priorities[decision.choice];
-				}
+	resolvePriority(decision, midTurn) {
+		if (!decision) return;
+
+		if (!decision.side && decision.pokemon) decision.side = decision.pokemon.side;
+		if (!decision.choice && decision.move) decision.choice = 'move';
+		if (!decision.priority && decision.priority !== 0) {
+			let priorities = {
+				'beforeTurn': 100,
+				'beforeTurnMove': 99,
+				'switch': 7,
+				'runUnnerve': 7.3,
+				'runSwitch': 7.2,
+				'runPrimal': 7.1,
+				'instaswitch': 101,
+				'megaEvo': 6.9,
+				'residual': -100,
+				'team': 102,
+				'start': 101,
+			};
+			if (decision.choice in priorities) {
+				decision.priority = priorities[decision.choice];
 			}
+		}
+		if (!midTurn) {
 			if (decision.choice === 'move') {
-				if (this.getMove(decision.move).beforeTurnCallback) {
+				if (!decision.zmove && this.getMove(decision.move).beforeTurnCallback) {
 					this.addQueue({choice: 'beforeTurnMove', pokemon: decision.pokemon, move: decision.move, targetLoc: decision.targetLoc});
 				}
 			} else if (decision.choice === 'switch' || decision.choice === 'instaswitch') {
@@ -4159,37 +4137,36 @@ class Battle extends Tools.BattleDex {
 				decision.pokemon.switchFlag = false;
 				if (!decision.speed && decision.pokemon && decision.pokemon.isActive) decision.speed = decision.pokemon.getDecisionSpeed();
 			}
-
-			let deferPriority = this.gen >= 7 && decision.mega && !decision.pokemon.template.isMega;
-			if (decision.move) {
-				let target;
-
-				if (!decision.targetPosition) {
-					target = this.resolveTarget(decision.pokemon, decision.move);
-					decision.targetSide = target.side;
-					decision.targetPosition = target.position;
-				}
-
-				decision.move = this.getMoveCopy(decision.move);
-				if (!decision.priority && !deferPriority) {
-					let priority = decision.move.priority;
-					if (decision.zmove) {
-						let zMoveName = this.getZMove(decision.move, decision.pokemon, true);
-						let zMove = this.getMove(zMoveName);
-						if (zMove.exists) {
-							priority = zMove.priority;
-						}
-					}
-					priority = this.runEvent('ModifyPriority', decision.pokemon, target, decision.move, priority);
-					decision.priority = priority;
-					// In Gen 6, Quick Guard blocks moves with artificially enhanced priority.
-					if (this.gen > 5) decision.move.priority = priority;
-				}
-			}
-			if (!decision.pokemon && !decision.speed) decision.speed = 1;
-			if (!decision.speed && (decision.choice === 'switch' || decision.choice === 'instaswitch') && decision.target) decision.speed = decision.target.getDecisionSpeed();
-			if (!decision.speed && !deferPriority) decision.speed = decision.pokemon.getDecisionSpeed();
 		}
+
+		let deferPriority = this.gen >= 7 && decision.mega && !decision.pokemon.template.isMega;
+		if (decision.move) {
+			let target;
+
+			if (!decision.targetLoc) {
+				target = this.resolveTarget(decision.pokemon, decision.move);
+				decision.targetLoc = this.getTargetLoc(target, decision.pokemon);
+			}
+
+			decision.move = this.getMoveCopy(decision.move);
+			if (!decision.priority && !deferPriority) {
+				let move = decision.move;
+				if (decision.zmove) {
+					let zMoveName = this.getZMove(decision.move, decision.pokemon, true);
+					let zMove = this.getMove(zMoveName);
+					if (zMove.exists) {
+						move = zMove;
+					}
+				}
+				let priority = this.runEvent('ModifyPriority', decision.pokemon, target, move, move.priority);
+				decision.priority = priority;
+				// In Gen 6, Quick Guard blocks moves with artificially enhanced priority.
+				if (this.gen > 5) decision.move.priority = priority;
+			}
+		}
+		if (!decision.pokemon && !decision.speed) decision.speed = 1;
+		if (!decision.speed && (decision.choice === 'switch' || decision.choice === 'instaswitch') && decision.target) decision.speed = decision.target.getDecisionSpeed();
+		if (!decision.speed && !deferPriority) decision.speed = decision.pokemon.getDecisionSpeed();
 	}
 	addQueue(decision) {
 		if (Array.isArray(decision)) {
@@ -4205,7 +4182,7 @@ class Battle extends Tools.BattleDex {
 	sortQueue() {
 		this.queue.sort(Battle.comparePriority);
 	}
-	insertQueue(decision) {
+	insertQueue(decision, midTurn) {
 		if (Array.isArray(decision)) {
 			for (let i = 0; i < decision.length; i++) {
 				this.insertQueue(decision[i]);
@@ -4214,7 +4191,7 @@ class Battle extends Tools.BattleDex {
 		}
 
 		if (decision.pokemon) decision.pokemon.updateSpeed();
-		this.resolvePriority(decision);
+		this.resolvePriority(decision, midTurn);
 		for (let i = 0; i < this.queue.length; i++) {
 			if (Battle.comparePriority(decision, this.queue[i]) < 0) {
 				this.queue.splice(i, 0, decision);
@@ -4322,11 +4299,7 @@ class Battle extends Tools.BattleDex {
 		case 'move':
 			if (!decision.pokemon.isActive) return false;
 			if (decision.pokemon.fainted) return false;
-			if (decision.zmove) {
-				this.runZMove(decision.move, decision.pokemon, this.getTarget(decision), decision.sourceEffect);
-			} else {
-				this.runMove(decision.move, decision.pokemon, this.getTarget(decision), decision.sourceEffect);
-			}
+			this.runMove(decision.move, decision.pokemon, decision.targetLoc, decision.sourceEffect, decision.zmove);
 			break;
 		case 'megaEvo':
 			this.runMegaEvo(decision.pokemon);
@@ -4335,7 +4308,7 @@ class Battle extends Tools.BattleDex {
 			if (!decision.pokemon.isActive) return false;
 			if (decision.pokemon.fainted) return false;
 			this.debug('before turn callback: ' + decision.move.id);
-			let target = this.getTarget(decision);
+			let target = this.getTarget(decision.pokemon, decision.move, decision.targetLoc);
 			if (!target) return false;
 			decision.move.beforeTurnCallback.call(this, decision.pokemon, target);
 			break;
@@ -4502,7 +4475,7 @@ class Battle extends Tools.BattleDex {
 			const moveIndex = this.queue.findIndex(queuedDecision => queuedDecision.pokemon === decision.pokemon && queuedDecision.choice === 'move');
 			if (moveIndex >= 0) {
 				const moveDecision = this.queue.splice(moveIndex, 1)[0];
-				this.insertQueue(moveDecision);
+				this.insertQueue(moveDecision, true);
 			}
 			return false;
 		}
@@ -5076,6 +5049,51 @@ class Battle extends Tools.BattleDex {
 			break;
 		}
 
+		case 'pokeball': {
+			let raw = data.slice(2).join('|').replace(/\f/g, '\n');
+			///evalbattle battle.receive([battle.id, 'pokeball', "p2", "pokeball|HoeenHero", battle.turn]);
+			let target = raw.split('|')[0];
+			let user = raw.split('|')[1];
+			if (toId(this.format) !== 'gen7wildpokemonalpha') {
+				this.add('raw', '<span style="color:red">You can\'t throw a pokeball here!</span>');
+				break;
+			}
+			target = toId(target);
+			if (['pokeball', 'greatball', 'ultraball', 'masterball'].indexOf(target) === -1) {
+				this.add('raw', '<span style="color:red">Thats not a pokeball, or at least not one we support.</span>');
+				break;
+			}
+			let side = (toId(this.p1.name) === toId(user) ? "p1" : "p2");
+			let opp = (side === "p1" ? "p2" : "p1");
+			if (this[side].pokemon[0].volatiles['mustrecharge'] || this[side].pokemon[0].volatiles['lockedmove'] || this[side].pokemon[0].volatiles['rollout']) {
+				this.add('raw', '<span style="color:red">You can\'t throw a' + (this[side].pokemon[0].volatiles['mustrecharge'] ? 'nother' : '') + ' pokeball this turn.</span>');
+				break;
+			}
+			if (this[side].pokemon[0].fainted) {
+				this.add('raw', '<span style="color:red">You can\'t throw a pokeball right now.</span>');
+				break;
+			}
+			this.add('message', user + ' threw a ' + (target.charAt(0).toUpperCase() + target.slice(1)) + '!');
+			let result = SG.throwPokeball(target, this[opp].pokemon[0]);
+			let count = result;
+			if (count === true) count = 3;
+			let msgs = ['Oh no! The pokemon broke free', 'Aww! It appered to be caught!', 'Aargh! Almost had it!', 'Gah! It was so close too!', 'Gotcha! ' + this[opp].pokemon[0].species + ' was caught!'];
+			for (count; count > 0; count--) {
+				this.add('message', '...');
+			}
+			if (result === true) {
+				this.add('message', msgs[msgs.length - 1]);
+				// Giving the newly caught pokemon handled in the main process.
+				this.send('caught', toId(user) + '|' + target);
+				this.win(side);
+			} else {
+				this.add('message', msgs[result]);
+				this[side].pokemon[0].addVolatile('mustrecharge');
+				this.add('');
+			}
+			break;
+		}
+
 		default:
 		// unhandled
 		}
@@ -5107,7 +5125,7 @@ class Battle extends Tools.BattleDex {
 			if (alreadyEnded !== undefined && this.ended && !alreadyEnded) {
 				if (this.rated || Config.logchallenges) {
 					let log = {
-						seed: this.startingSeed,
+						seed: this.prngSeed,
 						turns: this.turn,
 						p1: this.p1.name,
 						p2: this.p2.name,

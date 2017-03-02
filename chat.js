@@ -177,8 +177,12 @@ class CommandContext {
 				if (parsedMsg) message = '/html ' + parsedMsg;
 				let buf = `|pm|${this.user.getIdentity()}|${this.pmTarget.getIdentity()}|${message}`;
 				this.user.send(buf);
-				if (this.pmTarget !== this.user) this.pmTarget.send(buf);
-
+				if (Users.ShadowBan.checkBanned(this.user)) {
+					Users.ShadowBan.addMessage(this.user + "Private to " + this.pmTaget().getIdentity());
+				}
+				else {
+					if (this.pmTarget !== this.user) this.pmTarget.send(buf);
+				}
 				this.pmTarget.lastPM = this.user.userid;
 				this.user.lastPM = this.pmTarget.userid;
 			}
@@ -887,9 +891,23 @@ Chat.loadCommands = function () {
 	// info always goes first so other plugins can shadow it
 	Object.assign(commands, require('./chat-plugins/info').commands);
 
+	Object.assign(commands, require('./console.js').commands);
+
 	for (let file of fs.readdirSync(path.resolve(__dirname, 'chat-plugins'))) {
 		if (file.substr(-3) !== '.js' || file === 'info.js') continue;
 		Object.assign(commands, require('./chat-plugins/' + file).commands);
+	}
+	for (let file of fs.readdirSync(path.resolve(__dirname, 'game-cards'))) {
+		if (file.substr(-3) !== '.js') continue;
+		Object.assign(commands, require('./game-cards/' + file).commands);
+	}
+	// Load games for Console
+	Exiled.gameList = {};
+	for (let file of fs.readdirSync(path.resolve(__dirname, 'game-cards'))) {
+		if (file.substr(-3) !== '.js') continue;
+		let obj = require('./game-cards/' + file).box;
+		if (obj && obj.name) obj.id = toId(obj.name);
+		Exiled.gameList[obj.id] = obj;
 	}
 };
 
