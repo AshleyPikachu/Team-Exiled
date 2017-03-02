@@ -3013,5 +3013,226 @@ exports.Formats = [
 				this.add('-end', pokemon, oMegaTemplate.requiredItem || oMegaTemplate.requiredMove, '[silent]');
 			}
 		},
+		// SGgame Formats
+	////////////////////////////////////////////////////////////////////
+
+	{
+		section: "SG Game Formats",
+		column: 6,
+	}, {
+		name: "[Gen 7] Wild Pokemon (Alpha)",
+		desc: ["Wild Pok&eacute;mon battles for the SG game project (WIP)"],
+		rated: false,
+		useSGgame: true,
+		isWildEncounter: true,
+
+		mod: 'gen7',
+		ruleset: ['Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod'],
+		//banlist: ['Illegal', 'CAP'],
+		onValidateSet: function (set) {
+			let problems = [];
+			let item = this.getItem(set.item);
+			let totalEV = 0;
+			let template = Tools.getTemplate(set.species || set.name);
+			if (set.level && template.evoLevel && set.level < template.evoLevel) problems.push((set.name || set.species) + ' must be level ' + template.evoLevel + ' to be evolved.');
+			if (set.moves && set.moves.length > 4) {
+				problems.push((set.name || set.species) + ' has more than four moves.');
+			}
+			if (set.level && set.level > 100) {
+				problems.push((set.name || set.species) + ' is higher than level 100.');
+			}
+			for (let k in set.evs) {
+				if (typeof set.evs[k] !== 'number' || set.evs[k] < 0) {
+					set.evs[k] = 0;
+				}
+				totalEV += set.evs[k];
+			}
+			if (totalEV > 510) problems.push((set.name || set.species) + " has more than 510 total EVs.");
+			if (template.gender) {
+				if (set.gender !== template.gender) {
+					set.gender = template.gender;
+				}
+			}
+			else {
+				if (set.gender !== 'M' && set.gender !== 'F') {
+					set.gender = undefined;
+				}
+			}
+			let moves = [];
+			if (set.moves) {
+				let hasMove = {};
+				for (let i = 0; i < set.moves.length; i++) {
+					let move = this.getMove(set.moves[i]);
+					let moveid = move.id;
+					if (hasMove[moveid]) continue;
+					hasMove[moveid] = true;
+					moves.push(set.moves[i]);
+				}
+			}
+			set.moves = moves;
+
+			let battleForme = template.battleOnly && template.species;
+			if (battleForme) {
+				if (template.requiredAbility && set.ability !== template.requiredAbility) {
+					problems.push("" + template.species + " transforms in-battle with " + template.requiredAbility + "."); // Darmanitan-Zen, Zygarde-Complete
+				}
+				if (template.requiredItems && !template.requiredItems.includes(item.name)) {
+					problems.push("" + template.species + " transforms in-battle with " + Chat.plural(template.requiredItems.length, "either ") + template.requiredItems.join(" or ") + '.'); // Mega or Primal
+				}
+				if (template.requiredMove && set.moves.indexOf(toId(template.requiredMove)) < 0) {
+					problems.push("" + template.species + " transforms in-battle with " + template.requiredMove + "."); // Meloetta-Pirouette, Rayquaza-Mega
+				}
+				set.species = template.baseSpecies; // Fix forme for Aegislash, Castform, etc.
+			}
+			else {
+				if (template.requiredAbility && set.ability !== template.requiredAbility) {
+					problems.push("" + (set.name || set.species) + " needs the ability " + template.requiredAbility + "."); // No cases currently.
+				}
+				if (template.requiredItems && !template.requiredItems.includes(item.name)) {
+					problems.push("" + (set.name || set.species) + " needs to hold " + Chat.plural(template.requiredItems.length, "either ") + template.requiredItems.join(" or ") + '.'); // Memory/Drive/Griseous Orb/Plate/Z-Crystal - Forme mismatch
+				}
+				if (template.requiredMove && set.moves.indexOf(toId(template.requiredMove)) < 0) {
+					problems.push("" + (set.name || set.species) + " needs to have the move " + template.requiredMove + "."); // Keldeo-Resolute
+				}
+
+				// Mismatches between the set forme (if not base) and the item signature forme will have been rejected already.
+				// It only remains to assign the right forme to a set with the base species (Arceus/Genesect/Giratina/Silvally).
+				if (item.forcedForme && template.species === this.getTemplate(item.forcedForme).baseSpecies) {
+					set.species = item.forcedForme;
+				}
+			}
+
+			if (template.species === 'Pikachu-Cosplay') {
+				let cosplay = {
+					meteormash: 'Pikachu-Rock-Star',
+					iciclecrash: 'Pikachu-Belle',
+					drainingkiss: 'Pikachu-Pop-Star',
+					electricterrain: 'Pikachu-PhD',
+					flyingpress: 'Pikachu-Libre'
+				};
+				for (let i = 0; i < set.moves.length; i++) {
+					if (set.moves[i] in cosplay) {
+						set.species = cosplay[set.moves[i]];
+						break;
+					}
+				}
+			}
+
+			if (set.species !== template.species) {
+				// Autofixed forme.
+				template = this.getTemplate(set.species);
+				// Ensure that the ability is (still) legal.
+				let legalAbility = false;
+				for (let i in template.abilities) {
+					if (template.abilities[i] !== set.ability) continue;
+					legalAbility = true;
+					break;
+				}
+				if (!legalAbility) { // Default to first ability.
+					set.ability = template.abilities['0'];
+				}
+			}
+
+			return problems;
+		},
+	}, {
+		name: "Draconic Super Staff Bros.",
+		section: "Draconic's Custom Gamemodes",
+		mod: 'dssb',
+		column: 6,
+		team: 'randomSeasonalMelee',
+		ruleset: ['Sleep Clause Mod', 'HP Percentage Mod', 'Cancel Mod'],
+		desc: [
+			"Credit to: Insist (head coder).",
+			"Thanks to all the auth whom cooperated in this process of making this.",
+			"&bullet; <a href=\"http://pastebin.com/cYa8KBss\">How to Submit a Pokemon</a>",
+		],
+		onBegin: function() {
+			// This seasonal gets a bit from Super Smash Bros., that's where the initial message comes from.
+			this.add('message', "GET READY FOR THE NEXT BATTLE!");
+			// This variable saves the status of a spammy conversation to be played, so it's only played once.
+			this.convoPlayed = false;
+		},
+		// Edgy switch-in sentences go here.
+		// Sentences vary in style and how they are presented, so each Pokémon has its own way of sending them.
+		onSwitchIn: function(pokemon) {
+			var name = toId(pokemon.name);
+			var sentences = [];
+			var sentence = '';
+
+			//Switch-in Quotes
+			if (name === 'insist') {
+				this.add('c|~Insist|__**^^Let\'s get roooooiiiiiiight into le noose!^^**__');
+			}
+			if (name === 'fiftynine') {
+				this.add('c|%FiftyNine|Get ready, because I\'m a member of S.T.A.R.S.!');
+			}
+			if (name === 'earlofkarp') {
+				this.add('c|%earl of karp|Und der Cherub steht vor Gott.');
+			}
+			if (name === 'stormminority') {
+				this.add('c|+Storm Minority|Okay, now we are talking! I always do enjoy a good conversation.');
+			}
+			if (name === 'dragobot') {
+				this.add('c|*Drago Bot|Boop Glhf beep');
+			}
+			if (name === '59bot') {
+				this.add('c|%FiftyNine|Alrighty then, lets test this out.');
+			}
+			// Add here special typings, done for flavor mainly. (and stat boosts)
+		},
+		//Switch-out Phrase
+		onSwitchOut: function(pokemon) {
+			var name = toId(pokemon.name);
+			var sentences = [];
+			var sentence = '';
+			//switchout
+			if (name === 'insist') {
+				this.add('c|~Insist|Errrr I\'ll see you later, just sayin\' this is me just uhhh running away from my problems.... I errr just need a walk! Geez, why are you on to me on everything I do ughhhhhhhhhhh you\'re not my mom!');
+			}
+			if (name === 'fiftynine') {
+				this.add('c|%FiftyNine|You\'re stronger than I expected, I\'m gonna need backup!');
+			}
+			if (name === 'earlofkarp') {
+				this.add('c|%earl of karp|Der Cherub wird zurückkehren.');
+			}
+			if (name === 'dragobot') {
+				this.add('c|*Drago Bot|/me disconnected. Will retry in 10 seconds');
+			}
+			if (name === '59bot') {
+				this.add('c|%FiftyNine|Hmmm... Well, I\'m gonna take it out for a bit and investigate what\'s going on.');
+			}
+		},
+		// Add here salty tears, that is, custom faint phrases.
+		onFaint: function(pokemon) {
+			var name = toId(pokemon.name);
+			var sentences = [];
+			var sentence = '';
+			//le faint
+			if (name === 'insist') {
+				this.add('c|~Insist|Death.... what a cool concept.');
+				this.add('c|~Insist|Wait wot!');
+				this.add('c|~Insist|>~Insist fainted.');
+				this.add('c|~Insist|That\'s obviously hax m8!');
+				this.add('c|~Insist|T-T-That\'s IMPOSSIBRU!');
+				this.add('c|~Insist|~~__**^^walks off......^^**__~~')
+			}
+			if (name === 'fiftynine') {
+				this.add('c|%FiftyNine|You got lucky, kid. But my team will back me up.');
+			}
+			if (name === 'earlofkarp') {
+				this.add('c|%earl of karp|What\'s this?! How did you beat me?!');
+			}
+			if (name === 'stormminority') {
+				this.add('c|+Storm Minority|Always leave on a good note');
+			}
+			if (name == -'dragobot') {
+				this.add('c|*Drago Bot|beep. Fuck you. Boop!');
+			}
+			if (name === '59bot') {
+				this.add('c|%FiftyNine|/me sighs');
+				this.add('c|%FiftyNine|I\'m taking the bot down until I know what\'s wrong with it.');
+			}
+		},
 	},
 ];
