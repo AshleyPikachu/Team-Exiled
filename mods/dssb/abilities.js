@@ -116,43 +116,6 @@ exports.BattleAbilities = {
 			}
 		},
 	},
-	"thatsmyboi": {
-		id: "thatsmyboi",
-		name: "THATS MY BOI",
-		onPrepareHit: function(source, target, move) {
-			if (move.id in {
-					iceball: 1,
-					rollout: 1
-				}) return;
-			if (move.category !== 'Status' && !move.selfdestruct && !move.multihit && !move.flags['charge'] && !move.spreadHit && !move.isZ) {
-				move.multihit = 2;
-				source.addVolatile('parentalbond');
-			}
-		},
-		effect: {
-			duration: 1,
-			onBasePowerPriority: 8,
-			onBasePower: function(basePower) {
-				if (this.effectData.hit) {
-					this.effectData.hit++;
-					return this.chainModify(0.25);
-				}
-				else {
-					this.effectData.hit = 1;
-				}
-			},
-		},
-		onModifyMove: function(move) {
-			move.secondaries.push({
-				chance: 30,
-				status: 'psn',
-				status: 'brn',
-				status: 'par',
-				status: 'tox',
-				ability: this.getAbility('thatsmyboi'),
-			});
-		},
-	},
 	"solarrule": {
 		id: "solarrule",
 		name: "Solar Rule",
