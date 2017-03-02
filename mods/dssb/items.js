@@ -13,7 +13,7 @@ exports.BattleItems = {
 		gen: -1,
 		desc: "If holder is a Ludicolo with Aqua Subscribe, it can use Exiled From All Others.",
 	},
-	'encouragementstone': {
+	"encouragementstone": {
 		spritenum: 307,
 		id: "encouragementstone",
 		name: "Encouragement Stone",
@@ -24,11 +24,11 @@ exports.BattleItems = {
 		},
 		onModifyAtkPriority: 1,
 		onModifyAtk: function(atk, pokemon) {
-			if (pokemon.baseTemplate.baseSpecies === 'Kangaskhan' || pokemon.baseTemplate.baseSpecies === 'Kangaskhan-Mega') {
+			if (pokemon.baseTemplate.baseSpecies === 'Kangaskhan-Mega') {
 				return this.chainModify(1.5);
 			}
 		},
-		onUpdate: function(pokemon) {
+		onHit: function(pokemon) {
 			this.boost({
 				atk: 1
 			});
