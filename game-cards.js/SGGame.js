@@ -208,6 +208,8 @@ class Player {
 		];
 		this.party = starter;
 		this.pokedex = {};
+		// Queue for learning moves and evolutions, run the data with this.runQueue();
+ 		this.queue = [];
 		// More to come...
 	}
 	test() {
@@ -239,6 +241,17 @@ class Player {
 		this.pc[box - 1].push(pokemon);
 		return box;
 	}
+	runQueue() {
+		if (!this.queue.length) return;
+		while (this.queue.length) {
+			let cur = this.queue.shift();
+			// TODO
+
+		}
+		// Save data
+		//Db('players').set(this.userid, this); // Commented to prevent errors while in development
+	}
+	
 	unBoxPoke(box, slot) {
 		box = Number(box);
 		slot = Number(slot);
