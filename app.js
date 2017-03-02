@@ -107,8 +107,6 @@ if (Config.watchconfig) {
 
 global.Exiled = {};
 
-global.SG = {};
-
 global.Monitor = require('./monitor');
 
 global.Tools = require('./tools');
@@ -120,9 +118,9 @@ global.Ladders = require(Config.remoteladder ? './ladders-remote' : './ladders')
 
 global.Users = require('./users');
 
-global.Console = require('./console');
-
 global.Punishments = require('./punishments');
+
+global.Console = require('./console.js');
 
 global.Chat = require('./chat');
 
@@ -131,10 +129,6 @@ global.Rooms = require('./rooms');
 global.Tells = require('./tells');
 
 global.Ontime = {};
-
-global.Wisp = {};
-
-global.Gold = {};
 
 global.SG = require('./SG.js').SG;
 
@@ -196,6 +190,11 @@ Tools.includeFormats();
 
 global.TeamValidator = require('./team-validator');
 TeamValidator.PM.spawn();
+
+/*********************************************************
+ * Start up the githubhook server
+ ********************************************************/
+require('./github');
 
 /*********************************************************
  * Start up the REPL server
