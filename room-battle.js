@@ -15,6 +15,8 @@
 
 global.Config = require('./config/config');
 
+global.Db = require('origindb')('config/db');
+
 const ProcessManager = require('./process-manager');
 
 class SimulatorManager extends ProcessManager {
@@ -25,10 +27,13 @@ class SimulatorManager extends ProcessManager {
 	}
 
 	eval(code) {
-		for (let process of this.processes) {
-			process.send('|eval|' + code);
+			for (let process of this.processes) {
+				process.send('|eval|' + code);
+			}
 		}
-	}
+		//Add event listeners here, call with (process object for the battle ex: room.battle).send('event', 'data');
+		//TODO figure out points where we can call to other process.
+		//TODO figure out the proper point to call to a room-battle process.
 }
 
 const SimulatorProcess = new SimulatorManager({
@@ -58,12 +63,12 @@ class BattlePlayer {
 		if (this.active) this.simSend('leave');
 		let user = Users(this.userid);
 		if (user) {
-			user.games.delete(this.game.id);
-			user.updateSearch();
 			for (let j = 0; j < user.connections.length; j++) {
 				let connection = user.connections[j];
 				Sockets.subchannelMove(connection.worker, this.game.id, '0', connection.socketid);
 			}
+			user.games.delete(this.game.id);
+			user.updateSearch();
 		}
 		this.game[this.slot] = null;
 	}
@@ -148,9 +153,11 @@ class Battle {
 		let active = true;
 		if (this.ended || !this.started) {
 			active = false;
-		} else if (!this.p1 || !this.p1.active) {
+		}
+		else if (!this.p1 || !this.p1.active) {
 			active = false;
-		} else if (!this.p2 || !this.p2.active) {
+		}
+		else if (!this.p2 || !this.p2.active) {
 			active = false;
 		}
 		Rooms.global.battleCount += (active ? 1 : 0) - (this.active ? 1 : 0);
@@ -222,44 +229,47 @@ class Battle {
 			this.checkActive();
 			break;
 
-		case 'sideupdate': {
-			let player = this[lines[2]];
-			if (player) {
-				player.sendRoom(lines[3]);
-			}
-			break;
-		}
-
-		case 'request': {
-			let player = this[lines[2]];
-			let rqid = lines[3];
-
-			if (rqid !== this.rqid) {
-				this.rqid = rqid;
-				this.inactiveQueued = true;
-			}
-			if (player) {
-				const isNewRequest = !this.requests[player.slot] || +this.requests[player.slot][0] < +rqid;
-				if (isNewRequest) {
-					player.choiceIndex = 0;
+		case 'sideupdate':
+			{
+				let player = this[lines[2]];
+				if (player) {
+					player.sendRoom(lines[3]);
 				}
-				this.requests[player.slot] = [rqid, lines[4]];
-				player.sendRoom('|request|' + (player.choiceIndex ? player.choiceIndex + '|' + player.choiceData + '\n' : '') + lines[4]);
+				break;
 			}
-			break;
-		}
 
-		case 'choice': {
-			let player = this[lines[2]];
-			let rqid = lines[3];
-			let choiceIndex = +lines[4];
-			let choiceData = lines[5];
-			if (rqid === this.rqid && player) {
-				player.choiceIndex = choiceIndex;
-				player.choiceData = choiceData;
+		case 'request':
+			{
+				let player = this[lines[2]];
+				let rqid = lines[3];
+
+				if (rqid !== this.rqid) {
+					this.rqid = rqid;
+					this.inactiveQueued = true;
+				}
+				if (player) {
+					const isNewRequest = !this.requests[player.slot] || +this.requests[player.slot][0] < +rqid;
+					if (isNewRequest) {
+						player.choiceIndex = 0;
+					}
+					this.requests[player.slot] = [rqid, lines[4]];
+					player.sendRoom('|request|' + (player.choiceIndex ? player.choiceIndex + '|' + player.choiceData + '\n' : '') + lines[4]);
+				}
+				break;
 			}
-			break;
-		}
+
+		case 'choice':
+			{
+				let player = this[lines[2]];
+				let rqid = lines[3];
+				let choiceIndex = +lines[4];
+				let choiceData = lines[5];
+				if (rqid === this.rqid && player) {
+					player.choiceIndex = choiceIndex;
+					player.choiceData = choiceData;
+				}
+				break;
+			}
 
 		case 'log':
 			this.logData = JSON.parse(lines[2]);
@@ -271,6 +281,59 @@ class Battle {
 
 		case 'score':
 			this.score = [parseInt(lines[2]), parseInt(lines[3])];
+			break;
+		case 'caught':
+			lines[2] = lines[2].split('|');
+			let curTeam = Db('players').get(lines[2][0]);
+			if (curTeam.party.length < 6) {
+				let newSet = Users.get('sgserver').wildTeams[lines[2][0]];
+				newSet = Tools.fastUnpackTeam(newSet)[0];
+				newSet.pokeball = lines[2][1];
+				curTeam.party.push(newSet);
+				Db('players').set(lines[2][0], curTeam);
+			}
+			else {
+				let newSet = Users.get('sgserver').wildTeams[lines[2][0]].split('|');
+				let details = newSet[newSet.length - 1].split(',');
+				details[2] = lines[2][1];
+				newSet[newSet.length - 1] = details.join(',');
+				newSet = newSet.join('|');
+				let response = curTeam.boxPoke(newSet, 1);
+				if (response) {
+					this.room.push(newSet.split('|')[1] + ' was sent to box ' + response + '.');
+				}
+				else {
+					this.room.push(newSet.split('|')[1] + ' was released because your PC is full...');
+				}
+				this.room.update();
+			}
+			break;
+		case 'updateExp':
+			let data = lines[2].split(']');
+			let userid = data.shift();
+			let gameObj = Db('players').get(userid);
+			for (let i = 0; i < data.length; i++) {
+				let cur = data[i].split('|');
+				cur[0] = Number(cur[0]);
+				console.log(cur[0]);
+				gameObj.party[cur[0]].exp += (isNaN(Number(cur[1])) ? 0 : Number(cur[1]));
+				gameObj.party[cur[0]].level += (isNaN(Number(cur[1])) ? 0 : Number(cur[2]));
+				let evs = cur[3].split(',');
+				if (!gameObj.party[cur[0]].evs) gameObj.party[cur[0]].evs = {
+					hp: 0,
+					atk: 0,
+					def: 0,
+					spa: 0,
+					spd: 0,
+					spe: 0
+				};
+				let j = 0;
+				for (let ev in gameObj.party[cur[0]].evs) {
+					gameObj.party[cur[0]].evs[ev] += Number(evs[j]);
+					j++;
+				}
+			}
+			Db('players').set(userid, gameObj);
 			break;
 		}
 		Monitor.activeIp = null;
@@ -380,7 +443,7 @@ class Battle {
 		if (!player) return false;
 		this.players[user.userid] = player;
 		this.playerCount++;
-		this.room.auth[user.userid] = '\u2605';
+		this.room.auth[user.userid] = '☆';
 		if (this.playerCount >= 2) {
 			this.room.title = "" + this.p1.name + " vs. " + this.p2.name;
 			this.room.send('|title|' + this.room.title);
@@ -481,37 +544,43 @@ if (process.send && module === process.mainModule) {
 			if (!Battles.has(id)) {
 				try {
 					Battles.set(id, BattleEngine.construct(id, data[2], data[3], sendBattleMessage));
-				} catch (err) {
+				}
+				catch (err) {
 					if (require('./crashlogger')(err, 'A battle', {
-						message: message,
-					}) === 'lockdown') {
+							message: message,
+						}) === 'lockdown') {
 						let ministack = Chat.escapeHTML(err.stack).split("\n").slice(0, 2).join("<br />");
 						process.send(id + '\nupdate\n|html|<div class="broadcast-red"><b>A BATTLE PROCESS HAS CRASHED:</b> ' + ministack + '</div>');
-					} else {
+					}
+					else {
 						process.send(id + '\nupdate\n|html|<div class="broadcast-red"><b>The battle crashed!</b><br />Don\'t worry, we\'re working on fixing it.</div>');
 					}
 				}
 			}
-		} else if (data[1] === 'dealloc') {
+		}
+		else if (data[1] === 'dealloc') {
 			const id = data[0];
 			if (Battles.has(id)) {
 				Battles.get(id).destroy();
 
 				// remove from battle list
 				Battles.delete(id);
-			} else {
+			}
+			else {
 				require('./crashlogger')(new Error("Invalid dealloc"), 'A battle', {
 					message: message,
 				});
 			}
-		} else {
+		}
+		else {
 			let battle = Battles.get(data[0]);
 			if (battle) {
 				let prevRequest = battle.currentRequest;
 				let prevRequestDetails = battle.currentRequestDetails || '';
 				try {
 					battle.receive(data, more);
-				} catch (err) {
+				}
+				catch (err) {
 					require('./crashlogger')(err, 'A battle', {
 						message: message,
 						currentRequest: prevRequest,
@@ -523,7 +592,8 @@ if (process.send && module === process.mainModule) {
 					let nestedError;
 					try {
 						battle.makeRequest(prevRequest, prevRequestDetails);
-					} catch (e) {
+					}
+					catch (e) {
 						nestedError = e;
 					}
 					battle.sendUpdates(logPos);
@@ -531,10 +601,12 @@ if (process.send && module === process.mainModule) {
 						throw nestedError;
 					}
 				}
-			} else if (data[1] === 'eval') {
+			}
+			else if (data[1] === 'eval') {
 				try {
 					eval(data[2]);
-				} catch (e) {}
+				}
+				catch (e) {}
 			}
 		}
 	});
@@ -542,7 +614,8 @@ if (process.send && module === process.mainModule) {
 	process.on('disconnect', () => {
 		process.exit();
 	});
-} else {
+}
+else {
 	// Create the initial set of simulator processes.
 	SimulatorProcess.spawn();
 }
