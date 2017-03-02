@@ -22,13 +22,12 @@ exports.BattleItems = {
 		fling: {
 			basePower: 40,
 		},
-		onModifyAtkPriority: 1,
-		onModifyAtk: function(atk, pokemon) {
-			if (pokemon.baseTemplate.baseSpecies === 'Kangaskhan-Mega') {
-				return this.chainModify(1.5);
+		onModifyDamage: function (damage, source, target, move) {
+			if (move && move.typeMod > 0) {
+				return this.chainModify([0x1333, 0x1000]);
 			}
 		},
-		onHit: function(pokemon) {
+		onSwitchIn: function(pokemon) {
 			this.boost({
 				atk: 1
 			});
