@@ -161,21 +161,6 @@ exports.BattleScripts = {
                 },
                 nature: "Jolly",
             },
-            "+megas4ever": {
-                species: "Kangaskhan-Mega",
-                ability: "THAT'S MY BOI",
-                item: "Encouragement Stone",
-                gender: "M",
-                moves: ['return', 'fakeout', 'suckerpunch'],
-                baseSignatureMove: "dankmemes",
-                signatureMove: "DANK MEMES",
-                evs: {
-                    atk: 252,
-                    spe: 252,
-                    def: 4
-                },
-                nature: "Jolly",
-            },
         };
 
         let pool = Object.keys(sets);
