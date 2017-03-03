@@ -388,4 +388,7 @@ exports.commands = {
         if ((86400000 - nextBonus) <= 0) return Exiled.giveDailyReward(user.userid, user);
         return this.sendReply('Your next bonus is ' + (Db('DailyBonus').get(user.userid, [1, Date.now()])[0] === 8 ? 7 : Db('DailyBonus').get(user.userid, [1, Date.now()])[0]) + ' ' + (Db('DailyBonus').get(user.userid, [1, Date.now()])[0] === 1 ? moneyName : moneyPlural) + ' in ' + Chat.toDurationString(Math.abs(86400000 - nextBonus)));
     },
+    sota: function (room, user) {
+        return this.parse('feelssota feelstini tinitini sotalove');
+    },
 };
