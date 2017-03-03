@@ -496,6 +496,10 @@ exports.commands = {
 
 			// Apply the infobox to the message
 			target = '/raw <div class="infobox">' + target + '</div>';
+			let emoticons = parseEmoticons(user.getIdentity(room.id), target);
+    			if (emoticons) {
+        		target = "/html " + emoticons;
+    			}
 			let message = '|pm|' + user.getIdentity() + '|' + targetUser.getIdentity() + '|' + target;
 
 			user.send(message);
