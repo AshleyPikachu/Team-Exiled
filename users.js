@@ -1251,13 +1251,6 @@ class User {
 			connection.popup(message);
 			return Promise.resolve(false);
 		}
-		if (Tools.getFormat(formatid).useSGgame) {
-			if (type === 'challenge' && Tools.getFormat(formatid).isWildEncounter) {
-				connection.popup('You cannot challenge users to this format.');
-				return Promise.resolve(false);
-			}
-			this.team = Tools.packTeam(Db('players').get(this.userid).party);
-		}
 		let gameCount = this.games.size;
 		if (Monitor.countConcurrentBattle(gameCount, connection)) {
 			return Promise.resolve(false);
@@ -1520,7 +1513,6 @@ Users.pruneInactive = function (threshold) {
 	let now = Date.now();
 	users.forEach(user => {
 		if (user.connected) return;
-		if (user.userid === 'sgserver') return; // Dont delete the COM!
 		if ((now - user.lastConnected) > threshold) {
 			user.destroy();
 		}
