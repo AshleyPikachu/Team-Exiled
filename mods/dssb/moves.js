@@ -70,6 +70,31 @@ exports.BattleMovedex = {
         target: "normal",
         type: "Water",
     },
+    "superflyslazers": {
+        id: "superflyslazers",
+        name: "Super Flys Lazers",
+        priority: 0,
+        flags: {
+            protect: 1,
+            mirror: 1
+        },
+        secondary: {
+            chance: 20,
+            volatileStatus: "confusion"
+        },
+        category: "Special",
+        onPrepareHit: function(target, source) {
+            this.attrLastMove('[still]');
+            this.add('-anim', source, "Thunderbolt", target);
+        },
+        basePower: 120,
+        pp: 15,
+        accuracy: 80,
+        target: "normal",
+        type: "Electric",
+        zMovePower: 240,
+        contestType: "Cool",
+    },
     "prfmador": {
         id: "prfmador",
         name: "prfmador",
