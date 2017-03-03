@@ -37,6 +37,21 @@ exports.BattleScripts = {
                 },
                 nature: 'Timid',
             },
+            "~UB-03 Xurkitree": {
+                species: "Xurkitree",
+                ability: "feelsfly",
+                item: "Choice Scarf",
+                gender: "M",
+                moves: ['energyball', 'fireblast', 'icebeam'],
+                baseSignatureMove: "superflyslazers",
+                signatureMove: "Super Flys Lazers",
+                evs: {
+                    spa: 252,
+                    spe: 252,
+                    spd: 6
+                },
+                nature: "Modest",
+            },
             //Bots
             "*Drago Bot": {
                 species: "Latios",
