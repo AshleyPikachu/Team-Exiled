@@ -185,8 +185,8 @@ exports.BattleMovedex = {
     "dyingstar": {
         id: "dyingstar",
         name: "Dying Star",
-        selfdestruct: true,
-        basePower: 200,
+        selfdestruct: "always",
+        basePower: 250,
         category: "Special",
         accuracy: true,
         priority: 1,
