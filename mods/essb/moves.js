@@ -577,8 +577,8 @@ exports.BattleMovedex = {
     "dyingstar": {
         id: "dyingstar",
         name: "Dying Star",
-        selfdestruct: true,
-        basePower: 200,
+        selfdestruct: "always",
+        basePower: 250,
         category: "Special",
         accuracy: true,
         priority: 1,
@@ -589,7 +589,7 @@ exports.BattleMovedex = {
             defrost: 1
         },
         onHit: function (target, source, move) {
-            this.add('c|Bronze0re|RIP Star');
+            this.add('c|+Bronze0re|RIP Star');
         },
         onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
@@ -605,7 +605,7 @@ exports.BattleMovedex = {
         name: "Supernova",
         ohko: true,
         accuracy: true,
-        selfdestruct: true,
+        selfdestruct: "always",
         basePower: 0,
         category: "Physical",
         priority: 1,
