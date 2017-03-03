@@ -130,7 +130,7 @@ global.Tells = require('./tells');
 
 global.Ontime = {};
 
-global.SG = require('./SG.js').SG;
+global.SG = {};
 
 global.forever = {};
 
