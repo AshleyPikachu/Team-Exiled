@@ -5,14 +5,11 @@
 
 'use strict';
 
-const moment = require('moment');
-
 class Poll {
 	constructor(room, questionData, options) {
 		if (room.pollNumber) {
 			room.pollNumber++;
-		}
-		else {
+		} else {
 			room.pollNumber = 1;
 		}
 		this.room = room;
@@ -24,13 +21,13 @@ class Poll {
 		this.timeout = null;
 		this.timeoutMins = 0;
 		this.startTime = Date.now();
-		this.startedUser = (questionData.username);
+		this.startedUser = Exiled.nameColor(questionData.username, true, true);
 
 		this.options = new Map();
 		for (let i = 0; i < options.length; i++) {
 			this.options.set(i + 1, {
 				name: options[i],
-				votes: 0
+				votes: 0,
 			});
 		}
 	}
@@ -57,8 +54,7 @@ class Poll {
 
 		if (userid in this.voters || ip in this.voterIps) {
 			user.sendTo(this.room, "You're already looking at the results.");
-		}
-		else {
+		} else {
 			this.voters[userid] = 0;
 			this.voterIps[ip] = 0;
 		}
@@ -67,27 +63,33 @@ class Poll {
 	}
 
 	generateVotes() {
-		let output = '<div class="infobox"><p style="margin: 2px 0 5px 0"><span style="border:1px solid #6A6;color:#484;border-radius:4px;padding:0 3px"><i class="fa fa-bar-chart"></i> Poll</span> <strong style="font-size:11pt">' + this.getQuestionMarkup() + '</strong></p>';
+		let count = 0;
+		let output = '<div style="border-top-right-radius: 20px; border-top-left-radius: 20px;"><table cellspacing="0" style="background: rgb(128,0,0); width: 100%; border: 1px solid #886600; border-bottom: none; border-top-right-radius: 20px; border-top-left-radius: 20px;"><tr><td colspan="4" class="poll-td" style="background: rgb(255,0,0); background: linear-gradient(rgba(255,0,0), rgba128,0,0); border-bottom: 1px solid #886600; border-top-right-radius: 20px; border-top-left-radius: 20px; text-shadow: 0px 0px 2px #000; box-shadow: 1px 1px 1px rgba(128,128,128) inset, 0px 0px 1px rgba(0, 0, 0, 0) inset;"><span style="border: 1px solid #000000; color: #886600; border-radius: 4px; padding: 0 3px; box-shadow: 0px 0px 2px rgba(128,128,128);"><i class="fa fa-bar-chart"></i> Poll</span> <strong style="font-size: 11pt; color: #000;">' + this.getQuestionMarkup() + '</strong><img src="https://pldh.net/media/pokecons_action/491.gif" width="32" height="32"><br /></td></tr>';
 		this.options.forEach((option, number) => {
-			output += '<div style="margin-top: 5px"><button class="button" value="/poll vote ' + number + '" name="send" title="Vote for ' + number + '. ' + Chat.escapeHTML(option.name) + '">' + number + '. <strong>' + this.getOptionMarkup(option) + '</strong></button></div>';
+			count++;
+			if (count === 1) output += "<tr>";
+			output += '<td class="poll-td"><button style="border-radius: 20px; transition-duration: 0.5s; transition-timing-function: linear;" value="/poll vote ' + number + '" name="send" title="Vote for ' + number + '. ' + Chat.escapeHTML(option.name) + '"' + (option.void ? ' disabled' : '') + '>' + Chat.escapeHTML(option.name) + '</button></td>';
+			if (count >= 4) {
+				output += "</tr>";
+				count = 0;
+			}
 		});
-		output += '<div style="margin-top: 7px; padding-left: 12px"><button value="/poll results" name="send" title="View results - you will not be able to vote after viewing results"><small>(View results)</small></button></div>';
-		output += '</div>';
-
+		output += '</table></div><div style="background: rgba(0, 0, 0, 0); padding: 8px 0px; text-align: center; border: 1px solid #80000; border-top: none; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;"><button value="/poll results" name="send" title="View results - you will not be able to vote after viewing results" class="poll-results-btn" style="border-radius: 20px; transition-duration: 0.5s; transition-timing-function: linear;"><small>(View results)</small></button></div>';
 		return output;
 	}
+
 	generateResults(ended, option) {
-		let icon = '<span style="border: 1px solid #' + (ended ? '777; color: #555' : '3B763B; color: #2D5A2D') + '; border-radius: 4px; padding: 0 3px; box-shadow: 0px 0px 2px rgba(255, 255, 255, 0.8);"><i class="fa fa-bar-chart"></i> ' + (ended ? "Poll ended" : "Poll") + '</span>';
-		let totalVotes = '<br /><span style="font-style: italic; font-size: 9pt; color: #79330A;">[Total Votes: ' + this.totalVotes + '] (Started by ' + this.startedUser + ' ' + moment(this.startTime).fromNow() + '.)</span></div>';
-		let output = '<div style="background: rgba(245, 245, 245, 0.7); width: 100%; border: 1px solid #79330A; border-radius: 20px;"><div class="poll-td" style="background: rgba(255, 174, 127, 0.8); background: linear-gradient(rgba(255, 193, 156, 0.8), rgba(253, 153, 94, 0.8)); border-bottom: 1px solid #79330A; border-top-right-radius: 20px; border-top-left-radius: 20px; text-shadow: 0px 0px 2px #EEE; box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.8) inset, 0px 0px 1px rgba(0, 0, 0, 0.5) inset;">' + icon + ' <strong style="font-size: 11pt; color: #512106;">' + this.getQuestionMarkup() + '</strong>';
+		let icon = '<span style="border: 1px solid #' + (ended ? '777; color: #000' : 'FFF; color: #886600') + '; border-radius: 4px; padding: 0 3px; box-shadow: 0px 0px 2px rgb(128,0,0);"><i class="fa fa-bar-chart"></i> ' + (ended ? "Poll ended" : "Poll") + '</span>';
+		let totalVotes = '<br /><span style="font-style: italic; font-size: 9pt; color: #886600;">[Total Votes: ' + this.totalVotes + '] (Started by ' + this.startedUser + ' ' + Chat.toDurationString(Date.now() - this.startTime) + ' ago.)</span></div>';
+		let output = '<div style="background: rgba(0, 0, 0, 0); width: 100%; border: 1px solid #886600; border-radius: 20px;"><div class="poll-td" style="background: rgb(128, 0, 0); background: linear-gradient(rgb(128, 0, 0), rgb(255,0,0)); border-bottom: 1px solid #000; border-top-right-radius: 20px; border-top-left-radius: 20px; text-shadow: 0px 0px 2px #FFF; box-shadow: 1px 1px 1px rgb(0, 0, 0) inset, 0px 0px 1px rgb(0, 0, 0, 0) inset;">' + icon + ' <strong style="font-size: 11pt; color: #886600;">' + this.getQuestionMarkup() + '</strong><img src="https://pldh.net/media/pokecons_action/491.gif" width="32" height="32">';
 		output += totalVotes;
-		output += '<div style="padding: 8px 15px;"><font color="grey"><small><center>(Options with 0 votes are not shown)</center></small></font>';
+		output += '<div style="padding: 8px 15px;"><font color="maroon"><small><center>(Options with 0 votes are not shown)</center></small></font>';
 		output += '<table cellspacing="0" style="width: 100%;margin-top: 3px;">';
 		let iter = this.options.entries();
 
 		let i = iter.next();
 		let c = 0;
-		let colors = ['#79A', '#8A8', '#88B'];
+		let colors = ['#00FFFF', '#00EEEE', '#00CDCD'];
 		while (!i.done) {
 			if (i.value[1].votes && i.value[1].votes !== 0) {
 				let percentage = Math.round((i.value[1].votes * 100) / (this.totalVotes || 1));
@@ -102,7 +104,6 @@ class Poll {
 		return output;
 	}
 
-
 	getQuestionMarkup() {
 		if (this.supportHTML) return this.question;
 		return Chat.escapeHTML(this.question);
@@ -113,7 +114,7 @@ class Poll {
 		return Chat.escapeHTML(option.name);
 	}
 
-	update() {
+	update(force) {
 		let results = [];
 
 		for (let i = 0; i <= this.options.size; i++) {
@@ -125,9 +126,10 @@ class Poll {
 			let user = this.room.users[i];
 			if (user.userid in this.voters) {
 				user.sendTo(this.room, '|uhtmlchange|poll' + this.room.pollNumber + '|' + results[this.voters[user.userid]]);
-			}
-			else if (user.latestIp in this.voterIps) {
+			} else if (user.latestIp in this.voterIps) {
 				user.sendTo(this.room, '|uhtmlchange|poll' + this.room.pollNumber + '|' + results[this.voterIps[user.latestIp]]);
+			} else if (force) {
+				user.sendTo(this.room, '|uhtmlchange|poll' + this.room.pollNumber + '|' + this.generateVotes());
 			}
 		}
 	}
@@ -136,11 +138,9 @@ class Poll {
 		if (!connection) connection = user;
 		if (user.userid in this.voters) {
 			connection.sendTo(this.room, '|uhtmlchange|poll' + this.room.pollNumber + '|' + this.generateResults(false, this.voters[user.userid]));
-		}
-		else if (user.latestIp in this.voterIps) {
+		} else if (user.latestIp in this.voterIps) {
 			connection.sendTo(this.room, '|uhtmlchange|poll' + this.room.pollNumber + '|' + this.generateResults(false, this.voterIps[user.latestIp]));
-		}
-		else {
+		} else {
 			connection.sendTo(this.room, '|uhtmlchange|poll' + this.room.pollNumber + '|' + this.generateVotes());
 		}
 	}
@@ -164,11 +164,9 @@ class Poll {
 			let thisUser = this.room.users[i];
 			if (thisUser.userid in this.voters) {
 				thisUser.sendTo(this.room, '|uhtml|poll' + this.room.pollNumber + '|' + results[this.voters[thisUser.userid]]);
-			}
-			else if (thisUser.latestIp in this.voterIps) {
+			} else if (thisUser.latestIp in this.voterIps) {
 				thisUser.sendTo(this.room, '|uhtml|poll' + this.room.pollNumber + '|' + results[this.voterIps[thisUser.latestIp]]);
-			}
-			else {
+			} else {
 				thisUser.sendTo(this.room, '|uhtml|poll' + this.room.pollNumber + '|' + votes);
 			}
 		}
@@ -178,11 +176,9 @@ class Poll {
 		if (!connection) connection = user;
 		if (user.userid in this.voters) {
 			connection.sendTo(this.room, '|uhtml|poll' + this.room.pollNumber + '|' + this.generateResults(false, this.voters[user.userid]));
-		}
-		else if (user.latestIp in this.voterIps) {
+		} else if (user.latestIp in this.voterIps) {
 			connection.sendTo(this.room, '|uhtml|poll' + this.room.pollNumber + '|' + this.generateResults(false, this.voterIps[user.latestIp]));
-		}
-		else {
+		} else {
 			connection.sendTo(this.room, '|uhtml|poll' + this.room.pollNumber + '|' + this.generateVotes());
 		}
 	}
@@ -195,7 +191,7 @@ class Poll {
 		let results = this.generateResults(true);
 
 		this.room.send('|uhtmlchange|poll' + this.room.pollNumber + '|<div class="infobox">(The poll has ended &ndash; scroll down to see the results)</div>');
-		this.room.add('|html|' + results);
+		this.room.add('|html|' + results).update();
 	}
 }
 
@@ -213,14 +209,11 @@ exports.commands = {
 			let separator = '';
 			if (target.includes('\n')) {
 				separator = '\n';
-			}
-			else if (target.includes('|')) {
+			} else if (target.includes('|')) {
 				separator = '|';
-			}
-			else if (target.includes(',')) {
+			} else if (target.includes(',')) {
 				separator = ',';
-			}
-			else {
+			} else {
 				return this.errorReply("Not enough arguments for /poll new.");
 			}
 
@@ -235,14 +228,20 @@ exports.commands = {
 			if (supportHTML) params = params.map(parameter => this.canHTML(parameter));
 			if (params.some(parameter => !parameter)) return;
 
-			const options = params.splice(1);
-			if (options.length > 100) {
-				return this.errorReply("Too many options for poll (maximum is 100).");
+			let options = [];
+
+			for (let i = 1; i < params.length; i++) {
+				options.push(params[i]);
+			}
+
+			if (options.length > 36) {
+				return this.errorReply("Too many options for poll (maximum is 36).");
 			}
 
 			room.poll = new Poll(room, {
 				source: params[0],
-				supportHTML: supportHTML
+				supportHTML: supportHTML,
+				username: user.name,
 			}, options);
 			room.poll.display();
 
@@ -264,17 +263,99 @@ exports.commands = {
 			if (isNaN(parsed)) return this.errorReply("To vote, specify the number of the option.");
 
 			if (!room.poll.options.has(parsed)) return this.sendReply("Option not in poll.");
+			if (room.poll.options.get(parsed).void) return this.sendReply("That option is void.");
 
 			room.poll.vote(user, parsed);
 		},
 		votehelp: ["/poll vote [number] - Votes for option [number]."],
+
+		void: function (target, room, user) {
+			if (!room.poll) return this.errorReply("There is no poll running in this room.");
+			if (!target) return this.parse('/help poll void');
+			if (!this.can('minigame', null, room)) return false;
+			let targetSplit = target.split(',');
+			for (let u in targetSplit) targetSplit[u] = targetSplit[u].trim();
+
+			if (targetSplit.length > 10) return this.errorReply("You can't void more than 10 options at a time.");
+
+			let values = [];
+			let voided = [];
+			let invalid = [];
+
+			room.poll.options.forEach((obj, idx) => {
+				values[toId(obj.name)] = idx;
+			});
+			for (let u in targetSplit) {
+				if (!values[toId(targetSplit[u])]) {
+					invalid.push(targetSplit[u]);
+					continue;
+				}
+				room.poll.options.get(values[toId(targetSplit[u])]).void = true;
+				room.poll.totalVotes -= room.poll.options.get(values[toId(targetSplit[u])]).votes;
+				room.poll.options.get(values[toId(targetSplit[u])]).votes = 0;
+				voided.push(targetSplit[u]);
+			}
+
+			for (let u in room.poll.voters) {
+				if (!room.poll.options.get(room.poll.voters[u])) continue;
+				let option = room.poll.options.get(room.poll.voters[u]).name;
+				if (values[toId(option)]) {
+					delete room.poll.voters[u];
+				}
+			}
+
+			for (let u in room.poll.voterIps) {
+				if (!room.poll.options.get(room.poll.voterIps[u])) continue;
+				let option = room.poll.options.get(room.poll.voterIps[u]).name;
+				if (values[toId(option)]) {
+					delete room.poll.voterIps[u];
+				}
+			}
+
+			room.poll.update(true);
+			if (invalid.length > 0) this.sendReply("The following options are not valid options to void: " + invalid.join(', '));
+			if (voided.length > 0) this.addModCommand(user.name + " has voided the following poll options: " + voided.join(', '));
+		},
+		voidhelp: ["/poll void [option] - Voids a poll option. You can specify multiple options by seperating them with a comma."],
+
+		unvoid: function (target, room, user) {
+			if (!room.poll) return this.errorReply("There is no poll running in this room.");
+			if (!target) return this.parse('/help poll void');
+			if (!this.can('minigame', null, room)) return false;
+			let targetSplit = target.split(',');
+			for (let u in targetSplit) targetSplit[u] = targetSplit[u].trim();
+
+			if (targetSplit.length > 10) return this.errorReply("You can't unvoid more than 10 options at a time.");
+
+			let values = [];
+			let voided = [];
+			let invalid = [];
+
+			room.poll.options.forEach((obj, idx) => {
+				values[toId(obj.name)] = idx;
+			});
+			for (let u in targetSplit) {
+				if (!values[toId(targetSplit[u])]) {
+					invalid.push(targetSplit[u]);
+					continue;
+				}
+				if (!room.poll.options.get(values[toId(targetSplit[u])]).void) continue;
+				room.poll.options.get(values[toId(targetSplit[u])]).void = false;
+				voided.push(targetSplit[u]);
+			}
+
+			room.poll.update(true);
+			if (invalid.length > 0) this.sendReply("The following options are not valid options to unvoid: " + invalid.join(', '));
+			if (voided.length > 0) this.addModCommand(user.name + " has unvoided the following poll options: " + voided.join(', '));
+		},
+		unvoidhelp: ["/poll unvoid [option] - Undoes /poll void. You can specify multiple options by seperating them with a comma."],
 
 		timer: function (target, room, user) {
 			if (!room.poll) return this.errorReply("There is no poll running in this room.");
 
 			if (target) {
 				if (!this.can('minigame', null, room)) return false;
-				if (target === 'clear') {
+				if (target === 'clear' || target === 'off') {
 					if (!room.poll.timeout) return this.errorReply("There is no timer to clear.");
 					clearTimeout(room.poll.timeout);
 					room.poll.timeout = null;
@@ -291,13 +372,11 @@ exports.commands = {
 				}, (timeout * 60000));
 				room.add("The poll timer was turned on: the poll will end in " + timeout + " minute(s).");
 				return this.privateModCommand("(The poll timer was set to " + timeout + " minute(s) by " + user.name + ".)");
-			}
-			else {
+			} else {
 				if (!this.runBroadcast()) return;
 				if (room.poll.timeout) {
 					return this.sendReply("The poll timer is on and will end in " + room.poll.timeoutMins + " minute(s).");
-				}
-				else {
+				} else {
 					return this.sendReply("The poll timer is off.");
 				}
 			}
@@ -333,18 +412,24 @@ exports.commands = {
 
 			if (this.broadcasting) {
 				room.poll.display();
-			}
-			else {
+			} else {
 				room.poll.displayTo(user, connection);
 			}
 		},
 		displayhelp: ["/poll display - Displays the poll"],
 
+		votes: function (target, room, user) {
+			if (!room.poll) return this.errorReply("There is no poll running in this room.");
+			if (!this.runBroadcast()) return;
+			this.sendReplyBox("votes: " + room.poll.totalVotes);
+		},
+
 		'': function (target, room, user) {
 			this.parse('/help poll');
 		},
 	},
-	pollhelp: ["/poll allows rooms to run their own polls. These polls are limited to one poll at a time per room.",
+	pollhelp: [
+		"/poll allows rooms to run their own polls. These polls are limited to one poll at a time per room.",
 		"Accepts the following commands:",
 		"/poll create [question], [option1], [option2], [...] - Creates a poll. Requires: % @ * # & ~",
 		"/poll htmlcreate [question], [option1], [option2], [...] - Creates a poll, with HTML allowed in the question and options. Requires: # & ~",
@@ -352,14 +437,8 @@ exports.commands = {
 		"/poll timer [minutes] - Sets the poll to automatically end after [minutes]. Requires: % @ * # & ~",
 		"/poll results - Shows the results of the poll without voting. NOTE: you can't go back and vote after using this.",
 		"/poll display - Displays the poll",
-		"/poll end - Ends a poll and displays the results. Requires: % @ * # & ~"
+		"/poll end - Ends a poll and displays the results. Requires: % @ * # & ~",
 	],
-
-	votes: function (target, room, user) {
-		if (!room.poll) return this.errorReply("There is no poll running in this room.");
-		if (!this.runBroadcast()) return;
-		this.sendReplyBox("votes: " + room.poll.totalVotes);
-	},
 
 	tpoll: 'tierpoll',
 	tierspoll: 'tierpoll',
