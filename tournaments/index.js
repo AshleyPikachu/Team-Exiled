@@ -982,7 +982,13 @@ class Tournament {
 				});
 			});
 			this.room.addRaw("<b><font color='" + color + "'>" + Chat.escapeHTML(winner) + "</font> has won " + "<font color='" + color + "'>" + firstMoney + " </font>" + (firstMoney === 1 ? global.moneyName : global.moneyPlural) + " for winning the tournament!</b>");
-
+			
+			if (this.room.isOfficial && tourSize >= 2 && Db('gangs').get(wid, '') !== '') {
+				let reward = 10;
+				let gang = Db('gangs').get(wid);
+				Db('gangladder').set(gang, Db('gangladder').get(gang, 0) + reward);
+				this.room.addRaw("<b><font color='" + color + "'>" + Chat.escapeHTML(winner) + "</font> has also earned " + "<font color='" + color + "'>" + reward + "</font> points for The " + turfwars.gangs[gang].name + " Gang! <img src=" + turfwars.gangs[gang].icon + " width='40' height='40'</img></b>");
+			
 			if (runnerUp) {
 				Economy.writeMoney(rid, secondMoney, () => {
 					Economy.readMoney(rid, newAmount => {
