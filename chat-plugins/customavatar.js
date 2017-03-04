@@ -45,7 +45,7 @@ let cmds = {
 
     add: 'set',
     set: function (target, room, user, connection, cmd) {
-        if (!this.can('roomowner')) return false;
+        if (!this.can('broadcast')) return false;
         if (!target) return this.sendReply('|html|/ca set <em>User</em>, <em>URL</em> - Sets a user\'s custom avatar to the specified image.');
         target = target.split(',');
         if (target.length < 2) return this.sendReply('|html|/ca set <em>User</em>, <em>URL</em> - Sets a user\'s custom avatar to the specified image.');
@@ -90,7 +90,7 @@ let cmds = {
 
     remove: 'delete',
     'delete': function (target, room, user, connection, cmd) {
-        if (!this.can('roomowner')) return false;
+        if (!this.can('broadcast')) return false;
         if (!target || !target.trim()) return this.parse('/help', true);
         target = Users.getExact(target) ? Users.getExact(target).name : target;
         let avatars = Config.customavatars;
@@ -107,7 +107,7 @@ let cmds = {
 
     shift: 'move',
     move: function (target, room, user, connection, cmd) {
-        if (!this.can('roomowner')) return false;
+        if (!this.can('broadcast')) return false;
         if (!target || !target.trim()) return this.parse('/help', true);
         target = target.split(',');
         if (target.length < 2) return this.parse('/help', true);
