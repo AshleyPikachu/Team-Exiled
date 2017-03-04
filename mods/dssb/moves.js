@@ -360,4 +360,23 @@ exports.BattleMovedex = {
         zMoveEffect: 'clearnegativeboost',
         contestType: "Clever",
     },
+    "searingsarcasm": {
+        id: "searingsarcasm",
+        name: "Searing Sarcasm",
+        basePower: 100,
+        accuracy: 100,
+        onHit: function(pokemon) {
+            this.setWeather('sunnyday');
+        },
+        pp: 15,
+        priority: 0,
+        category: "Physical",
+        secondary: false,
+        target: "normal",
+        flags: {
+            protect: 1,
+            mirror: 1
+        },
+        type: "Fire",
+    },
 };
