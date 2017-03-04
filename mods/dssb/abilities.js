@@ -163,8 +163,8 @@ exports.BattleAbilities = {
 			}
 			this.clearWeather();
 		},
-		onModifySpAPriority: 5,
-		onModifySpA: function(spa, pokemon) {
+		onModifyAtkPriority: 5,
+		onModifyAtk: function(atk, pokemon) {
 			if (this.isWeather(['sunnyday', 'desolateland'])) {
 				return this.chainModify(1.5);
 			}
