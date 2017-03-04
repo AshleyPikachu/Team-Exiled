@@ -175,4 +175,17 @@ exports.BattleAbilities = {
 			}
 		},
 	},
+	"hypothesis": {
+		id: "hypothesis",
+		name: "Hypothesis",
+		onModifyMove: function (move) {
+			move.stab = 2;
+		},
+		onStart: function (pokemon) {
+			this.add('c|%FiftyNine|/me is thinking.');
+		},
+		onModifyPriority: function (priority, pokemon, target, move) {
+			if (move && move.type === 'Fairy') return priority + 1;
+		},
+	},
 };
