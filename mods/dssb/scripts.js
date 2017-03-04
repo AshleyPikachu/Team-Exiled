@@ -145,13 +145,28 @@ exports.BattleScripts = {
                 },
                 nature: 'Timid',
             },
+            "%nitro62": {
+                species: "Infernape",
+                ability: "Contrary",
+                item: "Leftovers",
+                gender: "M",
+                moves: ['superpower', 'vcreate', 'icehammer'],
+                baseSignatureMove: "searingsarcasm",
+                signatureMove: "Searing Sarcasm",
+                evs: {
+                    atk: 252,
+                    spe: 252,
+                    spd: 4
+                },
+                nature: "Jolly",
+            },
             //Voices
             "+Mosmero": {
                 species: "Hydreigon",
                 ability: "Mosmic Power",
                 item: "Leftovers",
                 gender: "M",
-                moves: ['fireblast', 'darkpulse', 'earthquake'],
+                moves: ['fireblast', 'dragonpulse', 'earthquake'],
                 baseSignatureMove: "mosmerobeam",
                 signatureMove: "Mosmero Beam",
                 evs: {
