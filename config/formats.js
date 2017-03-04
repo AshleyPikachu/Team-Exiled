@@ -3064,6 +3064,9 @@ exports.Formats = [
 			if (name === '59bot') {
 				this.add('c|%FiftyNine|Alrighty then, lets test this out.');
 			}
+			if (name === 'nitro62') {
+				this.add('c|%nitro62|Greetings and Salutations. You shall soon meet with defeat.');
+			}
 			// Add here special typings, done for flavor mainly. (and stat boosts)
 		},
 		//Switch-out Phrase
@@ -3117,6 +3120,10 @@ exports.Formats = [
 			if (name === '59bot') {
 				this.add('c|%FiftyNine|/me sighs');
 				this.add('c|%FiftyNine|I\'m taking the bot down until I know what\'s wrong with it.');
+			}
+			if (name === 'nitro62') {
+				this.add('c|%nitro62|Welp. That could\'ve ended better.');
+				this.add('c|%nitro62|/me cries');
 			}
 		},
 	},
