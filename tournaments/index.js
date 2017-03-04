@@ -5,6 +5,7 @@ const AUTO_DISQUALIFY_WARNING_TIMEOUT = 30 * 1000;
 const AUTO_START_MINIMUM_TIMEOUT = 30 * 1000;
 const MAX_REASON_LENGTH = 300;
 const TOURBAN_DURATION = 14 * 24 * 60 * 60 * 1000;
+const turfwars = require("../chat-plugins/gangs")
 
 Punishments.roomPunishmentTypes.set('TOURBAN', 'banned from tournaments');
 
@@ -982,13 +983,18 @@ class Tournament {
 				});
 			});
 			this.room.addRaw("<b><font color='" + color + "'>" + Chat.escapeHTML(winner) + "</font> has won " + "<font color='" + color + "'>" + firstMoney + " </font>" + (firstMoney === 1 ? global.moneyName : global.moneyPlural) + " for winning the tournament!</b>");
-			
+
 			if (this.room.isOfficial && tourSize >= 2 && Db('gangs').get(wid, '') !== '') {
 				let reward = 10;
 				let gang = Db('gangs').get(wid);
 				Db('gangladder').set(gang, Db('gangladder').get(gang, 0) + reward);
 				this.room.addRaw("<b><font color='" + color + "'>" + Chat.escapeHTML(winner) + "</font> has also earned " + "<font color='" + color + "'>" + reward + "</font> points for The " + turfwars.gangs[gang].name + " Gang! <img src=" + turfwars.gangs[gang].icon + " width='40' height='40'</img></b>");
-			
+			}
+			/*if (this.room.isOfficial && tourSize >= 2) {
+				let tourRarity = global.tourCard(tourSize, toId(winner));
+				this.room.addRaw("<b><font color='" + Exiled.hashColor(winner) + "'>" + Chat.escapeHTML(winner) + "</font> has also won a <font color=" + tourRarity[0] + ">" + tourRarity[1] + "</font> card: <button class='tourcard-btn' style='border-radius: 20px; box-shadow: 1px 1px rgba(255, 255, 255, 0.3) inset, -1px -1px rgba(0, 0, 0, 0.2) inset, 2px 2px 2px rgba(0, 0, 0, 0.5);' name='send' value='/card " + tourRarity[2] + "'>" + tourRarity[3] + "</button> from the tournament.");
+			}*/
+
 			if (runnerUp) {
 				Economy.writeMoney(rid, secondMoney, () => {
 					Economy.readMoney(rid, newAmount => {
@@ -998,7 +1004,7 @@ class Tournament {
 						Economy.logTransaction(Chat.escapeHTML(runnerUp) + ' has won ' + secondMoney + ' ' + (secondMoney === 1 ? global.moneyName : global.moneyPlural) + ' from a tournament.');
 					});
 				});
-				this.room.addRaw("<b><font color='" + color + "'>" + Chat.escapeHTML(runnerUp) + "</font> has won " + "<font color='" + color + "'>" + secondMoney + "</font>" + (firstMoney === 1 ? global.moneyName : global.moneyPlural) + " for winning the tournament!</b>");
+				this.room.addRaw("<b><font color='" + color + "'>" + Chat.escapeHTML(runnerUp) + "</font> has won " + "<font color='" + color + "'> " + secondMoney + "</font>" + (firstMoney === 1 ? global.moneyName : global.moneyPlural) + " for winning the tournament!</b>");
 			}
 		}
 
