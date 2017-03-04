@@ -116,19 +116,19 @@ exports.BattleScripts = {
             },
             //Drivers
             "%FiftyNine": {
-                species: "Lucario-Mega",
-                ability: "Tinted Lens",
-                item: "Life Orb",
+                species: "Sylveon",
+                ability: "Hypothesis",
+                item: "Leftovers",
                 gender: "M",
-                moves: ['focusblast', 'vacuumwave', 'flashcannon'],
-                baseSignatureMove: "zombiekiller",
-                signatureMove: "Zombie Killer",
+                moves: ['revelationdance', 'protect', 'wish'],
+                baseSignatureMove: "trialanderror",
+                signatureMove: "Trial and Error",
                 evs: {
-                    spa: 252,
-                    spe: 252,
-                    def: 4
+                    hp: 252,
+                    def: 252,
+                    spa: 4
                 },
-                nature: "Timid",
+                nature: "Calm",
             },
             '%Bronze0re': {
                 species: 'Volcarona',
