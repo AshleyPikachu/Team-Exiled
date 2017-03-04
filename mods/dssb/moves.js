@@ -185,27 +185,31 @@ exports.BattleMovedex = {
         type: "Water",
         target: "normal",
     },
-    "zombiekiller": {
-        id: "zombiekiller",
-        name: "Zombie Killer",
-        basePower: 100,
-        accuracy: 100,
-        onEffectiveness: function(typeMod, type) {
-            if (type === 'Ghost') return 1;
-        },
-        category: "Special",
-        pp: 5,
-        priority: false,
-        secondary: false,
-        flags: {
-            protect: 1
-        },
-        onPrepareHit: function(target, source) {
+    "trialanderror": {
+        id: "trialanderror",
+        name: "Trial and Error",
+        basePower: 60,
+        accuracy: true,
+        onPrepareHit: function (target, source, move) {
             this.attrLastMove('[still]');
-            this.add('-anim', source, "Flash Cannon", target);
-        },
-        type: "Steel",
-        target: "normal",
+			this.add('-anim', source, "Focus Blast", target);
+			move.type = Object.keys(Tools.data.TypeChart).randomize()[0];
+		},
+		ignoreAbility: true,
+		pp: 15,
+		multihit: 2,
+		self: {
+		    boosts: {
+		        spa: 1
+		    }
+		},
+		category: "Special",
+		flags: {
+		    protect: 1,
+		    mirror: 1
+		},
+		target: "normal",
+		type: "Fairy",
     },
     "dyingstar": {
         id: "dyingstar",
