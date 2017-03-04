@@ -3050,7 +3050,7 @@ exports.Formats = [
 				this.add('c|~Insist|__**^^Let\'s get roooooiiiiiiight into le noose!^^**__');
 			}
 			if (name === 'fiftynine') {
-				this.add('c|%FiftyNine|Get ready, because I\'m a member of S.T.A.R.S.!');
+				this.add('c|%FiftyNine|Let me see what you can do.');
 			}
 			if (name === 'earlofkarp') {
 				this.add('c|%earl of karp|Und der Cherub steht vor Gott.');
@@ -3079,7 +3079,7 @@ exports.Formats = [
 				this.add('c|~Insist|Errrr I\'ll see you later, just sayin\' this is me just uhhh running away from my problems.... I errr just need a walk! Geez, why are you on to me on everything I do ughhhhhhhhhhh you\'re not my mom!');
 			}
 			if (name === 'fiftynine') {
-				this.add('c|%FiftyNine|You\'re stronger than I expected, I\'m gonna need backup!');
+				this.add('c|%FiftyNine|OK! So Trial 1 is complete. Please wait until I return for Trial 2.');
 			}
 			if (name === 'earlofkarp') {
 				this.add('c|%earl of karp|Der Cherub wird zurückkehren.');
@@ -3106,7 +3106,7 @@ exports.Formats = [
 				this.add('c|~Insist|~~__**^^walks off......^^**__~~')
 			}
 			if (name === 'fiftynine') {
-				this.add('c|%FiftyNine|You got lucky, kid. But my team will back me up.');
+				this.add('c|%FiftyNine|I\'ve gathered enough information, time to make a conclusion');
 			}
 			if (name === 'earlofkarp') {
 				this.add('c|%earl of karp|What\'s this?! How did you beat me?!');
