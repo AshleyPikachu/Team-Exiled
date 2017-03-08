@@ -544,4 +544,145 @@ exports.BattleMovedex = {
 	    target: "any",
 	    type: "Earth",
 	},
+	"gigafreeze": {
+        id: "gigafreeze",
+        name: "Giga Freeze",
+        basePower: 264,
+        category: "Physical",
+        pp: 10,
+        volatileStatus: "flinch",
+        accuracy: 100,
+        flags: {},
+        secondary: false,
+        priority: 0,
+        target: "allAdjacentFoes",
+        type: "Ice",
+    },
+    "icestatue": {
+        id: "icestatue",
+        name: "Ice Statue",
+        basePower: 424,
+        accuracy: 100,
+        pp: 10,
+        volatileStatus: "flinch",
+        category: "Physical",
+        flags: {},
+        secondary: false,
+        priority: 0,
+        target: "any",
+        type: "Ice",
+    },
+    "winterblast": {
+        id: "winterblast",
+        name: "Winter Blast",
+        basePower: 120,
+        accuracy: 100,
+        volatileStatus: "flinch",
+        category: "Special",
+        pp: 10,
+        secondary: false,
+        priority: 0,
+        flags: {},
+        target: "allPokemon",
+        type: "Ice",
+    },
+    "iceneedle": {
+        id: "iceneedle",
+        name: "Ice Needle",
+        accuracy: 100,
+        basePower: 126,
+        volatileStatus: "flinch",
+        category: "Physical",
+        pp: 20,
+        flags: {},
+        priority: 0,
+        secondary: false,
+        target: "any",
+        type: "Ice",
+    },
+    "waterblit": {
+        id: "waterblit",
+        name: "Water Blit",
+        basePower: 211,
+        accuracy: 100,
+        category: "Special",
+        pp: 20,
+        secondary: false,
+        priority: 0,
+        flags: {},
+        target: "normal",
+        type: "Ice",
+    },
+    "aquamagic": {
+        id: "aquamagic",
+        name: "Aqua Magic",
+        basePower: 0,
+        accuracy: 100,
+        boosts: {
+            atk: 1,
+            def: 1,
+            spa: 1,
+            spd: 1,
+            spe: 1,
+            accuracy: 1
+        },
+        pp: 20,
+        secondary: false,
+        priority: 0,
+        flags: {},
+        target: "self",
+        type: "Ice",
+    },
+    "aurorafreeze": {
+        id: "aurorafreeze",
+        name: "Aurora Freeze",
+        basePower: 430,
+        accuracy: 100,
+        category: "Special",
+        boosts: {
+            atk: -3,
+            spa: -3
+        },
+        pp: 10,
+        onTry: function (attacker, defender, move) {
+            if (attacker.removeVolatile(move.id)) {
+                return;
+            }
+            this.add('-prepare', attacker, move.name, defender);
+            if (!this.runEvent('ChargeMove', attacker, defender, move)) {
+                this.add('-anim', attacker, move.name, defender);
+                return;
+            }
+            attacker.addVolatile('twoturnmove', defender);
+            return null;
+        },
+        secondary: false,
+        priority: 0,
+        flags: {
+            charge: 1,
+            distance: 1
+        },
+        target: "allPokemon",
+        type: "Ice",
+    },
+    "teardrop": {
+        id: "teardrop",
+        name: "Tear Drop",
+        basePower: 60,
+        accuracy: 90,
+        boosts: {
+            atk: -3,
+            spa: -3
+        },
+        pp: 40,
+        category: "Special",
+        secondary: false,
+        priority: 0,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        target: "any",
+        type: "Ice",
+    },
 };
