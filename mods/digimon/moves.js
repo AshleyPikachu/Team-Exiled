@@ -126,4 +126,73 @@ exports.BattleMovedex = {
         accuracy: 100,
         type: "Fire",
     },
+    "infinityburn": {
+        id: "infinityburn",
+        name: "Infinity Burn",
+        basePower: 488,
+        accuracy: 100,
+        pp: 5,
+        target: "any",
+        priority: 0,
+        secondary: {
+            volatileStatus: "flinch",
+        },
+        category: "Physical",
+        flags: {
+            protect: 1,
+            mirror: 1
+        },
+        type: "Fire",
+    },
+    "meltdown": {
+        id: "meltdown",
+        name: "Meltdown",
+        basePower: 400,
+        accuracy: 100,
+        pp: 5,
+        target: "all",
+        priority: 0,
+        secondary: {
+            volatileStatus: "flinch",
+        },
+        category: "Special",
+        flags: {
+            protect: 1,
+            mirror: 1
+        },
+        type: "Fire",
+    },
+    "tremar": {
+        id: "tremar",
+        name: "Tremar",
+        basePower: 178,
+        accuracy: 100,
+        pp: 10,
+        target: "any",
+        priority: 0,
+        secondary: false,
+        category: "Physical",
+        flags: {
+            protect: 1,
+            mirror: 1
+        },
+        type: "Battle",
+    },
+    "musclecharge": {
+        id: "musclecharge",
+        name: "Muscle Charge",
+        basePower: 0,
+        accuracy: 100,
+        pp: 10,
+        boosts: {
+            atk: 2,
+            spa: 2
+        },
+        target: "self",
+        priority: 0,
+        secondary: false,
+        category: "Status",
+        flags: {},
+        type: "Battle",
+    },
 };
