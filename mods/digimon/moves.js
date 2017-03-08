@@ -685,4 +685,160 @@ exports.BattleMovedex = {
         target: "any",
         type: "Ice",
     },
+    "powercrane": {
+        id: "powercrane",
+        name: "Power Crane",
+        basePower: 226,
+        accuracy: 100,
+        secondary: false,
+        category: "Physical",
+        pp: 15,
+        priority: 0,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        target: "any",
+        type: "Mech",
+    },
+    "allrangebeam": {
+        id: "allrangebeam",
+        name: "All-Range Beam",
+        basePower: 573,
+        pp: 5,
+        accuracy: 100,
+        category: "Special",
+        priority: 0,
+        secondary: false,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        target: "allPokemon",
+        type: "Mech",
+    },
+    "metalsprinter": {
+        id: "metalsprinter",
+        name: "Metal Sprinter",
+        basePower: 150,
+        accuracy: 100,
+        category: "Physical",
+        secondary: false,
+        pp: 10,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        priority: 0,
+        target: "allPokemon",
+        type: "Mech",
+    },
+    "pulselazer": {
+        id: "pulselazer",
+        name: "Pulse Lazer",
+        basePower: 389,
+        accuracy: 100,
+        category: "Special",
+        pp: 10,
+        secondary: false,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        priority: 0,
+        target: "any",
+        type: "Mech",
+    },
+    "pulselazer": {
+        id: "pulselazer",
+        name: "Pulse Lazer",
+        basePower: 389,
+        accuracy: 100,
+        category: "Special",
+        pp: 10,
+        secondary: false,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        priority: 0,
+        target: "any",
+        type: "Mech",
+    },
+    "deleteprogram": {
+        id: "deleteprogram",
+        name: "Delete Program",
+        basePower: 430,
+        accuracy: 100,
+        category: "Special",
+        pp: 10,
+        secondary: false,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        boosts: {
+            atk: -3,
+            spa: -3
+        },
+        priority: 0,
+        target: "any",
+        type: "Mech",
+    },
+    "dgdimension": {
+        id: "dgdimension",
+        name: "DG Dimension",
+        basePower: 722,
+        category: "Special",
+        pp: 5,
+        accuracy: 100,
+        secondary: false,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        priority: 0,
+        target: "any",
+        type: "Mech",
+    },
+    "fullpotential": {
+        id: "fullpotential",
+        name: "Full Potential",
+        basePower: 0,
+        accuracy: 100,
+        category: "Status",
+        pp: 20,
+        boosts: {
+            atk: 2,
+            def: 2,
+            spa: 2,
+            spd: 2,
+            spe: 2
+        },
+        secondary: false,
+        flags: {},
+        priority: 0,
+        target: "self",
+        type: "Mech",
+    },
+    "reverseprogram": {
+        id: "reverseprogram",
+        name: "Reverse Program",
+        basePower: 256,
+        accuracy: 100,
+        category: "Special",
+        pp: 5,
+        secondary: false,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        boosts: {
+            atk: -3,
+            spa: -3
+        },
+        priority: 0,
+        target: "any",
+        type: "Mech",
+    },
 };
