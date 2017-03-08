@@ -841,4 +841,141 @@ exports.BattleMovedex = {
         target: "any",
         type: "Mech",
     },
+    "orderspray": {
+        id: "orderspray",
+        name: "Order Spray",
+        basePower: 88,
+        category: "Special",
+        pp: 40,
+        volatileStatus: "flinch",
+        accuracy: 100,
+        secondary: false,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        priority: 0,
+        target: "any",
+        type: "Filth",
+    },
+    "poopspdtoss": {
+        id: "poopspdtoss",
+        name: "Poop Spd Toss",
+        basePower: 122,
+        category: "Physical",
+        pp: 20,
+        status: "psn",
+        accuracy: 100,
+        secondary: false,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        priority: 0,
+        target: "any",
+        type: "Filth",
+    },
+    "bigpooptoss": {
+        id: "Poop Spd Toss",
+        name: "Poop Spd Toss",
+        basePower: 211,
+        category: "Physical",
+        pp: 15,
+        volatileStatus: "confusion",
+        accuracy: 100,
+        secondary: false,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        priority: 0,
+        target: "any",
+        type: "Filth",
+    },
+    "bigrndtoss": {
+        id: "bigrndtoss",
+        name: "Big Rnd Toss",
+        basePower: 211,
+        category: "Physical",
+        pp: 5,
+        volatileStatus: "confusion",
+        accuracy: 100,
+        secondary: false,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        priority: 0,
+        target: "allAdjacentFoes",
+        type: "Filth",
+    },
+    "pooprndtoss": {
+        id: "pooprndtoss",
+        name: "Poop RND Toss",
+        basePower: 75,
+        category: "Physical",
+        pp: 15,
+        status: "psn",
+        accuracy: 100,
+        secondary: false,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        priority: 0,
+        target: "allPokemon",
+        type: "Filth",
+    },
+    "rndspdtoss": {
+        id: "rndspdtoss",
+        name: "Rnd Spd Toss",
+        basePower: 122,
+        category: "Physical",
+        pp: 10,
+        status: "psn",
+        accuracy: 100,
+        secondary: false,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        priority: 0,
+        target: "any",
+        type: "Filth",
+    },
+    "horizontalkick": {
+        id: "horizontalkick",
+        name: "Horizontal Kick",
+        basePower: 53,
+        category: "Special",
+        pp: 5,
+        accuracy: 100,
+        secondary: false,
+        flags: {
+            protect: 1
+        },
+        priority: 0,
+        target: "normal",
+        type: "Filth",
+    },
+    "ultpoophell": {
+        id: "ultpoophell",
+        name: "Ult Poop Hell",
+        basePower: 333,
+        category: "Physical",
+        pp: 5,
+        accuracy: 100,
+        secondary: false,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        boosts: {
+            atk: -3,
+            spd: -3
+        },
+        priority: 0,
+        target: "allPokemon",
+        type: "Filth",
+    },
 };
