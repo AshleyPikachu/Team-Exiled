@@ -434,7 +434,7 @@ exports.BattleMovedex = {
 	    secondary: false,
 	    priority: 0,
 	    flags: {},
-	    target: "allAdjacentFoes",
+	    target: "allPokemon",
 	    type: "Earth",
 	},
 	"bug": {
