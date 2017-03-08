@@ -18,10 +18,10 @@ exports.BattleMovedex = {
         },
         secondary: false,
         category: "Special",
-        onHit: function(target, source, move) {
+        onHit: function (target, source, move) {
             this.add('c|~Insist|Subscribe to http://youtube.com/DeathlyPlays');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Hydro Pump", target);
         },
@@ -60,10 +60,10 @@ exports.BattleMovedex = {
             }
         },
         shortDesc: "Like so amazing mannnnn, like look at dem boosts boi",
-        onHit: function(target, source, move) {
+        onHit: function (target, source, move) {
             this.add('c|~Insist|Exiled from all others, we shall become greater than ever before.');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Hydro Pump", target);
         },
@@ -83,7 +83,7 @@ exports.BattleMovedex = {
             volatileStatus: "confusion"
         },
         category: "Special",
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Thunderbolt", target);
         },
@@ -114,7 +114,7 @@ exports.BattleMovedex = {
             protect: 1,
             mirror: 1
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Nasty Plot", target);
             this.add('-anim', source, "Blizzard", target);
@@ -136,7 +136,7 @@ exports.BattleMovedex = {
             authentic: 1
         },
         self: {
-            onHit: function(pokemon, target, move) {
+            onHit: function (pokemon, target, move) {
                 // substitute moves
                 function setMove(oldMove, moveid) {
                     let index = pokemon.moves.indexOf(oldMove);
@@ -170,46 +170,35 @@ exports.BattleMovedex = {
                 // make changing form available in consecutive turns
                 delete pokemon.volatiles.stall;
             },
-            boosts: {
-                atk: 2,
-                def: 2,
-                spa: 2,
-                spd: 2,
-                spe: 2
-            }
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Magikarp's Revenge", target);
         },
         type: "Water",
         target: "normal",
     },
-    "trialanderror": {
-        id: "trialanderror",
-        name: "Trial and Error",
-        basePower: 60,
-        accuracy: true,
-        onPrepareHit: function (target, source, move) {
+    "zombiekiller": {
+        id: "zombiekiller",
+        name: "Zombie Killer",
+        basePower: 100,
+        accuracy: 100,
+        onEffectiveness: function (typeMod, type) {
+            if (type === 'Ghost') return 1;
+        },
+        category: "Special",
+        pp: 5,
+        priority: false,
+        secondary: false,
+        flags: {
+            protect: 1
+        },
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
-			this.add('-anim', source, "Focus Blast", target);
-			move.type = Object.keys(Tools.data.TypeChart).randomize()[0];
-		},
-		ignoreAbility: true,
-		pp: 15,
-		multihit: 2,
-		self: {
-		    boosts: {
-		        spa: 1
-		    }
-		},
-		category: "Special",
-		flags: {
-		    protect: 1,
-		    mirror: 1
-		},
-		target: "normal",
-		type: "Fairy",
+            this.add('-anim', source, "Flash Cannon", target);
+        },
+        type: "Steel",
+        target: "normal",
     },
     "dyingstar": {
         id: "dyingstar",
@@ -225,10 +214,10 @@ exports.BattleMovedex = {
             mirror: 1,
             defrost: 1
         },
-        onHit: function(target, source, move) {
+        onHit: function (target, source, move) {
             this.add('c|%Bronze0re|RIP Star');
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Explosion", target);
         },
@@ -252,7 +241,7 @@ exports.BattleMovedex = {
             protect: 1,
             mirror: 1
         },
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Dark Pulse", target)
             this.add('-anim', source, "10,000,000 Volt Thunderbolt", target);
@@ -273,9 +262,9 @@ exports.BattleMovedex = {
             protect: 1,
             mirror: 1
         },
-        selfdestruct: true,
+        selfdestruct: "always",
         pp: 5,
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Stealth Rock", target);
             this.add('-anim', source, "Explosion", target);
@@ -297,7 +286,7 @@ exports.BattleMovedex = {
         secondary: false,
         pp: 5,
         category: "Special",
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Draco Meteor", target);
         },
@@ -324,7 +313,7 @@ exports.BattleMovedex = {
             mirror: 1
         },
         priority: 0,
-        onPrepareHit: function(target, source) {
+        onPrepareHit: function (target, source) {
             this.attrLastMove('[still]');
             this.add('-anim', source, "Double Hit", target);
         },
@@ -347,7 +336,7 @@ exports.BattleMovedex = {
             atk: 2,
             spe: 2
         },
-        onHit: function(pokemon) {
+        onHit: function (pokemon) {
             if (this.isWeather(['sunnyday', 'desolateland'])) {
                 this.heal(this.modify(pokemon.maxhp, 0.667));
             }
@@ -369,7 +358,7 @@ exports.BattleMovedex = {
         name: "Searing Sarcasm",
         basePower: 100,
         accuracy: 100,
-        onHit: function(pokemon) {
+        onHit: function (pokemon) {
             this.setWeather('sunnyday');
         },
         pp: 15,
@@ -382,5 +371,31 @@ exports.BattleMovedex = {
             mirror: 1
         },
         type: "Fire",
+    },
+    "trialanderror": {
+        id: "trialanderror",
+        name: "Trial and Error",
+        basePower: 60,
+        accuracy: true,
+        onPrepareHit: function (target, source, move) {
+            this.attrLastMove('[still]');
+            this.add('-anim', source, "Focus Blast", target);
+            move.type = Object.keys(Tools.data.TypeChart).randomize()[0];
+        },
+        ignoreAbility: true,
+        pp: 15,
+        multihit: 2,
+        self: {
+            boosts: {
+                spa: 1
+            }
+        },
+        category: "Special",
+        flags: {
+            protect: 1,
+            mirror: 1
+        },
+        target: "normal",
+        type: "Normal",
     },
 };
