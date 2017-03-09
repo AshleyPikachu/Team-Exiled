@@ -1,7 +1,6 @@
 'use strict';
 
 exports.BattleMovedex = {
-
     "battleram": {
         basePower: 120,
         //add Substitute
@@ -11,6 +10,7 @@ exports.BattleMovedex = {
         accuracy: 100,
         priority: 0,
         pp: 10,
+        //lock user into the move
         secondary: {
             self: {
                 volatileStatus: 'lockedmove',
@@ -173,7 +173,7 @@ exports.BattleMovedex = {
         id: "hammerslammer",
         name: "Hammer Slammer",
         basePower: 130,
-        drain: [1, 2],
+        drain: [1, 3],
         accuracy: 90,
         pp: 10,
         priority: 0,
@@ -204,10 +204,49 @@ exports.BattleMovedex = {
             spd: -1,
             spe: -1
         },
-        secondary: false,
+        secondary: {
+            volatileStatus: "partiallytrapped"
+        },
         status: "par",
         volatileStatus: "confusion",
         target: "any",
         type: "Ghost",
+    },
+    "combustion": {
+        isNonstandard: true,
+        accuracy: 100,
+        category: "Special",
+        id: "combustion",
+        isViable: true,
+        name: "Combustion",
+        pp: 10,
+        priority: 0,
+        basePower: 110,
+        self: {
+            heal: [1, 2],
+        },
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        target: "any",
+        type: "Fire",
+    },
+    "metallicsword": {
+        id: "metallicsword",
+        name: "Metallic Sword",
+        basePower: 120,
+        accuracy: 90,
+        category: "Physical",
+        pp: 10,
+        priority: 0,
+        drain: [1, 3],
+        flags: {
+            protect: 1,
+            contact: 1
+        },
+        secondary: false,
+        target: "normal",
+        type: "Steel",
     },
 };
