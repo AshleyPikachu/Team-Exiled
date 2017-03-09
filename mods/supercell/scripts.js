@@ -6,20 +6,6 @@
  * of fans                                     *
  * * * * * * * * * * * * * * * * * * * * * * * */
 'use strict';
-Array.prototype.randomize = function () {
-    let arr = this.slice(0);
-    var i = arr.length,
-        j, x;
-    while (i) {
-        j = (Math.random() * i) | 0;
-        x = arr[--i];
-        arr[i] = arr[j];
-        arr[j] = x;
-    }
-    return arr;
-};
-
-const replaceAlts = {};
 
 exports.BattleScripts = {
     randomSupercellTeam: function (side) {
