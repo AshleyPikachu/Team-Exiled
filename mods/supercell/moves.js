@@ -85,6 +85,44 @@ exports.BattleMovedex = {
         target: "normal",
         type: "Fighting",
     },
+    "greed": {
+        id: "greed",
+        name: "Greed",
+        basePower: 90,
+        onHit: function (target, source) {
+			if (source.item || source.volatiles['gem']) {
+				return;
+			}
+			let yourItem = target.takeItem(source);
+			if (!yourItem) {
+				return;
+			}
+			if (!source.setItem(yourItem)) {
+				target.item = yourItem.id; // bypass setItem so we don't break choicelock or anything
+				return;
+			}
+			this.add('-item', source, yourItem, '[from] move: Greed', '[of] ' + target);
+		},
+		self: {
+		    boosts: {
+		        atk: 3,
+		        spe: 3
+		    },
+		    statusVolatile: "confusion",
+		},
+        accuracy: 100,
+        category: "Physical",
+        pp: 10,
+        flags: {
+            protect: 1,
+            distance: 1,
+            contact: 1
+        },
+        secondary: false,
+        priority: 0,
+        target: "any",
+        type: "Bug",
+    },
     "fireball": {
         id: "fireball",
         name: "Fireball",
