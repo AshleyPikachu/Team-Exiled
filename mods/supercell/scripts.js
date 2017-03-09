@@ -7,8 +7,23 @@
  * * * * * * * * * * * * * * * * * * * * * * * */
 'use strict';
 
+Array.prototype.randomize = function () {
+    let arr = this.slice(0);
+    var i = arr.length,
+        j, x;
+    while (i) {
+        j = (Math.random() * i) | 0;
+        x = arr[--i];
+        arr[i] = arr[j];
+        arr[j] = x;
+    }
+    return arr;
+};
+
+const replaceAlts = {};
+
 exports.BattleScripts = {
-    randomSupercellTeam: function (side) {
+    randomSeasonalMeleeTeam: function (side) {
         let team = [];
         var variant = (this.random(2) === 1);
         var sets = {
@@ -138,12 +153,64 @@ exports.BattleScripts = {
                 },
                 nature: "Calm",
             },
-
+            "Lava Hound": {
+                species: "Lava Hound",
+                item: "Leftovers",
+                ability: "Burnout",
+                moves: ['oblivionwing', 'defog', 'roost'],
+                baseSignatureMove: "combustion",
+                signatureMove: "Combustion",
+                evs: {
+                    hp: 252,
+                    spd: 252,
+                    spa: 4
+                },
+                nature: "Calm",
+            },
+            "Lava Pup": {
+                species: "Lava Pup",
+                ability: "Reborn",
+                item: "Focus Sash",
+                moves: ['hurricane', 'seedflare', 'earthpower'],
+                baseSignatureMove: "combustion",
+                signatureMove: "Combustion",
+                evs: {
+                    spa: 252,
+                    spe: 252,
+                    hp: 4
+                },
+                nature: "Timid",
+            },
+            "PEKKA": {
+                species: "PEKKA",
+                ability: "Masked Warrior",
+                item: "Leftovers",
+                moves: ['sacredsword', 'nightslash', 'psychocut'],
+                baseSignatureMove: "metallicsword",
+                signatureMove: "Metallic Sword",
+                evs: {
+                    atk: 252,
+                    hp: 252,
+                    def: 4
+                },
+                nature: "Adamant",
+            },
         };
+
         let pool = Object.keys(sets);
 
         // Generate the team randomly.
         pool = Object.keys(sets).randomize();
+
+        // replace the user into the 4th slot
+        let userid = toId(side.name);
+        if (replaceAlts[userid]) userid = replaceAlts[userid];
+
+        let usermon = Object.keys(sets).filter(n => toId(n) === userid),
+            self = null;
+        if (usermon && usermon.length) self = usermon[0]; // this is the user's pokemon. 
+        if (self && pool.indexOf(self) > 5) pool[4] = self;
+
         for (let i = 0; i < 6; i++) {
             let name = pool[i];
             let set = sets[name];
