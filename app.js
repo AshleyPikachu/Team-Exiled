@@ -45,24 +45,11 @@
 const fs = require('fs');
 const path = require('path');
 
-/*********************************************************
- * Make sure we have everything set up correctly
- *********************************************************/
-
-// Make sure our dependencies are available, and install them if they
-// aren't
-
+// Check for dependencies
 try {
 	require.resolve('sockjs');
-}
-catch (e) {
-	if (require.main !== module) throw new Error("Dependencies unmet");
-
-	let command = 'npm install --production';
-	console.log('Installing dependencies: `' + command + '`...');
-	require('child_process').spawnSync('sh', ['-c', command], {
-		stdio: 'inherit'
-	});
+} catch (e) {
+	throw new Error("Dependencies unmet; run npm install");
 }
 
 /*********************************************************
@@ -71,8 +58,7 @@ catch (e) {
 
 try {
 	require.resolve('./config/config');
-}
-catch (err) {
+} catch (err) {
 	if (err.code !== 'MODULE_NOT_FOUND') throw err; // should never happen
 
 	// Copy it over synchronously from config-example.js since it's needed before we can start the server
@@ -80,8 +66,7 @@ catch (err) {
 	fs.writeFileSync(path.resolve(__dirname, 'config/config.js'),
 		fs.readFileSync(path.resolve(__dirname, 'config/config-example.js'))
 	);
-}
-finally {
+} finally {
 	global.Config = require('./config/config');
 }
 
@@ -94,8 +79,7 @@ if (Config.watchconfig) {
 			global.Config = require('./config/config');
 			if (global.Users) Users.cacheGroupData();
 			console.log('Reloaded config/config.js');
-		}
-		catch (e) {
+		} catch (e) {
 			console.log('Error reloading config/config.js: ' + e.stack);
 		}
 	});
@@ -104,8 +88,6 @@ if (Config.watchconfig) {
 /*********************************************************
  * Set up most of our globals
  *********************************************************/
-
-global.Exiled = {};
 
 global.Monitor = require('./monitor');
 
@@ -120,21 +102,9 @@ global.Users = require('./users');
 
 global.Punishments = require('./punishments');
 
-global.Console = require('./console.js');
-
 global.Chat = require('./chat');
 
 global.Rooms = require('./rooms');
-
-global.Tells = require('./tells');
-
-global.Ontime = {};
-
-global.SG = {};
-
-global.forever = {};
-
-global.Db = require('origindb')('config/db');
 
 delete process.send; // in case we're a child process
 global.Verifier = require('./verifier');
@@ -151,8 +121,7 @@ if (Config.crashguard) {
 		let crashType = require('./crashlogger')(err, 'The main process');
 		if (crashType === 'lockdown') {
 			Rooms.global.startLockdown(err);
-		}
-		else {
+		} else {
 			Rooms.global.reportCrash(err);
 		}
 	});
@@ -190,11 +159,6 @@ Tools.includeFormats();
 
 global.TeamValidator = require('./team-validator');
 TeamValidator.PM.spawn();
-
-/*********************************************************
- * Start up the githubhook server
- ********************************************************/
-require('./github');
 
 /*********************************************************
  * Start up the REPL server
