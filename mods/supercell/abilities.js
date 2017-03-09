@@ -197,7 +197,7 @@ exports.BattleAbilities = {
     "hogriddah": {
         id: "hogriddah",
         name: "HOG RIDDAH",
-        desc: "Speed Boost + nullifies abilities",
+        desc: "Speed Boost + Unaware",
         onResidualOrder: 26,
         onResidualSubOrder: 1,
         onResidual: function (pokemon) {
@@ -246,6 +246,95 @@ exports.BattleAbilities = {
                 if (this.random(10) < 3) {
                     source.addVolatile('disable', this.effectData.target);
                 }
+            }
+        },
+    },
+    "burnout": {
+        id: "burnout",
+        name: "Burnout",
+        desc: "Regenerator + Unaware + Gen 6 Gale Wings",
+		onSwitchOut: function (pokemon) {
+			pokemon.heal(pokemon.maxhp / 3);
+		},
+		onAnyModifyBoost: function (boosts, target) {
+            let source = this.effectData.target;
+            if (source === target) return;
+            if (source === this.activePokemon && target === this.activeTarget) {
+                boosts['def'] = 0;
+                boosts['spd'] = 0;
+                boosts['evasion'] = 0;
+            }
+            if (target === this.activePokemon && source === this.activeTarget) {
+                boosts['atk'] = 0;
+                boosts['spa'] = 0;
+                boosts['accuracy'] = 0;
+            }
+        },
+		onModifyPriority: function (priority, pokemon, target, move) {
+            if (move && move.type === 'Flying') return priority + 1;
+        },
+    },
+    "reborn": {
+        id: "reborn",
+        name: "Reborn",
+        onModifyPriority: function (priority, pokemon, target, move) {
+            if (move && move.type === 'Flying') return priority + 1;
+        },
+        onModifyMove: function (move) {
+            move.stab = 2;
+        },
+        onResidualOrder: 26,
+        onResidualSubOrder: 1,
+        onResidual: function (pokemon) {
+            if (pokemon.activeTurns) {
+                this.boost({
+                    spe: 1
+                });
+            }
+        },
+        onAfterUseItem: function (item, pokemon) {
+            if (pokemon !== this.effectData.target) return;
+            pokemon.addVolatile('unburden');
+        },
+        onTakeItem: function (item, pokemon) {
+            pokemon.addVolatile('unburden');
+        },
+        onEnd: function (pokemon) {
+            pokemon.removeVolatile('unburden');
+        },
+        effect: {
+            onModifySpe: function (spe, pokemon) {
+                if (!pokemon.item) {
+                    return this.chainModify(2);
+                }
+            },
+        },
+    },
+    "maskedwarrior": {
+        id: "maskedwarrior",
+        name: "Masked Warrior",
+        onSourceFaint: function (target, source, effect) {
+            if (effect && effect.effectType === 'Move') {
+                let stat = 'atk';
+                let bestStat = 0;
+                for (let i in source.stats) {
+                    if (source.stats[i] > bestStat) {
+                        stat = i;
+                        bestStat = source.stats[i];
+                    }
+                }
+                this.boost({
+                    [stat]: 1
+                }, source);
+            }
+        },
+        onResidualOrder: 26,
+        onResidualSubOrder: 1,
+        onResidual: function (pokemon) {
+            if (pokemon.activeTurns) {
+                this.boost({
+                    atk: 1
+                });
             }
         },
     },
