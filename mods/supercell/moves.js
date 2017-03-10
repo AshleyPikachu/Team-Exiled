@@ -264,7 +264,40 @@ exports.BattleMovedex = {
         priority: 0,
         basePower: 110,
         self: {
-            heal: [1, 2],
+            onHit: function (pokemon, target, move) {
+                // substitute moves
+                function setMove(oldMove, moveid) {
+                    let index = pokemon.moves.indexOf(oldMove);
+                    if (index === -1) return;
+                    let move = Tools.getMove(moveid);
+                    let sketchedMove = {
+                        move: move.name,
+                        id: move.id,
+                        pp: move.pp,
+                        maxpp: move.pp,
+                        target: move.target,
+                        disabled: false,
+                        used: false,
+                    };
+                    pokemon.moveset[index] = sketchedMove;
+                    pokemon.moves[index] = toId(move.name);
+                }
+                let subs = [
+                    ["defog", "seedflare"],
+                    ["oblivionwing", "hurricane"],
+                    ["roost", "earthpower"]
+                ];
+                if (pokemon.template.speciesid === 'lavahound' && pokemon.formeChange('Lava Pup')) {
+                    subs.forEach(s => setMove(s[0], s[1]));
+                    this.add('-formechange', pokemon, 'Lava Pup', '[msg]');
+                }
+                else if (pokemon.formeChange('Lava Pup')) {
+                    subs.forEach(s => setMove(s[1], s[0]));
+                    this.add('-formechange', pokemon, 'Lava Hound', '[msg]');
+                }
+                // make changing form available in consecutive turns
+                delete pokemon.volatiles.stall;
+            },
         },
         flags: {
             protect: 1,
