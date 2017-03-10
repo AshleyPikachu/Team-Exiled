@@ -6,17 +6,17 @@ exports.BattleAbilities = {
 		id: "cripplingdepression",
 		name: "Crippling Depression",
 		//primordialseas
-		onStart: function(source) {
+		onStart: function (source) {
 			this.setWeather('primordialsea');
 		},
-		onAnySetWeather: function(target, source, weather) {
+		onAnySetWeather: function (target, source, weather) {
 			if (this.getWeather().id === 'primordialsea' && !(weather.id in {
 					desolateland: 1,
 					primordialsea: 1,
 					deltastream: 1
 				})) return false;
 		},
-		onEnd: function(pokemon) {
+		onEnd: function (pokemon) {
 			if (this.weatherData.source !== pokemon) return;
 			for (let i = 0; i < this.sides.length; i++) {
 				for (let j = 0; j < this.sides[i].active.length; j++) {
@@ -31,13 +31,13 @@ exports.BattleAbilities = {
 			this.clearWeather();
 		},
 		//raindish
-		onWeather: function(target, source, effect) {
+		onWeather: function (target, source, effect) {
 			if (effect.id === 'raindance' || effect.id === 'primordialsea') {
 				this.heal(target.maxhp / 16);
 			}
 		},
 		//swiftswim
-		onModifySpe: function(spe, pokemon) {
+		onModifySpe: function (spe, pokemon) {
 			if (this.isWeather(['raindance', 'primordialsea'])) {
 				return this.chainModify(2);
 			}
@@ -47,34 +47,12 @@ exports.BattleAbilities = {
 	"prfmlmao": {
 		id: "prfmlmao",
 		name: "prfmlmao",
-		//desolateland
-		onStart: function(source) {
-			this.setWeather('desolateland');
-		},
-		onAnySetWeather: function(target, source, weather) {
-			if (this.getWeather().id === 'desolateland' && !(weather.id in {
-					desolateland: 1,
-					primordialsea: 1,
-					deltastream: 1
-				})) return false;
-		},
-		onEnd: function(pokemon) {
-			if (this.weatherData.source !== pokemon) return;
-			for (let i = 0; i < this.sides.length; i++) {
-				for (let j = 0; j < this.sides[i].active.length; j++) {
-					let target = this.sides[i].active[j];
-					if (target === pokemon) continue;
-					if (target && target.hp && target.hasAbility('desolateland')) {
-						this.weatherData.source = target;
-						return;
-					}
-				}
-			}
-			this.clearWeather();
+		onStart: function (source) {
+			this.setWeather('hail');
 		},
 		//pixilate
 		onModifyMovePriority: -1,
-		onModifyMove: function(move, pokemon) {
+		onModifyMove: function (move, pokemon) {
 			if (move.type === 'Normal' && move.id !== 'naturalgift') {
 				move.type = 'Fairy';
 				if (move.category !== 'Status') pokemon.addVolatile('pixilate');
@@ -83,30 +61,20 @@ exports.BattleAbilities = {
 		effect: {
 			duration: 1,
 			onBasePowerPriority: 8,
-			onBasePower: function(basePower, pokemon, target, move) {
+			onBasePower: function (basePower, pokemon, target, move) {
 				return this.chainModify([0x14CD, 0x1000]);
 			},
 		},
-		//solar power
+		//hail solar power
 		onModifySpAPriority: 5,
-		onModifySpA: function(spa, pokemon) {
-			if (this.isWeather(['sunnyday', 'desolateland'])) {
+		onModifySpA: function (spa, pokemon) {
+			if (this.isWeather(['hail'])) {
 				return this.chainModify(1.5);
 			}
 		},
-		onWeather: function(target, source, effect) {
-			if (effect.id === 'sunnyday' || effect.id === 'desolateland') {
+		onWeather: function (target, source, effect) {
+			if (effect.id === 'hail') {
 				this.damage(target.maxhp / 8, target, target);
-			}
-		},
-		//fairy aura
-		onStart: function(pokemon) {
-			this.add('-ability', pokemon, 'Fairy Aura');
-		},
-		onAnyTryPrimaryHit: function(target, source, move) {
-			if (target === source || move.category === 'Status') return;
-			if (move.type === 'Fairy') {
-				source.addVolatile('aura');
 			}
 		},
 	},
@@ -115,12 +83,12 @@ exports.BattleAbilities = {
 		id: "gawd",
 		name: "GAWD",
 		//adaptability
-		onModifyMove: function(move) {
+		onModifyMove: function (move) {
 			move.stab = 2;
 		},
 		//hugepower
 		onModifyAtkPriority: 5,
-		onModifyAtk: function(atk) {
+		onModifyAtk: function (atk) {
 			return this.chainModify(2);
 		},
 	},
@@ -129,7 +97,7 @@ exports.BattleAbilities = {
 		id: "jetstream",
 		name: "JetStream",
 		//multiscale
-		onSourceModifyDamage: function(damage, source, target, move) {
+		onSourceModifyDamage: function (damage, source, target, move) {
 			if (target.hp >= target.maxhp) {
 				this.debug('Multiscale weaken');
 				return this.chainModify(0.5);
@@ -141,13 +109,13 @@ exports.BattleAbilities = {
 		id: "mlgsunglasses",
 		name: "MLG Sunglasses",
 		//prankster
-		onModifyPriority: function(priority, pokemon, target, move) {
+		onModifyPriority: function (priority, pokemon, target, move) {
 			if (move && move.category === 'Status') {
 				return priority + 1;
 			}
 		},
 		//unaware
-		onAnyModifyBoost: function(boosts, target) {
+		onAnyModifyBoost: function (boosts, target) {
 			let source = this.effectData.target;
 			if (source === target) return;
 			if (source === this.activePokemon && target === this.activeTarget) {
@@ -162,7 +130,7 @@ exports.BattleAbilities = {
 			}
 		},
 		//filter
-		onSourceModifyDamage: function(damage, source, target, move) {
+		onSourceModifyDamage: function (damage, source, target, move) {
 			if (move.typeMod > 0) {
 				this.debug('Bawlky neutralize');
 				return this.chainModify(0.75);
@@ -170,7 +138,7 @@ exports.BattleAbilities = {
 		},
 		//ironbarbs and aftermath effects
 		onAfterDamageOrder: 1,
-		onAfterDamage: function(damage, target, source, move) {
+		onAfterDamage: function (damage, target, source, move) {
 			if (source && source !== target && move && move.flags['contact']) {
 				this.damage(source.maxhp / 8, source, target, null, true);
 			}
@@ -185,21 +153,21 @@ exports.BattleAbilities = {
 		name: "Landlord",
 		//thickfat
 		onModifyAtkPriority: 6,
-		onSourceModifyAtk: function(atk, attacker, defender, move) {
+		onSourceModifyAtk: function (atk, attacker, defender, move) {
 			if (move.type === 'Ice' || move.type === 'Fire') {
 				this.debug('Thick Fat weaken');
 				return this.chainModify(0.5);
 			}
 		},
 		onModifySpAPriority: 5,
-		onSourceModifySpA: function(atk, attacker, defender, move) {
+		onSourceModifySpA: function (atk, attacker, defender, move) {
 			if (move.type === 'Ice' || move.type === 'Fire') {
 				this.debug('Thick Fat weaken');
 				return this.chainModify(0.5);
 			}
 		},
 		//Fire Absorb
-		onTryHit: function(target, source, move) {
+		onTryHit: function (target, source, move) {
 			if (target !== source && move.type === 'Fire') {
 				if (!this.heal(target.maxhp / 4)) {
 					this.add('-immune', target, '[msg]', '[from] ability: Landlord');
@@ -207,17 +175,17 @@ exports.BattleAbilities = {
 				return null;
 			}
 		},
-		onStart: function(source) {
+		onStart: function (source) {
 			this.setWeather('desolateland');
 		},
-		onAnySetWeather: function(target, source, weather) {
+		onAnySetWeather: function (target, source, weather) {
 			if (this.getWeather().id === 'desolateland' && !(weather.id in {
 					desolateland: 1,
 					primordialsea: 1,
 					deltastream: 1
 				})) return false;
 		},
-		onEnd: function(pokemon) {
+		onEnd: function (pokemon) {
 			if (this.weatherData.source !== pokemon) return;
 			for (let i = 0; i < this.sides.length; i++) {
 				for (let j = 0; j < this.sides[i].active.length; j++) {
@@ -238,7 +206,7 @@ exports.BattleAbilities = {
 		name: "WobzDoezJobz",
 		//technician
 		onBasePowerPriority: 8,
-		onBasePower: function(basePower, attacker, defender, move) {
+		onBasePower: function (basePower, attacker, defender, move) {
 			if (basePower <= 60) {
 				this.debug('WobzDoezJobz boost');
 				return this.chainModify(1.5);
@@ -246,7 +214,7 @@ exports.BattleAbilities = {
 		},
 		//serene grace
 		onModifyMovePriority: -2,
-		onModifyMove: function(move) {
+		onModifyMove: function (move) {
 			if (move.secondaries) {
 				this.debug('doubling secondary chance');
 				for (let i = 0; i < move.secondaries.length; i++) {
@@ -255,7 +223,7 @@ exports.BattleAbilities = {
 			}
 		},
 		//simple
-		onBoost: function(boost) {
+		onBoost: function (boost) {
 			for (let i in boost) {
 				boost[i] *= 2;
 			}
@@ -265,12 +233,12 @@ exports.BattleAbilities = {
 	"godcomplex": {
 		id: "godcomplex",
 		name: "God Complex",
-		onStart: function(source) {
+		onStart: function (source) {
 			this.useMove('topsyturvy', source);
 		},
 		//rough skin
 		onAfterDamageOrder: 1,
-		onAfterDamage: function(damage, target, source, move) {
+		onAfterDamage: function (damage, target, source, move) {
 			if (source && source !== target && move && move.flags['contact']) {
 				this.damage(source.maxhp / 8, source, target, null, true);
 			}
@@ -282,7 +250,7 @@ exports.BattleAbilities = {
 		name: "Demon's Blade",
 		//toughclaws
 		onBasePowerPriority: 8,
-		onBasePower: function(basePower, attacker, defender, move) {
+		onBasePower: function (basePower, attacker, defender, move) {
 			if (move.flags['contact']) {
 				return this.chainModify([0x14CD, 0x1000]);
 			}
@@ -294,13 +262,13 @@ exports.BattleAbilities = {
 		name: "gj Squad",
 		//toughclaws
 		onBasePowerPriority: 8,
-		onBasePower: function(basePower, attacker, deflcender, move) {
+		onBasePower: function (basePower, attacker, deflcender, move) {
 			if (move.flags['contact']) {
 				return this.chainModify([0x14CD, 0x1000]);
 			}
 		},
 		//sheerforce
-		onModifyMove: function(move, pokemon) {
+		onModifyMove: function (move, pokemon) {
 			if (move.secondaries) {
 				delete move.secondaries;
 				// Actual negation of `AfterMoveSecondary` effects implemented in scripts.js
@@ -310,7 +278,7 @@ exports.BattleAbilities = {
 		effect: {
 			duration: 1,
 			onBasePowerPriority: 8,
-			onBasePower: function(basePower, pokemon, target, move) {
+			onBasePower: function (basePower, pokemon, target, move) {
 				return this.chainModify([0x14CD, 0x1000]);
 			},
 		},
@@ -321,7 +289,7 @@ exports.BattleAbilities = {
 		name: "Volcanic Ash",
 		//magicbounce
 		onTryHitPriority: 1,
-		onTryHit: function(target, source, move) {
+		onTryHit: function (target, source, move) {
 			if (target === source || move.hasBounced || !move.flags['reflectable']) {
 				return;
 			}
@@ -330,7 +298,7 @@ exports.BattleAbilities = {
 			this.useMove(newMove, target, source);
 			return null;
 		},
-		onAllyTryHitSide: function(target, source, move) {
+		onAllyTryHitSide: function (target, source, move) {
 			if (target.side === source.side || move.hasBounced || !move.flags['reflectable']) {
 				return;
 			}
@@ -343,13 +311,13 @@ exports.BattleAbilities = {
 			duration: 1,
 		},
 		//magicguard
-		onDamage: function(damage, target, source, effect) {
+		onDamage: function (damage, target, source, effect) {
 			if (effect.effectType !== 'Move') {
 				return false;
 			}
 		},
 		//adaptability
-		onModifyMove: function(move) {
+		onModifyMove: function (move) {
 			move.stab = 2;
 		},
 	},
@@ -358,7 +326,7 @@ exports.BattleAbilities = {
 		id: "brilliantscale",
 		name: "Brilliant Scale",
 		//multiscale + supereffective moves only do half as much
-		onSourceModifyDamage: function(damage, source, target, move) {
+		onSourceModifyDamage: function (damage, source, target, move) {
 			if (target.hp >= target.maxhp) {
 				this.debug('Brilliant Scale weaken');
 				return this.chainModify(0.5);
@@ -369,7 +337,7 @@ exports.BattleAbilities = {
 			}
 		},
 		//tintedlens
-		onModifyDamage: function(damage, source, target, move) {
+		onModifyDamage: function (damage, source, target, move) {
 			if (move.typeMod < 0) {
 				this.debug('Brilliant Scale boost');
 				return this.chainModify(2);
@@ -381,14 +349,14 @@ exports.BattleAbilities = {
 		id: "supanova",
 		name: "Supanova",
 		//multiscale
-		onSourceModifyDamage: function(damage, source, target, move) {
+		onSourceModifyDamage: function (damage, source, target, move) {
 			if (target.hp >= target.maxhp) {
 				this.debug('Supanova weaken');
 				return this.chainModify(0.5);
 			}
 		},
 		//flamebody
-		onAfterDamage: function(damage, target, source, move) {
+		onAfterDamage: function (damage, target, source, move) {
 			if (move && move.flags['contact']) {
 				if (this.random(10) < 3) {
 					source.trySetStatus('brn', target);
@@ -401,17 +369,17 @@ exports.BattleAbilities = {
 		id: "howtobeop101",
 		name: "How to be OP 101",
 		//deltastream
-		onStart: function(source) {
+		onStart: function (source) {
 			this.setWeather('deltastream');
 		},
-		onAnySetWeather: function(target, source, weather) {
+		onAnySetWeather: function (target, source, weather) {
 			if (this.getWeather().id === 'deltastream' && !(weather.id in {
 					desolateland: 1,
 					primordialsea: 1,
 					deltastream: 1
 				})) return false;
 		},
-		onEnd: function(pokemon) {
+		onEnd: function (pokemon) {
 			if (this.weatherData.source !== pokemon) return;
 			for (let i = 0; i < this.sides.length; i++) {
 				for (let j = 0; j < this.sides[i].active.length; j++) {
@@ -426,23 +394,23 @@ exports.BattleAbilities = {
 			this.clearWeather();
 		},
 		//regenerator
-		onSwitchOut: function(pokemon) {
+		onSwitchOut: function (pokemon) {
 			pokemon.heal(pokemon.maxhp / 3);
 		},
 		//roughskin
 		onAfterDamageOrder: 1,
-		onAfterDamage: function(damage, target, source, move) {
+		onAfterDamage: function (damage, target, source, move) {
 			if (source && source !== target && move && move.flags['contact']) {
 				this.damage(source.maxhp / 8, source, target, null, true);
 			}
 		},
 		//special fur coat
 		onModifySpDPriority: 6,
-		onModifySpD: function(spd) {
+		onModifySpD: function (spd) {
 			return this.chainModify(2);
 		},
 		//naturalcure
-		onCheckShow: function(pokemon) {
+		onCheckShow: function (pokemon) {
 			// This is complicated
 			// For the most part, in-game, it's obvious whether or not Natural Cure activated,
 			// since you can see how many of your opponent's pokemon are statused.
@@ -509,7 +477,7 @@ exports.BattleAbilities = {
 				}
 			}
 		},
-		onSwitchOut: function(pokemon) {
+		onSwitchOut: function (pokemon) {
 			if (!pokemon.status) return;
 
 			// if pokemon.showCure is undefined, it was skipped because its ability
@@ -524,7 +492,7 @@ exports.BattleAbilities = {
 			if (!pokemon.showCure) delete pokemon.showCure;
 		},
 		//multiscale
-		onSourceModifyDamage: function(damage, source, target, move) {
+		onSourceModifyDamage: function (damage, source, target, move) {
 			if (target.hp >= target.maxhp) {
 				this.debug('How to be OP 101 weaken');
 				return this.chainModify(0.5);
@@ -539,7 +507,7 @@ exports.BattleAbilities = {
 		shortDesc: "Intimidate + Technician + Adaptability + Magic Guard",
 		gen: -1,
 		//intimidate
-		onStart: function(pokemon) {
+		onStart: function (pokemon) {
 			let foeactive = pokemon.side.foe.active;
 			let activated = false;
 			for (let i = 0; i < foeactive.length; i++) {
@@ -560,21 +528,50 @@ exports.BattleAbilities = {
 		},
 		//technician
 		onBasePowerPriority: 8,
-		onBasePower: function(basePower, attacker, defender, move) {
+		onBasePower: function (basePower, attacker, defender, move) {
 			if (basePower <= 60) {
 				this.debug('Technician boost');
 				return this.chainModify(1.5);
 			}
 		},
 		//magic guard
-		onDamage: function(damage, target, source, effect) {
+		onDamage: function (damage, target, source, effect) {
 			if (effect.effectType !== 'Move') {
 				return false;
 			}
 		},
 		//adaptability
-		onModifyMove: function(move) {
+		onModifyMove: function (move) {
 			move.stab = 2;
+		},
+	},
+	"encryption": {
+		id: "encryption",
+		name: "Encryption",
+		//sturdy
+		onTryHit: function (pokemon, target, move) {
+			if (move.ohko) {
+				this.add('-immune', pokemon, '[msg]', '[from] ability: Encryption');
+				return null;
+			}
+		},
+		onDamagePriority: -100,
+		onDamage: function (damage, target, source, effect) {
+			if (target.hp === target.maxhp && damage >= target.hp && effect && effect.effectType === 'Move') {
+				this.add('-ability', target, 'Encryption');
+				return target.hp - 1;
+			}
+		},
+		//overcoat
+		onImmunity: function (type, pokemon) {
+			if (type === 'sandstorm' || type === 'hail' || type === 'powder') return false;
+		},
+		onTryHitPriority: 1,
+		onTryHit: function (target, source, move) {
+			if (move.flags['powder'] && target !== source && this.getImmunity('powder', target)) {
+				this.add('-immune', target, '[msg]', '[from] ability: Encryption');
+				return null;
+			}
 		},
 	},
 };
