@@ -37,7 +37,7 @@ exports.BattleScripts = {
                 },
                 nature: 'Timid',
             },
-            "Sukesha": {
+            "~Sukesha": {
                 species: "Ninetales-Alola",
                 ability: "prfmlmao",
                 item: "Life Orb",
@@ -69,7 +69,7 @@ exports.BattleScripts = {
                 nature: 'Adamant',
             },
             //Leaders
-            "&Jigglykong": {
+            "☥Jigglykong": {
                 species: "Porygon2",
                 ability: "3Bawlky5U",
                 item: "Eviolite",
@@ -86,7 +86,7 @@ exports.BattleScripts = {
                 },
                 nature: "Bold",
             },
-            '&Back At My Day': {
+            '@Back At My Day': {
                 species: 'Groudon-Primal',
                 ability: 'Landlord',
                 item: "flarez",
@@ -102,7 +102,7 @@ exports.BattleScripts = {
                 nature: 'Adamant',
             },
             //Bots
-            '*The Alola Ludicolo': {
+            '*Crystal Ludicolo': {
                 species: 'Ludicolo',
                 ability: 'Desolate Land',
                 item: 'Life Orb',
@@ -150,7 +150,7 @@ exports.BattleScripts = {
                 },
                 nature: "Jolly",
             },
-            '~Mewth': {
+            '@Mewth': {
                 species: "Glameow",
                 ability: 'Sniper',
                 item: 'Scope Lens',
@@ -196,7 +196,7 @@ exports.BattleScripts = {
                 },
                 nature: 'Jolly',
             },
-            '@CielTSnow': {
+            'CielTSnow': {
                 species: 'Lucario-Mega',
                 ability: 'Adaptability',
                 item: 'Life Orb',
@@ -225,7 +225,7 @@ exports.BattleScripts = {
                 },
                 nature: 'Hasty',
             },
-            '@Vivid is a God': {
+            'Vivid is a God': {
                 species: 'Latios',
                 ability: 'JetStream',
                 item: 'Life Orb',
@@ -257,7 +257,7 @@ exports.BattleScripts = {
                 nature: "Adamant",
             },
             //Voices
-            '%Kairak': {
+            '+Kairak': {
                 species: 'Nidorina',
                 ability: 'gj squad',
                 item: 'Focus Sash',
@@ -272,7 +272,7 @@ exports.BattleScripts = {
                 },
                 nature: 'Jolly',
             },
-            "%Speckeldorft": {
+            "Speckeldorft": {
                 species: "Jigglypuff",
                 ability: "The Cute Charm",
                 item: "Eviolite",
@@ -287,7 +287,7 @@ exports.BattleScripts = {
                 },
                 nature: "Timid",
             },
-            "%Yoshonic": {
+            "Yoshonic": {
                 species: "Zoroark",
                 ability: "Too Fast",
                 item: "Life Orb",
@@ -301,6 +301,21 @@ exports.BattleScripts = {
                     hp: 4
                 },
                 nature: "Timid",
+            },
+            "+Foreword": {
+                species: "Shedinja",
+                ability: "Encryption",
+                item: "Lum Berry",
+                gender: "M",
+                moves: ['endeavor', 'extremespeed', 'shadowsneak'],
+                baseSignatureMove: "teamplayer",
+                signatureMove: "Team Player",
+                evs: {
+                    atk: 252,
+                    spe: 252,
+                    spd: 4
+                },
+                nature: "Jolly",
             },
             //Regs
             'TheAquaPhoenix': {
@@ -318,7 +333,7 @@ exports.BattleScripts = {
                 },
                 nature: "Calm",
             },
-            '&Bronze0re': {
+            '+Bronze0re': {
                 species: 'Volcarona',
                 ability: 'Brilliant Scale',
                 item: 'Weakness Policy',
@@ -333,7 +348,7 @@ exports.BattleScripts = {
                 },
                 nature: 'Timid',
             },
-            "+Nightcraven": {
+            "Nightcraven": {
                 species: "Missingno.",
                 ability: "Derp",
                 item: "Focus Sash",
@@ -363,7 +378,7 @@ exports.BattleScripts = {
                 },
                 nature: "Impish",
             },
-            "+THEMEMES69": {
+            "THEMEMES69": {
                 species: "Mewtwo",
                 ability: "Speed Boost",
                 item: "thekidz",
@@ -376,8 +391,23 @@ exports.BattleScripts = {
                     spe: 252,
                     hp: 4
                 },
-                nature: "Timid"
-            }
+                nature: "Timid",
+            },
+            'HoeenHero': {
+				species: 'Ludicolo',
+				ability: 'Swift Swim',
+				item: 'Leftovers',
+				gender: 'M',
+				moves: ['Scald', 'Ice Beam', 'Giga Drain',],
+				baseSignatureMove: "scripting",
+				signatureMove: "Scripting",
+				evs: {
+					spa: 252,
+					spe: 252,
+					hp: 4,
+				},
+				nature: 'Modest',
+			},
         };
 
         let pool = Object.keys(sets);
