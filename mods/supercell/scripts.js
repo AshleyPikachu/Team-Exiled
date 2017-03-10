@@ -195,6 +195,33 @@ exports.BattleScripts = {
                 },
                 nature: "Adamant",
             },
+            "Healer": {
+                species: "Healer",
+                item: "Leftovers",
+                ability: "Pixie Blessing",
+                moves: ['cosmicpower', 'oblivionwing', 'storedpower'],
+                baseSignatureMove: "healspell",
+                signatureMove: "Heal Spell",
+                evs: {
+                    hp: 252,
+                    spd: 252,
+                    def: 4
+                },
+                nature: "Calm",
+            },
+            "Baby Dragon": {
+                species: "Baby Dragon",
+                item: "Leftovers",
+                ability: "Parental Guidance",
+                moves: ['roost', 'oblivionwing', 'gigadrain'],
+                signatureMove: "Dragon Pulse",
+                evs: {
+                    spa: 252,
+                    spe: 252,
+                    hp: 4
+                },
+                nature: "Modest",
+            },
         };
 
         let pool = Object.keys(sets);
