@@ -18,13 +18,21 @@ exports.BattleAbilities = {
             }
         },
         onModifyCritRatio: function (critRatio) {
-			return critRatio + 1;
-		},
+            return critRatio + 1;
+        },
     },
     "theft": {
         id: "theft",
         name: "Theft",
-        desc: "Adaptability + Speed Boost + Moxie + Unburden",
+        desc: "Adaptability + Speed Boost + Moxie + Unburden + Scrappy",
+        onModifyMovePriority: -5,
+		onModifyMove: function (move) {
+			if (!move.ignoreImmunity) move.ignoreImmunity = {};
+			if (move.ignoreImmunity !== true) {
+				move.ignoreImmunity['Fighting'] = true;
+				move.ignoreImmunity['Normal'] = true;
+			}
+		},
         onModifyMove: function (move) {
             move.stab = 2;
         },
@@ -253,10 +261,10 @@ exports.BattleAbilities = {
         id: "burnout",
         name: "Burnout",
         desc: "Regenerator + Unaware + Gen 6 Gale Wings",
-		onSwitchOut: function (pokemon) {
-			pokemon.heal(pokemon.maxhp / 3);
-		},
-		onAnyModifyBoost: function (boosts, target) {
+        onSwitchOut: function (pokemon) {
+            pokemon.heal(pokemon.maxhp / 3);
+        },
+        onAnyModifyBoost: function (boosts, target) {
             let source = this.effectData.target;
             if (source === target) return;
             if (source === this.activePokemon && target === this.activeTarget) {
@@ -270,7 +278,7 @@ exports.BattleAbilities = {
                 boosts['accuracy'] = 0;
             }
         },
-		onModifyPriority: function (priority, pokemon, target, move) {
+        onModifyPriority: function (priority, pokemon, target, move) {
             if (move && move.type === 'Flying') return priority + 1;
         },
     },
@@ -335,6 +343,95 @@ exports.BattleAbilities = {
                 this.boost({
                     atk: 1
                 });
+            }
+        },
+    },
+    "pixiearoma": {
+        id: "pixiearoma",
+        name: "Pixie Aroma",
+        onAnyTryPrimaryHit: function (target, source, move) {
+            if (target === source || move.category === 'Status') return;
+            if (move.type === 'Fairy') {
+                source.addVolatile('aura');
+            }
+        },
+        onSwitchOut: function (pokemon) {
+            pokemon.heal(pokemon.maxhp / 3);
+        },
+        onDamage: function (damage, target, source, effect) {
+            if (effect.effectType !== 'Move') {
+                return false;
+            }
+        },
+        onModifyPriority: function (priority, pokemon, target, move) {
+            if (move && move.category === 'Status') {
+                return priority + 1;
+            }
+        },
+    },
+    "parentalguidance": {
+        id: "parentalguidance",
+        name: "Parental Guidance",
+        onPrepareHit: function (source, target, move) {
+            if (move.id in {
+                    iceball: 1,
+                    rollout: 1
+                }) return;
+            if (move.category !== 'Status' && !move.selfdestruct && !move.multihit && !move.flags['charge'] && !move.spreadHit && !move.isZ) {
+                move.multihit = 2;
+                source.addVolatile('parentalbond');
+            }
+        },
+        effect: {
+            duration: 1,
+            onBasePowerPriority: 8,
+            onBasePower: function (basePower) {
+                if (this.effectData.hit) {
+                    this.effectData.hit++;
+                    return this.chainModify(0.25);
+                }
+                else {
+                    this.effectData.hit = 1;
+                }
+            },
+
+            onSourceModifySecondaries: function (secondaries, target, source, move) {
+                if (move.id === 'secretpower' && this.effectData.hit < 2) {
+                    // hack to prevent accidentally suppressing King's Rock/Razor Fang
+                    return secondaries.filter(effect => effect.volatileStatus === 'flinch');
+                }
+            },
+        },
+        onStart: function (pokemon) {
+            if (pokemon.baseTemplate.baseSpecies !== 'Baby Dragon' || pokemon.transformed) return;
+            if (pokemon.hp > pokemon.maxhp / 4) {
+                if (pokemon.template.speciesid === 'babydragon') {
+                    pokemon.formeChange('Dragon');
+                    this.add('-formechange', pokemon, 'Dragon', '[from] ability: Parental Guidance');
+                }
+            }
+            else {
+                if (pokemon.template.speciesid === 'dragon') {
+                    pokemon.formeChange('Baby Dragon');
+                    this.add('-formechange', pokemon, 'Baby Dragon', '[from] ability: Parental Guidance');
+                }
+            }
+        },
+
+        onResidualOrder: 27,
+        onResidual: function (pokemon) {
+            if (pokemon.baseTemplate.baseSpecies !== 'Baby Dragon' || pokemon.transformed || !pokemon.hp) return;
+            if (pokemon.hp > pokemon.maxhp / 4) {
+                if (pokemon.template.speciesid === 'babydragon') {
+                    pokemon.formeChange('Dragon');
+                    this.add('-formechange', pokemon, 'Dragon', '[from] ability: Parental Guidance');
+                }
+            }
+            else {
+                if (pokemon.template.speciesid === 'dragon') {
+                    pokemon.formeChange('Baby Dragon');
+                    this.add('-formechange', pokemon, 'Baby Dragon', '[from] ability: Parental Guidance');
+                }
             }
         },
     },
