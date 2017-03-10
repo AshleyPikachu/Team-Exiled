@@ -1430,10 +1430,13 @@ exports.Formats = [
 				this.add('c|~Insist|__**^^Let\'s get roooooiiiiiiight into le noose!^^**__');
 			}
 			if (name === 'speckeldorft') {
-				this.add('c| Speckeldorft|**YYYEEAAHHHHHHHH BBBBBBBBBBBBBBBBOOOOOOOOOOOOOOOOOOOOIIIIIIIIIIIIIIIIIIIIIIIIII**');
+				this.add('c|%Speckeldorft|**YYYEEAAHHHHHHHH BBBBBBBBBBBBBBBBOOOOOOOOOOOOOOOOOOOOIIIIIIIIIIIIIIIIIIIIIIIIII**');
 			}
 			if (name === 'abstarfox') {
-				this.add('c| AB Starfox|Hello, just here to clean up');
+				this.add('c|+AB Starfox|Hello, just here to clean up');
+			}
+			if (name === 'hoeenhero') {
+				this.add('c| HoeenHero|Do I have to? I\'m in the middle of programming.');
 			}
 
 			// Add here special typings, done for flavor mainly. (and stat boosts)
@@ -1470,10 +1473,13 @@ exports.Formats = [
 				this.add('c|~Insist|Errrr I\'ll see you later, just sayin\' this is me just uhhh running away from my problems.... I errr just need a walk! Geez, why are you on to me on everything I do ughhhhhhhhhhh you\'re not my mom!');
 			}
 			if (name === 'speckeldorft') {
-				this.add('c| Speckeldorft|fuck you');
+				this.add('c|+Speckeldorft|fuck you');
 			}
 			if (name === 'abstarfox') {
-				this.add('c| AB Starfox|Time for me to get a life');
+				this.add('c|+AB Starfox|Time for me to get a life');
+			}
+			if (name === 'hoeenhero') {
+			this.add('c| HoeenHero|I can\'t battle now, I\'m too busy.');
 			}
 		},
 		// Add here salty tears, that is, custom faint phrases.
@@ -1496,6 +1502,9 @@ exports.Formats = [
 			if (name === 'abstarfox') {
 				this.add('c| AB Starfox|Once again I get lucked out smh');
 			}
+			if (name === 'hoeenhero') {
+				this.add('c| HoeenHero|Hey! Thats more hax than I get to use >:(');
+			}	
 		},
 	}, {
 		name: "[Gen 7] Metronome Battles",
