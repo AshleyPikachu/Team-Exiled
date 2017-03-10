@@ -90,26 +90,26 @@ exports.BattleMovedex = {
         name: "Greed",
         basePower: 90,
         onHit: function (target, source) {
-			if (source.item || source.volatiles['gem']) {
-				return;
-			}
-			let yourItem = target.takeItem(source);
-			if (!yourItem) {
-				return;
-			}
-			if (!source.setItem(yourItem)) {
-				target.item = yourItem.id; // bypass setItem so we don't break choicelock or anything
-				return;
-			}
-			this.add('-item', source, yourItem, '[from] move: Greed', '[of] ' + target);
-		},
-		self: {
-		    boosts: {
-		        atk: 3,
-		        spe: 3
-		    },
-		    statusVolatile: "confusion",
-		},
+            if (source.item || source.volatiles['gem']) {
+                return;
+            }
+            let yourItem = target.takeItem(source);
+            if (!yourItem) {
+                return;
+            }
+            if (!source.setItem(yourItem)) {
+                target.item = yourItem.id; // bypass setItem so we don't break choicelock or anything
+                return;
+            }
+            this.add('-item', source, yourItem, '[from] move: Greed', '[of] ' + target);
+        },
+        self: {
+            boosts: {
+                atk: 3,
+                spe: 3
+            },
+            statusVolatile: "confusion",
+        },
         accuracy: 100,
         category: "Physical",
         pp: 10,
@@ -242,11 +242,14 @@ exports.BattleMovedex = {
             spd: -1,
             spe: -1
         },
-        secondary: {
-            volatileStatus: "partiallytrapped"
-        },
-        status: "par",
-        volatileStatus: "confusion",
+        volatileStatus: "partiallytrapped",
+        secondaries: [{
+            chance: 30,
+            status: 'par',
+        }, {
+            chance: 30,
+            volatileStatus: 'confusion',
+        }, ],
         target: "any",
         type: "Ghost",
     },
@@ -286,5 +289,53 @@ exports.BattleMovedex = {
         secondary: false,
         target: "normal",
         type: "Steel",
+    },
+    "healspell": {
+        id: "healspell",
+        onHit: function (pokemon, source, move) {
+            this.add('-activate', source, 'move: Heal Spell');
+            let side = pokemon.side;
+            for (let i = 0; i < side.pokemon.length; i++) {
+                if (side.pokemon[i] !== source && ((side.pokemon[i].hasAbility('sapsipper')) ||
+                        (side.pokemon[i].volatiles['substitute'] && !move.infiltrates))) {
+                    continue;
+                }
+                side.pokemon[i].cureStatus();
+            }
+        },
+        basePower: 0,
+        accuracy: true,
+        pp: 30,
+        category: "Status",
+        heal: [1, 1],
+        self: {
+            onHit: function (pokemon) {
+                if (pokemon.hp && pokemon.removeVolatile('leechseed')) {
+                    this.add('-end', pokemon, 'Leech Seed', '[from] move: Heal Spell', '[of] ' + pokemon);
+                }
+                let sideConditions = {
+                    spikes: 1,
+                    toxicspikes: 1,
+                    stealthrock: 1,
+                    stickyweb: 1
+                };
+                for (let i in sideConditions) {
+                    if (pokemon.hp && pokemon.side.removeSideCondition(i)) {
+                        this.add('-sideend', pokemon.side, this.getEffect(i).name, '[from] move: Heal Spell', '[of] ' + pokemon);
+                    }
+                }
+                if (pokemon.hp && pokemon.volatiles['partiallytrapped']) {
+                    pokemon.removeVolatile('partiallytrapped');
+                }
+            },
+        },
+        secondary: false,
+        priority: 1,
+        flags: {
+            snatch: 1,
+            distance: 1
+        },
+        target: "allyTeam",
+        type: "Fairy",
     },
 };
