@@ -217,4 +217,58 @@ exports.BattlePokedex = {
         heightm: 6.7,
         weightkg: 253.8,
     },
+    healer: {
+        num: -211,
+        species: "Healer",
+        types: ["Fairy", "Flying"],
+        baseStats: {
+            hp: 120,
+            atk: 30,
+            def: 110,
+            spa: 45,
+            spd: 110,
+            spe: 50
+        },
+        abilities: {
+            0: "Pixie Aroma"
+        },
+        heightm: 2.8,
+        weightkg: 6.6,
+    },
+    dragon: {
+        num: -212,
+        species: "Dragon",
+        types: ["Dragon", "Flying"],
+        baseStats: {
+            hp: 90,
+            atk: 80,
+            def: 80,
+            spa: 135,
+            spd: 80,
+            spe: 120
+        },
+        abilities: {
+            0: "Parental Guidance"
+        },
+        heightm: 8.9,
+        weightkg: 40.5,
+    },
+    babydragon: {
+        num: -213,
+        species: "Baby Dragon",
+        types: ["Dragon", "Flying"],
+        baseStats: {
+            hp: 120,
+            atk: 70,
+            def: 90,
+            spa: 90,
+            spd: 90,
+            spe: 60
+        },
+        abilities: {
+            0: "Parental Guidance"
+        },
+        heightm: 4.5,
+        weightkg: 20.3,
+    },
 };
