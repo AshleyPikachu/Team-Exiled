@@ -307,7 +307,7 @@ exports.BattleScripts = {
                 ability: "Encryption",
                 item: "Lum Berry",
                 gender: "M",
-                moves: ['endeavor', 'extremespeed', 'shadowsneak'],
+                moves: ['finalgambit', 'wish', 'kingsshield'],
                 baseSignatureMove: "teamplayer",
                 signatureMove: "Team Player",
                 evs: {
