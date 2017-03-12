@@ -1072,22 +1072,20 @@ exports.BattleMovedex = {
 		pp: 0.625,
 		priority: 0,
 		flags: {
+			heal: 1,
 			snatch: 1,
 		},
+		secondary: false,
+		heal: [1, 10],
+		target: "self",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Refresh", target);
 		},
-		onHit: function (pokemon) {
-			pokemon.cureStatus();
-		},
-		secondary: false,
-		target: "self",
+
 	},
 	//Medium MP Floppy
 	mediummpfloppy: {
 		accuracy: true,
-		//basePower: 0,
 		category: "Status",
 		id: "mediummpfloppy",
 		isNonstandard: true,
@@ -1095,46 +1093,37 @@ exports.BattleMovedex = {
 		pp: 0.625,
 		priority: 0,
 		flags: {
-			reflectable: 1,
-			nonsky: 1,
-		},
-		sideCondition: 'stealthrock',
-		onPrepareHit: function (target, source) {
-			this.attrLastMove('[still]');
-			this.add('-anim', source, "Stealth Rock", target);
+			heal: 1,
+			snatch: 1,
 		},
 		secondary: false,
+		heal: [1, 10],
 		target: "self",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+		},
+
 	},
 	//Large MP Floppy
 	largempfloppy: {
 		accuracy: true,
-		//basePower: 0,
 		category: "Status",
 		id: "largempfloppy",
 		isNonstandard: true,
 		name: "Large MP Floppy",
 		pp: 0.625,
 		priority: 0,
-		onPrepareHit: function (target, source) {
-			this.attrLastMove('[still]');
-			this.add('-anim', source, "Defog", target);
-		},
-		onHit: function (target, source) {
-			let removeAll = {
-				spikes: 1,
-				toxicspikes: 1,
-				stealthrock: 1,
-				stickyweb: 1,
-			};
-			for (let sideCondition in removeAll) {
-				if (source.side.removeSideCondition(sideCondition)) {
-					this.add('-sideend', source.side, this.getEffect(sideCondition).name, '[from] move: TrapBust Orb', '[of] ' + source);
-				}
-			}
+		flags: {
+			heal: 1,
+			snatch: 1,
 		},
 		secondary: false,
+		heal: [1, 10],
 		target: "self",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+		},
+
 	},
 	//Various
 	various: {
