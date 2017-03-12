@@ -1171,7 +1171,7 @@ exports.BattleMovedex = {
 	omnipotent: {
 		accuracy: true,
 		category: "Status",
-		id: "onmipotent",
+		id: "omnipotent",
 		isNonstandard: true,
 		name: "Omnipotent",
 		pp: 0.625,
@@ -1252,7 +1252,7 @@ exports.BattleMovedex = {
 
 	},
 //Stat Boosting Items
-	//Offense Disk 
+	//Offense Disk
 	offensedisk: {
 		accuracy: true,
 		category: "Status",
@@ -1261,13 +1261,17 @@ exports.BattleMovedex = {
 		name: "Offense Disk",
 		pp: 0.625,
 		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "self",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Sandstorm", target);
 		},
-		weather: 'Sandstorm',
-		secondary: false,
-		target: "self",
+
 	},
 	//Defense Disk
 	defensedisk: {
@@ -1278,34 +1282,38 @@ exports.BattleMovedex = {
 		name: "Defense Disk",
 		pp: 0.625,
 		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "self",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Hail", target);
 		},
-		weather: 'Hail',
-		secondary: false,
-		target: "self",
+
 	},
 	//Hi Speed Disk
 	hispeeddisk: {
-		accuracy: 30,
-		category: "Physical",
-		basePower: 10000,
+		accuracy: true,
+		category: "Status",
 		id: "hispeeddisk",
 		isNonstandard: true,
 		name: "Hi Speed Disk",
 		pp: 0.625,
 		priority: 0,
 		flags: {
-			protect: 1,
+			heal: 1,
+			snatch: 1,
 		},
+		secondary: false,
+		heal: [1, 10],
+		target: "self",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Water Spout", target);
 		},
-		ignoreImmunity: true,
-		secondary: false,
-		target: "self",
+
 	},
 	//Super Defense Disk
 	superdefensedisk: {
@@ -1315,15 +1323,18 @@ exports.BattleMovedex = {
 		isNonstandard: true,
 		name: "Super Defense Disk",
 		pp: 0.625,
-		priority: -6,
+		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "self",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Defog", target);
 		},
-		forceSwitch: true,
-		ignoreImmunity: true,
-		secondary: false,
-		target: "self",
+
 	},
 	//Super Offense Disk
 	superoffensedisk: {
