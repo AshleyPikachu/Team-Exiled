@@ -1135,17 +1135,16 @@ exports.BattleMovedex = {
 		pp: 0.625,
 		priority: 0,
 		flags: {
-			authentic: 1,
-			bullet: 1,
+			heal: 1,
 			snatch: 1,
 		},
+		secondary: false,
+		heal: [1, 10],
+		target: "self",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Bullet Seed", target);
 		},
-		status: 'par',
-		ignoreImmunity: true,
-		target: "self",
+
 	},
 	//Protection
 	protection: {
@@ -1157,41 +1156,37 @@ exports.BattleMovedex = {
 		pp: 0.625,
 		priority: 0,
 		flags: {
-			authentic: 1,
-			bullet: 1,
+			heal: 1,
 			snatch: 1,
 		},
+		secondary: false,
+		heal: [1, 10],
+		target: "self",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Bullet Seed", target);
 		},
-		volatileStatus: 'confusion',
-		secondary: false,
-		target: "self",
+
 	},
 	//Omnipotent
 	omnipotent: {
 		accuracy: true,
 		category: "Status",
-		id: "omnipotent",
+		id: "onmipotent",
 		isNonstandard: true,
 		name: "Omnipotent",
 		pp: 0.625,
 		priority: 0,
 		flags: {
-			authentic: 1,
-			bullet: 1,
+			heal: 1,
 			snatch: 1,
 		},
+		secondary: false,
+		heal: [1, 10],
+		target: "self",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Bullet Seed", target);
 		},
-		boosts: {
-			def: -1,
-			spd: -1,
-		},
-		target: "self",
+
 	},
 	//Double Floppy
 	doublefloppy: {
@@ -1203,19 +1198,16 @@ exports.BattleMovedex = {
 		pp: 0.625,
 		priority: 0,
 		flags: {
-			authentic: 1,
-			bullet: 1,
+			heal: 1,
 			snatch: 1,
 		},
+		secondary: false,
+		heal: [1, 10],
+		target: "self",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Bullet Seed", target);
 		},
-		boosts: {
-			atk: 1,
-			spa: 1,
-		},
-		target: "self",
+
 	},
 	//Restore Floppy
 	restorefloppy: {
@@ -1226,16 +1218,20 @@ exports.BattleMovedex = {
 		name: "Restore Floppy",
 		pp: 0.625,
 		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "self",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Rain Dance", target);
 		},
-		weather: 'Rain Dance',
-		secondary: false,
-		target: "self",
+
 	},
 	//Super Restore Floppy
-	supperrestorefloppy: {
+	superrestorefloppy: {
 		accuracy: true,
 		category: "Status",
 		id: "superrestorefloppy",
@@ -1243,13 +1239,17 @@ exports.BattleMovedex = {
 		name: "Super Restore Floppy",
 		pp: 0.625,
 		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "self",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Sunny Day", target);
 		},
-		weather: 'Sunny Day',
-		secondary: false,
-		target: "self",
+
 	},
 //Stat Boosting Items
 	//Offense Disk 
