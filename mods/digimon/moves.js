@@ -978,7 +978,7 @@ exports.BattleMovedex = {
         target: "allPokemon",
         type: "Filth",
     },
-//Items
+//Health Items
 	//Small Recovery
 	smallrecovery: {
 		accuracy: true,
@@ -1009,10 +1009,8 @@ exports.BattleMovedex = {
 		pp: 0.625,
 		priority: 0,
 		flags: {
+			heal: 1,
 			snatch: 1,
-		},
-		boosts: {
-			spe: 2,
 		},
 		secondary: false,
 		heal: [1, 10],
@@ -1041,7 +1039,7 @@ exports.BattleMovedex = {
 			this.attrLastMove('[still]');
 			this.add('-anim', source, "Bullet Seed", target);
 		},
-		target: "normal",
+		target: "self",
 	},
 	//Super Recovery Floppy
 	superrecoveryfloppy: {
@@ -1064,7 +1062,7 @@ exports.BattleMovedex = {
 			this.add('-anim', source, "Rock Blast", target);
 		},
 		secondary: false,
-		target: "normal",
+		target: "self",
 	},
 	//MP Floppy
 	mpfloppy: {
@@ -1108,7 +1106,7 @@ exports.BattleMovedex = {
 			this.add('-anim', source, "Stealth Rock", target);
 		},
 		secondary: false,
-		target: "foeSide",
+		target: "self",
 	},
 	//Large MP Floppy
 	largempfloppy: {
@@ -1138,7 +1136,7 @@ exports.BattleMovedex = {
 			}
 		},
 		secondary: false,
-		target: "normal",
+		target: "self",
 	},
 	//Various
 	various: {
@@ -1160,7 +1158,7 @@ exports.BattleMovedex = {
 		},
 		status: 'par',
 		ignoreImmunity: true,
-		target: "normal",
+		target: "self",
 	},
 	//Protection
 	protection: {
@@ -1182,7 +1180,7 @@ exports.BattleMovedex = {
 		},
 		volatileStatus: 'confusion',
 		secondary: false,
-		target: "normal",
+		target: "self",
 	},
 	//Omnipotent
 	omnipotent: {
@@ -1206,7 +1204,7 @@ exports.BattleMovedex = {
 			def: -1,
 			spd: -1,
 		},
-		target: "normal",
+		target: "self",
 	},
 	//Double Floppy
 	doublefloppy: {
@@ -1247,7 +1245,7 @@ exports.BattleMovedex = {
 		},
 		weather: 'Rain Dance',
 		secondary: false,
-		target: "all",
+		target: "self",
 	},
 	//Super Restore Floppy
 	supperrestorefloppy: {
@@ -1264,8 +1262,9 @@ exports.BattleMovedex = {
 		},
 		weather: 'Sunny Day',
 		secondary: false,
-		target: "all",
+		target: "self",
 	},
+//Stat Boosting Items
 	//Offense Disk 
 	offensedisk: {
 		accuracy: true,
@@ -1281,7 +1280,7 @@ exports.BattleMovedex = {
 		},
 		weather: 'Sandstorm',
 		secondary: false,
-		target: "all",
+		target: "self",
 	},
 	//Defense Disk
 	defensedisk: {
@@ -1298,7 +1297,7 @@ exports.BattleMovedex = {
 		},
 		weather: 'Hail',
 		secondary: false,
-		target: "all",
+		target: "self",
 	},
 	//Hi Speed Disk
 	hispeeddisk: {
@@ -1319,7 +1318,7 @@ exports.BattleMovedex = {
 		},
 		ignoreImmunity: true,
 		secondary: false,
-		target: "normal",
+		target: "self",
 	},
 	//Super Defense Disk
 	superdefensedisk: {
@@ -1337,7 +1336,7 @@ exports.BattleMovedex = {
 		forceSwitch: true,
 		ignoreImmunity: true,
 		secondary: false,
-		target: "normal",
+		target: "self",
 	},
 	//Super Offense Disk
 	superoffensedisk: {
@@ -1377,7 +1376,7 @@ exports.BattleMovedex = {
 			this.add('-anim', source, "Pin Missle", target);
 		},
 		secondary: false,
-		target: "normal",
+		target: "self",
 	},
 	//Omnipotent Disk
 	omnipotentdisk: {
@@ -1399,6 +1398,6 @@ exports.BattleMovedex = {
 			this.add('-anim', source, "Flash Cannon", target);
 		},
 		secondary: false,
-		target: "normal",
+		target: "self",
 	},
 };
