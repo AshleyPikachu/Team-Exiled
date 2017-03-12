@@ -979,13 +979,13 @@ exports.BattleMovedex = {
         type: "Filth",
     },
 
-	//Oran Berry
-	oranberry: {
+	//Small Recovery
+	smallrecovery: {
 		accuracy: true,
 		category: "Status",
-		id: "oranberry",
+		id: "smallrecovery",
 		isNonstandard: true,
-		name: "Oran Berry",
+		name: "Small Recovery",
 		pp: 0.625,
 		priority: 0,
 		flags: {
@@ -1000,13 +1000,13 @@ exports.BattleMovedex = {
 			this.attrLastMove('[still]');
 		},
 	},
-	//Apple
-	apple: {
+	//Medium Recovery
+	mediumrecovery: {
 		accuracy: true,
 		category: "Status",
-		id: "apple",
+		id: "mediumrecovery",
 		isNonstandard: true,
-		name: "Apple",
+		name: "Medium Recovery",
 		pp: 0.625,
 		priority: 0,
 		flags: {
