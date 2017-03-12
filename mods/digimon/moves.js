@@ -994,7 +994,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 4],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1014,7 +1014,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1035,7 +1035,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1056,7 +1056,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1077,7 +1077,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1098,7 +1098,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1119,7 +1119,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1140,7 +1140,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1161,7 +1161,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1182,7 +1182,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1203,7 +1203,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1224,7 +1224,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1245,7 +1245,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1267,7 +1267,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1288,7 +1288,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1309,7 +1309,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1330,7 +1330,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1351,7 +1351,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1372,7 +1372,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1393,7 +1393,7 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		heal: [1, 10],
-		target: "self",
+		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
