@@ -995,7 +995,6 @@ exports.BattleMovedex = {
 		secondary: false,
 		heal: [1, 4],
 		target: "self",
-		type: "Normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1018,7 +1017,6 @@ exports.BattleMovedex = {
 		secondary: false,
 		heal: [1, 10],
 		target: "self",
-		type: "Normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
 		},
@@ -1044,7 +1042,6 @@ exports.BattleMovedex = {
 			this.add('-anim', source, "Bullet Seed", target);
 		},
 		target: "normal",
-		type: "Normal",
 	},
 	//Super Recovery Floppy
 	superrecoveryfloppy: {
@@ -1068,7 +1065,6 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		target: "normal",
-		type: "Rock",
 	},
 	//MP Floppy
 	mpfloppy: {
@@ -1091,7 +1087,6 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		target: "self",
-		type: "Normal",
 	},
 	//Medium MP Floppy
 	mediummpfloppy: {
@@ -1114,7 +1109,6 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		target: "foeSide",
-		type: "Ground",
 	},
 	//Large MP Floppy
 	largempfloppy: {
@@ -1145,7 +1139,6 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		target: "normal",
-		type: "Normal",
 	},
 	//Various
 	various: {
@@ -1168,7 +1161,6 @@ exports.BattleMovedex = {
 		status: 'par',
 		ignoreImmunity: true,
 		target: "normal",
-		type: "Normal",
 	},
 	//Protection
 	protection: {
@@ -1191,7 +1183,6 @@ exports.BattleMovedex = {
 		volatileStatus: 'confusion',
 		secondary: false,
 		target: "normal",
-		type: "Normal",
 	},
 	//Omnipotent
 	omnipotent: {
@@ -1216,7 +1207,6 @@ exports.BattleMovedex = {
 			spd: -1,
 		},
 		target: "normal",
-		type: "Normal",
 	},
 	//Double Floppy
 	doublefloppy: {
@@ -1241,7 +1231,6 @@ exports.BattleMovedex = {
 			spa: 1,
 		},
 		target: "self",
-		type: "Normal",
 	},
 	//Restore Floppy
 	restorefloppy: {
@@ -1259,7 +1248,6 @@ exports.BattleMovedex = {
 		weather: 'Rain Dance',
 		secondary: false,
 		target: "all",
-		type: "Water",
 	},
 	//Super Restore Floppy
 	supperrestorefloppy: {
@@ -1277,7 +1265,6 @@ exports.BattleMovedex = {
 		weather: 'Sunny Day',
 		secondary: false,
 		target: "all",
-		type: "Fire",
 	},
 	//Offense Disk 
 	offensedisk: {
@@ -1295,7 +1282,6 @@ exports.BattleMovedex = {
 		weather: 'Sandstorm',
 		secondary: false,
 		target: "all",
-		type: "Ground",
 	},
 	//Defense Disk
 	defensedisk: {
@@ -1313,7 +1299,6 @@ exports.BattleMovedex = {
 		weather: 'Hail',
 		secondary: false,
 		target: "all",
-		type: "Ice",
 	},
 	//Hi Speed Disk
 	hispeeddisk: {
@@ -1335,7 +1320,6 @@ exports.BattleMovedex = {
 		ignoreImmunity: true,
 		secondary: false,
 		target: "normal",
-		type: "Normal",
 	},
 	//Super Defense Disk
 	superdefensedisk: {
@@ -1354,7 +1338,6 @@ exports.BattleMovedex = {
 		ignoreImmunity: true,
 		secondary: false,
 		target: "normal",
-		type: "Psychic",
 	},
 	//Super Offense Disk
 	superoffensedisk: {
@@ -1373,7 +1356,6 @@ exports.BattleMovedex = {
 		ignoreImmunity: true,
 		secondary: false,
 		target: "self",
-		type: "Psychic",
 	},
 	//Super Speed Disk
 	superspeeddisk: {
@@ -1396,7 +1378,6 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		target: "normal",
-		type: "Normal",
 	},
 	//Omnipotent Disk
 	omnipotentdisk: {
@@ -1419,6 +1400,5 @@ exports.BattleMovedex = {
 		},
 		secondary: false,
 		target: "normal",
-		type: "Steel",
 	},
 };
