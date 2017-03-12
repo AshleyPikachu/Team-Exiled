@@ -1342,60 +1342,61 @@ exports.BattleMovedex = {
 		category: "Status",
 		id: "superoffensedisk",
 		isNonstandard: true,
-		name: "Super Offense Disk",
+		name: "Large MP Floppy",
 		pp: 0.625,
-		priority: 1,
+		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "self",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Teleport", target);
 		},
-		selfSwitch: 'copyvolatile',
-		ignoreImmunity: true,
-		secondary: false,
-		target: "self",
+
 	},
 	//Super Speed Disk
 	superspeeddisk: {
-		accuracy: 100,
-		category: "Special",
-		basePower: 15,
-		id: "superspeedisk",
+		accuracy: true,
+		category: "Status",
+		id: "superspeeddisk",
 		isNonstandard: true,
 		name: "Super Speed Disk",
 		pp: 0.625,
 		priority: 0,
 		flags: {
-			protect: 1,
-			gravity: 1,
-		},
-		multihit: [5, 10],
-		onPrepareHit: function (target, source) {
-			this.attrLastMove('[still]');
-			this.add('-anim', source, "Pin Missle", target);
+			heal: 1,
+			snatch: 1,
 		},
 		secondary: false,
+		heal: [1, 10],
 		target: "self",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+		},
+
 	},
 	//Omnipotent Disk
 	omnipotentdisk: {
-		accuracy: 100,
-		category: "Special",
-		basePower: 25,
+		accuracy: true,
+		category: "Status",
 		id: "omnipotentdisk",
 		isNonstandard: true,
 		name: "Omnipotent Disk",
 		pp: 0.625,
 		priority: 0,
 		flags: {
-			protect: 1,
-			gravity: 1,
-		},
-		multihit: [4, 7],
-		onPrepareHit: function (target, source) {
-			this.attrLastMove('[still]');
-			this.add('-anim', source, "Flash Cannon", target);
+			heal: 1,
+			snatch: 1,
 		},
 		secondary: false,
+		heal: [1, 10],
 		target: "self",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+		},
+
 	},
 };
