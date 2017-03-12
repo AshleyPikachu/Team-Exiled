@@ -978,7 +978,7 @@ exports.BattleMovedex = {
         target: "allPokemon",
         type: "Filth",
     },
-
+//Items
 	//Small Recovery
 	smallrecovery: {
 		accuracy: true,
@@ -1024,14 +1024,14 @@ exports.BattleMovedex = {
 		},
 
 	},
-	//Blast Seed
-	blastseed: {
+	//Large Recovery
+	largerecovery: {
 		accuracy: 100,
 		basePower: 250,
 		category: "Special",
-		id: "blastseed",
+		id: "largerecovery",
 		isNonstandard: true,
-		name: "Blast Seed",
+		name: "Large Recovery",
 		pp: 0.625,
 		priority: 0,
 		flags: {
@@ -1046,14 +1046,14 @@ exports.BattleMovedex = {
 		target: "normal",
 		type: "Normal",
 	},
-	//Gravelrock
-	gravelrock: {
+	//Super Recovery Floppy
+	superrecoveryfloppy: {
 		accuracy: 100,
 		category: "Special",
 		basePower: 20,
-		id: "gravelrock",
+		id: "superrecoveryfloppy",
 		isNonstandard: true,
-		name: "Gravelrock",
+		name: "Super Recovery Floppy",
 		pp: 0.625,
 		priority: 0,
 		flags: {
@@ -1070,13 +1070,13 @@ exports.BattleMovedex = {
 		target: "normal",
 		type: "Rock",
 	},
-	//Heal Seed
-	healseed: {
+	//MP Floppy
+	mpfloppy: {
 		accuracy: true,
 		category: "Status",
-		id: "healseed",
+		id: "mpfloppy",
 		isNonstandard: true,
-		name: "Heal Seed",
+		name: "MP Floppy",
 		pp: 0.625,
 		priority: 0,
 		flags: {
@@ -1093,14 +1093,14 @@ exports.BattleMovedex = {
 		target: "self",
 		type: "Normal",
 	},
-	//Trap Orb
-	traporb: {
+	//Medium MP Floppy
+	mediummpfloppy: {
 		accuracy: true,
 		//basePower: 0,
 		category: "Status",
-		id: "traporb",
+		id: "mediummpfloppy",
 		isNonstandard: true,
-		name: "Trap Orb",
+		name: "Medium MP Floppy",
 		pp: 0.625,
 		priority: 0,
 		flags: {
@@ -1116,14 +1116,14 @@ exports.BattleMovedex = {
 		target: "foeSide",
 		type: "Ground",
 	},
-	//TrapBust Orb
-	trapbustorb: {
+	//Large MP Floppy
+	largempfloppy: {
 		accuracy: true,
 		//basePower: 0,
 		category: "Status",
-		id: "trapbustorb",
+		id: "largempfloppy",
 		isNonstandard: true,
-		name: "TrapBust Orb",
+		name: "Large MP Floppy",
 		pp: 0.625,
 		priority: 0,
 		onPrepareHit: function (target, source) {
@@ -1147,13 +1147,13 @@ exports.BattleMovedex = {
 		target: "normal",
 		type: "Normal",
 	},
-	//Stun Seed
-	stunseed: {
+	//Various
+	various: {
 		accuracy: true,
 		category: "Status",
-		id: "stunseed",
+		id: "various",
 		isNonstandard: true,
-		name: "Stun Seed",
+		name: "Various",
 		pp: 0.625,
 		priority: 0,
 		flags: {
@@ -1170,13 +1170,13 @@ exports.BattleMovedex = {
 		target: "normal",
 		type: "Normal",
 	},
-	//Totter Seed
-	totterseed: {
+	//Protection
+	protection: {
 		accuracy: true,
 		category: "Status",
-		id: "totterseed",
+		id: "protection",
 		isNonstandard: true,
-		name: "Totter Seed",
+		name: "Protection",
 		pp: 0.625,
 		priority: 0,
 		flags: {
@@ -1193,13 +1193,13 @@ exports.BattleMovedex = {
 		target: "normal",
 		type: "Normal",
 	},
-	//Vile Seed
-	vileseed: {
+	//Omnipotent
+	omnipotent: {
 		accuracy: true,
 		category: "Status",
-		id: "vileseed",
+		id: "omnipotent",
 		isNonstandard: true,
-		name: "Vile Seed",
+		name: "Omnipotent",
 		pp: 0.625,
 		priority: 0,
 		flags: {
@@ -1218,13 +1218,13 @@ exports.BattleMovedex = {
 		target: "normal",
 		type: "Normal",
 	},
-	//Violent Seed
-	violentseed: {
+	//Double Floppy
+	doublefloppy: {
 		accuracy: true,
 		category: "Status",
-		id: "violentseed",
+		id: "doublefloppy",
 		isNonstandard: true,
-		name: "Violent Seed",
+		name: "Double Floppy",
 		pp: 0.625,
 		priority: 0,
 		flags: {
@@ -1243,13 +1243,13 @@ exports.BattleMovedex = {
 		target: "self",
 		type: "Normal",
 	},
-	//Rainy Orb
-	rainyorb: {
+	//Restore Floppy
+	restorefloppy: {
 		accuracy: true,
 		category: "Status",
-		id: "rainyorb",
+		id: "restorefloppy",
 		isNonstandard: true,
-		name: "Rainy Orb",
+		name: "Restore Floppy",
 		pp: 0.625,
 		priority: 0,
 		onPrepareHit: function (target, source) {
@@ -1261,13 +1261,13 @@ exports.BattleMovedex = {
 		target: "all",
 		type: "Water",
 	},
-	//Sunny Orb
-	sunnyorb: {
+	//Super Restore Floppy
+	supperrestorefloppy: {
 		accuracy: true,
 		category: "Status",
-		id: "sunnyorb",
+		id: "superrestorefloppy",
 		isNonstandard: true,
-		name: "Sunny Orb",
+		name: "Super Restore Floppy",
 		pp: 0.625,
 		priority: 0,
 		onPrepareHit: function (target, source) {
@@ -1279,13 +1279,13 @@ exports.BattleMovedex = {
 		target: "all",
 		type: "Fire",
 	},
-	//Sandy Orb
-	sandyorb: {
+	//Offense Disk 
+	offensedisk: {
 		accuracy: true,
 		category: "Status",
-		id: "sandyorb",
+		id: "offensedisk",
 		isNonstandard: true,
-		name: "Sandy Orb",
+		name: "Offense Disk",
 		pp: 0.625,
 		priority: 0,
 		onPrepareHit: function (target, source) {
@@ -1297,13 +1297,13 @@ exports.BattleMovedex = {
 		target: "all",
 		type: "Ground",
 	},
-	//Hail Orb
-	hailorb: {
+	//Defense Disk
+	defensedisk: {
 		accuracy: true,
 		category: "Status",
-		id: "hailorb",
+		id: "defensedisk",
 		isNonstandard: true,
-		name: "Hail Orb",
+		name: "Defense Disk",
 		pp: 0.625,
 		priority: 0,
 		onPrepareHit: function (target, source) {
@@ -1315,14 +1315,14 @@ exports.BattleMovedex = {
 		target: "all",
 		type: "Ice",
 	},
-	//One Shot Orb
-	oneshotorb: {
+	//Hi Speed Disk
+	hispeeddisk: {
 		accuracy: 30,
 		category: "Physical",
 		basePower: 10000,
-		id: "oneshotorb",
+		id: "hispeeddisk",
 		isNonstandard: true,
-		name: "One Shot Orb",
+		name: "Hi Speed Disk",
 		pp: 0.625,
 		priority: 0,
 		flags: {
@@ -1337,13 +1337,13 @@ exports.BattleMovedex = {
 		target: "normal",
 		type: "Normal",
 	},
-	//Warp Orb
-	warporb: {
+	//Super Defense Disk
+	superdefensedisk: {
 		accuracy: true,
 		category: "Status",
-		id: "warporb",
+		id: "superdefensedisk",
 		isNonstandard: true,
-		name: "Warp Orb",
+		name: "Super Defense Disk",
 		pp: 0.625,
 		priority: -6,
 		onPrepareHit: function (target, source) {
@@ -1356,13 +1356,13 @@ exports.BattleMovedex = {
 		target: "normal",
 		type: "Psychic",
 	},
-	//Escape Orb
-	escapeorb: {
+	//Super Offense Disk
+	superoffensedisk: {
 		accuracy: true,
 		category: "Status",
-		id: "escapeorb",
+		id: "superoffensedisk",
 		isNonstandard: true,
-		name: "Escape Orb",
+		name: "Super Offense Disk",
 		pp: 0.625,
 		priority: 1,
 		onPrepareHit: function (target, source) {
@@ -1375,14 +1375,14 @@ exports.BattleMovedex = {
 		target: "self",
 		type: "Psychic",
 	},
-	//Stick
-	stick: {
+	//Super Speed Disk
+	superspeeddisk: {
 		accuracy: 100,
 		category: "Special",
 		basePower: 15,
-		id: "stick",
+		id: "superspeedisk",
 		isNonstandard: true,
-		name: "Stick",
+		name: "Super Speed Disk",
 		pp: 0.625,
 		priority: 0,
 		flags: {
@@ -1398,14 +1398,14 @@ exports.BattleMovedex = {
 		target: "normal",
 		type: "Normal",
 	},
-	//Iron Thorn
-	ironthorn: {
+	//Omnipotent Disk
+	omnipotentdisk: {
 		accuracy: 100,
 		category: "Special",
 		basePower: 25,
-		id: "ironthorn",
+		id: "omnipotentdisk",
 		isNonstandard: true,
-		name: "Iron Thorn",
+		name: "Omnipotent Disk",
 		pp: 0.625,
 		priority: 0,
 		flags: {
@@ -1420,120 +1420,5 @@ exports.BattleMovedex = {
 		secondary: false,
 		target: "normal",
 		type: "Steel",
-	},
-	//Evasion Orb
-	evasionorb: {
-		accuracy: true,
-		category: "Status",
-		id: "evasionorb",
-		isNonstandard: true,
-		name: "Evasion Orb",
-		pp: 0.625,
-		priority: 0,
-		flags: {
-			snatch: 1,
-		},
-		boosts: {
-			evasion: 1,
-		},
-		onPrepareHit: function (target, source) {
-			this.attrLastMove('[still]');
-			this.add('-anim', source, "Calm Mind", target);
-		},
-		secondary: false,
-		target: "self",
-		type: "Psychic",
-	},
-	//Mug Orb
-	mugorb: {
-		accuracy: 100,
-		category: "Status",
-		id: "mugorb",
-		isNonstandard: true,
-		name: "Mug Orb",
-		pp: 0.625,
-		priority: 4,
-		flags: {
-			authentic: 1,
-		},
-		volatileStatus: 'snatch',
-		onPrepareHit: function (target, source) {
-			this.attrLastMove('[still]');
-			this.add('-anim', source, "Snatch", target);
-		},
-		effect: {
-			duration: 1,
-			onStart: function (pokemon) {
-				this.add('-singleturn', pokemon, 'Snatch');
-			},
-			onAnyTryMove: function (source, target, move) {
-				if (move && move.flags['snatch'] && move.sourceEffect !== 'snatch') {
-					let snatchUser = this.effectData.source;
-					snatchUser.removeVolatile('snatch');
-					this.add('-activate', snatchUser, 'Snatch', '[of] ' + source);
-					this.useMove(move.id, snatchUser);
-					return null;
-				}
-			},
-		},
-		secondary: false,
-		pressureTarget: "foeSide",
-		target: "self",
-		type: "Dark",
-	},
-	//Wonder Orb
-	wonderorb: {
-		accuracy: true,
-		category: "Status",
-		id: "wonderorb",
-		isNonstandard: true,
-		name: "Wonder Orb",
-		pp: 0.625,
-		priority: 0,
-		onPrepareHit: function (target, source) {
-			this.attrLastMove('[still]');
-			this.add('-anim', source, "Defog", target);
-		},
-		onHit: function (target, source) {
-			let moves = ['Oran Berry', 'Apple', 'Blast Seed', 'Gravelrock', 'Heal Seed', 'Trap Orb', 'TrapBust Orb', 'Stun Seed', 'Totter Seed', 'Vile Seed', 'Violent Seed', 'Rainy Orb', 'Sunny Orb', 'Sandy Orb', 'Hail Orb', 'One Shot Orb', 'Warp Orb', 'Escape Orb', 'Stick', 'Iron Thorn', 'Mug Orb'];
-			let toUse = moves[Math.floor(Math.random() * moves.length)];
-			this.add('message', source.name + '\'s wonder orb let it use a ' + toUse + '!');
-			this.useMove(toUse, target);
-		},
-		secondary: false,
-		target: "self",
-		type: "Fairy",
-	},
-	//Awakening
-	awakening: {
-		accuracy: true,
-		category: "status",
-		id: "awakening",
-		isNonstandard: true,
-		name: "Awakening",
-		pp: 0.625,
-		priority: 6,
-		onPrepareHit: function (target, source) {
-			this.attrLastMove('[still]');
-			this.add('-anim', source, "Calm Mind", source);
-			this.add('-anim', source, "Geomancy", source);
-		},
-		/*onHit: function (target, source, move) {
-			this.add('message', source.name + '\'s full potential has awoken!');
-			if (source.maxhp / 3 < source.hp) {
-				this.directDamage(source.maxhp / 3, source, source);
-			} else if(source.hp !== 1) {
-				this.directDamage(source.hp - 1, source, source);
-			}
-		},*/
-		boosts: {
-			atk: 1,
-			def: 1,
-			spa: 1,
-			spd: 1,
-		},
-		secondary: false,
-		target: "self",
-		type: "Fairy",
 	},
 };
