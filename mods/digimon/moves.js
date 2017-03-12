@@ -1022,47 +1022,45 @@ exports.BattleMovedex = {
 	},
 	//Large Recovery
 	largerecovery: {
-		accuracy: 100,
-		basePower: 250,
-		category: "Special",
+		accuracy: true,
+		category: "Status",
 		id: "largerecovery",
 		isNonstandard: true,
 		name: "Large Recovery",
 		pp: 0.625,
 		priority: 0,
 		flags: {
-			protect: 1,
-			bullet: 1,
+			heal: 1,
+			snatch: 1,
 		},
 		secondary: false,
+		heal: [1, 10],
+		target: "self",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Bullet Seed", target);
 		},
-		target: "self",
+
 	},
 	//Super Recovery Floppy
 	superrecoveryfloppy: {
-		accuracy: 100,
-		category: "Special",
-		basePower: 20,
+		accuracy: true,
+		category: "Status",
 		id: "superrecoveryfloppy",
 		isNonstandard: true,
 		name: "Super Recovery Floppy",
 		pp: 0.625,
 		priority: 0,
 		flags: {
-			protect: 1,
-			distance: 1,
-			gravity: 1,
-		},
-		multihit: [4, 7],
-		onPrepareHit: function (target, source) {
-			this.attrLastMove('[still]');
-			this.add('-anim', source, "Rock Blast", target);
+			heal: 1,
+			snatch: 1,
 		},
 		secondary: false,
+		heal: [1, 10],
 		target: "self",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+		},
+
 	},
 	//MP Floppy
 	mpfloppy: {
