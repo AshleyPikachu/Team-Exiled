@@ -1342,7 +1342,7 @@ exports.BattleMovedex = {
 		category: "Status",
 		id: "superoffensedisk",
 		isNonstandard: true,
-		name: "Large MP Floppy",
+		name: "Super Offense Disk",
 		pp: 0.625,
 		priority: 0,
 		flags: {
