@@ -394,20 +394,20 @@ exports.BattleScripts = {
                 nature: "Timid",
             },
             'HoeenHero': {
-				species: 'Ludicolo',
-				ability: 'Swift Swim',
-				item: 'Leftovers',
-				gender: 'M',
-				moves: ['Scald', 'Ice Beam', 'Giga Drain',],
-				baseSignatureMove: "scripting",
-				signatureMove: "Scripting",
-				evs: {
-					spa: 252,
-					spe: 252,
-					hp: 4,
-				},
-				nature: 'Modest',
-			},
+		species: 'Ludicolo',
+		ability: 'Swift Swim',
+		item: 'Leftovers',
+		gender: 'M',
+		moves: ['Scald', 'Ice Beam', 'Giga Drain',],
+		baseSignatureMove: "scripting",
+		signatureMove: "Scripting",
+		evs: {
+		    spa: 252,
+		    spe: 252,
+	            hp: 4,
+		},
+		nature: 'Modest',
+	     },
         };
 
         let pool = Object.keys(sets);
