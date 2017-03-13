@@ -982,6 +982,7 @@ exports.BattleMovedex = {
 	//Small Recovery
 	smallrecovery: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "smallrecovery",
 		isNonstandard: true,
@@ -1004,6 +1005,7 @@ exports.BattleMovedex = {
 	//Medium Recovery
 	mediumrecovery: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "mediumrecovery",
 		isNonstandard: true,
@@ -1026,6 +1028,7 @@ exports.BattleMovedex = {
 	//Large Recovery
 	largerecovery: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "largerecovery",
 		isNonstandard: true,
@@ -1048,6 +1051,7 @@ exports.BattleMovedex = {
 	//Super Recovery Floppy
 	superrecoveryfloppy: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "superrecoveryfloppy",
 		isNonstandard: true,
@@ -1071,6 +1075,7 @@ exports.BattleMovedex = {
 	//MP Floppy
 	mpfloppy: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "mpfloppy",
 		isNonstandard: true,
@@ -1094,6 +1099,7 @@ exports.BattleMovedex = {
 	//Medium MP Floppy
 	mediummpfloppy: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "mediummpfloppy",
 		isNonstandard: true,
@@ -1117,6 +1123,7 @@ exports.BattleMovedex = {
 	//Large MP Floppy
 	largempfloppy: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "largempfloppy",
 		isNonstandard: true,
@@ -1140,6 +1147,7 @@ exports.BattleMovedex = {
 	//Various
 	various: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "various",
 		isNonstandard: true,
@@ -1162,6 +1170,7 @@ exports.BattleMovedex = {
 	//Protection
 	protection: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "protection",
 		isNonstandard: true,
@@ -1185,6 +1194,7 @@ exports.BattleMovedex = {
 	//Omnipotent
 	omnipotent: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "omnipotent",
 		isNonstandard: true,
@@ -1207,6 +1217,7 @@ exports.BattleMovedex = {
 	//Double Floppy
 	doublefloppy: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "doublefloppy",
 		isNonstandard: true,
@@ -1230,6 +1241,7 @@ exports.BattleMovedex = {
 	//Restore Floppy
 	restorefloppy: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "restorefloppy",
 		isNonstandard: true,
@@ -1253,6 +1265,7 @@ exports.BattleMovedex = {
 	//Super Restore Floppy
 	superrestorefloppy: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "superrestorefloppy",
 		isNonstandard: true,
@@ -1276,6 +1289,7 @@ exports.BattleMovedex = {
 	//Offense Disk
 	offensedisk: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "offensedisk",
 		isNonstandard: true,
@@ -1299,6 +1313,7 @@ exports.BattleMovedex = {
 	//Defense Disk
 	defensedisk: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "defensedisk",
 		isNonstandard: true,
@@ -1321,6 +1336,7 @@ exports.BattleMovedex = {
 	//Hi Speed Disk
 	hispeeddisk: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "hispeeddisk",
 		isNonstandard: true,
@@ -1344,6 +1360,7 @@ exports.BattleMovedex = {
 	//Super Defense Disk
 	superdefensedisk: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "superdefensedisk",
 		isNonstandard: true,
@@ -1367,6 +1384,7 @@ exports.BattleMovedex = {
 	//Super Offense Disk
 	superoffensedisk: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "superoffensedisk",
 		isNonstandard: true,
@@ -1390,6 +1408,7 @@ exports.BattleMovedex = {
 	//Super Speed Disk
 	superspeeddisk: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "superspeeddisk",
 		isNonstandard: true,
@@ -1413,6 +1432,7 @@ exports.BattleMovedex = {
 	//Omnipotent Disk
 	omnipotentdisk: {
 		accuracy: true,
+		basePower: 0,
 		category: "Status",
 		id: "omnipotentdisk",
 		isNonstandard: true,
