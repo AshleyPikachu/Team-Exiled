@@ -951,4 +951,27 @@ exports.BattleMovedex = {
         target: "Normal",
         type: "Psychic",
     },
+    "superflyslaser": {
+        id: "superflyslaser",
+        name: "Super Flys Laser",
+        priority: 0,
+        flags: {
+            protect: 1,
+            mirror: 1
+        },
+        secondary: {
+            chance: 30,
+            volatileStatus: "confusion"
+        },
+        category: "Special",
+        onPrepareHit: function (target, source) {
+            this.attrLastMove('[still]');
+            this.add('-anim', source, "Hyper Beam", target);
+        },
+        basePower: 120,
+        pp: 15,
+        accuracy: 95,
+        target: "normal",
+        type: "Electric",
+    },
 };
