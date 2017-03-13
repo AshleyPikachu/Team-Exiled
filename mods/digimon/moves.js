@@ -997,6 +997,8 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
 		},
 	},
 	//Medium Recovery
@@ -1017,6 +1019,7 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
 		},
 
 	},
@@ -1038,6 +1041,7 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
 		},
 
 	},
@@ -1059,6 +1063,8 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Calm Mind", source);
+			this.add('-anim', source, "Geomancy", source);
 		},
 
 	},
@@ -1080,6 +1086,8 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
 		},
 
 	},
@@ -1101,6 +1109,8 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
 		},
 
 	},
@@ -1122,6 +1132,8 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Calm Mind", source);
+			this.add('-anim', source, "Geomancy", source);
 		},
 
 	},
@@ -1143,6 +1155,7 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
 		},
 
 	},
@@ -1164,6 +1177,8 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Calm Mind", source);
+			this.add('-anim', source, "Geomancy", source);
 		},
 
 	},
@@ -1185,6 +1200,7 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
 		},
 
 	},
@@ -1206,6 +1222,8 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
+			this.add('-anim', source, "Ion Deluge", source);
 		},
 
 	},
@@ -1227,6 +1245,8 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
+			this.add('-anim', source, "Ion Deluge", source);
 		},
 
 	},
@@ -1248,6 +1268,7 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
 		},
 
 	},
@@ -1270,6 +1291,8 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
+			this.add('-anim', source, "Ion Deluge", source);
 		},
 
 	},
@@ -1291,6 +1314,7 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
 		},
 
 	},
@@ -1312,6 +1336,8 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
+			this.add('-anim', source, "Ion Deluge", source);
 		},
 
 	},
@@ -1333,6 +1359,8 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
+			this.add('-anim', source, "Ion Deluge", source);
 		},
 
 	},
@@ -1354,6 +1382,8 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Calm Mind", source);
+			this.add('-anim', source, "Ion Deluge", source);
 		},
 
 	},
@@ -1375,6 +1405,8 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
+			this.add('-anim', source, "Ion Deluge", source);
 		},
 
 	},
@@ -1396,6 +1428,7 @@ exports.BattleMovedex = {
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
 		},
 
 	},
