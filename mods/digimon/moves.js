@@ -1159,7 +1159,7 @@ exports.BattleMovedex = {
 		},
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Geomancy", target);
+			this.add('-anim', source, "Geomancy", source);
 		},
 		onHit: function (pokemon) {
 			pokemon.cureStatus();
@@ -1178,8 +1178,9 @@ exports.BattleMovedex = {
 		pp: 0.625,
 		priority: 0,
 		flags: {
-			heal: 1,
 			snatch: 1,
+		boosts: {
+			evasion: 1,
 		},
 		secondary: false,
 		heal: [1, 10],
@@ -1297,7 +1298,9 @@ exports.BattleMovedex = {
 		priority: 0,
 		flags: {
 			heal: 1,
-			snatch: 1,
+		boosts: {
+			atk: 1,
+			spa: 1
 		},
 		secondary: false,
 		heal: [1, 10],
@@ -1321,7 +1324,9 @@ exports.BattleMovedex = {
 		priority: 0,
 		flags: {
 			heal: 1,
-			snatch: 1,
+		boosts: {
+			spd: 1,
+			def: 1,
 		},
 		secondary: false,
 		heal: [1, 10],
@@ -1344,7 +1349,8 @@ exports.BattleMovedex = {
 		priority: 0,
 		flags: {
 			heal: 1,
-			snatch: 1,
+		boosts: {
+			spe: 1,
 		},
 		secondary: false,
 		heal: [1, 10],
@@ -1392,7 +1398,9 @@ exports.BattleMovedex = {
 		priority: 0,
 		flags: {
 			heal: 1,
-			snatch: 1,
+		boosts: {
+			spd: 2,
+			def: 2,
 		},
 		secondary: false,
 		heal: [1, 10],
@@ -1416,7 +1424,8 @@ exports.BattleMovedex = {
 		priority: 0,
 		flags: {
 			heal: 1,
-			snatch: 1,
+		boosts: {
+			spe: 2,
 		},
 		secondary: false,
 		heal: [1, 10],
@@ -1440,7 +1449,11 @@ exports.BattleMovedex = {
 		priority: 0,
 		flags: {
 			heal: 1,
-			snatch: 1,
+		boosts: {
+			atk: 1,
+			def: 1,
+			spa: 1,
+			spd: 1,
 		},
 		secondary: false,
 		heal: [1, 10],
