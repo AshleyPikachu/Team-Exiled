@@ -978,4 +978,490 @@ exports.BattleMovedex = {
         target: "allPokemon",
         type: "Filth",
     },
+//Health Items
+	//Small Recovery
+	smallrecovery: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "smallrecovery",
+		isNonstandard: true,
+		name: "Small Recovery",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 4],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
+		},
+	},
+	//Medium Recovery
+	mediumrecovery: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "mediumrecovery",
+		isNonstandard: true,
+		name: "Medium Recovery",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 3],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Large Recovery
+	largerecovery: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "largerecovery",
+		isNonstandard: true,
+		name: "Large Recovery",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 2],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Super Recovery Floppy
+	superrecoveryfloppy: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "superrecoveryfloppy",
+		isNonstandard: true,
+		name: "Super Recovery Floppy",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 1],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//MP Floppy
+	mpfloppy: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "mpfloppy",
+		isNonstandard: true,
+		name: "MP Floppy",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Medium MP Floppy
+	mediummpfloppy: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "mediummpfloppy",
+		isNonstandard: true,
+		name: "Medium MP Floppy",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Large MP Floppy
+	largempfloppy: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "largempfloppy",
+		isNonstandard: true,
+		name: "Large MP Floppy",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Various
+	various: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "various",
+		isNonstandard: true,
+		name: "Various",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			snatch: 1,
+		},
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
+		},
+		onHit: function (pokemon) {
+			pokemon.cureStatus();
+		},
+		secondary: false,
+		target: "normal",
+	},
+	//Protection
+	protection: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "protection",
+		isNonstandard: true,
+		name: "Protection",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			snatch: 1,
+		boosts: {
+			evasion: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Omnipotent
+	omnipotent: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "omnipotent",
+		isNonstandard: true,
+		name: "Omnipotent",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 1],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Double Floppy
+	doublefloppy: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "doublefloppy",
+		isNonstandard: true,
+		name: "Double Floppy",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 3],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Restore Floppy
+	restorefloppy: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "restorefloppy",
+		isNonstandard: true,
+		name: "Restore Floppy",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Super Restore Floppy
+	superrestorefloppy: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "superrestorefloppy",
+		isNonstandard: true,
+		name: "Super Restore Floppy",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [3, 4],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+//Stat Boosting Items
+	//Offense Disk
+	offensedisk: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "offensedisk",
+		isNonstandard: true,
+		name: "Offense Disk",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+		boosts: {
+			atk: 1,
+			spa: 1
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Defense Disk
+	defensedisk: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "defensedisk",
+		isNonstandard: true,
+		name: "Defense Disk",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+		boosts: {
+			spd: 1,
+			def: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Hi Speed Disk
+	hispeeddisk: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "hispeeddisk",
+		isNonstandard: true,
+		name: "Hi Speed Disk",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+		boosts: {
+			spe: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Super Defense Disk
+	superdefensedisk: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "superdefensedisk",
+		isNonstandard: true,
+		name: "Super Defense Disk",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+			snatch: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Super Offense Disk
+	superoffensedisk: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "superoffensedisk",
+		isNonstandard: true,
+		name: "Super Offense Disk",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+		boosts: {
+			spd: 1,
+			def: 1,
+		},
+		secondary: false,
+		heal: [1, 5],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Super Speed Disk
+	superspeeddisk: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "superspeeddisk",
+		isNonstandard: true,
+		name: "Super Speed Disk",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+		boosts: {
+			spe: 1,
+		},
+		secondary: false,
+		heal: [1, 5],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Ion Deluge", source);
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
+	//Omnipotent Disk
+	omnipotentdisk: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "omnipotentdisk",
+		isNonstandard: true,
+		name: "Omnipotent Disk",
+		pp: 0.625,
+		priority: 0,
+		flags: {
+			heal: 1,
+		boosts: {
+			atk: 1,
+			def: 1,
+			spa: 1,
+			spd: 1,
+		},
+		secondary: false,
+		heal: [1, 10],
+		target: "normal",
+		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
+			this.add('-anim', source, "Geomancy", source);
+		},
+
+	},
 };
