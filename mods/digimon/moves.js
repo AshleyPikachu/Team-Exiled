@@ -1017,7 +1017,7 @@ exports.BattleMovedex = {
 			snatch: 1,
 		},
 		secondary: false,
-		heal: [1, 10],
+		heal: [1, 3],
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
@@ -1040,7 +1040,7 @@ exports.BattleMovedex = {
 			snatch: 1,
 		},
 		secondary: false,
-		heal: [1, 10],
+		heal: [1, 2],
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
@@ -1063,7 +1063,7 @@ exports.BattleMovedex = {
 			snatch: 1,
 		},
 		secondary: false,
-		heal: [1, 10],
+		heal: [1, 1],
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
@@ -1207,7 +1207,7 @@ exports.BattleMovedex = {
 			snatch: 1,
 		},
 		secondary: false,
-		heal: [1, 10],
+		heal: [1, 1],
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
@@ -1230,7 +1230,7 @@ exports.BattleMovedex = {
 			snatch: 1,
 		},
 		secondary: false,
-		heal: [1, 10],
+		heal: [1, 3],
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
@@ -1277,7 +1277,7 @@ exports.BattleMovedex = {
 			snatch: 1,
 		},
 		secondary: false,
-		heal: [1, 10],
+		heal: [3, 4],
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
@@ -1399,11 +1399,11 @@ exports.BattleMovedex = {
 		flags: {
 			heal: 1,
 		boosts: {
-			spd: 2,
-			def: 2,
+			spd: 1,
+			def: 1,
 		},
 		secondary: false,
-		heal: [1, 10],
+		heal: [1, 5],
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
@@ -1425,10 +1425,10 @@ exports.BattleMovedex = {
 		flags: {
 			heal: 1,
 		boosts: {
-			spe: 2,
+			spe: 1,
 		},
 		secondary: false,
-		heal: [1, 10],
+		heal: [1, 5],
 		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
