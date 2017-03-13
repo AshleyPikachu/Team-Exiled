@@ -222,6 +222,159 @@ exports.BattleScripts = {
                 },
                 nature: "Modest",
             },
+            "Princess": {
+                species: "Princess",
+                item: "Scope Lens",
+                ability: "Ranged Sniper",
+                moves: ['psyshock', 'searingshot', 'vacuumwave'],
+                baseSignatureMove: "royalarrow",
+                signatureMove: "Royal Arrow",
+                evs: {
+                    spa: 252,
+                    spe: 252,
+                    hp: 4
+                },
+                nature: "Timid",
+            },
+            "Giant Skeleton": {
+                species: "Giant Skeleton",
+                ability: "Giant Bomb",
+                item: "Leftovers",
+                moves: ['drainpunch', 'knockoff', 'recover'],
+                baseSignatureMove: "explode",
+                signatureMove: "Explode",
+                evs: {
+                    atk: 252,
+                    hp: 252,
+                    def: 4
+                },
+                nature: "Adamant",
+            },
+            "Spear Goblin": {
+                species: "Spear Goblin",
+                ability: "Spear Link",
+                item: "King's Rock",
+                moves: ['pinmissile', 'iciclespear', 'rockblast'],
+                baseSignatureMove: "tossspears",
+                signatureMove: "Toss Spears",
+                evs: {
+                    atk: 252,
+                    spe: 252,
+                    def: 4
+                },
+                nature: "Jolly",
+            },
+            "Miner": {
+                species: "Miner",
+                ability: "Minefield",
+                item: "Leftovers",
+                moves: ['rockslide', 'recover', 'stealthrock'],
+                baseSignatureMove: "minerush",
+                signatureMove: "Mine Rush",
+                evs: {
+                    atk: 252,
+                    spe: 252,
+                    def: 4
+                },
+                nature: "Jolly",
+            },
+            "Sparky": {
+                species: "Sparky",
+                ability: "Power Cooldown",
+                item: "Leftovers",
+                moves: ['focusblast', 'recover', 'gigadrain'],
+                baseSignatureMove: "lightningspell",
+                signatureMove: "Lightning Spell",
+                evs: {
+                    spa: 252,
+                    hp: 252,
+                    def: 4
+                },
+                nature: "Modest",
+            },
+            "Ice Wizard": {
+                species: "Ice Wizard",
+                ability: "Glacier Wizardry",
+                item: "Life Orb",
+                moves: ['moonblast', 'aurasphere', 'psyshock'],
+                baseSignatureMove: "freezespell",
+                signatureMove: "Freeze Spell",
+                evs: {
+                    spa: 252,
+                    spe: 252,
+                    hp: 4
+                },
+                nature: "Modest",
+            },
+            "Knight": {
+                species: "Knight",
+                ability: "Knightly Honor",
+                item: "Leftovers",
+                moves: ['suckerpunch', 'playrough', 'shadowsneak'],
+                signatureMove: "Extreme Speed",
+                evs: {
+                    atk: 252,
+                    hp: 252,
+                    def: 4
+                },
+                nature: "Adamant",
+            },
+            "Lumberjack": {
+                species: "Lumberjack",
+                ability: "Timber",
+                item: "Leftovers",
+                moves: ['headsmash', 'highjumpkick', 'wildcharge'],
+                baseSignatureMove: "Log",
+                signatureMove: "Log",
+                evs: {
+                    atk: 252,
+                    hp: 252,
+                    def: 4
+                },
+                nature: "Adamant",
+            },
+            "Electro Wizard": {
+                species: "Electro Wizard",
+                ability: "Zap Wizardry",
+                item: "Life Orb",
+                moves: ['gigadrain', 'focusblast', 'psychic'],
+                baseSignatureMove: "zapspell",
+                signatureMove: "Zap Spell",
+                evs: {
+                    spa: 252,
+                    spe: 252,
+                    hp: 4
+                },
+                nature: "Timid",
+            },
+            "Skeleton": {
+                species: "Skeleton",
+                ability: "Graveyard",
+                item: "Focus Sash",
+                moves: ['playrough', 'knockoff', 'extremespeed'],
+                baseSignatureMove: "boneslash",
+                signatureMove: "Bone Slash",
+                evs: {
+                    atk: 252,
+                    spe: 252,
+                    hp: 4
+                },
+                nature: "Jolly",
+            },
+            "Executioner": {
+                species: "Executioner",
+                ability: "Fatality",
+                item: "Leftovers",
+                moves: ['recover', 'drainpunch', 'shadowsneak'],
+                baseSignatureMove: "axemerang",
+                signatureMove: "Axemerang",
+                evs: {
+                    atk: 252,
+                    hp: 252,
+                    spd: 4
+                },
+                nature: "Adamant",
+            },
         };
 
         let pool = Object.keys(sets);

@@ -271,4 +271,322 @@ exports.BattlePokedex = {
         heightm: 4.5,
         weightkg: 20.3,
     },
+    princess: {
+
+        num: -214,
+        species: "Princess",
+        types: ["Fairy"],
+        baseStats: {
+            hp: 50,
+
+            atk: 20,
+
+            def: 45,
+
+            spa: 125,
+
+            spd: 45,
+
+            spe: 120
+        },
+
+        abilities: {
+
+            0: "Ranged Sniper"
+
+        },
+
+        heightm: 0.7,
+
+        weightkg: 0.7,
+
+    },
+    giantskeleton: {
+
+        num: -215,
+        species: "Giant Skeleton",
+        types: ["Dark", "Fighting"],
+        baseStats: {
+            hp: 135,
+
+            atk: 85,
+
+            def: 85,
+
+            spa: 45,
+
+            spd: 85,
+
+            spe: 45
+        },
+
+        abilities: {
+
+            0: "Giant Bomb"
+
+        },
+
+        heightm: 7.6,
+
+        weightkg: 137.6,
+
+    },
+    speargoblin: {
+
+        num: -216,
+        species: "Spear Goblin",
+        types: ["Bug", "Fighting"],
+        baseStats: {
+            hp: 60,
+
+            atk: 90,
+
+            def: 60,
+
+            spa: 40,
+
+            spd: 60,
+
+            spe: 145
+        },
+
+        abilities: {
+
+            0: "Spear Link"
+
+        },
+
+        heightm: 1.2,
+
+        weightkg: 8.2,
+
+    },
+    miner: {
+
+        num: -217,
+        species: "Miner",
+        types: ["Ground"],
+        baseStats: {
+            hp: 95,
+
+            atk: 105,
+
+            def: 95,
+
+            spa: 45,
+
+            spd: 85,
+
+            spe: 95
+        },
+
+        abilities: {
+
+            0: "Minefield"
+
+        },
+
+        heightm: 1.7,
+
+        weightkg: 23.8,
+
+    },
+    sparky: {
+
+        num: -218,
+        species: "Sparky",
+        types: ["Electric"],
+        baseStats: {
+            hp: 105,
+
+            atk: 150,
+
+            def: 95,
+
+            spa: 150,
+
+            spd: 90,
+
+            spe: 5
+        },
+
+        abilities: {
+
+            0: "Power Cooldown"
+
+        },
+
+        heightm: 2.6,
+
+        weightkg: 163.5,
+
+    },
+    icewizard: {
+
+        num: -219,
+        species: "Ice Wizard",
+        types: ["Ice", "Psychic"],
+        baseStats: {
+            hp: 75,
+
+            atk: 45,
+
+            def: 75,
+
+            spa: 135,
+
+            spd: 85,
+
+            spe: 125
+        },
+
+        abilities: {
+
+            0: "Glacier Wizardry"
+
+        },
+
+        heightm: 1.6,
+
+        weightkg: 6.4,
+
+    },
+    knight: {
+
+        num: -220,
+        species: "Knight",
+        types: ["Normal"],
+        baseStats: {
+            hp: 80,
+
+            atk: 95,
+
+            def: 65,
+
+            spa: 30,
+
+            spd: 55,
+
+            spe: 60
+        },
+
+        abilities: {
+
+            0: "Knightly Honor"
+
+        },
+
+        heightm: 1.6,
+
+        weightkg: 6.8,
+
+    },
+    lumberjack: {
+
+        num: -221,
+        species: "Lumberjack",
+        types: ["Grass", "Fighting"],
+        baseStats: {
+            hp: 115,
+
+            atk: 105,
+
+            def: 95,
+
+            spa: 45,
+
+            spd: 50,
+
+            spe: 45
+        },
+
+        abilities: {
+
+            0: "Timber"
+
+        },
+
+        heightm: 4.7,
+
+        weightkg: 17.4,
+
+    },
+    electrowizard: {
+
+        num: -222,
+        species: "Electro Wizard",
+        types: ["Electric", "Psychic"],
+        baseStats: {
+            hp: 95,
+
+            atk: 65,
+
+            def: 95,
+
+            spa: 125,
+
+            spd: 115,
+
+            spe: 135
+        },
+
+        abilities: {
+
+            0: "Zap Wizardry"
+
+        },
+
+        heightm: 2.5,
+
+        weightkg: 6.6,
+
+    },
+    skeleton: {
+
+        num: -223,
+        species: "Skeleton",
+        types: ["Ghost", "Normal"],
+        baseStats: {
+            hp: 25,
+
+            atk: 60,
+
+            def: 20,
+
+            spa: 40,
+
+            spd: 20,
+
+            spe: 105
+        },
+
+        abilities: {
+
+            0: "Graveyard"
+
+        },
+
+        heightm: 0.2,
+
+        weightkg: 0.1,
+
+    },
+    executioner: {
+        num: -224,
+        species: "Executioner",
+        types: ["Dark", "Ghost"],
+        baseStats: {
+            hp: 85,
+            atk: 100,
+            def: 65,
+            spa: 40,
+            spd: 65,
+            spe: 45
+        },
+        abilities: {
+            0: "Fatality"
+        },
+        heightm: 1.6,
+        weightkg: 6.4,
+    },
 };

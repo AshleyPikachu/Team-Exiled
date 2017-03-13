@@ -26,13 +26,13 @@ exports.BattleAbilities = {
         name: "Theft",
         desc: "Adaptability + Speed Boost + Moxie + Unburden + Scrappy",
         onModifyMovePriority: -5,
-		onModifyMove: function (move) {
-			if (!move.ignoreImmunity) move.ignoreImmunity = {};
-			if (move.ignoreImmunity !== true) {
-				move.ignoreImmunity['Fighting'] = true;
-				move.ignoreImmunity['Normal'] = true;
-			}
-		},
+        onModifyMove: function (move) {
+            if (!move.ignoreImmunity) move.ignoreImmunity = {};
+            if (move.ignoreImmunity !== true) {
+                move.ignoreImmunity['Fighting'] = true;
+                move.ignoreImmunity['Normal'] = true;
+            }
+        },
         onModifyMove: function (move) {
             move.stab = 2;
         },
@@ -433,6 +433,337 @@ exports.BattleAbilities = {
                     this.add('-formechange', pokemon, 'Baby Dragon', '[from] ability: Parental Guidance');
                 }
             }
+        },
+    },
+    "rangedsniper": {
+        id: "rangedsniper",
+        name: "Ranged Sniper",
+        desc: "Sniper + Adaptability + Super Luck + Contact moves have no effect + uses Focus Energy, upon entry.",
+
+        onStart: function (pokemon) {
+            this.useMove('focusenergy', pokemon);
+        },
+        onModifyMove: function (move) {
+            move.stab = 2;
+        },
+        onModifyDamage: function (damage, source, target, move) {
+            if (move.crit) {
+                this.debug('Ranged Sniper boost');
+                return this.chainModify(1.5);
+            }
+        },
+        onModifyCritRatio: function (critRatio) {
+            return critRatio + 1;
+        },
+        //contact moves have no effect
+        onTryHit: function (target, source, move) {
+            if (target !== source && move.flags['contact']) {
+                this.add('-immune', target, '[msg]', '[from] ability: Ranged Sniper');
+                return null;
+            }
+        },
+        onAllyTryHitSide: function (target, source, move) {
+            if (move.flags['contact']) {
+                this.add('-immune', this.effectData.target, '[msg]', '[from] ability: Ranged Sniper');
+            }
+        },
+    },
+    "giantbomb": {
+        id: "giantbomb",
+        name: "Giant Bomb",
+        onAfterDamageOrder: 1,
+        onAfterDamage: function (damage, target, source, move) {
+            if (source && source !== target && !target.hp) {
+                this.damage(source.maxhp / 2, source, target);
+            }
+        },
+        onModifyMove: function (move) {
+            move.stab = 2;
+        },
+        onAnyModifyBoost: function (boosts, target) {
+            let source = this.effectData.target;
+            if (source === target) return;
+            if (source === this.activePokemon && target === this.activeTarget) {
+                boosts['def'] = 0;
+                boosts['spd'] = 0;
+                boosts['evasion'] = 0;
+            }
+            if (target === this.activePokemon && source === this.activeTarget) {
+                boosts['atk'] = 0;
+                boosts['spa'] = 0;
+                boosts['accuracy'] = 0;
+            }
+        },
+        onModifyAtkPriority: 5,
+        onModifyAtk: function (atk) {
+            return this.chainModify(2);
+        },
+        onSourceFaint: function (target, source, effect) {
+            if (effect && effect.effectType === 'Move') {
+                this.boost({
+                    atk: 1
+                }, source);
+            }
+        },
+    },
+    "spearlink": {
+        id: "spearlink",
+        name: "Spear Link",
+        onModifyMove: function (move) {
+            if (move.multihit && move.multihit.length) {
+                move.multihit = move.multihit[1];
+            }
+            if (move.multiaccuracy) {
+                delete move.multiaccuracy;
+            }
+        },
+        onModifyMove: function (move) {
+            move.stab = 2;
+        },
+        onModifyMove: function (move) {
+            if (move.category !== "Status") {
+                this.debug('Adding Spear Link flinch');
+                if (!move.secondaries) move.secondaries = [];
+                for (let i = 0; i < move.secondaries.length; i++) {
+                    if (move.secondaries[i].volatileStatus === 'flinch') return;
+                }
+                move.secondaries.push({
+                    chance: 30,
+                    volatileStatus: 'flinch',
+                });
+            }
+        },
+        onModifyMovePriority: -2,
+        onModifyMove: function (move) {
+            if (move.secondaries) {
+                this.debug('doubling secondary chance');
+                for (let i = 0; i < move.secondaries.length; i++) {
+                    move.secondaries[i].chance *= 2;
+                }
+            }
+        },
+    },
+    "minefield": {
+        id: "minefield",
+        name: "Minefield",
+        onAnyModifyBoost: function (boosts, target) {
+            let source = this.effectData.target;
+            if (source === target) return;
+            if (source === this.activePokemon && target === this.activeTarget) {
+                boosts['def'] = 0;
+                boosts['spd'] = 0;
+                boosts['evasion'] = 0;
+            }
+            if (target === this.activePokemon && source === this.activeTarget) {
+                boosts['atk'] = 0;
+                boosts['spa'] = 0;
+                boosts['accuracy'] = 0;
+            }
+        },
+        onModifyAtkPriority: 5,
+        onModifyAtk: function (atk) {
+            return this.chainModify(2);
+        },
+        onModifyMove: function (move) {
+            move.infiltrates = true;
+        },
+        onDamage: function (damage, target, source, effect) {
+            if (effect.effectType !== 'Move') {
+                return false;
+            }
+        },
+        onDamage: function (damage, target, source, effect) {
+            if (effect && effect.id === 'stealthrock') {
+                return false;
+            }
+        },
+        onTryHit: function (target, source, move) {
+            if (move.type === 'Rock' && !target.activeTurns) {
+                this.add('-immune', target, '[msg]', '[from] ability: Power Cooldown');
+                return null;
+            }
+        },
+    },
+    "powercooldown": {
+        id: "powercooldown",
+        name: "Power Cooldown",
+        onBeforeMovePriority: 9,
+        onBeforeMove: function (pokemon, target, move) {
+            if (pokemon.removeVolatile('truant')) {
+                this.add('cant', pokemon, 'ability: Power Cooldown');
+                return false;
+            }
+            pokemon.addVolatile('truant');
+        },
+        effect: {
+            duration: 2,
+        },
+        onBasePowerPriority: 8,
+        onBasePower: function (basePower, attacker, defender, move) {
+            if (move.flags['recharge']) {
+                return this.chainModify([0x14CD, 0x1000]);
+            }
+        },
+        onModifyMove: function (move) {
+            move.stab = 2;
+        },
+        onStart: function (source) {
+            this.setTerrain('electricterrain');
+        },
+    },
+    "glacierwizardry": {
+        id: "glacierwizardry",
+        name: "Glacier Wizardry",
+        onStart: function (source) {
+            this.setWeather('hail');
+        },
+        onWeather: function (target, source, effect) {
+            if (effect.id === 'hail') {
+                this.heal(target.maxhp / 16);
+            }
+        },
+        onAfterDamage: function (damage, target, source, move) {
+            if (move && move.flags['contact']) {
+                if (this.random(10) < 3) {
+                    source.trySetStatus('frz', target);
+                }
+            }
+        },
+        onModifySpe: function (spe, pokemon) {
+            if (this.isWeather('hail')) {
+                return this.chainModify(2);
+            }
+        },
+    },
+    "knightlyhonor": {
+        id: "knightlyhonor",
+        name: "Knightly Honor",
+        onModifyMove: function (move) {
+            move.stab = 2;
+        },
+        onModifyAtkPriority: 5,
+        onModifyAtk: function (atk) {
+            return this.chainModify(2);
+        },
+        onModifyMove: function (move) {
+            move.infiltrates = true;
+        },
+        onBasePowerPriority: 8,
+        onBasePower: function (basePower, attacker, defender, move) {
+            if (move.flags['contact']) {
+                return this.chainModify([0x14CD, 0x1000]);
+            }
+        },
+        onBasePowerPriority: 8,
+        onBasePower: function (basePower, attacker, defender, move) {
+            if (basePower <= 60) {
+                this.debug('Knightly Honor boost');
+                return this.chainModify(1.5);
+            }
+        },
+    },
+    "timber": {
+        id: "timber",
+        name: "Timber",
+        onDamage: function (damage, target, source, effect) {
+            if (effect.id === 'recoil' && this.activeMove.id !== 'struggle') return null;
+        },
+        onBasePowerPriority: 8,
+        onBasePower: function (basePower, attacker, defender, move) {
+            if (move.recoil || move.hasCustomRecoil) {
+                this.debug('Timber boost');
+                return this.chainModify([0x1333, 0x1000]);
+            }
+        },
+        onModifyMove: function (move) {
+            move.stab = 2;
+        },
+        onModifyAtkPriority: 5,
+        onModifyAtk: function (atk) {
+            return this.chainModify(2);
+        },
+        onStart: function (source) {
+            this.setTerrain('grassyterrain');
+        },
+        onModifyDefPriority: 6,
+        onModifyDef: function (pokemon) {
+            if (this.isTerrain('grassyterrain')) return this.chainModify(1.5);
+        },
+        onModifyDefPriority: 6,
+        onModifyDef: function (def) {
+            return this.chainModify(2);
+        },
+    },
+    "zapwizardry": {
+        id: "zapwizardry",
+        name: "Zap Wizardry",
+        onStart: function (source) {
+            this.setTerrain('electricterrain');
+        },
+        onAnyFaint: function () {
+            this.boost({
+                spa: 1
+            }, this.effectData.target);
+        },
+        onModifyMove: function (move) {
+            move.stab = 2;
+        },
+        onModifySpAPriority: 5,
+        onModifySpA: function (spa) {
+            return this.chainModify(2);
+        },
+    },
+    "graveyard": {
+        id: "graveyard",
+        name: "Graveyard",
+        onModifyMove: function (move) {
+            move.stab = 2;
+        },
+        onAfterDamage: function (damage, target, source, move) {
+            if (!source || source.volatiles['disable']) return;
+            if (source !== target && move && move.effectType === 'Move' && !move.isFutureMove) {
+                if (this.random(10) < 3) {
+                    source.addVolatile('disable', this.effectData.target);
+                }
+            }
+        },
+        onModifySpePriority: 5,
+        onModifySpe: function (spe) {
+            return this.chainModify(2);
+        },
+        onResidualOrder: 26,
+        onResidualSubOrder: 1,
+        onResidual: function (pokemon) {
+            if (pokemon.activeTurns) {
+                this.boost({
+                    spe: 1
+                });
+            }
+        },
+        onSourceFaint: function (target, source, effect) {
+            if (effect && effect.effectType === 'Move') {
+                this.boost({
+                    atk: 1
+                }, source);
+            }
+        },
+    },
+    "fatality": {
+        id: "fatality",
+        name: "Fatality",
+        onModifyMove: function (move) {
+            move.stab = 2;
+        },
+        onSourceFaint: function (target, source, effect) {
+            if (effect && effect.effectType === 'Move') {
+                this.boost({
+                    atk: 1
+                }, source);
+            }
+        },
+        onModifyAtkPriority: 5,
+        onModifyAtk: function (atk) {
+            return this.chainModify(2);
         },
     },
 };

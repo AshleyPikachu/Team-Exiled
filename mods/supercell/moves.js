@@ -85,44 +85,6 @@ exports.BattleMovedex = {
         target: "normal",
         type: "Fighting",
     },
-    "greed": {
-        id: "greed",
-        name: "Greed",
-        basePower: 90,
-        onHit: function (target, source) {
-            if (source.item || source.volatiles['gem']) {
-                return;
-            }
-            let yourItem = target.takeItem(source);
-            if (!yourItem) {
-                return;
-            }
-            if (!source.setItem(yourItem)) {
-                target.item = yourItem.id; // bypass setItem so we don't break choicelock or anything
-                return;
-            }
-            this.add('-item', source, yourItem, '[from] move: Greed', '[of] ' + target);
-        },
-        self: {
-            boosts: {
-                atk: 3,
-                spe: 3
-            },
-            statusVolatile: "confusion",
-        },
-        accuracy: 100,
-        category: "Physical",
-        pp: 10,
-        flags: {
-            protect: 1,
-            distance: 1,
-            contact: 1
-        },
-        secondary: false,
-        priority: 0,
-        target: "any",
-        type: "Bug",
-    },
     "fireball": {
         id: "fireball",
         name: "Fireball",
@@ -370,5 +332,283 @@ exports.BattleMovedex = {
         },
         target: "allyTeam",
         type: "Fairy",
+    },
+    "royalarrow": {
+        id: "royalarrow",
+        name: "Royal Arrow",
+        isCrit: true,
+        critRatio: 2,
+        accuracy: 100,
+        pp: 15,
+        self: {
+            boosts: {
+                spe: 1
+            }
+        },
+        basePower: 100,
+        priority: 0,
+        secondary: false,
+        category: "Special",
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        isNonstandard: true,
+        target: "any",
+        type: "Fairy",
+    },
+    "greed": {
+        id: "greed",
+        name: "Greed",
+        basePower: 90,
+        onHit: function (target, source) {
+            if (source.item || source.volatiles['gem']) {
+                return;
+            }
+            let yourItem = target.takeItem(source);
+            if (!yourItem) {
+                return;
+            }
+            if (!source.setItem(yourItem)) {
+                target.item = yourItem.id; // bypass setItem so we don't break choicelock or anything
+                return;
+            }
+            this.add('-item', source, yourItem, '[from] move: Greed', '[of] ' + target);
+        },
+        secondary: {
+            self: {
+                boosts: {
+                    atk: 3,
+                    spe: 3
+                }
+            },
+        },
+        self: {
+            volatileStatus: "confusion"
+        },
+        accuracy: 100,
+        category: "Physical",
+        pp: 10,
+        flags: {
+            protect: 1,
+            distance: 1,
+            contact: 1
+        },
+        priority: 0,
+        target: "any",
+        type: "Bug",
+    },
+    "explode": {
+        id: "explode",
+        name: "Explode",
+        selfdestruct: "always",
+        breaksProtect: 1,
+        basePower: 0,
+        ohko: true,
+        accuracy: true,
+        pp: 5,
+        category: "Physical",
+        secondary: false,
+        flags: {
+            distance: 1
+        },
+        target: "allPokemon",
+        type: "Dark",
+    },
+    "tossspears": {
+        id: "tossspears",
+        name: "Toss Spears",
+        accuracy: 100,
+        basePower: 25,
+        category: "Physical",
+        isViable: true,
+        pp: 10,
+        priority: 0,
+        flags: {
+            bullet: 1,
+            protect: 1,
+            mirror: 1
+        },
+        multihit: [2, 5],
+        secondary: {
+            chance: 30,
+            volatileStatus: 'flinch',
+        },
+        target: "normal",
+        type: "Fighting",
+    },
+    "minerush": {
+        id: "minerush",
+        name: "Mine Rush",
+        basePower: 130,
+        accuracy: 100,
+        recoil: [1, 3],
+        self: {
+            boosts: {
+                atk: 1,
+                def: 1
+            }
+        },
+        category: "Physical",
+        pp: 10,
+        priority: 1,
+        onTry: function (attacker, defender, move) {
+            if (attacker.removeVolatile(move.id)) {
+                return;
+            }
+            this.add('-prepare', attacker, move.name, defender);
+            if (!this.runEvent('ChargeMove', attacker, defender, move)) {
+                this.add('-anim', attacker, move.name, defender);
+                return;
+            }
+            attacker.addVolatile('twoturnmove', defender);
+            return null;
+        },
+        effect: {
+            duration: 2,
+            onImmunity: function (type, pokemon) {
+                if (type === 'sandstorm' || type === 'hail') return false;
+            },
+            onAccuracy: function (accuracy, target, source, move) {
+                if (move.id === 'earthquake' || move.id === 'magnitude' || move.id === 'helpinghand') {
+                    return;
+                }
+                if (source.hasAbility('noguard') || target.hasAbility('noguard')) {
+                    return;
+                }
+                if (source.volatiles['lockon'] && target === source.volatiles['lockon'].source) return;
+                return 0;
+            },
+            onSourceModifyDamage: function (damage, source, target, move) {
+                if (move.id === 'earthquake' || move.id === 'magnitude') {
+                    return this.chainModify(2);
+                }
+            },
+        },
+        flags: {
+            protect: 1,
+            mirror: 1,
+            nonsky: 1,
+            distance: 1
+        },
+        target: "any",
+        type: "Ground",
+    },
+    "lightningspell": {
+        id: "lightningspell",
+        name: "Lightning Spell",
+        basePower: 150,
+        accuracy: 90,
+        pp: 5,
+        category: "Special",
+        flags: {
+            mirror: 1,
+            recharge: 1
+        },
+        self: {
+            volatileStatus: "mustrecharge",
+        },
+        breaksProtect: true,
+        priority: -1,
+        secondary: false,
+        target: "normal",
+        type: "Electric",
+    },
+    "freezespell": {
+        id: "freezespell",
+        name: "Freeze Spell",
+        basePower: 60,
+        accuracy: true,
+        pp: 15,
+        secondary: false,
+        status: "frz",
+        priority: 0,
+        category: "Special",
+        flags: {
+            protect: 1,
+            distance: 1,
+            mirror: 1
+        },
+        target: "any",
+        type: "Ice",
+    },
+    "log": {
+        id: "log",
+        name: "Log",
+        basePower: 130,
+        accuracy: 100,
+        category: "Physical",
+        recoil: [1, 3],
+        secondary: false,
+        priority: 0,
+        pp: 10,
+        self: {
+            volatileStatus: 'Substitute',
+        },
+        flags: {
+            protect: 1,
+            contact: 1,
+            mirror: 1
+        },
+        target: "normal",
+        type: "Grass",
+    },
+    "zapspell": {
+        id: "zapspell",
+        name: "Zap Spell",
+        basePower: 80,
+        priority: 1,
+        accuracy: true,
+        status: "par",
+        pp: 15,
+        secondary: false,
+        flags: {
+            protect: 1,
+            distance: 1
+        },
+        target: "any",
+        type: "Electric",
+    },
+    "boneslash": {
+        id: "boneslash",
+        name: "Bone Slash",
+        critRatio: 2,
+        accuracy: 100,
+        pp: 15,
+        volatileStatus: "curse",
+        self: {
+            boosts: {
+                atk: 1,
+                spe: 1
+            }
+        },
+        ignoreImmunity: true,
+        basePower: 80,
+        priority: 1,
+        secondary: false,
+        category: "Physical",
+        flags: {
+            protect: 1
+        },
+        target: "normal",
+        type: "Ghost",
+    },
+    "axemerang": {
+        id: "axemerang",
+        name: "Axemerang",
+        basePower: 90,
+        multihit: 2,
+        pp: 15,
+        ignoreImmunity: true,
+        accuracy: 100,
+        priority: 0,
+        secondary: false,
+        category: "Physical",
+        flags: {
+            protect: 1,
+            mirror: 1
+        },
+        target: "normal",
+        type: "Dark",
     },
 };
