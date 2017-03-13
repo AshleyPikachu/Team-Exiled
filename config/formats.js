@@ -1438,6 +1438,9 @@ exports.Formats = [
 			if (name === 'hoeenhero') {
 				this.add('c| HoeenHero|Do I have to? I\'m in the middle of programming.');
 			}
+			if (name === 'stellation') {
+				this.add('c| Stellation|**Showtime!!!**');
+			}
 
 			// Add here special typings, done for flavor mainly. (and stat boosts)
 			if (name === 'crystalludicolo' && !pokemon.illusion) {
@@ -1504,7 +1507,10 @@ exports.Formats = [
 			}
 			if (name === 'hoeenhero') {
 				this.add('c| HoeenHero|Hey! Thats more hax than I get to use >:(');
-			}	
+			}
+			if (name === 'stellation') {
+				this.add('c| Stellation|Exit... Stage left!');
+			}
 		},
 	}, {
 		name: "[Gen 7] Metronome Battles",
