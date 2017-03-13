@@ -880,6 +880,7 @@ exports.BattleMovedex = {
         id: "teamplayer",
         name: "Team Player",
         priority: -1,
+        selfSwitch: 'copyvolatile',
         self: {
             boosts: {
                 spa: 1,
@@ -906,17 +907,12 @@ exports.BattleMovedex = {
                 if (stats.length) {
                     let randomStat = stats[this.random(stats.length)];
                     let boost = {};
-                    boost[randomStat] = 2;
+                    boost[randomStat] = 6;
                     this.boost(boost);
                 }
                 else {
                     return false;
                 }
-            },
-        },
-        secondary: {
-            self: {
-                selfSwitch: 'copyvolatile',
             },
         },
         basePower: 0,
