@@ -302,12 +302,12 @@ exports.BattleScripts = {
                 },
                 nature: "Timid",
             },
-            "+Foreword": {
+            "+Stellation": {
                 species: "Shedinja",
                 ability: "Encryption",
                 item: "Lum Berry",
                 gender: "M",
-                moves: ['finalgambit', 'wish', 'kingsshield'],
+                moves: ['finalgambit', 'stealthrock', 'endeavor'],
                 baseSignatureMove: "teamplayer",
                 signatureMove: "Team Player",
                 evs: {
