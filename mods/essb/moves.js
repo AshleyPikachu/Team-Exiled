@@ -921,7 +921,7 @@ exports.BattleMovedex = {
         },
         basePower: 0,
         pp: 15,
-        accuracy: 100,
+        accuracy: true,
         target: "self",
         type: "Bug",
     },
