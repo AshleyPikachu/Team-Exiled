@@ -1155,17 +1155,17 @@ exports.BattleMovedex = {
 		pp: 0.625,
 		priority: 0,
 		flags: {
-			heal: 1,
 			snatch: 1,
 		},
-		secondary: false,
-		heal: [1, 10],
-		target: "normal",
 		onPrepareHit: function (target, source) {
 			this.attrLastMove('[still]');
-			this.add('-anim', source, "Geomancy", source);
+			this.add('-anim', source, "Geomancy", target);
 		},
-
+		onHit: function (pokemon) {
+			pokemon.cureStatus();
+		},
+		secondary: false,
+		target: "normal",
 	},
 	//Protection
 	protection: {
