@@ -317,6 +317,21 @@ exports.BattleScripts = {
                 },
                 nature: "Jolly",
             },
+	    "+UB-03 Xurkitree": {
+                species: "Xurkitree",
+                ability: "feelsfly",
+                item: "Relic of Choiceness",
+                gender: "M",
+                moves: ['energyball', 'fireblast', 'icebeam'],
+                baseSignatureMove: "superflyslaser",
+                signatureMove: "Super Flys Laser",
+                evs: {
+                    spa: 252,
+                    spe: 252,
+                    spd: 4
+                },
+                nature: "Modest",
+            },
             //Regs
             'TheAquaPhoenix': {
                 species: "Articuno",
